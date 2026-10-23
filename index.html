@@ -363,11 +363,15 @@ label.combo{flex-direction:row!important;align-items:flex-start!important}
 .orone{margin:0 0 12px!important;font-size:.72rem!important;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--muted)!important}
 @media (max-width:640px){.allcard{grid-template-columns:minmax(0,1fr)}.allcard .go{display:none}}
 .wiz{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:12px;box-shadow:var(--shadow)}
-.wsteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.wst{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:var(--field);color:var(--muted);border-radius:10px;padding:8px 6px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
-.wst .sn{flex:none;min-width:20px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;background:var(--line);color:var(--fg)}
-.wst.done{color:var(--fg)}.wst.done .sn{background:var(--ok);color:#fff}
-.wst.on{border-color:var(--btn);background:color-mix(in srgb,var(--btn) 12%,var(--panel));color:var(--fg)}.wst.on .sn{background:var(--btn);color:#fff}
+.wsteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:2px 0 4px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.wst{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;color:var(--muted);border-radius:10px;padding:4px 2px 8px;font:inherit;font-size:.76rem;font-weight:600;line-height:1.2;text-align:center;cursor:pointer;white-space:normal}
+.wst::before{content:"";position:absolute;top:17px;left:calc(-50% + 17px);right:calc(50% + 17px);height:2px;border-radius:2px;background:var(--line)}
+.wst:first-child::before{display:none}
+.wst.done::before,.wst.on::before{background:var(--ok)}
+.wst:hover{color:var(--fg)}
+.wst .sn{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.76rem;font-weight:700;background:var(--panel);border:2px solid var(--line);color:var(--muted);box-sizing:border-box}
+.wst.done{color:var(--fg)}.wst.done .sn{background:var(--ok);border-color:var(--ok);color:#fff}
+.wst.on{color:var(--fg)}.wst.on .sn{background:var(--btn);border-color:var(--btn);color:#fff;box-shadow:0 0 0 4px color-mix(in srgb,var(--btn) 20%,transparent)}
 .wroutes{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .wroutes[hidden]{display:none}
 .wr.sel .wrb{outline:2px dashed var(--btn);outline-offset:2px}
@@ -380,7 +384,17 @@ label.combo{flex-direction:row!important;align-items:flex-start!important}
 .wnt{display:inline-flex;gap:3px;align-items:center;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:3px 5px;cursor:pointer;font:inherit;opacity:.45}
 .wnt.on{opacity:1;border-color:var(--btn)}
 .wnt .chip{border-radius:5px;padding:1px 6px;font-weight:600;font-size:.72rem}
-.wlab{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.wlab{flex-basis:100%;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin:2px 0 0}
+.wr .ib.xs{border:0;background:none;color:var(--muted);opacity:.55;width:22px;height:22px;font-size:.7rem;border-radius:6px;margin-left:0}
+.wr .ib.xs:hover{opacity:1;color:#C62828;background:color-mix(in srgb,#C62828 10%,transparent)}
+.wradd{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed color-mix(in srgb,var(--btn) 55%,var(--line));background:none;color:var(--btn);border-radius:10px;padding:7px 12px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.wradd:hover{background:color-mix(in srgb,var(--btn) 8%,transparent)}
+#wHint{margin:0;font-size:.8rem}
+.wtools{display:flex;flex-wrap:wrap;align-items:center;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.wproj{display:flex;gap:2px;margin-left:auto}
+.wpb{display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:var(--muted);font:inherit;font-size:.76rem;font-weight:600;padding:6px 8px;border-radius:8px;cursor:pointer}
+.wpb:hover{color:var(--fg);background:var(--field)}
+.wpb svg{width:14px;height:14px}
 .wr{display:inline-flex;align-items:center;max-width:100%;border:1px solid var(--line);border-radius:10px;background:var(--field);padding:2px 4px 2px 2px}
 .wr.cur{border-color:var(--btn);box-shadow:0 0 0 2px color-mix(in srgb,var(--btn) 30%,transparent)}
 .wrb{display:inline-flex;align-items:center;flex-wrap:wrap;row-gap:4px;min-width:0;text-align:left;gap:4px;border:0;background:none;padding:4px 6px;font:inherit;color:var(--fg);cursor:pointer}
@@ -515,7 +529,7 @@ span.gbt{cursor:default}
         <div class="wroutes" id="wRoutes"></div>
         <div class="wnetbar" id="wNetBar" hidden></div>
         <p class="hint" id="wHint"></p>
-        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button><button type="button" class="btn ghost sm" id="wSaveFile">Save project file</button><label class="btn ghost sm upl">Open project file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label></div>
+        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button><span class="wproj"><button type="button" class="wpb" id="wSaveFile" title="Save everything to a file you can open again later"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Save project</button><label class="wpb upl" title="Open a saved project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Open project<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label></span></div>
       </div>
       <div class="modes" id="ttModes" role="tablist" aria-label="New or update">
         <button type="button" role="tab" class="mode" id="modeNew" aria-selected="true">
@@ -4879,7 +4893,7 @@ function wRender(){
   $("wSteps").querySelectorAll("[data-ws]").forEach(b=>b.addEventListener("click",()=>wGo(b.dataset.ws)));
   const list=W.step==="tt"?W.routes:ready, strip=$("wRoutes");
   strip.hidden=W.step==="guide";
-  strip.innerHTML=`<span class="wlab">${W.step==="tt"?"Your routes":"Route"}</span>`+list.map(r=>{const k=W.routes.indexOf(r), ids=wIds(r), st=wSt(r);
+  strip.innerHTML=`<span class="wlab">${W.step==="tt"?"Your routes":W.step==="map"?"Choose a route to check its map":"Choose a route"}</span>`+list.map(r=>{const k=W.routes.indexOf(r), ids=wIds(r), st=wSt(r);
       const chips=ids.length?ids.map(id=>`<span class="chip" style="background:${wColour(st,id)};color:${readableOn(wColour(st,id))}">${esc(id)}</span>`).join(""):`<span class="wnew">New route</span>`;
       const tag=W.step==="fare"?`<small>${r.fare?"Fares added":"No fares"}</small>`:W.step==="map"?`<small>${r.map?"Done":""}</small>`:"";
       return `<span class="wr${k===W.cur?" cur":""}"><button type="button" class="wrb" data-k="${k}" aria-pressed="${k===W.cur}">${chips}${tag}</button>${W.step!=="guide"&&W.routes.length>1?`<button type="button" class="ib xs" data-del="${k}" aria-label="Remove ${esc(wName(r))}" title="Remove this route">✕</button>`:""}</span>`}).join("")
@@ -4907,12 +4921,13 @@ function wRender(){
       wSave(); wLoad()}))}
   else if(!nb.hidden){const n=W.sel.size; nb.innerHTML=`<span>${n?`${n} route${n>1?"s":""} chosen`:"Click the routes to put on one map"}${n<2?" (choose two or more)":""}</span><button type="button" class="btn sm" id="wNetMake"${n<2?" disabled":""}>Make a network map</button><button type="button" class="linkbtn" id="wNetCancel">Cancel</button>`;
     $("wNetMake").addEventListener("click",wMakeNet); $("wNetCancel").addEventListener("click",()=>{W.sel=new Set();W.selMode=false;wRender()})}
+  if(W.step==="tt"){strip.insertAdjacentHTML("beforeend",`<button type="button" class="wradd" id="wAddChip">+ Add a route</button>`); $("wAddChip").addEventListener("click",wAddRoute)}
   strip.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>wRemoveRoute(+b.dataset.del)));
   const at=W.step==="map"&&W.curNet!=null?ready.length-1:ready.indexOf(W.routes[W.cur]), more=at>=0&&at<ready.length-1, nx=more?ready[at+1]:null;
   $("wNext").hidden=W.step==="guide";
   $("wNext").textContent=W.step==="tt"?"Next: route maps →":more?`Next route: ${wName(nx)} →`:W.step==="map"?"Next: fares →":"Next: bus guide →";
   $("wSkip").hidden=W.step!=="fare"; $("wSkip").textContent=more?"No fares for this route":"No fares: go to the bus guide";
-  $("wAddBig").hidden=W.step!=="tt";
+  $("wAddBig").hidden=true;
   $("wZip").hidden=W.step==="guide"||ready.length<1||(W.step==="fare"&&!ready.some(r=>r.fare||r===W.routes[W.cur]&&!fareState.example));
   $("wZip").textContent=W.step==="tt"?"Download all timetables (.zip)":W.step==="map"?"Download all maps (.zip)":"Download all fare charts (.zip)";
   $("wBack").hidden=idx===0; $("wBack").textContent=idx>0?`← ${WSTEPS[idx-1][1]}`:"";
