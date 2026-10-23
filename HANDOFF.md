@@ -1,0 +1,10 @@
+# Route Studio — handoff notes
+## Update 23 Oct 2026 — Route Studio website (GitHub Pages)
+- **Repo:** github.com/KenilRawal-Git/route-studio (public), served at https://kenilrawal-git.github.io/route-studio/ . `index.html` is the same Route Studio page as the artifact (the artifact is still published too).
+- **Weekly job** `.github/workflows/refresh.yml` (Mondays ~04:17 UTC, or Actions › Run workflow) runs `tools/refresh.py`:
+  1. NaPTAN national CSV (naptan.api.dft.gov.uk) → `naptan/<ATCO area>.json` + `naptan/index.json` (area bbox + place names). The page picks areas from stop codes, town names and placed stops (`mapAreaStops`), so stops are found anywhere in Britain.
+  2. BODS regional GTFS for `config.json` operator/regions → `bods/<region>-<route>.csv` (builder template format, timing points, NaPTAN + lat/lon, MF/SA/SU tabs, codes SCH/FO/etc.), `bods/index.json`, `bods/paths.json` (every stop each route calls at; map lines route through them — `bodsVia`). Term month and holiday dates are worked out from today.
+  3. Geofabrik England .osm.pbf → `tools/build_tiles.py` → `mapdata/cell_<i>_<j>.json` 0.25° squares around every stop the routes call at (margin 1 square), `mapdata/index.json` v2 `{tiles:[{file,cell,bbox}]}`.
+- **Page map data order** (`mapAutoData` → `mapCellData`): pre-built squares; on the website (not in an artifact) missing squares are downloaded live from Overpass (overpass-api.de, private.coffee, kumi; 2 requests at a time, retries) and cached in IndexedDB for 60 days; then the old named area tiles; then the embedded Colchester–Sudbury data.
+- **Network notes:** the Claude workspace reaches BODS and bustimes.org, but not Overpass or Geofabrik (tunnel drops) — that's why map building runs on GitHub. bustimes.org's map data = NaPTAN positions and straight stop-to-stop lines; Central Connect's BODS data has no route shapes.
+- **Bus guide** is now page blocks (`guideState.blocks`: cover, contents, route, map, fare, advert, app, back); map/fare blocks reuse the map/fare engines at 0.6 scale via an `emb` op.
