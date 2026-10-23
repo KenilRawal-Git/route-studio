@@ -2181,7 +2181,27 @@ function mapMergeParts(parts,name){
    (any area, nothing to set up) and keeps each square in this browser for 60 days, so maps open instantly next time. */
 const LIVE_MAP={on:!(window.claude&&window.claude.use)&&/^https?:$/.test(location.protocol)&&!/^(localhost|127\.)/.test(location.hostname)||/[?&]live=1/.test(location.search),
   cells:new Map(), pending:new Map(), CELL:0.25, TTL:60*864e5,
-  servers:["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter","https://overpass.private.coffee/api/interpreter"]};
+  servers:["https://overpass-api.de/api/interpreter","https://overpass.private.coffee/api/interpreter","https://overpass.kumi.systems/api/interpreter"],
+  slots:2, active:0, queue:[]};
+/* the public Overpass servers allow about two requests at a time from one computer, so every download waits its turn */
+function liveSlot(){return new Promise(ok=>{const go=()=>{LIVE_MAP.active++;ok(()=>{LIVE_MAP.active--;const n=LIVE_MAP.queue.shift();if(n)n()})};
+  LIVE_MAP.active<LIVE_MAP.slots?go():LIVE_MAP.queue.push(go)})}
+async function liveFetch(q){
+  let last;
+  for(let pass=0;pass<3;pass++){
+    for(const url of LIVE_MAP.servers){
+      const free=await liveSlot();
+      try{const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),url.includes("overpass-api.de")?180000:90000);
+        const r=await fetch(url,{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"},signal:ctl.signal}); clearTimeout(tm);
+        if(r.ok)return await r.json();
+        last=new Error("HTTP "+r.status)}
+      catch(e){last=e}
+      finally{free()}
+    }
+    await new Promise(r=>setTimeout(r,[4000,12000,0][pass]));   // busy (502/429): wait, then try the servers again
+  }
+  throw last||new Error("OpenStreetMap couldn't be reached");
+}
 const liveDB=(()=>{let p=null; return ()=>p||(p=new Promise(ok=>{try{const r=indexedDB.open("route-studio-map",1);
   r.onupgradeneeded=()=>r.result.createObjectStore("cells"); r.onsuccess=()=>ok(r.result); r.onerror=()=>ok(null)}catch(e){ok(null)}}))})();
 async function liveGet(k){const db=await liveDB(); if(!db)return null;
@@ -2192,16 +2212,10 @@ function liveCell(i,j){
   if(LIVE_MAP.pending.has(k))return LIVE_MAP.pending.get(k);
   const p=(async()=>{
     const hit=await liveGet(k); if(hit&&Date.now()-hit.t<LIVE_MAP.TTL){LIVE_MAP.cells.set(k,hit.d);return hit.d}
-    const c=LIVE_MAP.CELL, q=mapQuery({s:i*c,w:j*c,n:(i+1)*c,e:(j+1)*c}); let last;
-    for(const url of LIVE_MAP.servers){
-      try{const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),120000);
-        const r=await fetch(url,{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"},signal:ctl.signal}); clearTimeout(tm);
-        if(!r.ok)throw new Error("HTTP "+r.status);
-        const d=mapFromOverpass(await r.json()); d.name="OpenStreetMap"; d.bbox=[i*c,j*c,(i+1)*c,(j+1)*c];
-        LIVE_MAP.cells.set(k,d); livePut(k,{t:Date.now(),d}); return d}
-      catch(e){last=e}}
-    if(hit){LIVE_MAP.cells.set(k,hit.d);return hit.d}   // offline: an old copy is better than none
-    throw last||new Error("OpenStreetMap couldn't be reached");
+    const c=LIVE_MAP.CELL, q=mapQuery({s:i*c,w:j*c,n:(i+1)*c,e:(j+1)*c});
+    try{const d=mapFromOverpass(await liveFetch(q)); d.name="OpenStreetMap"; d.bbox=[i*c,j*c,(i+1)*c,(j+1)*c];
+      LIVE_MAP.cells.set(k,d); livePut(k,{t:Date.now(),d}); return d}
+    catch(e){if(hit){LIVE_MAP.cells.set(k,hit.d);return hit.d} throw e}   // offline: an old copy is better than none
   })();
   LIVE_MAP.pending.set(k,p); p.finally(()=>LIVE_MAP.pending.delete(k)); return p;
 }
@@ -2213,8 +2227,7 @@ async function mapLiveData(ext){
   const st=$("status"), todo=cells.filter(([i,j])=>!LIVE_MAP.cells.has(i+","+j)).length; let done=0;
   const say=()=>{if(todo){st.className="status";st.textContent=`Getting the roads for this area from OpenStreetMap… ${done} of ${cells.length}`}};
   say(); mapState.liveKey=key;
-  try{const parts=[]; for(let k=0;k<cells.length;k+=2){   // two at a time: the free servers ask people not to rush them
-      const got=await Promise.all(cells.slice(k,k+2).map(([i,j])=>liveCell(i,j))); parts.push(...got); done+=got.length; if(mapState.liveKey===key)say()}
+  try{const parts=await Promise.all(cells.map(([i,j])=>liveCell(i,j).then(d=>{done++; if(mapState.liveKey===key)say(); return d})));
     if(mapState.liveKey!==key)return true;   // the stops changed while downloading; a newer request takes over
     mapState.tiles=mapMergeParts(parts,"OpenStreetMap"); mapState.tileKey=key; mapState.cache=new Map();
     guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null});
