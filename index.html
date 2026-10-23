@@ -608,9 +608,9 @@ span.gbt{cursor:default}
       <fieldset id="mapDataSet" hidden>
         <legend><span class="num">4</span>Map data</legend>
         <p class="hint" id="mapDataInfo"></p>
-        <div class="btnrow"><button type="button" class="btn ghost" id="mapUseBuiltin" hidden>Use the builder's map data instead</button></div>
+        <div class="btnrow"><button type="button" class="btn ghost" id="mapUseBuiltin" hidden>Go back to the automatic map data</button></div>
         <details class="help" id="mapGet">
-          <summary>Use map data for a different area</summary>
+          <summary>Use your own map data file instead</summary>
           <div class="helpbody">
             <ol class="mapsteps">
               <li><a id="mapOverpass" href="https://overpass-api.de/" target="_blank" rel="noopener">Open the map data download</a> for your stops' area. It opens a page of data: save it with <b>File › Save Page As</b> (or Ctrl+S / Cmd+S) as a .json file.</li>
@@ -2186,7 +2186,7 @@ function mapMergeParts(parts,name){
 const LIVE_MAP={on:!(window.claude&&window.claude.use)&&/^https?:$/.test(location.protocol)&&!/^(localhost|127\.)/.test(location.hostname)||/[?&]live=1/.test(location.search),
   cells:new Map(), pending:new Map(), CELL:0.25, TTL:60*864e5,
   servers:["https://overpass-api.de/api/interpreter","https://overpass.private.coffee/api/interpreter","https://overpass.kumi.systems/api/interpreter"],
-  slots:2, active:0, queue:[]};
+  slots:2, active:0, queue:[], tries:new Map()};
 /* the public Overpass servers allow about two requests at a time from one computer, so every download waits its turn */
 function liveSlot(){return new Promise(ok=>{const go=()=>{LIVE_MAP.active++;ok(()=>{LIVE_MAP.active--;const n=LIVE_MAP.queue.shift();if(n)n()})};
   LIVE_MAP.active<LIVE_MAP.slots?go():LIVE_MAP.queue.push(go)})}
@@ -2243,8 +2243,11 @@ async function mapCellData(ext){
   if(mapState.liveKey!==key)return true;   // the stops changed meanwhile; the newer request takes over
   if(!parts.length){if(live){st.className="status";st.textContent="OpenStreetMap couldn't be reached just now, so the map uses the builder's own map data."} return false}
   mapState.tiles=mapMergeParts(parts,"OpenStreetMap"); mapState.tileKey=failed?key+"|partial"+Date.now():key; mapState.cache=new Map();
+  // busy servers: try the missing parts again by itself, up to three times, a minute apart
+  if(failed){const tries=(LIVE_MAP.tries.get(key)||0)+1; LIVE_MAP.tries.set(key,tries); const k2=mapState.tileKey;
+    if(tries<=3)setTimeout(()=>{if(mapState.tileKey===k2){mapState.tileKey="";mapAutoData()}},60000)} else LIVE_MAP.tries.delete(key);
   guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null});
-  if(live)st.textContent=failed?`OpenStreetMap is busy: ${failed} part${failed>1?"s":""} of the map couldn't be downloaded. Try again in a few minutes.`:"";
+  if(live&&!failed)st.textContent=""; else if(live)st.textContent=failed?`OpenStreetMap is busy: ${failed} part${failed>1?"s":""} of the map couldn't be downloaded. Try again in a few minutes.`:"";
   mapRenderData(); render(); return true;
 }
 
@@ -2504,14 +2507,21 @@ function mapQuery(ext){
 );
 out geom;`;
 }
+const SITE_URL="https://kenilrawal-git.github.io/route-studio/";
 function mapRenderData(){
-  const info=$("mapDataInfo"), L=mapState.last, outside=L&&L.coverage<0.6;
-  const D=mapData(); const src=mapState.osm?`your file ${mapState.osmName}`:D?`the builder's map of ${D.data.name}`:"no map data";
-  info.className=outside?"warn":"hint";
-  info.textContent=mapState.tileKey&&mapState.tileKey.startsWith("cells:")&&!mapState.osm?"Using OpenStreetMap data for the area your stops are in. It loads automatically: built in for Central Connect's areas, downloaded for anywhere else and kept in this browser for 60 days."
-    :outside?"Your stops are outside the areas the builder has map data for. Ask Claude to add this area to the builder, or download the map data and drop it below.":`Using ${src}. It loads automatically for the area your stops are in.`;
-  $("mapUseBuiltin").hidden=!mapState.osm;
-  if(outside)$("mapGet").open=true;
+  const info=$("mapDataInfo"), L=mapState.last, outside=L&&L.coverage<0.6, key=mapState.tileKey||"";
+  const auto=key.startsWith("cells:"), partial=key.includes("|partial"), own=!!mapState.osm;
+  let warn=false, html;
+  if(own)html=`Using your map data file ${esc(mapState.osmName)}.`;
+  else if(auto&&partial){warn=true; html=`OpenStreetMap is busy, so part of the map couldn't be downloaded. <button type="button" class="linkbtn" id="mapRetry">Try again</button>`}
+  else if(auto&&!outside)html="Map data loads automatically from OpenStreetMap for wherever your stops are. Nothing to set up.";
+  else if(outside&&LIVE_MAP.on){warn=true; html=`The map data for this area couldn't be downloaded just now. <button type="button" class="linkbtn" id="mapRetry">Try again</button>`}
+  else if(outside){warn=true; html=`This area isn't in the built-in map data yet. <a href="${SITE_URL}" target="_blank" rel="noopener">Open Route Studio's website</a> and it downloads automatically; it's also built in for everyone once a Central Connect route runs there.`}
+  else html="Map data loads automatically for the area your stops are in.";
+  info.className=warn?"warn":"hint"; info.innerHTML=html;
+  const rt=$("mapRetry"); if(rt)rt.addEventListener("click",()=>{mapState.tileKey="";mapState.liveKey="";info.className="hint";info.textContent="Getting the map data for this area…";mapAutoData()});
+  $("mapUseBuiltin").hidden=!own;
+  $("mapGet").hidden=!(own||(outside&&!LIVE_MAP.on)); if(outside&&!LIVE_MAP.on)$("mapGet").open=true;
   if(L&&L.extent){const q=mapQuery(L.extent); $("mapQuery").value=q; $("mapOverpass").href="https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q.replace(/\n\s*/g,""))}
 }
 
