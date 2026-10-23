@@ -33,6 +33,6 @@ for r in regions:
 if not found: sys.exit(f"{cfg['operator']} wasn't found in any BODS region")
 run(os.path.join(T, "bods_merge.py"), out, *found)
 dst = os.path.join(ROOT, "bods"); shutil.rmtree(dst, ignore_errors=True); os.makedirs(dst)
-for f in os.listdir(out):
-    if not f.startswith(("index-", "paths-")): shutil.copy(os.path.join(out, f), dst)
+keep = {g["file"] for g in json.load(open(os.path.join(out, "index.json")))["groups"]} | {"index.json", "paths.json"}
+for f in keep: shutil.copy(os.path.join(out, f), dst)   # only timetables in the index (border routes appear in two regions)
 if cfg.get("regions") == "all": print("regions with this operator:", found)
