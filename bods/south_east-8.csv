@@ -1,0 +1,55 @@
+MF
+Rettendon > Runwell > Wickford
+Route,NaPTAN,Latitude,Longitude,8,8,8A,8,8A,8,8A
+Codes,,,,,,WO,,WO,,WO
+"Rettendon, Vectare Depot",150008002901,51.652989,0.548442,07:40,08:46,–,10:46,–,12:46,–
+"Rettendon, School",1500RET1,51.636949,0.557746,07:42,08:48,–,10:48,–,12:48,–
+"Runwell, Church",1500IM453,51.62082,0.530978,07:47,08:52,–,10:52,–,12:52,–
+"Wickford, The Swans",1500IM451,51.614711,0.523169,07:49,08:54,–,10:54,–,12:54,–
+"Wickford, Railway Station",1500IM452,51.615357,0.519897,07:52,08:58,–,10:58,–,12:58,–
+"Rayleigh, Railway Station",1500IM431,51.589353,0.600463,–,–,–,–,12:30,–,14:30
+"Rayleigh, High Street",1500IM240A,51.586476,0.605669,–,–,–,–,12:35,–,14:35
+"Rayleigh, ASDA",15001000701,51.604252,0.59899,–,–,–,–,12:45,–,14:45
+"Rettendon, Hayes Residential",150008004900,51.632958,0.582292,–,–,10:00,–,13:00,–,15:00
+"Rettendon, Rettendon Common",1500JMD028,51.655823,0.54756,–,–,10:10,–,13:13,–,–
+"Chelmsford, Army & Navy",15003411301,51.727567,0.480112,–,–,10:20,–,13:23,–,–
+"Chelmsford City Centre, Retail Market",15003406301,51.733831,0.469621,–,–,10:25,–,13:28,–,–
+
+Wickford > Runwell > Rettendon
+Route,NaPTAN,Latitude,Longitude,8A,8,8,8A,8,8
+Codes,,,,WO,,,WO,,
+"Wickford, Railway Station",1500IM452,51.615357,0.519897,–,10:34,12:34,–,14:34,19:09
+"Wickford, The Swans",1500IM451B,51.614673,0.522864,–,10:36,12:36,–,14:36,19:11
+"Runwell, Church",1500CHENDLNB,51.621818,0.531828,–,10:38,12:38,–,14:38,19:13
+"Rettendon, School",150008002006,51.637381,0.557337,–,10:42,12:42,–,14:42,19:17
+"Rettendon, Vectare Depot",150008002901,51.652989,0.548442,–,10:45,12:45,–,14:45,19:20
+"Chelmsford City Centre, Retail Market",15003406301,51.733831,0.469621,10:30,–,–,13:30,–,–
+"Chelmsford, Army & Navy",1500AA155,51.728294,0.479717,10:35,–,–,13:35,–,–
+"Rettendon, Rettendon Common",1500JMD028B,51.655865,0.547707,10:45,–,–,13:45,–,–
+"Rettendon, School",1500RET1,51.636949,0.557746,10:48,–,–,13:48,–,–
+"Rettendon, Hayes Residential",150008004900,51.632958,0.582292,11:00,–,–,14:00,–,–
+"Rayleigh, ASDA",150010007Y1,51.604301,0.599209,11:13,–,–,14:13,–,–
+"Rayleigh, Websters Way",1500IM2393,51.585789,0.606641,11:23,–,–,14:23,–,–
+"Rayleigh, Railway Station",1500IM431,51.589353,0.600463,11:28,–,–,14:28,–,–
+
+
+SA
+Rettendon > Runwell > Wickford
+Route,NaPTAN,Latitude,Longitude,8
+Codes,,,,
+"Rettendon, Vectare Depot",150008002901,51.652989,0.548442,07:50
+"Rettendon, School",1500RET1,51.636949,0.557746,07:52
+"Runwell, Church",1500IM453,51.62082,0.530978,07:57
+"Wickford, The Swans",1500IM451,51.614711,0.523169,07:58
+"Wickford, Railway Station",1500IM452,51.615357,0.519897,08:01
+
+Wickford > Runwell > Rettendon
+Route,NaPTAN,Latitude,Longitude,8
+Codes,,,,
+"Wickford, Railway Station",1500IM452,51.615357,0.519897,19:09
+"Wickford, The Swans",1500IM451B,51.614673,0.522864,19:11
+"Runwell, Church",1500CHENDLNB,51.621818,0.531828,19:13
+"Rettendon, School",150008002006,51.637381,0.557337,19:17
+"Rettendon, Vectare Depot",150008002901,51.652989,0.548442,19:20
+
+

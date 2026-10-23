@@ -1,0 +1,24 @@
+MF
+Great Dunmow > Felsted > Great Notley > Braintree
+Route,NaPTAN,Latitude,Longitude,331
+Codes,,,,
+"Great Dunmow, Helena Romanes School",1500HRSCHOOL,51.882144,0.354681,15:30
+"Great Dunmow, High Street",1500IM180,51.871516,0.363568,15:35
+"Felsted, Church",1500IM172,51.856629,0.432976,15:42
+"Felsted, Stevens Ln",150024001504,51.859842,0.461413,15:46
+"Felsted, Evelyn Rd",1500240015Y1,51.849389,0.496955,15:50
+"Great Notley, White Court",1500IM827B,51.859379,0.53315,15:56
+"Braintree, Kings Park Village",1500AA208B,51.88141,0.57916,16:07
+
+Braintree > Great Notley > Felsted > Great Dunmow
+Route,NaPTAN,Latitude,Longitude,331
+Codes,,,,
+"Braintree, Kings Park Village",1500AA208,51.881477,0.578582,07:40
+"Great Notley, White Court",1500IM827,51.859347,0.533802,07:52
+"Felsted, Evelyn Rd",150024001501,51.849256,0.496875,07:59
+"Felsted, Stevens Ln",1500240015Y4,51.859789,0.461323,08:03
+"Felsted, Church",1500FLSTDCH2,51.856686,0.434141,08:07
+"Great Dunmow, High Street",1500IM180B,51.871537,0.363409,08:16
+"Great Dunmow, Helena Romanes School",1500HRSCHOOL,51.882144,0.354681,08:22
+
+

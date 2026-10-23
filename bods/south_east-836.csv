@@ -1,0 +1,24 @@
+MF
+Braughing > Green End > Hare Street > Buntingford
+Route,NaPTAN,Latitude,Longitude,836
+Codes,,,,SCH
+"Braughing, The Street",210021310190,51.907813,0.030122,08:10
+"Green End, The Golden Fleece PH",210021302780,51.90842,0.024159,08:13
+"Dassels, Hobbs Lane",210021302820,51.927944,0.024005,08:17
+"Hare Street, Swan Lane",210021302860,51.946426,0.021199,08:20
+"Buntingford, The Crown Inn",210021302900,51.946095,-0.018568,08:22
+"Buntingford, Edwinstree C of E Middle School",210021385060,51.949119,-0.023514,08:25
+"Buntingford, Freman College",210021385040,51.951323,-0.025716,08:30
+
+Buntingford > Hare Street > Green End > Braughing
+Route,NaPTAN,Latitude,Longitude,836
+Codes,,,,SCH
+"Buntingford, Edwinstree C of E Middle School",210021385060,51.949119,-0.023514,15:20
+"Buntingford, Freman College",210021385040,51.951323,-0.025716,15:25
+"Buntingford, The Crown Inn",210021309840,51.94588,-0.018069,15:34
+"Hare Street, Swan Lane",210021310100,51.94619,0.021349,15:36
+"Dassels, Hobbs Lane",210021310140,51.926994,0.023846,15:43
+"Green End, The Golden Fleece PH",210021310180,51.908373,0.024288,15:46
+"Braughing, The Street",210021310190,51.907813,0.030122,15:51
+
+

@@ -1,0 +1,25 @@
+MF
+Ongar > Willingale > Writtle > Chelmsford City Centre
+Route,NaPTAN,Latitude,Longitude,46,46
+Codes,,,,,
+"Ongar, Two Brewers",1500IM1037B,51.700837,0.24273,18:25,20:25
+"Ongar, Four Wantz",1500IM349,51.711916,0.245102,18:30,20:30
+"Fyfield, The Queens Head",1500IM2384,51.739125,0.272813,18:34,20:34
+"Willingale, The Maltsters Arms",1500IM2366,51.740969,0.310597,18:40,20:40
+"Roxwell, Village Hall",1500IM2367B,51.751326,0.381918,18:50,20:50
+"Writtle, Agricultural College",1500ADD020A,51.73568,0.428805,18:57,20:57
+"Chelmsford City Centre, Bus Station",1500CHBS1,51.736222,0.467087,19:10,21:10
+
+Chelmsford City Centre > Roxwell > Fyfield > Ongar
+Route,NaPTAN,Latitude,Longitude,46,46
+Codes,,,,,
+"Chelmsford City Centre, Bus Station",1500CHBS6,51.736406,0.467328,19:15,21:15
+"Chelmsford City Centre, H & M",15003406204,51.732523,0.473229,19:18,21:18
+"Writtle, Agricultural College",1500ADD020,51.735975,0.428878,19:28,21:28
+"Roxwell, Village Hall",1500IM2367,51.751303,0.381685,19:35,21:35
+"Willingale, The Maltsters Arms",1500IM2366AA,51.740949,0.310712,19:45,21:45
+"Fyfield, The Queens Head",150021394007,51.739046,0.272722,19:51,21:51
+"Ongar, Four Wantz",1500IM349B,51.711333,0.24545,19:55,21:55
+"Ongar, Two Brewers",1500IM1037B,51.700837,0.24273,19:59,21:59
+
+

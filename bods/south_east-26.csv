@@ -1,0 +1,22 @@
+MF
+Harlow Town Centre > Harlow > Little Parndon
+Route,NaPTAN,Latitude,Longitude,26,26,26,26,26,26,26,26,26
+Codes,,,,,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,07:30,09:25,10:25,11:25,12:25,13:25,14:25,16:25,19:55
+"Harlow, Princess Alexandra Hospital",1500IM2616,51.770581,0.085181,07:35,09:30,10:30,11:30,12:30,13:30,14:30,16:30,20:00
+"Little Parndon, Foldcroft",1500IM1408,51.770714,0.079158,07:37,09:32,10:32,11:32,12:32,13:32,14:32,16:32,20:02
+"Little Parndon, The Hornbeams",150035047006,51.776699,0.088508,07:40,09:35,10:35,11:35,12:35,13:35,14:35,16:35,20:05
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,07:48,09:43,10:43,11:43,12:43,13:43,14:43,16:45,–
+
+
+SU
+Harlow Town Centre > Harlow > Little Parndon
+Route,NaPTAN,Latitude,Longitude,26,26,26,26,26
+Codes,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,09:45,11:45,13:45,15:45,17:45
+"Harlow, Princess Alexandra Hospital",1500IM2616,51.770581,0.085181,09:50,11:50,13:50,15:50,17:50
+"Little Parndon, Foldcroft",1500IM1408,51.770714,0.079158,09:52,11:52,13:52,15:52,17:52
+"Little Parndon, The Hornbeams",150035047006,51.776699,0.088508,09:55,11:55,13:55,15:55,17:55
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,10:03,12:03,14:03,16:03,18:03
+
+

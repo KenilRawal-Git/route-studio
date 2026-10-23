@@ -1,0 +1,59 @@
+MF
+Harlow Town Centre > Potter Street > North Weald > Epping
+Route,NaPTAN,Latitude,Longitude,22,22,22,22,22B,22B
+Codes,,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,06:20,07:10,18:20,–,20:30,23:45
+"Tye Green, Church Leys",1500WSTFLD1,51.763227,0.112754,06:26,07:16,18:26,–,20:34,23:49
+"Potter Street, The Red Lion",1500POTERST3,51.757655,0.132969,06:32,07:22,18:34,–,20:40,23:55
+"Hastingwood, Garden Centre",1500DGK196,51.741822,0.13977,06:36,07:26,18:41,19:31,20:45,–
+"North Weald, The Talbot",1500IM350,51.723352,0.180772,06:42,07:32,18:47,19:37,–,–
+"North Weald, The Kings Head",1500IM351,51.713608,0.164003,06:45,07:35,18:50,19:40,–,–
+"Epping, Church",1500IM353B,51.698868,0.111216,06:56,07:49,19:02,19:52,–,–
+"Epping, Railway Station",1500IM354,51.693706,0.113711,06:58,07:52,19:04,19:54,–,–
+
+Epping > Hastingwood > Tye Green > Harlow Town Centre
+Route,NaPTAN,Latitude,Longitude,22,22
+Codes,,,,,
+"Epping, Railway Station",1500IM354,51.693706,0.113711,19:10,19:45
+"Epping, Church",1500IM353,51.698615,0.110785,19:12,19:47
+"North Weald, The Kings Head",1500IM351B,51.7141,0.164678,19:25,20:00
+"North Weald, The Talbot",1500IM350B,51.723417,0.180645,19:28,20:03
+"Hastingwood, Garden Centre",1500DGK195,51.741176,0.139681,19:33,20:08
+"Potter Street, The Red Lion",1500IM1056,51.75756,0.132283,19:40,20:15
+"Tye Green, Church Leys",1500WSTFLD0,51.763152,0.112939,19:46,20:21
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,19:55,20:30
+
+
+SA
+Harlow Town Centre > Tye Green > Potter Street
+Route,NaPTAN,Latitude,Longitude,22B
+Codes,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,18:15
+"Tye Green, Church Leys",1500WSTFLD1,51.763227,0.112754,18:19
+"Potter Street, The Red Lion",1500POTERST3,51.757655,0.132969,18:25
+
+
+SU
+Harlow Town Centre > Tye Green > North Weald > Epping
+Route,NaPTAN,Latitude,Longitude,22,22
+Codes,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,07:15,20:50
+"Tye Green, Church Leys",1500WSTFLD1,51.763227,0.112754,07:20,20:55
+"Potter Street, The Red Lion",1500POTERST3,51.757655,0.132969,07:25,21:00
+"North Weald, The Talbot",1500IM350,51.723352,0.180772,07:35,21:10
+"North Weald, The Kings Head",1500IM351,51.713608,0.164003,07:37,21:12
+"Epping, Church",1500IM353B,51.698868,0.111216,07:43,21:18
+"Epping, Railway Station",1500IM354,51.693706,0.113711,07:45,21:20
+
+Epping > North Weald > Tye Green > Harlow Town Centre
+Route,NaPTAN,Latitude,Longitude,22,22
+Codes,,,,,
+"Epping, Railway Station",1500IM354,51.693706,0.113711,07:50,21:25
+"Epping, Church",1500IM353,51.698615,0.110785,07:52,21:27
+"North Weald, The Kings Head",1500IM351B,51.7141,0.164678,08:01,21:33
+"North Weald, The Talbot",1500IM350B,51.723417,0.180645,08:05,21:35
+"Potter Street, The Red Lion",1500IM1056,51.75756,0.132283,08:13,21:43
+"Tye Green, Church Leys",1500WSTFLD0,51.763152,0.112939,08:18,21:48
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,08:25,21:53
+
+

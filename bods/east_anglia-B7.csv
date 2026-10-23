@@ -1,0 +1,36 @@
+MF
+Rishangles > Little Stonham > Stowupland > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B7
+Codes,,,,SCH
+"Rishangles, Baptist Church",390040026,52.27418,1.16581,07:29
+"Debenham, Bus Shelter",390040011,52.22584,1.18103,07:37
+"Debenham, High School",390040013,52.22421,1.17127,07:40
+"Stonham Aspal, Pound Corner",390041139,52.19387,1.11862,07:48
+"Little Stonham, Brewery Farm",390040794,52.19061,1.09659,07:50
+"Earl Stonham, Church",390040488,52.18691,1.08154,07:51
+"Forward Green, Primrose Cottage",390040790,52.19717,1.0687,07:52
+"Stowupland, Crown",390040490,52.19848,1.02801,07:57
+"Cedars Park, Tesco",390041104,52.18365,1.01666,08:03
+"Stowmarket, Creeting Road",390041125,52.18912,1.00396,08:08
+"Stowmarket, Railway Station",390040565,52.18989,0.99981,08:13
+"Stowmarket, Violet Hill Road",390040637,52.19563,0.99177,08:16
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,08:40
+
+Bury St Edmunds > Stowupland > Little Stonham > Rishangles
+Route,NaPTAN,Latitude,Longitude,B7
+Codes,,,,SCH
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,16:25
+"Stowmarket, Violet Hill Road",390040638,52.19567,0.99183,16:49
+"Stowmarket, Railway Station",390040565,52.18989,0.99981,16:52
+"Stowmarket, Creeting Road",390041126,52.18922,1.00407,16:57
+"Cedars Park, Tesco",390041103,52.18379,1.01683,17:02
+"Stowupland, Crown",390040489,52.19854,1.02788,17:08
+"Forward Green, Primrose Cottage",390040791,52.19723,1.0686,17:13
+"Earl Stonham, Church",390040487,52.18701,1.08156,17:14
+"Little Stonham, Brewery Farm",390040476,52.19077,1.09647,17:16
+"Stonham Aspal, Pound Corner",390040800,52.19393,1.11842,17:17
+"Debenham, High School",390040014,52.22429,1.17128,17:25
+"Debenham, Bus Shelter",390040012,52.2262,1.18076,17:28
+"Rishangles, Baptist Church",390040025,52.27418,1.16562,17:36
+
+

@@ -1,0 +1,30 @@
+MF
+Leiston > Saxmundham > Wickham Market > Chantry
+Route,NaPTAN,Latitude,Longitude,O5
+Codes,,,,SCH
+"Leiston, Car Park",390060868,52.20515,1.57786,07:42
+"Leiston, Library",390060208,52.2078,1.57617,07:44
+"Leiston, Church Road",390060215,52.20772,1.56827,07:46
+"Saxmundham, Street Farm Road",390060205,52.21623,1.49168,07:57
+"Saxmundham, The Spinney",390060935,52.2194,1.49072,07:58
+"Saxmundham, School",390060932,52.21919,1.48466,08:00
+"Saxmundham, Heron Road",390060928,52.21774,1.47929,08:02
+"Stratford St Andrew, The Shelter",390060196,52.18846,1.44861,08:08
+"Wickham Market, Market Square",390060264,52.15277,1.36287,08:20
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Wickham Market > Saxmundham > Leiston
+Route,NaPTAN,Latitude,Longitude,O5,O5
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Wickham Market, Market Square",390060263,52.15286,1.36286,16:35,17:05
+"Stratford St Andrew, The Shelter",390060197,52.18865,1.4487,16:44,17:14
+"Saxmundham, Heron Road",390060929,52.21752,1.4789,16:50,17:20
+"Saxmundham, School",390060933,52.21927,1.48465,16:52,17:22
+"Saxmundham, The Spinney",390060934,52.21946,1.49074,16:54,17:24
+"Saxmundham, Street Farm Road",390060872,52.2163,1.49178,16:55,17:25
+"Leiston, St Margaret's Crescent",390061118,52.20847,1.56376,17:06,17:36
+"Leiston, Library",390060209,52.20795,1.5759,17:08,17:38
+"Leiston, Car Park",390060869,52.20506,1.57801,17:10,17:40
+
+

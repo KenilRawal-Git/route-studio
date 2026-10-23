@@ -1,0 +1,27 @@
+MF
+Stansted Airport > Great Dunmow > Felsted > Braintree Town Centre
+Route,NaPTAN,Latitude,Longitude,332
+Codes,,,,
+"Stansted Airport, Coach Station",1500IM187P,51.889134,0.263372,15:10
+"Takeley, The Four Ashes",150020015004,51.867804,0.267094,15:16
+"Great Dunmow, Helena Romanes School",1500HRSCHOOL,51.882144,0.354681,15:32
+"Great Dunmow, High Street",1500IM180,51.871516,0.363568,15:37
+"Little Dunmow, The Flitch of Bacon",150002007010,51.86757,0.404267,15:45
+"Felsted, Church",1500IM172,51.856629,0.432976,15:52
+"Rayne, The Welsh Princess",1500IM2330,51.875328,0.508214,16:04
+"Braintree Town Centre, Bus Interchange",1500IM183F,51.877649,0.554941,16:20
+
+Braintree Town Centre > Rayne > Great Dunmow > Stansted Airport
+Route,NaPTAN,Latitude,Longitude,332
+Codes,,,,
+"Braintree Town Centre, Bus Interchange",1500IM183F,51.877649,0.554941,07:35
+"Braintree, Railway Station",1500IM375,51.875353,0.556336,07:37
+"Rayne, The Welsh Princess",1500RAY5,51.87536,0.509248,07:47
+"Felsted, Church",1500FLSTDCH2,51.856686,0.434141,08:00
+"Little Dunmow, The Flitch of Bacon",1500IM173,51.867141,0.404157,08:08
+"Great Dunmow, High Street",1500IM180B,51.871537,0.363409,08:16
+"Great Dunmow, Helena Romanes School",1500HRSCHOOL,51.882144,0.354681,08:22
+"Takeley, The Four Ashes",1500IM175,51.868582,0.266363,08:37
+"Stansted Airport, Coach Station",1500IM187P,51.889134,0.263372,08:50
+
+

@@ -1,0 +1,28 @@
+MF
+Melton > Martlesham Heath > Racecourse > Chantry
+Route,NaPTAN,Latitude,Longitude,O7
+Codes,,,,SCH
+"Melton, Chapel",390060599,52.10616,1.33125,07:57
+"Woodbridge, Turban Centre",390060606,52.09272,1.32051,08:02
+"Woodbridge, The Deben Seal",390060624,52.08644,1.29642,08:07
+"Martlesham Heath, Bowling Centre",390060384,52.06019,1.27846,08:12
+"Warren Heath, Pearse Way",390030437,52.03572,1.20941,08:29
+"Priory Heath, Crane Boulevard",390030460,52.03196,1.19908,08:32
+"Racecourse, Nacton Crescent",390030712,52.03998,1.1859,08:35
+"Holywells Park, Cliff Lane Triangle",390030032,52.04494,1.17985,08:37
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Racecourse > Martlesham Heath > Melton
+Route,NaPTAN,Latitude,Longitude,O7,O7
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Holywells Park, Cliff Lane Triangle",390030033,52.04479,1.18034,16:24,16:54
+"Racecourse, Queens Way",390030713,52.04047,1.1856,16:26,16:56
+"Priory Heath, Crane Boulevard",390030461,52.03211,1.19915,16:29,16:59
+"Warren Heath, Pearse Way",390030436,52.03585,1.2095,16:32,17:02
+"Martlesham Heath, Bowling Centre",390060385,52.06047,1.27838,16:47,17:17
+"Woodbridge, The Deben Seal",390060625,52.0866,1.29664,16:53,17:23
+"Woodbridge, Turban Centre",390060606,52.09272,1.32051,16:58,17:28
+"Melton, Chapel",390060600,52.10633,1.33131,17:08,17:38
+
+

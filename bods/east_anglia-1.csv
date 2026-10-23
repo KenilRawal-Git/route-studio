@@ -1,0 +1,116 @@
+MF
+Norwich City Centre > Newton Flotman > Aslacton > Diss
+Route,NaPTAN,Latitude,Longitude,1,1A,1,1
+Codes,,,,,,,
+"Norwich City Centre, Castle Meadow",2900N12119,52.62871,1.295365,08:20,–,–,16:15
+"Norwich City Centre, Bus Station",2900N12912,52.624078,1.29311,08:25,11:10,13:20,16:20
+"Norwich City Centre, St Stephens Street",2900N12104,52.625417,1.292841,08:27,11:13,13:22,16:23
+"Norwich City College, Campus",2900N1218,52.616816,1.284526,08:32,11:15,13:25,16:27
+"Norwich, ASDA",2900N122821,52.607587,1.288149,08:38,11:19,13:29,16:33
+"South Tuckswood, Ipswich Road Tesco",2900N12252,52.595818,1.275377,08:43,11:22,13:32,16:38
+"Swainsthorpe, SugarBeat Eating House",2900S632,52.559403,1.275687,08:48,11:25,13:38,16:43
+"Newton Flotman, Rectory Close",2900N075,52.539578,1.257247,–,–,13:41,16:50
+"Flordon, turn",2900F111,52.527195,1.234241,–,–,13:46,–
+"Newton Flotman, Flordon Road",2900N074,52.537421,1.261409,08:51,11:29,–,–
+"Long Stratton, The Plain",2900L155,52.488749,1.235189,08:58,11:34,13:55,17:00
+"Tivetshall St Mary, Tinker's Lane",2900T261,52.426804,1.199384,–,11:47,–,–
+"Tharston, Picton Road",2900T075,52.49504,1.219531,09:02,–,13:58,17:03
+"Forncett, old rail station",2900F136,52.495551,1.200058,09:04,–,14:01,17:08
+"Forncett St Peter, church",2900F132,52.491227,1.185983,09:06,–,14:04,17:11
+"Aslacton, Church Road",2900A174,52.474659,1.180705,09:10,–,14:07,17:13
+"Great Moulton, Council Houses",2900M222,52.463928,1.179769,09:12,–,14:09,17:15
+"Gissing, Simonds Farm",2900G082,52.443437,1.15105,09:18,–,14:16,17:22
+"Gissing, Rectory Road",2900G083,52.422871,1.154348,09:20,–,14:18,17:24
+"Burston, Crown",2900B663,52.405235,1.141487,09:26,–,14:24,17:30
+"Diss, Roydon Road",2900D1611,52.377244,1.106258,09:34,–,14:32,17:38
+"Diss, Bus Station",2900D1639,52.373947,1.106114,09:35,–,14:35,17:41
+"Diss, Rail Station",2900D16301,52.373241,1.12336,09:40,12:00,–,17:46
+"Diss, Bus Station",2900D162,52.373792,1.106529,–,12:05,–,–
+
+Diss > Aslacton > Newton Flotman > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,1,1,1,1A,1A
+Codes,,,,,,,SH,SCH
+"Diss, Bus Station",2900D1639,52.373947,1.106114,–,–,–,14:35,14:35
+"Diss, Rail Station",2900D16301,52.373241,1.12336,06:55,09:45,–,14:42,14:42
+"Tivetshall St Mary, Tinker's Lane",2900T262,52.426701,1.199538,–,–,–,14:51,14:51
+"Long Stratton, High School",2900L1527,52.489146,1.229192,–,–,–,–,15:10
+"Diss, Bus Station",2900D162,52.373792,1.106529,07:00,09:52,12:05,–,–
+"Diss, Scholars Walk",2900D167,52.381072,1.105689,07:02,09:55,12:07,–,–
+"Burston, Crown",2900B662,52.405264,1.141416,07:09,10:02,12:14,–,–
+"Gissing, Rectory Road",2900G081,52.423084,1.154452,07:14,10:07,12:19,–,–
+"Gissing, Simonds Farm",2900G084,52.443457,1.150963,07:17,10:10,12:22,–,–
+"Tivetshall St Margaret, Moulton Road",2900T255,52.447698,1.1733,07:21,10:14,12:26,–,–
+"Great Moulton, Council Houses",2900M221,52.463949,1.179682,07:25,10:18,12:30,–,–
+"Aslacton, Church Road",2900A171,52.475031,1.1806,07:27,10:20,12:32,–,–
+"Forncett St Peter, church",2900F137,52.491038,1.185984,07:30,10:23,12:35,–,–
+"Forncett, old rail station",2900F135,52.495915,1.199893,07:33,10:26,12:38,–,–
+"Tharston, Picton Road",2900T076,52.494964,1.219687,07:35,10:28,12:40,–,–
+"Long Stratton, The Plain",2900L151,52.488718,1.23501,07:40,10:31,12:43,15:15,15:15
+"Flordon, turn",2900F113,52.527338,1.234634,–,10:39,–,15:28,15:28
+"Newton Flotman, Rectory Close",2900N073,52.539678,1.257181,–,10:44,12:51,15:35,15:35
+"Newton Flotman, Theatre School",2900N072,52.537795,1.26123,07:48,–,–,–,–
+"Swainsthorpe, SugarBeat Eating House",2900S631,52.559578,1.275538,07:52,10:48,12:55,15:39,15:39
+"South Tuckswood, Ipswich Road Tesco",2900N12251,52.595051,1.274803,07:57,10:52,12:59,15:43,15:43
+"Tuckswood, Robin Hood Road",2900N12481,52.605809,1.286449,08:01,10:56,13:03,15:47,15:47
+"Norwich City College, Campus",2900N12204,52.617042,1.284499,08:07,11:00,13:07,15:52,15:52
+"Norwich City Centre, Bus Station",2900N12907,52.624218,1.292958,–,11:03,13:10,–,–
+"Norwich City Centre, St Stephens Street",2900N1228,52.625588,1.292824,08:12,–,–,15:57,15:57
+"Norwich City Centre, Castle Meadow",2900N12112,52.629306,1.295942,08:15,–,–,16:00,16:00
+
+
+SA
+Norwich City Centre > Newton Flotman > Aslacton > Diss
+Route,NaPTAN,Latitude,Longitude,1,1A,1,1
+Codes,,,,,,,
+"Norwich City Centre, Bus Station",2900N12912,52.624078,1.29311,08:25,11:10,13:20,16:20
+"Norwich City Centre, St Stephens Street",2900N12104,52.625417,1.292841,08:27,11:13,13:22,16:23
+"Norwich City College, Campus",2900N1218,52.616816,1.284526,08:32,11:15,13:25,16:27
+"Norwich, ASDA",2900N122821,52.607587,1.288149,08:38,11:19,13:29,16:33
+"South Tuckswood, Ipswich Road Tesco",2900N12252,52.595818,1.275377,08:43,11:22,13:32,16:38
+"Swainsthorpe, SugarBeat Eating House",2900S632,52.559403,1.275687,08:48,11:25,13:38,16:43
+"Newton Flotman, Rectory Close",2900N075,52.539578,1.257247,–,–,13:41,16:50
+"Flordon, turn",2900F111,52.527195,1.234241,–,–,13:46,–
+"Newton Flotman, Flordon Road",2900N074,52.537421,1.261409,08:51,11:29,–,–
+"Long Stratton, The Plain",2900L155,52.488749,1.235189,08:58,11:34,13:55,17:00
+"Tivetshall St Mary, Tinker's Lane",2900T261,52.426804,1.199384,–,11:47,–,–
+"Tharston, Picton Road",2900T075,52.49504,1.219531,09:02,–,13:58,17:03
+"Forncett, old rail station",2900F136,52.495551,1.200058,09:04,–,14:01,17:08
+"Forncett St Peter, church",2900F132,52.491227,1.185983,09:06,–,14:04,17:11
+"Aslacton, Church Road",2900A174,52.474659,1.180705,09:10,–,14:07,17:13
+"Great Moulton, Council Houses",2900M222,52.463928,1.179769,09:12,–,14:09,17:15
+"Gissing, Simonds Farm",2900G082,52.443437,1.15105,09:18,–,14:16,17:22
+"Gissing, Rectory Road",2900G083,52.422871,1.154348,09:20,–,14:18,17:24
+"Burston, Crown",2900B663,52.405235,1.141487,09:26,–,14:24,17:30
+"Diss, Roydon Road",2900D1611,52.377244,1.106258,09:34,–,14:32,17:38
+"Diss, Bus Station",2900D1639,52.373947,1.106114,09:35,–,14:35,17:41
+"Diss, Rail Station",2900D16301,52.373241,1.12336,09:40,12:00,–,17:46
+"Diss, Bus Station",2900D162,52.373792,1.106529,–,12:05,–,–
+
+Diss > Aslacton > Newton Flotman > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,1,1,1,1A
+Codes,,,,,,,
+"Diss, Bus Station",2900D1639,52.373947,1.106114,–,–,–,14:35
+"Diss, Rail Station",2900D16301,52.373241,1.12336,06:55,09:45,–,14:42
+"Tivetshall St Mary, Tinker's Lane",2900T262,52.426701,1.199538,–,–,–,14:51
+"Diss, Bus Station",2900D162,52.373792,1.106529,07:00,09:52,12:05,–
+"Diss, Scholars Walk",2900D167,52.381072,1.105689,07:02,09:55,12:07,–
+"Burston, Crown",2900B662,52.405264,1.141416,07:09,10:02,12:14,–
+"Gissing, Rectory Road",2900G081,52.423084,1.154452,07:14,10:07,12:19,–
+"Gissing, Simonds Farm",2900G084,52.443457,1.150963,07:17,10:10,12:22,–
+"Tivetshall St Margaret, Moulton Road",2900T255,52.447698,1.1733,07:21,10:14,12:26,–
+"Great Moulton, Council Houses",2900M221,52.463949,1.179682,07:25,10:18,12:30,–
+"Aslacton, Church Road",2900A171,52.475031,1.1806,07:27,10:20,12:32,–
+"Forncett St Peter, church",2900F137,52.491038,1.185984,07:30,10:23,12:35,–
+"Forncett, old rail station",2900F135,52.495915,1.199893,07:33,10:26,12:38,–
+"Tharston, Picton Road",2900T076,52.494964,1.219687,07:35,10:28,12:40,–
+"Long Stratton, The Plain",2900L151,52.488718,1.23501,07:38,10:31,12:43,15:08
+"Newton Flotman, Theatre School",2900N072,52.537795,1.26123,07:46,–,–,–
+"Flordon, turn",2900F113,52.527338,1.234634,–,10:39,–,–
+"Newton Flotman, Rectory Close",2900N073,52.539678,1.257181,–,10:44,12:51,15:17
+"Swainsthorpe, SugarBeat Eating House",2900S631,52.559578,1.275538,07:50,10:48,12:55,15:21
+"South Tuckswood, Ipswich Road Tesco",2900N12251,52.595051,1.274803,07:53,10:52,12:59,15:25
+"Tuckswood, Robin Hood Road",2900N12481,52.605809,1.286449,07:57,10:56,13:03,15:29
+"Norwich City College, Campus",2900N12204,52.617042,1.284499,08:00,11:00,13:07,15:33
+"Norwich City Centre, Bus Station",2900N12907,52.624218,1.292958,08:03,11:03,13:10,15:37
+
+

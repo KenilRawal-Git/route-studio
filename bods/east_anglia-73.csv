@@ -1,0 +1,53 @@
+MF
+Garboldisham > Bardwell > Hunston > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,73,73A,73
+Codes,,,,,,
+"Garboldisham, Fox",2900G015,52.395321,0.947638,07:00,07:20,09:30
+"Hopton, Chapel",390050023,52.37466,0.92891,07:05,07:25,09:35
+"Market Weston, Village Hall",390050003,52.36028,0.9151,07:08,07:28,09:38
+"Coney Weston, The Swan",390050011,52.36436,0.8709,07:15,07:35,09:45
+"Barningham, Royal George",390050075,52.3537,0.88876,07:19,07:39,09:49
+"Stanton, Memorial",390050086,52.32391,0.88386,–,07:53,–
+"Bardwell, Green",390050083,52.32607,0.84931,–,08:00,–
+"Ixworth, Village Hall",390050566,52.29706,0.83134,–,08:10,–
+"Thurston, Community College",390040552,52.25379,0.80938,–,08:25,–
+"Bardwell, Post Office",390050079,52.32811,0.85104,07:26,–,09:56
+"Stanton, Memorial",390050087,52.32406,0.88389,07:33,–,10:03
+"Sheperds Grove, Cafe",390050092,52.3207,0.90221,07:34,–,10:04
+"Walsham-le-Willows, St Mary's Church",390040924,52.30192,0.93106,07:40,–,10:10
+"Badwell Ash, Shelter",390040877,52.28119,0.91322,07:45,–,10:15
+"Hunston, Saxon Meadows",390040408,52.27906,0.89521,07:48,–,10:18
+"Stowlangtoft, Church",390040411,52.27662,0.86834,07:50,–,10:20
+"Pakenham, The Fox",390051115,52.26959,0.82396,07:55,–,10:25
+"Great Barton, A143 Bus Shelter",390050717,52.26782,0.76938,08:01,–,10:31
+"Bury St Edmunds, Railway Station",390059003,52.25293,0.71381,08:22,–,10:45
+"Bury St Edmunds, Bus Station",390050790,52.24785,0.71035,08:25,–,10:47
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,08:33,–,10:50
+"Bury St Edmunds, St Benedicts Catholic School",390051025,52.25759,0.70151,08:40,–,11:05
+
+Bury St Edmunds > Badwell Ash > Barningham > Garboldisham
+Route,NaPTAN,Latitude,Longitude,73,73A,73,73
+Codes,,,,,,,
+"Thurston, Community College",390040552,52.25379,0.80938,–,15:35,–,–
+"Ixworth, Village Hall",390050565,52.29739,0.83154,–,15:50,–,–
+"Bardwell, Green",390050082,52.32599,0.84937,–,15:55,–,–
+"Bury St Edmunds, St Benedicts Catholic School",390051025,52.25759,0.70151,13:30,–,16:00,18:15
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,13:35,–,16:15,18:20
+"Bury St Edmunds, Bus Station",390050790,52.24785,0.71035,13:39,–,16:25,18:24
+"Bury St Edmunds, Railway Station",390050800,52.25334,0.714,13:39,–,16:25,18:24
+"Great Barton, A143 Bus Shelter",390050716,52.26795,0.7694,13:45,–,16:30,18:30
+"Pakenham, The Fox",390051114,52.26979,0.8239,13:51,–,16:36,18:36
+"Stowlangtoft, Church",390040410,52.27673,0.86801,13:55,–,16:40,18:40
+"Hunston, Saxon Meadows",390040409,52.2791,0.89586,13:57,–,16:42,18:42
+"Badwell Ash, Shelter",390040878,52.28131,0.91302,14:00,–,16:45,18:45
+"Walsham-le-Willows, St Mary's Church",390040925,52.30161,0.93108,14:06,–,16:51,18:51
+"Sheperds Grove, Cafe",390051228,52.32088,0.90219,14:14,–,16:59,18:59
+"Stanton, Memorial",390050087,52.32406,0.88389,14:15,16:02,17:00,19:00
+"Bardwell, Post Office",390050078,52.32805,0.85092,14:22,–,17:07,19:07
+"Barningham, Royal George",390050074,52.35369,0.8885,14:30,16:10,17:15,19:15
+"Coney Weston, The Swan",390050012,52.36429,0.87083,14:33,16:13,17:18,19:18
+"Market Weston, Village Hall",390050004,52.36036,0.9149,14:39,16:19,17:24,19:24
+"Hopton, Post Office",390050021,52.37276,0.9268,14:42,16:22,17:27,19:27
+"Garboldisham, Fox",2900G012,52.395598,0.946995,14:47,16:27,17:32,19:32
+
+

@@ -1,0 +1,46 @@
+MF
+Wicken Bonhunt > Berden > Parsonage Estate > Bishops Stortford
+Route,NaPTAN,Latitude,Longitude,306
+Codes,,,,SCH
+"Wicken Bonhunt, Coach and Horses",150018003012,51.977819,0.181825,07:00
+"Clavering, Stickling Green",1500IM2097AA,51.974465,0.143645,07:05
+"Langley, Upper Green",1500IM1777AA,51.99577,0.104137,07:12
+"Langley, The Bull",1500IM2099,51.990406,0.091781,07:15
+"Clavering, Sheepcote Green Lane",1500IM2100AA,51.974871,0.123716,07:22
+"Clavering, Brent Pelham Corner",1500IM1144AA,51.965697,0.143663,07:28
+"Berden, St Nicholas Field",1500IM1004BB,51.947148,0.135648,07:33
+"Berden, Sawpit Lane",1500IM2022,51.944428,0.147261,07:37
+"Manuden, The Yew Tree",1500IM1014,51.918964,0.167234,07:43
+"Bentfield Green, Rose & Crown",1500IM619B,51.908066,0.18907,07:49
+"Stansted Mountfitchet, Croasdaile Road",1500IM618AA,51.907874,0.195995,07:51
+"Stansted Mountfitchet, Clarence Road",1500STANMF4,51.904666,0.193964,07:56
+"Parsonage Estate, Birchwood High School",210021305520,51.873707,0.183188,08:03
+"Hockerill, Anglo European College",210021305560,51.869835,0.172308,08:07
+"Bishops Stortford, Pig Lane",210021307770,51.855781,0.163456,08:16
+"Thorley Park, High School",210021303290,51.847447,0.154548,08:20
+"Bishops Stortford, St Mary's Catholic School",210021385120,51.869081,0.152705,08:27
+"Bishops Stortford, Interchange",210021307430,51.867132,0.16432,08:33
+
+Bishops Stortford > Parsonage Estate > Berden > Wicken Bonhunt
+Route,NaPTAN,Latitude,Longitude,306
+Codes,,,,SCH
+"Bishops Stortford, Interchange",210021307430,51.867132,0.16432,15:20
+"Bishops Stortford, St Mary's Catholic School",210021385120,51.869081,0.152705,15:29
+"Thorley Park, High School",210021303290,51.847447,0.154548,15:38
+"Bishops Stortford, Pig Lane",210021304710,51.856322,0.16338,15:42
+"Hockerill, Anglo European College",210021307845,51.869707,0.17098,15:49
+"Parsonage Estate, Birchwood High School",210021307880,51.872503,0.184132,15:53
+"Stansted Mountfitchet, Clarence Road",1500IM1067,51.904985,0.194183,16:03
+"Stansted Mountfitchet, Croasdaile Road",1500IM618,51.907654,0.196217,16:05
+"Bentfield Green, Rose & Crown",1500IM619,51.907978,0.188964,16:07
+"Manuden, The Yew Tree",1500IM1014AA,51.918912,0.167144,16:13
+"Berden, Sawpit Lane",1500IM2022AA,51.944364,0.147331,16:19
+"Berden, St Nicholas Field",1500IM1004B,51.947159,0.135532,16:23
+"Clavering, Brent Pelham Corner",1500IM1144,51.965721,0.143373,16:27
+"Clavering, Sheepcote Green Lane",1500IM2100,51.97479,0.123727,16:33
+"Langley, The Bull",1500IM2099AA,51.990409,0.091621,16:39
+"Langley, Upper Green",1500IM1777,51.995841,0.104184,16:42
+"Clavering, Stickling Green",1500IM2097,51.974537,0.143663,16:49
+"Wicken Bonhunt, Coach and Horses",1500IM2096,51.977421,0.181004,16:55
+
+

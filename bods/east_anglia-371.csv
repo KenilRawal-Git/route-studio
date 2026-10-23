@@ -1,0 +1,24 @@
+MF
+Larling > Kenninghall > Winfarthing > Diss
+Route,NaPTAN,Latitude,Longitude,371
+Codes,,,,
+"Larling, Roudham Road",2900R325,52.451989,0.912357,07:44
+"East Harling, Market Place",2900H081,52.439219,0.931998,07:49
+"Kenninghall, Post Office",2900K034,52.435058,0.996405,07:56
+"Banham, school",2900B047,52.450817,1.036791,08:03
+"Winfarthing, Fighting Cocks",2900W3513,52.429541,1.098725,08:10
+"Diss, high school",2900D1614,52.380272,1.114553,08:25
+"Diss, Bus Station",2900D162,52.373792,1.106529,08:30
+
+Diss > Banham > East Harling > Larling
+Route,NaPTAN,Latitude,Longitude,371
+Codes,,,,
+"Diss, Bus Station",2900D162,52.373792,1.106529,15:15
+"Diss, high school",2900D1614,52.380272,1.114553,15:20
+"Winfarthing, Fighting Cocks",2900W355,52.429589,1.098596,15:28
+"Banham, school",2900B049,52.450814,1.036909,15:37
+"Kenninghall, Post Office",2900K033,52.434942,0.996353,15:43
+"East Harling, Market Place",2900H088,52.439258,0.931868,15:50
+"Larling, Roudham Road",2900R325,52.451989,0.912357,15:55
+
+

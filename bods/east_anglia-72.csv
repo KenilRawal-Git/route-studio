@@ -1,0 +1,28 @@
+MF
+Gislingham > Thornham Magna > Brome > Diss
+Route,NaPTAN,Latitude,Longitude,72
+Codes,,,,FO SCH
+"Gislingham, Village Hall",390040179,52.30474,1.04221,09:30
+"Finningham, Gislingham Road",390041046,52.28277,1.03097,09:35
+"Thornham Magna, Four Horseshoes",390040173,52.29435,1.08448,09:41
+"Eye, Eye Poultry",390040934,52.32016,1.14354,09:48
+"Eye, Town Hall",390040133,52.32158,1.146,09:50
+"Brome, Oaksmere",390040123,52.3455,1.13336,09:53
+"Stuston, Stuston House",390040088,52.36103,1.13218,09:55
+"Diss, Station Road",2900D1630,52.370517,1.120581,10:00
+"Diss, Bus Station",2900D162,52.373792,1.106529,10:05
+
+Diss > Brome > Thornham Magna > Gislingham
+Route,NaPTAN,Latitude,Longitude,72
+Codes,,,,FO SCH
+"Diss, Bus Station",2900D162,52.373792,1.106529,13:00
+"Diss, Rail Station",2900D16301,52.373241,1.12336,13:05
+"Stuston, Stuston House",390040087,52.36092,1.13236,13:10
+"Brome, Oaksmere",390040124,52.34563,1.1335,13:12
+"Eye, Town Hall",390040134,52.32189,1.14606,13:15
+"Eye, Eye Poultry",390040935,52.32008,1.14356,13:17
+"Thornham Magna, Four Horseshoes",390040174,52.29427,1.08463,13:24
+"Finningham, Gislingham Road",390041045,52.28265,1.03087,13:30
+"Gislingham, Village Hall",390040179,52.30474,1.04221,13:35
+
+

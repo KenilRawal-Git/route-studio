@@ -1,0 +1,30 @@
+MF
+Occold > Diss > Botesdale > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B3
+Codes,,,,SCH
+"Occold, Occold Turn",390040164,52.29556,1.15585,07:10
+"Eye, Town Hall",390040133,52.32158,1.146,07:14
+"Brome, Progress Way",390040818,52.33286,1.13992,07:17
+"Diss, Station Road",2900D1630,52.370517,1.120581,07:27
+"Diss, Bus Station",2900D162,52.373792,1.106529,07:30
+"Palgrave, Church",390040089,52.36313,1.10616,07:36
+"Wortham, School",390040093,52.35246,1.05636,07:44
+"Botesdale, Simonds Court",390040275,52.34398,1.00743,07:50
+"Stanton, Memorial",390050086,52.32391,0.88386,08:00
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,08:40
+
+Bury St Edmunds > Wortham > Brome > Occold
+Route,NaPTAN,Latitude,Longitude,B3
+Codes,,,,SCH
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,16:25
+"Stanton, Memorial",390050087,52.32406,0.88389,16:55
+"Botesdale, Simonds Court",390040276,52.34418,1.00751,17:05
+"Wortham, School",390040094,52.35262,1.05619,17:10
+"Palgrave, Church",390040090,52.36327,1.10613,17:15
+"Diss, Bus Station",2900D162,52.373792,1.106529,17:20
+"Diss, Waveney Road",2900D168,52.3713,1.118535,17:25
+"Brome, Progress Way",390040819,52.33287,1.14008,17:35
+"Eye, Town Hall",390040134,52.32189,1.14606,17:40
+"Occold, Occold Turn",390040163,52.29515,1.15588,17:45
+
+

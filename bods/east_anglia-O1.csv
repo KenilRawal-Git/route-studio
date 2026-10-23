@@ -1,0 +1,44 @@
+MF
+Stowmarket > Badley > Baylham > Chantry
+Route,NaPTAN,Latitude,Longitude,O1
+Codes,,,,SCH
+"Stowmarket, Argos Store",390040596,52.18741,0.99581,08:10
+"Stowmarket, Recreation Ground",390040607,52.18843,0.98922,08:12
+"Stowmarket, Mallard Way",390040619,52.19123,0.97611,08:14
+"Stowmarket, Kipling Way",390040628,52.19712,0.98075,08:17
+"Stowmarket, Allotments",390040634,52.19779,0.98877,08:19
+"Stowmarket, Violet Hill Road",390040638,52.19567,0.99183,08:20
+"Stowmarket, Dukes Head",390040597,52.18598,0.99866,08:23
+"Combs Ford, The Ford",390040601,52.18079,0.99892,08:25
+"Badley, Muntons",390040594,52.1727,1.01622,08:29
+"Badley, Badley walk",390040592,52.16752,1.02964,08:30
+"Needham Market, Gipsy Lane",390040520,52.15993,1.0448,08:31
+"Needham Market, Church",390040507,52.15543,1.05034,08:33
+"Needham Market, The Swan",390040504,52.15173,1.0539,08:35
+"Darmsden, Darmsden Turn",390040498,52.14173,1.06976,08:37
+"Baylham, Garage",390040367,52.12853,1.08225,08:38
+"Great Blakenham, Chequers",390040361,52.1142,1.0925,08:40
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Baylham > Badley > Stowmarket
+Route,NaPTAN,Latitude,Longitude,O1,O1
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Great Blakenham, Chequers",390040360,52.11428,1.0922,16:20,16:50
+"Baylham, Garage",390040366,52.129,1.0814,16:22,16:52
+"Darmsden, Darmsden Turn",390040497,52.14228,1.06891,16:23,16:53
+"Needham Market, The Swan",390040505,52.15189,1.05356,16:25,16:55
+"Needham Market, Council Offices",390040506,52.1558,1.04975,16:27,16:57
+"Needham Market, Gipsy Lane",390040521,52.15973,1.04472,16:29,16:59
+"Badley, Badley Walk",390040591,52.16759,1.02927,16:31,17:01
+"Badley, Muntons",390040593,52.17299,1.01481,16:33,17:03
+"Combs Ford, The Ford",390040774,52.1803,0.99813,16:35,17:05
+"Stowmarket, Cinema",390040598,52.18547,0.99887,16:37,17:07
+"Stowmarket, Argos Store",390040596,52.18741,0.99581,16:40,17:10
+"Stowmarket, Recreation Ground",390040607,52.18843,0.98922,16:43,17:13
+"Stowmarket, Mallard Way",390040619,52.19123,0.97611,16:45,17:15
+"Stowmarket, Kipling Way",390040628,52.19712,0.98075,16:48,17:18
+"Stowmarket, Allotments",390040634,52.19779,0.98877,16:50,17:20
+"Stowmarket, Violet Hill Road",390040638,52.19567,0.99183,16:51,17:21
+
+

@@ -1,0 +1,40 @@
+MF
+Ipswich > Chantry > Gippeswyk Park
+Route,NaPTAN,Latitude,Longitude,14,14,14,14,14,14
+Codes,,,,,,,,,
+"Ipswich, Tower Ramparts Bus Station",390030270,52.05938,1.15478,09:30,10:30,11:30,12:30,13:30,14:30
+"Ipswich, Railway Station",390030162,52.05108,1.14366,09:37,10:37,11:37,12:37,13:37,14:37
+"Chantry, Tern Road",390030290,52.04298,1.12201,09:42,10:42,11:42,12:42,13:42,14:42
+"Chantry, Thistle Close",390030346,52.04968,1.13115,09:46,10:46,11:46,12:46,13:46,14:46
+"Gippeswyk Park, Lupin Road",390030351,52.05252,1.13021,09:48,10:48,11:48,12:48,13:48,14:48
+
+Gippeswyk Park > Chantry > Ipswich
+Route,NaPTAN,Latitude,Longitude,14,14,14,14,14,14
+Codes,,,,,,,,,
+"Gippeswyk Park, Lupin Road",390030351,52.05252,1.13021,09:49,10:49,11:49,12:49,13:49,14:49
+"Chantry, Tern Road",390030289,52.04303,1.12215,09:53,10:53,11:53,12:53,13:53,14:53
+"Ipswich, Railway Station",390030163,52.05112,1.14386,09:59,10:59,11:59,12:59,13:59,14:59
+"Ipswich, Revolution",390030256,52.05599,1.15471,10:05,11:05,12:05,13:05,14:05,15:05
+"Ipswich, Tower Ramparts Bus Station",390030270,52.05938,1.15478,10:09,11:09,12:09,13:09,14:09,15:09
+
+
+SA
+Ipswich > Chantry > Gippeswyk Park
+Route,NaPTAN,Latitude,Longitude,14,14,14,14,14,14
+Codes,,,,,,,,,
+"Ipswich, Tower Ramparts Bus Station",390030270,52.05938,1.15478,09:30,10:30,11:30,12:30,13:30,14:30
+"Ipswich, Railway Station",390030162,52.05108,1.14366,09:37,10:37,11:37,12:37,13:37,14:37
+"Chantry, Tern Road",390030290,52.04298,1.12201,09:42,10:42,11:42,12:42,13:42,14:42
+"Chantry, Thistle Close",390030346,52.04968,1.13115,09:46,10:46,11:46,12:46,13:46,14:46
+"Gippeswyk Park, Lupin Road",390030351,52.05252,1.13021,09:48,10:48,11:48,12:48,13:48,14:48
+
+Gippeswyk Park > Chantry > Ipswich
+Route,NaPTAN,Latitude,Longitude,14,14,14,14,14,14
+Codes,,,,,,,,,
+"Gippeswyk Park, Lupin Road",390030351,52.05252,1.13021,09:49,10:49,11:49,12:49,13:49,14:49
+"Chantry, Tern Road",390030289,52.04303,1.12215,09:53,10:53,11:53,12:53,13:53,14:53
+"Ipswich, Railway Station",390030163,52.05112,1.14386,09:59,10:59,11:59,12:59,13:59,14:59
+"Ipswich, Revolution",390030256,52.05599,1.15471,10:05,11:05,12:05,13:05,14:05,15:05
+"Ipswich, Tower Ramparts Bus Station",390030270,52.05938,1.15478,10:09,11:09,12:09,13:09,14:09,15:09
+
+

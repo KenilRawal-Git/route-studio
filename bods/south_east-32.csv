@@ -1,0 +1,32 @@
+MF
+Broxbourne > Nazeing > Staple Tye > Harlow Town Centre
+Route,NaPTAN,Latitude,Longitude,32A,32,32
+Codes,,,,,,
+"Broxbourne, Broxbourne Railway Station",210021701320,51.746556,-0.011493,–,17:58,20:28
+"Hoddesdon, John Warner School",210021785010,51.774364,-0.003212,15:20,–,–
+"Hoddesdon, Clock Tower",210021702500,51.762039,-0.011422,15:26,–,–
+"Broxbourne, Station Road",210021702580,51.748217,-0.018823,15:32,–,–
+"Nazeing, Nazeing Crossroads",1500IM338,51.735599,0.013603,15:40,18:03,20:32
+"Bumbles Green, King Harold's Head",150022002001,51.726769,0.042706,15:45,18:07,20:36
+"Staple Tye, BP Garage",1500IM1222B,51.753675,0.089242,–,18:15,20:44
+"Harlow Town Centre, Temp Bus Station",15003503100B,51.772201,0.09417,–,18:23,20:50
+"Broadley Common, Ada Cole Stables",1500IM909AA,51.746729,0.059919,15:48,–,–
+"Roydon, Telephone Exchange",1500IM334,51.769,0.038424,15:55,–,–
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,16:05,–,–
+
+Harlow Town Centre > Broadley Common > Nazeing > Broxbourne
+Route,NaPTAN,Latitude,Longitude,32,32,32A
+Codes,,,,,,SCH
+"Harlow Town Centre, Temp Bus Station",15003503100B,51.772201,0.09417,05:55,07:00,–
+"Staple Tye, BP Garage",1500IM1222,51.753411,0.088375,05:59,07:07,–
+"Harlow Town Centre, Temp Bus Station",15003503100G,51.772216,0.093867,–,–,07:35
+"Roydon, Telephone Exchange",150035024001,51.7694,0.039196,–,–,07:47
+"Broadley Common, Ada Cole Stables",1500IM909,51.746781,0.060008,06:02,07:12,07:52
+"Bumbles Green, King Harold's Head",1500220020Y1,51.726731,0.042806,06:06,07:16,07:56
+"Nazeing, Nazeing Crossroads",1500IM338B,51.73547,0.013249,06:10,07:20,08:00
+"Broxbourne, Broxbourne Railway Station",210021701320,51.746556,-0.011493,06:14,07:27,–
+"Broxbourne, Station Road",210021701360,51.747515,-0.019317,–,–,08:08
+"Hoddesdon, Clock Tower",210021701460,51.761793,-0.011722,–,–,08:15
+"Hoddesdon, John Warner School",210021761000,51.774899,-0.002971,–,–,08:22
+
+

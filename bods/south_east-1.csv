@@ -1,0 +1,36 @@
+MF
+Harlow Town Centre > Sumners > Passmores
+Route,NaPTAN,Latitude,Longitude,1,1,1,1
+Codes,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,19:18,19:48,20:18,21:18
+"Passmores, Kingsland",150035041008,51.760054,0.088507,19:24,19:54,20:24,21:24
+"Sumners, Hull Grove",1500IM2465,51.746865,0.073629,19:30,20:00,20:30,21:30
+"Katherines, Tithelands",1500IM1433,51.755643,0.070482,19:33,20:03,20:33,21:33
+"Passmores, Kingsland",150035041007,51.759125,0.088696,19:40,20:10,20:40,21:40
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,19:46,20:16,20:46,21:46
+
+
+SA
+Harlow Town Centre > Sumners > Passmores
+Route,NaPTAN,Latitude,Longitude,1,1,1,1,1,1,1,1
+Codes,,,,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,18:20,19:18,19:48,20:18,20:48,21:18,21:48,22:18
+"Passmores, Kingsland",150035041008,51.760054,0.088507,18:26,19:24,19:54,20:24,20:54,21:24,21:54,22:24
+"Sumners, Hull Grove",1500IM2465,51.746865,0.073629,18:33,19:30,20:00,20:30,21:00,21:30,22:00,22:30
+"Katherines, Tithelands",1500IM1433,51.755643,0.070482,18:36,19:33,20:03,20:33,21:03,21:33,22:03,22:33
+"Passmores, Kingsland",150035041007,51.759125,0.088696,18:43,19:40,20:10,20:40,21:10,21:40,22:10,22:40
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,18:49,19:46,20:16,20:46,21:16,21:46,22:16,22:46
+
+
+SU
+Harlow Town Centre > Sumners > Passmores
+Route,NaPTAN,Latitude,Longitude,1,1,1,1,1
+Codes,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,10:10,12:10,14:10,16:10,18:10
+"Passmores, Kingsland",150035041008,51.760054,0.088507,10:17,12:17,14:17,16:17,18:17
+"Sumners, Hull Grove",1500IM2465,51.746865,0.073629,10:24,12:24,14:24,16:24,18:24
+"Katherines, Tithelands",1500IM1433,51.755643,0.070482,10:28,12:28,14:28,16:28,18:28
+"Passmores, Kingsland",150035041007,51.759125,0.088696,10:35,12:35,14:35,16:35,18:35
+"Harlow Town Centre, Temp Bus Station",15003503100C,51.772242,0.09439,10:42,12:42,14:42,16:42,18:42
+
+

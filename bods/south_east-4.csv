@@ -1,0 +1,39 @@
+MF
+Harlow > Bush Fair
+Route,NaPTAN,Latitude,Longitude,4,4
+Codes,,,,,
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,–,21:30
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,20:37,21:37
+"Bush Fair, Bush Fair Centre",1500IM1412B,51.757278,0.11152,20:44,21:44
+"Latton Bush, Rundells Flats",1500IM1413,51.749702,0.116237,20:47,21:47
+"Bush Fair, Bush Fair Centre",1500IM1412,51.756605,0.111952,20:54,21:54
+"Harlow Town Centre, Temp Bus Station",15003503100H,51.772174,0.093676,21:02,22:02
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,21:07,22:07
+
+
+SA
+Harlow > Bush Fair
+Route,NaPTAN,Latitude,Longitude,4,4,4
+Codes,,,,,,
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,–,21:30,22:30
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,20:37,21:37,22:37
+"Bush Fair, Bush Fair Centre",1500IM1412B,51.757278,0.11152,20:44,21:44,22:44
+"Latton Bush, Rundells Flats",1500IM1413,51.749702,0.116237,20:47,21:47,22:47
+"Bush Fair, Bush Fair Centre",1500IM1412,51.756605,0.111952,20:54,21:54,22:54
+"Harlow Town Centre, Temp Bus Station",15003503100H,51.772174,0.093676,21:02,22:02,23:02
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,21:07,22:07,23:07
+
+
+SU
+Harlow > Bush Fair
+Route,NaPTAN,Latitude,Longitude,4,4,4,4,4,4,4,4,4,4,4
+Codes,,,,,,,,,,,,,,
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,08:30,09:30,10:30,11:30,12:30,13:30,14:30,15:30,16:30,17:30,18:30
+"Harlow Town Centre, Temp Bus Station",15003503100A,51.77216,0.093965,08:35,09:35,10:35,11:35,12:35,13:35,14:35,15:35,16:35,17:35,18:35
+"Bush Fair, Bush Fair Centre",1500IM1412B,51.757278,0.11152,08:45,09:45,10:45,11:45,12:45,13:45,14:45,15:45,16:45,17:45,18:45
+"Latton Bush, Rundells Flats",1500IM1413,51.749702,0.116237,08:48,09:48,10:48,11:48,12:48,13:48,14:48,15:48,16:48,17:48,18:48
+"Bush Fair, Bush Fair Centre",1500IM1412,51.756605,0.111952,08:53,09:53,10:53,11:53,12:53,13:53,14:53,15:53,16:53,17:53,18:53
+"Harlow Town Centre, Temp Bus Station",15003503100H,51.772174,0.093676,09:02,10:02,11:02,12:02,13:02,14:02,15:02,16:02,17:02,18:02,19:02
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,09:07,10:07,11:07,12:07,13:07,14:07,15:07,16:07,17:07,18:07,19:07
+
+

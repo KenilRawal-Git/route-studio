@@ -1,0 +1,36 @@
+MF
+Pulham Market > Rushall > Thelveton > Diss
+Route,NaPTAN,Latitude,Longitude,84,84,84
+Codes,,,,,,
+"Long Stratton, The Plain",2900L155,52.488749,1.235189,07:35,–,–
+"Pulham Market, Tattlepot Road",2900P123,52.431785,1.224906,07:45,09:20,13:30
+"Pulham Market, The Falcon",2900P121,52.429882,1.230387,07:46,09:21,13:31
+"Pulham St Mary, Kings Head",2900P137,52.42095,1.248798,07:49,09:24,13:34
+"Rushall, The Half Moon",2900D065,52.398593,1.230702,07:56,09:31,13:41
+"Dickleburgh, church",2900D066,52.396934,1.185474,07:59,09:34,13:44
+"Thelveton, Norwich Road",2900S087,52.383834,1.175344,08:03,09:38,13:48
+"Scole, turning",2900S0815,52.367364,1.162026,08:08,09:43,13:53
+"Scole, Karen Close",2900S0810,52.365845,1.153925,08:11,09:46,13:56
+"Diss, Willbye Avenue",2900D1636,52.379132,1.112783,08:21,09:56,14:06
+"Diss, high school",2900D1614,52.380272,1.114553,08:22,–,–
+"Diss, Weavers Court",2900D1617,52.378164,1.109585,08:23,09:58,14:08
+"Diss, Roydon Road",2900D1611,52.377244,1.106258,08:25,09:59,14:09
+"Diss, Bus Station",2900D162,52.373792,1.106529,08:30,10:00,14:12
+
+Diss > Thelveton > Rushall > Pulham Market
+Route,NaPTAN,Latitude,Longitude,84,84
+Codes,,,,,
+"Diss, Bus Station",2900D162,52.373792,1.106529,12:00,15:20
+"Diss, high school",2900D1614,52.380272,1.114553,–,15:25
+"Diss, Roydon Road",2900D1631,52.377255,1.10617,12:04,–
+"Diss, Weavers Court",2900D1646,52.378927,1.109991,12:05,–
+"Scole, Karen Close",2900S082,52.366007,1.153584,12:17,15:37
+"Scole, turning",2900S0815,52.367364,1.162026,12:20,15:40
+"Thelveton, Norwich Road",2900S0812,52.383655,1.174949,12:25,15:45
+"Dickleburgh, church",2900D061,52.396887,1.185235,12:28,15:48
+"Rushall, The Half Moon",2900D067,52.398723,1.230873,12:32,15:52
+"Pulham St Mary, Station Road",2900P131,52.421213,1.248685,12:38,15:58
+"Pulham Market, The Falcon",2900P125,52.429834,1.230148,12:40,16:00
+"Pulham Market, Tattlepot Road",2900P122,52.431702,1.224973,12:42,16:02
+
+

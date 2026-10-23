@@ -1,0 +1,35 @@
+MF
+Hoddesdon > Gilston > Spellbrook > Bishops Stortford
+Route,NaPTAN,Latitude,Longitude,33,33,33,33,33A,33A
+Codes,,,,,,,,,
+"Harlow Town Centre, Temp Bus Station",15003503100F,51.772248,0.094057,–,–,–,–,17:45,18:45
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,–,–,–,–,17:50,18:50
+"Hoddesdon, Sainsbury's",210021702530,51.760945,-0.008905,07:35,10:35,12:35,14:35,–,–
+"Hoddesdon, Clock Tower",210021701460,51.761793,-0.011722,07:36,10:36,12:36,14:36,–,–
+"St Margarets, St Margaret's Railway Station",210021303460,51.787807,0.001543,07:44,10:44,12:44,14:44,–,–
+"Stanstead Abbotts, Abbotts Rise",210021303500,51.787011,0.011295,07:46,10:46,12:46,14:46,–,–
+"Gilston, Plume of Feathers PH",210021303610,51.79037,0.099464,07:53,10:53,12:53,14:53,17:53,18:53
+"High Wych, The Rising Sun PH",210021304600,51.80733,0.123026,07:57,10:57,12:57,14:57,17:57,18:57
+"Sawbridgeworth, White Lion PH",210021304620,51.812504,0.147063,08:02,11:02,13:02,15:02,18:02,19:02
+"Spellbrook, Spellbrook Lane",210021304670,51.839266,0.156886,08:10,11:10,13:10,15:10,18:10,19:10
+"Thorley Park, High School",210021303290,51.847447,0.154548,08:13,11:13,13:13,15:13,18:13,19:13
+"Bishops Stortford, Interchange",210021307430,51.867132,0.16432,08:35,11:25,13:25,15:25,18:25,19:25
+
+Bishops Stortford > Sawbridgeworth > Stanstead Abbotts > Hoddesdon
+Route,NaPTAN,Latitude,Longitude,33A,33A,33,33,33,33
+Codes,,,,,,,,,
+"Bishops Stortford, Interchange",210021307430,51.867132,0.16432,06:15,07:15,09:45,11:45,13:45,15:35
+"Bishops Stortford, Holy Trinity Church",210021307500,51.867295,0.160812,06:17,07:17,09:47,11:47,13:47,15:37
+"Thorley Park, High School",210021303010,51.84739,0.154734,06:24,07:24,09:54,11:54,13:54,15:44
+"Spellbrook, Spellbrook Lane",210021308000,51.837859,0.156616,06:28,07:28,09:58,11:58,13:58,15:50
+"Sawbridgeworth, White Lion PH",210021308080,51.813277,0.147622,06:36,07:36,10:06,12:06,14:06,15:58
+"High Wych, The Rising Sun PH",210021303615,51.806497,0.121841,06:40,07:40,10:10,12:10,14:10,16:02
+"Gilston, Vine Grove",210021303617,51.790825,0.100717,06:43,07:43,10:13,12:13,14:13,16:05
+"Harlow, Town Railway Station",150035027003,51.780768,0.094871,06:48,07:48,–,–,–,–
+"Harlow Town Centre, Temp Bus Station",15003503100B,51.772201,0.09417,06:53,07:53,–,–,–,–
+"Stanstead Abbotts, Abbotts Rise",210021309320,51.787218,0.010797,–,–,10:21,12:21,14:21,16:17
+"St Margarets, St Margaret's Railway Station",210021309360,51.78777,0.002165,–,–,10:23,12:23,14:23,16:19
+"Hoddesdon, Clock Tower",210021702500,51.762039,-0.011422,–,–,10:31,12:31,14:31,16:31
+"Hoddesdon, Sainsbury's",210021702510,51.761132,-0.008839,–,–,10:33,12:33,14:33,16:33
+
+

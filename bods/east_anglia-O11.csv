@@ -1,0 +1,37 @@
+MF
+Little Stonham > Stowupland > Little Blakenham > Chantry
+Route,NaPTAN,Latitude,Longitude,O11
+Codes,,,,SCH
+"Little Stonham, Brewery Farm",390040794,52.19061,1.09659,08:01
+"Earl Stonham, Church",390040488,52.18691,1.08154,08:02
+"Forward Green, Primrose Cottage",390040790,52.19717,1.0687,08:05
+"Stowupland, Devon Road",390040568,52.19613,1.01463,08:11
+"Stowupland, The Retreat",390040573,52.19953,1.02101,08:13
+"Cedars Park, Sandpiper Road",390041113,52.1937,1.01062,08:15
+"Cedars Park, Guillemot Close",390041110,52.18997,1.00956,08:18
+"Cedars Park, Woodpecker Close",390041105,52.18447,1.01424,08:20
+"Claydon, Chapel Lane",390040355,52.10881,1.10415,08:37
+"Little Blakenham, Pound Lane",390040368,52.09649,1.09377,08:40
+"Bramford, Cemetery",390040867,52.08087,1.09281,08:43
+"Bramford, Co-Op",390040308,52.07606,1.0973,08:46
+"Sproughton, Wild Man",390010661,52.06283,1.09508,08:50
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Little Blakenham > Stowupland > Little Stonham
+Route,NaPTAN,Latitude,Longitude,O11,O11
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Sproughton, Beagle",390010587,52.05121,1.09608,16:05,16:35
+"Sproughton, Wild Man",390010660,52.0628,1.09484,16:10,16:40
+"Bramford, Cemetery",390040866,52.08088,1.09254,16:17,16:47
+"Little Blakenham, Pound Lane",390040369,52.09643,1.09355,16:20,16:50
+"Claydon, Chapel Lane",390040354,52.10863,1.10403,16:23,16:53
+"Cedars Park, Woodpecker Close",390041106,52.18446,1.01381,16:40,17:10
+"Cedars Park, Guillemot Close",390041109,52.19011,1.00966,16:42,17:12
+"Cedars Park, Sandpiper Road",390041114,52.19371,1.01015,16:45,17:15
+"Stowupland, The Retreat",390040573,52.19953,1.02101,16:49,17:19
+"Forward Green, Primrose Cottage",390040791,52.19723,1.0686,16:55,17:25
+"Earl Stonham, Church",390040487,52.18701,1.08156,16:58,17:28
+"Little Stonham, Brewery Farm",390040476,52.19077,1.09647,16:59,17:29
+
+

@@ -1,0 +1,25 @@
+MF
+Old Felixstowe > Walton > Trimley St Martin > Chantry
+Route,NaPTAN,Latitude,Longitude,O12
+Codes,,,,SCH
+"Old Felixstowe, Buttermere Green",390060796,51.97409,1.37362,08:15
+"Old Felixstowe, Beatrice Avenue",390061173,51.97142,1.35315,08:20
+"Walton, Cornwall Road",390060477,51.96812,1.34517,08:23
+"Walton, The Half Moon",390060471,51.97313,1.33695,08:25
+"Trimley St Mary, Faulkeners Way",390060467,51.97722,1.32447,08:28
+"Trimley St Mary, Park View",390060465,51.98167,1.31661,08:31
+"Trimley St Martin, Bus Shelter",390060422,51.98864,1.31245,08:32
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Trimley St Martin > Walton > Old Felixstowe
+Route,NaPTAN,Latitude,Longitude,O12,O12
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Trimley St Martin, Bus Shelter",390060421,51.98839,1.31231,16:30,17:00
+"Trimley St Mary, Faulkeners Way",390060468,51.97732,1.32455,16:36,17:06
+"Walton, The Half Moon",390060472,51.97331,1.33676,16:38,17:08
+"Walton, Cornwall Road",390060478,51.96823,1.34522,16:39,17:09
+"Old Felixstowe, Beatrice Avenue",390061172,51.97151,1.35228,16:42,17:12
+"Old Felixstowe, Buttermere Green",390060797,51.97419,1.37396,16:47,17:17
+
+

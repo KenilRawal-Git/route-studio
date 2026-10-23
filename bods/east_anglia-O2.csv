@@ -1,0 +1,28 @@
+MF
+Felixstowe > Grange Farm > Chantry
+Route,NaPTAN,Latitude,Longitude,O2
+Codes,,,,SCH
+"Felixstowe, St Edmunds Road",390060761,51.9547,1.3379,08:10
+"Grange Farm, Melford Way",390060837,51.95977,1.32705,08:17
+"Grange Farm, Morrisons",390060844,51.96623,1.32654,08:19
+"Grange Farm, Crossgate Field",390060847,51.9677,1.33256,08:21
+"Grange Farm, Grange Road School",390060851,51.96426,1.33175,08:23
+"Felixstowe, Surrey Road",390060828,51.9626,1.34171,08:26
+"Felixstowe, Cinema",390060818,51.96417,1.35137,08:28
+"Felixstowe, Great Eastern Square",390060815,51.96699,1.35277,08:30
+"Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
+
+Chantry > Felixstowe > Grange Farm
+Route,NaPTAN,Latitude,Longitude,O2,O2
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Felixstowe, Great Eastern Square",390060816,51.96699,1.35301,16:30,17:00
+"Felixstowe, Conkers",390060817,51.96479,1.35219,16:32,17:02
+"Felixstowe, Surrey Road",390060827,51.96246,1.34232,16:34,17:04
+"Grange Farm, Melford Way",390060837,51.95977,1.32705,16:37,17:07
+"Grange Farm, Morrisons",390060844,51.96623,1.32654,16:39,17:09
+"Grange Farm, Crossgate Field",390060847,51.9677,1.33256,16:41,17:11
+"Grange Farm, Grange Road School",390060851,51.96426,1.33175,16:43,17:13
+"Felixstowe, St Edmunds Road",390060762,51.95449,1.33788,16:47,17:17
+
+

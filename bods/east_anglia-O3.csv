@@ -1,0 +1,36 @@
+MF
+Debenham > Pettaugh > Barham > Chantry
+Route,NaPTAN,Latitude,Longitude,O3
+Codes,,,,SCH
+"Debenham, Henniker Road",390040017,52.22518,1.17717,07:50
+"Debenham, Resource Centre",390040007,52.22297,1.1829,07:52
+"Debenham, Sackvylle Street",390041153,52.22388,1.17462,07:56
+"Stonham Aspal, Ten Bells",390040479,52.19229,1.12103,08:05
+"Stonham Aspal, Stonham Barns",390040478,52.18984,1.13837,08:07
+"Pettaugh, Old Mission Hall",390040781,52.19073,1.1678,08:09
+"Crowfield, Tollgate Farm",390040844,52.17839,1.15323,08:11
+"Crowfield, Manor View",390040463,52.1727,1.14593,08:13
+"Coddenham, Green Hill",390040846,52.15209,1.12124,08:18
+"Coddenham, Village Store",390040469,52.14564,1.1171,08:20
+"Barham, Sturgeon Way",390040335,52.11893,1.105,08:27
+"Claydon, Tollgate Court",390040349,52.10823,1.11069,08:30
+"Chantry, Suffolk One",390031055,52.04453,1.10675,08:50
+
+Chantry > Barham > Pettaugh > Debenham
+Route,NaPTAN,Latitude,Longitude,O3,O3
+Codes,,,,WEFR SCH,MOTUTH SCH
+"Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
+"Claydon, Tollgate Court",390040350,52.10817,1.11056,16:20,16:50
+"Barham, Sturgeon Way",390040336,52.11889,1.10485,16:23,16:53
+"Coddenham, Village Store",390040852,52.14581,1.11687,16:30,17:00
+"Coddenham, Green Hill",390040847,52.1521,1.12114,16:32,17:02
+"Crowfield, Manor View",390040464,52.17276,1.14583,16:37,17:07
+"Crowfield, Tollgate Farm",390040845,52.17842,1.15316,16:39,17:09
+"Pettaugh, Old Mission Hall",390040782,52.19072,1.16764,16:41,17:11
+"Stonham Aspal, Stonham Barns",390040477,52.18972,1.13842,16:43,17:12
+"Stonham Aspal, Ten Bells",390040480,52.19223,1.12095,16:45,17:15
+"Debenham, Henniker Road",390040017,52.22518,1.17717,16:54,17:24
+"Debenham, Resource Centre",390040007,52.22297,1.1829,16:56,17:26
+"Debenham, Sackvylle Street",390041153,52.22388,1.17462,17:00,17:30
+
+

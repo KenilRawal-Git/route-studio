@@ -1,0 +1,24 @@
+MF
+Debden > Buckhurst Hill > Chingford Mount > Highams Park
+Route,NaPTAN,Latitude,Longitude,397A
+Codes,,,,
+"Debden, The Broadway",1500IM1055,51.646932,0.082205,20:15
+"Loughton, Loughton Library",1500IM2417,51.649254,0.059168,20:20
+"Loughton, Loughton Station",150042015006,51.642145,0.054843,20:23
+"Buckhurst Hill, Stag Lane",1500IM2419,51.626009,0.032282,20:29
+"Chingford Green, Station Road / Chingford Station",490012617E,51.63303,0.00865,20:37
+"Chingford Mount, Hall Lane Chingford Mount",490007676J,51.61663,-0.01735,20:50
+"Highams Park, Salisbury Hall Sainsbury's",490011866N2,51.60324,-0.02007,20:56
+
+Highams Park > Chingford > Loughton > Debden
+Route,NaPTAN,Latitude,Longitude,397A
+Codes,,,,
+"Highams Park, Salisbury Hall Sainsbury's",490011866N2,51.60324,-0.02007,21:15
+"Chingford Mount, Chingford Mount",490005180E,51.61732,-0.01761,21:21
+"Chingford, Chingford Station",490001063F,51.63374,0.0101,21:34
+"Buckhurst Hill, Stag Lane",1500IM2419B,51.625266,0.031556,21:41
+"Loughton, Loughton Station",150042015007,51.642319,0.054663,21:46
+"Loughton, Loughton Library",150042012001,51.649419,0.058482,21:49
+"Debden, The Broadway",1500IM1055,51.646932,0.082205,21:55
+
+

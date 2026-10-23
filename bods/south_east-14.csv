@@ -1,0 +1,22 @@
+MF
+Waltham Cross > Waltham Abbey
+Route,NaPTAN,Latitude,Longitude,14,14
+Codes,,,,,
+"Waltham Cross, Bus Station",210021703430,51.685514,-0.031125,07:50,20:25
+"Waltham Abbey, Highbridge Rdbt",150022013002,51.687491,-0.006516,07:57,20:31
+"Waltham Abbey, Quaker Lane",150022013005,51.686155,-0.001468,07:59,20:33
+"Waltham Abbey, Parklands",1500IM391B,51.691259,0.003474,08:02,20:35
+"Waltham Abbey, The Queens Head",150022020004,51.691074,0.020567,08:03,20:36
+"Waltham Abbey, Princesfield Rd",1500IM397,51.688943,0.031497,08:05,20:38
+
+Waltham Abbey > Waltham Cross
+Route,NaPTAN,Latitude,Longitude,14,14
+Codes,,,,,
+"Waltham Abbey, Princesfield Rd",1500IM397,51.688943,0.031497,15:22,20:40
+"Waltham Abbey, Paternoster House",150022020003,51.690921,0.02166,15:23,20:41
+"Waltham Abbey, Parklands",1500IM391,51.690437,0.002656,15:25,20:42
+"Waltham Abbey, Quaker Lane",1500220130Y5,51.685957,-0.000406,15:28,20:44
+"Waltham Abbey, Market Square",1500IM392,51.686598,-0.003763,15:29,20:45
+"Waltham Cross, Bus Station",210021703430,51.685514,-0.031125,15:38,20:53
+
+

@@ -1,0 +1,1297 @@
+{
+ "operator": "Central Connect",
+ "source": "Bus Open Data Service (BODS) GTFS",
+ "regions": [
+  "East Anglia",
+  "South East",
+  "East Midlands"
+ ],
+ "codes": {
+  "SCH": "Schooldays only",
+  "SH": "School holidays only",
+  "FO": "Fridays only",
+  "MOTUTH": "Mondays, Tuesdays and Thursdays only",
+  "WEFR": "Wednesdays and Fridays only",
+  "WO": "Wednesdays only"
+ },
+ "groups": [
+  {
+   "id": "east_anglia-1",
+   "region": "East Anglia",
+   "routes": [
+    "1",
+    "1A"
+   ],
+   "name": "Norwich City Centre > Newton Flotman > Aslacton > Diss",
+   "file": "east_anglia-1.csv",
+   "journeys": 17,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-14",
+   "region": "East Anglia",
+   "routes": [
+    "14"
+   ],
+   "name": "Ipswich > Chantry > Gippeswyk Park",
+   "file": "east_anglia-14.csv",
+   "journeys": 24,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-23",
+   "region": "East Anglia",
+   "routes": [
+    "23"
+   ],
+   "name": "Peterborough > Orton Longueville > Lynch Wood > Yaxley",
+   "file": "east_anglia-23.csv",
+   "journeys": 6,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-24",
+   "region": "East Anglia",
+   "routes": [
+    "24"
+   ],
+   "name": "Peterborough > Orton Longueville > Lynch Wood > Yaxley",
+   "file": "east_anglia-24.csv",
+   "journeys": 80,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "east_anglia-25",
+   "region": "East Anglia",
+   "routes": [
+    "25"
+   ],
+   "name": "Peterborough > Woodston > Orton Waterville > Yaxley",
+   "file": "east_anglia-25.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "east_anglia-26",
+   "region": "East Anglia",
+   "routes": [
+    "26",
+    "26A"
+   ],
+   "name": "Peterborough > Yaxley > Hampton",
+   "file": "east_anglia-26.csv",
+   "journeys": 48,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-70",
+   "region": "East Anglia",
+   "routes": [
+    "70",
+    "70A"
+   ],
+   "name": "Diss > Botesdale > Stanton > Bury St Edmunds",
+   "file": "east_anglia-70.csv",
+   "journeys": 39,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-72",
+   "region": "East Anglia",
+   "routes": [
+    "72"
+   ],
+   "name": "Gislingham > Thornham Magna > Brome > Diss",
+   "file": "east_anglia-72.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-73",
+   "region": "East Anglia",
+   "routes": [
+    "73",
+    "73A"
+   ],
+   "name": "Garboldisham > Bardwell > Hunston > Bury St Edmunds",
+   "file": "east_anglia-73.csv",
+   "journeys": 7,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-74",
+   "region": "East Anglia",
+   "routes": [
+    "74",
+    "74A"
+   ],
+   "name": "Ipswich > Little Stonham > Thwaite > Eye",
+   "file": "east_anglia-74.csv",
+   "journeys": 30,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-75",
+   "region": "East Anglia",
+   "routes": [
+    "75",
+    "75A"
+   ],
+   "name": "Diss > Brome > Eye",
+   "file": "east_anglia-75.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-81",
+   "region": "East Anglia",
+   "routes": [
+    "81"
+   ],
+   "name": "Harleston > Brockdish > Scole > Diss",
+   "file": "east_anglia-81.csv",
+   "journeys": 42,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-82",
+   "region": "East Anglia",
+   "routes": [
+    "82",
+    "82A",
+    "82C"
+   ],
+   "name": "Norwich City Centre > Upper Tasburgh > Thelveton > Roydon",
+   "file": "east_anglia-82.csv",
+   "journeys": 73,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "east_anglia-83",
+   "region": "East Anglia",
+   "routes": [
+    "83"
+   ],
+   "name": "Diss > Roydon > Bressingham",
+   "file": "east_anglia-83.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-84",
+   "region": "East Anglia",
+   "routes": [
+    "84"
+   ],
+   "name": "Pulham Market > Rushall > Thelveton > Diss",
+   "file": "east_anglia-84.csv",
+   "journeys": 5,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-100",
+   "region": "East Anglia",
+   "routes": [
+    "100"
+   ],
+   "name": "Cambridge > Fen Ditton > Waterbeach > Landbeach",
+   "file": "east_anglia-100.csv",
+   "journeys": 146,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "east_anglia-371",
+   "region": "East Anglia",
+   "routes": [
+    "371"
+   ],
+   "name": "Larling > Kenninghall > Winfarthing > Diss",
+   "file": "east_anglia-371.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-482",
+   "region": "East Anglia",
+   "routes": [
+    "482"
+   ],
+   "name": "Diss > Stradbroke > Badingham > Framlingham",
+   "file": "east_anglia-482.csv",
+   "journeys": 18,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "east_anglia-B3",
+   "region": "East Anglia",
+   "routes": [
+    "B3"
+   ],
+   "name": "Occold > Diss > Botesdale > Bury St Edmunds",
+   "file": "east_anglia-B3.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-B7",
+   "region": "East Anglia",
+   "routes": [
+    "B7"
+   ],
+   "name": "Rishangles > Little Stonham > Stowupland > Bury St Edmunds",
+   "file": "east_anglia-B7.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O1",
+   "region": "East Anglia",
+   "routes": [
+    "O1"
+   ],
+   "name": "Stowmarket > Badley > Baylham > Chantry",
+   "file": "east_anglia-O1.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O2",
+   "region": "East Anglia",
+   "routes": [
+    "O2"
+   ],
+   "name": "Felixstowe > Grange Farm > Chantry",
+   "file": "east_anglia-O2.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O3",
+   "region": "East Anglia",
+   "routes": [
+    "O3"
+   ],
+   "name": "Debenham > Pettaugh > Barham > Chantry",
+   "file": "east_anglia-O3.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O5",
+   "region": "East Anglia",
+   "routes": [
+    "O5"
+   ],
+   "name": "Leiston > Saxmundham > Wickham Market > Chantry",
+   "file": "east_anglia-O5.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O7",
+   "region": "East Anglia",
+   "routes": [
+    "O7"
+   ],
+   "name": "Melton > Martlesham Heath > Racecourse > Chantry",
+   "file": "east_anglia-O7.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O11",
+   "region": "East Anglia",
+   "routes": [
+    "O11"
+   ],
+   "name": "Little Stonham > Stowupland > Little Blakenham > Chantry",
+   "file": "east_anglia-O11.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-O12",
+   "region": "East Anglia",
+   "routes": [
+    "O12"
+   ],
+   "name": "Old Felixstowe > Walton > Trimley St Martin > Chantry",
+   "file": "east_anglia-O12.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_anglia-PR2",
+   "region": "East Anglia",
+   "routes": [
+    "PR2"
+   ],
+   "name": "Norwich > Norwich City Centre > Norwich City College > Harford",
+   "file": "east_anglia-PR2.csv",
+   "journeys": 88,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "east_anglia-PR3",
+   "region": "East Anglia",
+   "routes": [
+    "PR3"
+   ],
+   "name": "Postwick > Norwich > Norwich City College > Harford",
+   "file": "east_anglia-PR3.csv",
+   "journeys": 113,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-1",
+   "region": "South East",
+   "routes": [
+    "1"
+   ],
+   "name": "Harlow Town Centre > Sumners > Passmores",
+   "file": "south_east-1.csv",
+   "journeys": 17,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-2",
+   "region": "South East",
+   "routes": [
+    "2"
+   ],
+   "name": "Harlow > Great Parndon > Passmores",
+   "file": "south_east-2.csv",
+   "journeys": 24,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-3",
+   "region": "South East",
+   "routes": [
+    "3"
+   ],
+   "name": "Harlow > Passmores > Great Parndon",
+   "file": "south_east-3.csv",
+   "journeys": 2,
+   "days": [
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-4",
+   "region": "South East",
+   "routes": [
+    "4"
+   ],
+   "name": "Harlow > Bush Fair",
+   "file": "south_east-4.csv",
+   "journeys": 16,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-5",
+   "region": "South East",
+   "routes": [
+    "5"
+   ],
+   "name": "Harlow Town Centre > Great Parndon > Sumners Farm",
+   "file": "south_east-5.csv",
+   "journeys": 106,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-7",
+   "region": "South East",
+   "routes": [
+    "7",
+    "7A"
+   ],
+   "name": "Bishops Stortford > Stansted Mountfitchet > Elsenham > Stansted Airport",
+   "file": "south_east-7.csv",
+   "journeys": 41,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-8",
+   "region": "South East",
+   "routes": [
+    "8",
+    "8A"
+   ],
+   "name": "Rettendon > Runwell > Wickford",
+   "file": "south_east-8.csv",
+   "journeys": 15,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-10",
+   "region": "South East",
+   "routes": [
+    "10",
+    "10A"
+   ],
+   "name": "Wickford > Ramsden Heath > Noak Bridge > Basildon",
+   "file": "south_east-10.csv",
+   "journeys": 38,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-13",
+   "region": "South East",
+   "routes": [
+    "13",
+    "13A",
+    "13B",
+    "13C"
+   ],
+   "name": "Waltham Cross > Waltham Abbey > Epping > North Weald",
+   "file": "south_east-13.csv",
+   "journeys": 84,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-14",
+   "region": "South East",
+   "routes": [
+    "14"
+   ],
+   "name": "Waltham Cross > Waltham Abbey",
+   "file": "south_east-14.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-15",
+   "region": "South East",
+   "routes": [
+    "15",
+    "15A"
+   ],
+   "name": "Waltham Cross > Nazeing > Staple Tye > Harlow Town Centre",
+   "file": "south_east-15.csv",
+   "journeys": 52,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-16",
+   "region": "South East",
+   "routes": [
+    "16",
+    "16C"
+   ],
+   "name": "Waltham Cross > Waltham Abbey",
+   "file": "south_east-16.csv",
+   "journeys": 60,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-18",
+   "region": "South East",
+   "routes": [
+    "18",
+    "18C"
+   ],
+   "name": "North Weald > Ivy Chimneys > Abridge > Loughton",
+   "file": "south_east-18.csv",
+   "journeys": 63,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-19",
+   "region": "South East",
+   "routes": [
+    "19",
+    "19A"
+   ],
+   "name": "North Weald > Theydon Bois > Stanford Rivers > High Ongar",
+   "file": "south_east-19.csv",
+   "journeys": 8,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-20",
+   "region": "South East",
+   "routes": [
+    "20"
+   ],
+   "name": "Harlow Town Centre > Potter Street > Epping > Ongar",
+   "file": "south_east-20.csv",
+   "journeys": 129,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-21",
+   "region": "South East",
+   "routes": [
+    "21"
+   ],
+   "name": "Harlow Town Centre > Brays Grove > Thornwood Common > Epping",
+   "file": "south_east-21.csv",
+   "journeys": 70,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-22",
+   "region": "South East",
+   "routes": [
+    "22",
+    "22B"
+   ],
+   "name": "Harlow Town Centre > Potter Street > North Weald > Epping",
+   "file": "south_east-22.csv",
+   "journeys": 13,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-23",
+   "region": "South East",
+   "routes": [
+    "23"
+   ],
+   "name": "Harlow Town Centre > Church Langley",
+   "file": "south_east-23.csv",
+   "journeys": 96,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-24",
+   "region": "South East",
+   "routes": [
+    "24"
+   ],
+   "name": "Harlow Town Centre > Harlow",
+   "file": "south_east-24.csv",
+   "journeys": 40,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-25",
+   "region": "South East",
+   "routes": [
+    "25",
+    "25B",
+    "25C"
+   ],
+   "name": "Harlow Town Centre > St Margarets > Hoddesdon > Cheshunt",
+   "file": "south_east-25.csv",
+   "journeys": 59,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-26",
+   "region": "South East",
+   "routes": [
+    "26"
+   ],
+   "name": "Harlow Town Centre > Harlow > Little Parndon",
+   "file": "south_east-26.csv",
+   "journeys": 14,
+   "days": [
+    "MF",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-27",
+   "region": "South East",
+   "routes": [
+    "27"
+   ],
+   "name": "Mark Hall > Harlow Town Centre > Bush Fair > Old Harlow",
+   "file": "south_east-27.csv",
+   "journeys": 20,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-28",
+   "region": "South East",
+   "routes": [
+    "28"
+   ],
+   "name": "Harlow Town Centre > Mark Hall",
+   "file": "south_east-28.csv",
+   "journeys": 9,
+   "days": [
+    "MF",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-30",
+   "region": "South East",
+   "routes": [
+    "30"
+   ],
+   "name": "Coopersale > Epping",
+   "file": "south_east-30.csv",
+   "journeys": 16,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-31",
+   "region": "South East",
+   "routes": [
+    "31"
+   ],
+   "name": "Coopersale > Ivy Chimneys > Broadley Common > Harlow Town Centre",
+   "file": "south_east-31.csv",
+   "journeys": 23,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-32",
+   "region": "South East",
+   "routes": [
+    "32",
+    "32A"
+   ],
+   "name": "Broxbourne > Nazeing > Staple Tye > Harlow Town Centre",
+   "file": "south_east-32.csv",
+   "journeys": 6,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-33",
+   "region": "South East",
+   "routes": [
+    "33",
+    "33A"
+   ],
+   "name": "Hoddesdon > Gilston > Spellbrook > Bishops Stortford",
+   "file": "south_east-33.csv",
+   "journeys": 12,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-34",
+   "region": "South East",
+   "routes": [
+    "34"
+   ],
+   "name": "Bishops Stortford",
+   "file": "south_east-34.csv",
+   "journeys": 42,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-35",
+   "region": "South East",
+   "routes": [
+    "35",
+    "35B",
+    "35C"
+   ],
+   "name": "Bishops Stortford > Hadham Ford > Stanstead Abbotts > Hertford",
+   "file": "south_east-35.csv",
+   "journeys": 45,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-36",
+   "region": "South East",
+   "routes": [
+    "36",
+    "36A",
+    "36B"
+   ],
+   "name": "Bishops Stortford > Little Hadham > Puckeridge > Buntingford",
+   "file": "south_east-36.csv",
+   "journeys": 34,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-37",
+   "region": "South East",
+   "routes": [
+    "37",
+    "37X"
+   ],
+   "name": "Buntingford > Baldock > Hitchin > Stevenage",
+   "file": "south_east-37.csv",
+   "journeys": 26,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-38",
+   "region": "South East",
+   "routes": [
+    "38",
+    "38A"
+   ],
+   "name": "Hertford > Sacombe > Benington > Stevenage",
+   "file": "south_east-38.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-46",
+   "region": "South East",
+   "routes": [
+    "46"
+   ],
+   "name": "Ongar > Willingale > Writtle > Chelmsford City Centre",
+   "file": "south_east-46.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-60",
+   "region": "South East",
+   "routes": [
+    "60"
+   ],
+   "name": "Warley > Brentwood",
+   "file": "south_east-60.csv",
+   "journeys": 34,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-64",
+   "region": "South East",
+   "routes": [
+    "64"
+   ],
+   "name": "Ongar > Kelvedon Hatch > Brentwood > Warley",
+   "file": "south_east-64.csv",
+   "journeys": 11,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-242",
+   "region": "South East",
+   "routes": [
+    "242"
+   ],
+   "name": "Waltham Cross > Cheshunt > Potters Bar > Welham Green",
+   "file": "south_east-242.csv",
+   "journeys": 12,
+   "days": [
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-251",
+   "region": "South East",
+   "routes": [
+    "251"
+   ],
+   "name": "Rettendon > Crays Hill > Hutton > Warley",
+   "file": "south_east-251.csv",
+   "journeys": 16,
+   "days": [
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-306",
+   "region": "South East",
+   "routes": [
+    "306"
+   ],
+   "name": "Wicken Bonhunt > Berden > Parsonage Estate > Bishops Stortford",
+   "file": "south_east-306.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-331",
+   "region": "South East",
+   "routes": [
+    "331"
+   ],
+   "name": "Great Dunmow > Felsted > Great Notley > Braintree",
+   "file": "south_east-331.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-332",
+   "region": "South East",
+   "routes": [
+    "332"
+   ],
+   "name": "Stansted Airport > Great Dunmow > Felsted > Braintree Town Centre",
+   "file": "south_east-332.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-333",
+   "region": "South East",
+   "routes": [
+    "333"
+   ],
+   "name": "Stansted Airport > Great Dunmow > Felsted > Braintree Town Centre",
+   "file": "south_east-333.csv",
+   "journeys": 103,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-375",
+   "region": "South East",
+   "routes": [
+    "375"
+   ],
+   "name": "Horndon on the Hill > Stanford le Hope > West Tilbury > Grays",
+   "file": "south_east-375.csv",
+   "journeys": 22,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-397",
+   "region": "South East",
+   "routes": [
+    "397A"
+   ],
+   "name": "Debden > Buckhurst Hill > Chingford Mount > Highams Park",
+   "file": "south_east-397.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-407",
+   "region": "South East",
+   "routes": [
+    "407"
+   ],
+   "name": "Old Harlow > Harlow > Harlow Town Centre",
+   "file": "south_east-407.csv",
+   "journeys": 28,
+   "days": [
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-701",
+   "region": "South East",
+   "routes": [
+    "701"
+   ],
+   "name": "Sandon > Chelmsford City Centre",
+   "file": "south_east-701.csv",
+   "journeys": 119,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-836",
+   "region": "South East",
+   "routes": [
+    "836"
+   ],
+   "name": "Braughing > Green End > Hare Street > Buntingford",
+   "file": "south_east-836.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-A1",
+   "region": "South East",
+   "routes": [
+    "A1"
+   ],
+   "name": "Waltham Abbey > Waltham Cross",
+   "file": "south_east-A1.csv",
+   "journeys": 16,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-A2",
+   "region": "South East",
+   "routes": [
+    "A2"
+   ],
+   "name": "Waltham Abbey",
+   "file": "south_east-A2.csv",
+   "journeys": 6,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-A3",
+   "region": "South East",
+   "routes": [
+    "A3"
+   ],
+   "name": "Waltham Abbey > Sewardstone",
+   "file": "south_east-A3.csv",
+   "journeys": 14,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-H1",
+   "region": "South East",
+   "routes": [
+    "H1"
+   ],
+   "name": "Hertford > Pinehurst",
+   "file": "south_east-H1.csv",
+   "journeys": 24,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-H2",
+   "region": "South East",
+   "routes": [
+    "H2"
+   ],
+   "name": "Hertford",
+   "file": "south_east-H2.csv",
+   "journeys": 22,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-H3",
+   "region": "South East",
+   "routes": [
+    "H3"
+   ],
+   "name": "Hertford > Horns Mill",
+   "file": "south_east-H3.csv",
+   "journeys": 17,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-H4",
+   "region": "South East",
+   "routes": [
+    "H4"
+   ],
+   "name": "Hertford > Horns Mill",
+   "file": "south_east-H4.csv",
+   "journeys": 26,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-H5",
+   "region": "South East",
+   "routes": [
+    "H5"
+   ],
+   "name": "Hertford > Bengeo",
+   "file": "south_east-H5.csv",
+   "journeys": 6,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "south_east-H6",
+   "region": "South East",
+   "routes": [
+    "H6"
+   ],
+   "name": "Hertford > Bengeo",
+   "file": "south_east-H6.csv",
+   "journeys": 37,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-HL1",
+   "region": "South East",
+   "routes": [
+    "HL1"
+   ],
+   "name": "Broxbourne > Hoddesdon",
+   "file": "south_east-HL1.csv",
+   "journeys": 74,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  },
+  {
+   "id": "south_east-SB6",
+   "region": "South East",
+   "routes": [
+    "SB6"
+   ],
+   "name": "Stevenage > Bedwell",
+   "file": "south_east-SB6.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA"
+   ]
+  },
+  {
+   "id": "south_east-SB11",
+   "region": "South East",
+   "routes": [
+    "SB11"
+   ],
+   "name": "Stevenage > Pin Green",
+   "file": "south_east-SB11.csv",
+   "journeys": 7,
+   "days": [
+    "MF"
+   ]
+  },
+  {
+   "id": "east_midlands-20",
+   "region": "East Midlands",
+   "routes": [
+    "20"
+   ],
+   "name": "Leicester",
+   "file": "east_midlands-20.csv",
+   "journeys": 17,
+   "days": [
+    "SU"
+   ]
+  },
+  {
+   "id": "east_midlands-21",
+   "region": "East Midlands",
+   "routes": [
+    "21"
+   ],
+   "name": "Leicester",
+   "file": "east_midlands-21.csv",
+   "journeys": 9,
+   "days": [
+    "SU"
+   ]
+  },
+  {
+   "id": "east_midlands-ND",
+   "region": "East Midlands",
+   "routes": [
+    "ND"
+   ],
+   "name": "New Lubbesthorpe > Braunstone",
+   "file": "east_midlands-ND.csv",
+   "journeys": 92,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ]
+  }
+ ],
+ "feed_version": "20261022_034732",
+ "generated": "2026-10-23",
+ "term_month": [
+  "2026-11-02",
+  "2026-11-29"
+ ]
+}
