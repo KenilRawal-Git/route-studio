@@ -2305,12 +2305,63 @@ async function mapResolve(){
   const add=r=>{res.byCode+=r.byCode;res.byName.push(...r.byName)};
   res.byMemory=mapMemApply(); mapCountMissing();
   // routes Central Connect runs: their own stops from BODS first, so names match the right stop on the right road
-  if(mapState.missing.length&&typeof bodsRouteStops==="function"){const recs=await bodsRouteStops(mapState.routes); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); mapCountMissing()}
+  if(mapState.missing.length&&typeof bodsRouteStops==="function"){const recs=await bodsRouteStops(mapState.routes); if(run!==mapState.resolving)return; if(recs.length){add(naptanMatch(recs,mapState.routes)); mapCountMissing(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes))} mapCountMissing()}
+  // any operator's route (website): the same route number's stops from Bus Times, found through the stops that are missing
+  if(mapState.missing.length&&LIVE_MAP.on){const st=$("status"); st.className="status"; st.textContent="Looking up your route's stops on Bus Times…";
+    const recs=await busTimesRouteStops(mapState.routes); if(run!==mapState.resolving)return; st.textContent="";
+    if(recs.length){add(naptanMatch(recs,mapState.routes)); mapCountMissing(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes)); mapCountMissing()}}
   if(mapState.missing.length){const recs=await mapAreaStops(); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); mapCountMissing()}
   if(mapState.missing.length&&mapState.naptan){try{add(mapNaptanMatch(mapState.naptan,mapState.routes))}catch(e){} mapCountMissing()}
   mapMemSave();
   mapState.lastMatch=(res.byMemory||res.byCode||res.byName.length)?res:null; mapState.cache=new Map();
   mapShowMatch(); mapShowMissing(); mapRenderRoutes(); render(); mapAutoData();
+}
+
+/* ---------- stops from Bus Times (bustimes.org), for any operator's route (website only: artifacts can't fetch other sites) ----------
+   The route is found by searching Bus Times for the names of the stops that couldn't be placed and keeping the services
+   with the same route number; that service's stops (NaPTAN codes and positions) are then matched by name. */
+const BT={stops:new Map(), search:new Map()};
+async function btJson(u){const r=await fetch(u.startsWith("http")?u:"https://bustimes.org/api/"+u); if(!r.ok)throw new Error("Bus Times "+r.status); return r.json()}
+async function btServiceStops(id){
+  if(BT.stops.has(id))return BT.stops.get(id);
+  const out=[]; let u=`stops/?service=${id}&limit=500`;
+  for(let k=0;u&&k<6;k++){const d=await btJson(u); (d.results||[]).forEach(x=>{if(!x.location)return; const cn=x.common_name||x.name||"", full=x.name||cn;
+      const loc=full.toLowerCase().endsWith(cn.toLowerCase())?full.slice(0,full.length-cn.length).trim():"";
+      out.push({atco:x.atco_code,cn,ind:x.indicator||"",lm:"",st:"",loc,par:"",gp:"",town:"",sub:"",lon:x.location[0],lat:x.location[1],type:x.stop_type||"BCT",full})});
+    u=d.next}
+  BT.stops.set(id,out); return out;
+}
+async function busTimesRouteStops(routes){
+  const out=[], seen=new Set();
+  for(const r of routes){
+    const miss=r.stops.filter(s=>!(isFinite(s.lat)&&isFinite(s.lon))); if(!miss.length)continue;
+    const id=String(r.id).trim().toLowerCase(), cand=new Map();
+    const terms=[...new Set([...miss.map(s=>[s.town,s.stop].filter(Boolean).join(" ")),...miss.map(s=>s.stop||s.town),...r.stops.map(s=>s.town)].filter(t=>t&&t.length>2))].slice(0,8);
+    for(const q of terms){
+      try{if(!BT.search.has(q))BT.search.set(q,(await btJson(`services/?search=${encodeURIComponent(q)}&limit=100`)).results||[]);
+        BT.search.get(q).forEach(x=>{if(String(x.line_name).trim().toLowerCase()===id)cand.set(x.id,x)})}catch(e){break}
+      if(cand.size)break}
+    // where several services share the number, use the ones whose stops match the most of this route's stop names
+    const names=new Set(r.stops.map(s=>naptanNorm(s.stop||s.town)));
+    const scored=[];
+    for(const sv of [...cand.values()].slice(0,4)){try{const st=await btServiceStops(sv.id); scored.push({st,n:st.filter(x=>names.has(naptanNorm(x.cn))).length})}catch(e){}}
+    scored.sort((a,b)=>b.n-a.n).filter((x,k)=>k===0||x.n>0).forEach(x=>x.st.forEach(rec=>{if(!seen.has(rec.atco)){seen.add(rec.atco);out.push(rec)}}));
+  }
+  return out;
+}
+/* name-only matching against one route's own stops (for files that give "The Lion" without a town):
+   the route narrows it down enough, and the stop nearest its neighbours wins when a name repeats */
+function routeStopMatch(records,routes){
+  records.forEach(r=>{if(r._full==null){r._cn=naptanNorm(r.cn);r._full=naptanNorm(r.full||[r.loc,r.cn].join(" "));r._loc=naptanNorm(r.loc)}});
+  const todo=[]; routes.forEach(r=>r.stops.forEach((s,i)=>{if(!isFinite(s.lat)||!isFinite(s.lon))todo.push({s,r,i})}));
+  todo.forEach(x=>{const N=naptanNorm(x.s.stop||x.s.town), F=naptanNorm([x.s.town,x.s.stop].filter(Boolean).join(" ")), T=naptanNorm(x.s.town);
+    let best=[],top=0; records.forEach(rec=>{const sc=Math.max(naptanNameScore(N,rec._cn,"",""),naptanNameScore(F,rec._full,"",""))+(T&&rec._loc&&(rec._loc===T||rec._loc.includes(T))?1:0);
+      if(sc<2)return; if(sc>top+0.25){top=sc;best=[rec]} else if(sc>=top-0.25)best.push(rec)}); x.best=best});
+  const near=x=>{const st=x.r.stops; for(let d=1;d<st.length;d++)for(const j of [x.i-d,x.i+d]){const o=st[j]; if(o&&isFinite(o.lat)&&isFinite(o.lon))return o} return null};
+  for(let pass=0;pass<3;pass++)todo.forEach(x=>{if(x.how||!x.best.length)return; const n=near(x); if(!n&&pass<2)return;
+    const pick=n?x.best.slice().sort((a,b)=>Math.hypot(a.lat-n.lat,a.lon-n.lon)-Math.hypot(b.lat-n.lat,b.lon-n.lon))[0]:x.best[0];
+    x.s.lat=pick.lat;x.s.lon=pick.lon;x.s.code=pick.atco;x.how="name";x.rec=pick});
+  return {byCode:0,byName:todo.filter(x=>x.how).map(x=>({town:x.s.town,stop:x.s.stop,atco:x.rec.atco,name:x.rec.cn,ind:x.rec.ind,loc:x.rec.loc,alts:x.best.length,badCode:""})),missing:todo.filter(x=>!x.how).map(x=>x.s)};
 }
 
 /* ---------- reading a stops file ---------- */
@@ -2385,7 +2436,8 @@ function mapShowMissing(){
   const names=[...new Set(m.map(s=>s.stop?`${s.town}, ${s.stop}`:s.town))];
   w.hidden=false;
   w.textContent=`${names.length} stop${names.length>1?"s":""} couldn't be found (${names.slice(0,3).join("; ")}${names.length>3?"…":""}). `+
-    "Check the town and stop names, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below.";
+    (LIVE_MAP.on?"Bus Times and NaPTAN were searched too. Check the town and stop names and the route number, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below."
+      :`Check the town and stop names, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below. Route Studio's website (${SITE_URL}) also looks your route's stops up on Bus Times.`);
 }
 function mapShowMatch(){
   const box=$("mapMatched"); let r=mapState.lastMatch;
@@ -2509,7 +2561,7 @@ function mapQuery(ext){
 );
 out geom;`;
 }
-const SITE_URL="https://kenilrawal-git.github.io/route-studio/";
+var SITE_URL="https://kenilrawal-git.github.io/route-studio/";
 function mapRenderData(){
   const info=$("mapDataInfo"), L=mapState.last, outside=L&&L.coverage<0.6, key=mapState.tileKey||"";
   const auto=key.startsWith("cells:"), partial=key.includes("|partial"), own=!!mapState.osm;
@@ -3819,7 +3871,13 @@ async function bodsRouteStops(routes){
         if(!code||!isFinite(lat)||!isFinite(lon)||!/^[0-9A-Z]{6,}$/i.test(code))return; const sp=splitStop(String(row[0]||""));
         recs.push({atco:code,cn:sp.stop||sp.town,ind:"",lm:"",st:"",loc:sp.town,par:"",gp:"",town:"",sub:"",lon,lat,type:"BCT"})})}catch(e){}
       BODS.stops.set(g.file,recs)}
-    BODS.stops.get(g.file).forEach(x=>{if(!seen.has(x.atco)){seen.add(x.atco);out.push(x)}});
+    // only when it's the same route: route numbers repeat across the country (Central Connect's 82 is Norwich, Hedingham's is Colchester)
+    const recs=BODS.stops.get(g.file), codes=new Set(recs.map(x=>x.atco.toUpperCase())), tn=new Set(recs.map(x=>naptanNorm(x.loc)+"|"+naptanNorm(x.cn)));
+    const mine=routes.filter(r=>g.routes.some(id=>id.toUpperCase()===String(r.id).toUpperCase())).flatMap(r=>r.stops);
+    const same=mine.filter(s=>(s.code&&codes.has(String(s.code).toUpperCase()))||tn.has(naptanNorm(s.town)+"|"+naptanNorm(s.stop))||
+      (isFinite(s.lat)&&recs.some(x=>Math.hypot((x.lon-s.lon)*0.62,x.lat-s.lat)*111195<150))).length;
+    if(same<Math.max(2,Math.ceil(mine.length*0.3)))continue;
+    recs.forEach(x=>{if(!seen.has(x.atco)){seen.add(x.atco);out.push(x)}});
   }
   return out;
 }
