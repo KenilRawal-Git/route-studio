@@ -2247,7 +2247,7 @@ function liveCell(i,j){
       LIVE_MAP.cells.set(k,d); livePut(k,{t:Date.now(),d}); return d}
     catch(e){if(hit){LIVE_MAP.cells.set(k,hit.d);return hit.d} throw e}   // offline: an old copy is better than none
   })();
-  LIVE_MAP.pending.set(k,p); p.finally(()=>LIVE_MAP.pending.delete(k)); return p;
+  LIVE_MAP.pending.set(k,p); p.finally(()=>LIVE_MAP.pending.delete(k)).catch(()=>{}); return p;
 }
 async function mapCellTile(t){
   if(!MAP_TILES.cache.has(t.file)){const r=await fetch("mapdata/"+t.file); if(!r.ok)throw new Error(t.file); const d=mapDecode(await r.json()); d.bbox=t.bbox; MAP_TILES.cache.set(t.file,d)}
@@ -2601,7 +2601,9 @@ function mapRenderData(){
   info.className=warn?"warn":"hint"; info.innerHTML=html;
   const rt=$("mapRetry"); if(rt)rt.addEventListener("click",()=>{mapState.tileKey="";mapState.liveKey="";info.className="hint";info.textContent="Getting the map data for this area…";mapAutoData()});
   $("mapUseBuiltin").hidden=!own;
-  $("mapGet").hidden=!(own||(outside&&!LIVE_MAP.on)); if(outside&&!LIVE_MAP.on)$("mapGet").open=true;
+  // the manual way in only when the automatic map data didn't load (or a file is already in use)
+  const g=$("mapGet"); g.hidden=!(own||warn); if(warn&&!own)g.open=true;
+  g.querySelector("summary").textContent=own?"Use your own map data file instead":"Map data didn't load? Get it by hand";
   if(L&&L.extent){const q=mapQuery(L.extent); $("mapQuery").value=q; $("mapOverpass").href="https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q.replace(/\n\s*/g,""))}
 }
 
