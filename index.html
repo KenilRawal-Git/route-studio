@@ -350,6 +350,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wizon .wnav{display:flex;flex-wrap:wrap;gap:8px;width:100%;justify-content:flex-end}
 .wizon .wnav .wnext{flex:1 1 auto}
 .wtools{display:flex;flex-wrap:wrap;gap:8px}
+.allmore{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.status .linkbtn{margin-left:6px}
+.hint.err{color:var(--err)}
 .wizon #nextMap{display:none!important}
 @media (max-width:520px){.wsteps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* bus guide: page blocks */
@@ -435,7 +438,9 @@ span.gbt{cursor:default}
         <span class="atx"><b>Make everything, step by step</b><span>Timetables for each route, then their route maps, fares and a bus guide that puts it all together. Routes and colours carry through every step.</span></span>
         <span class="go">Start <span aria-hidden="true">→</span></span>
       </button>
-      <button type="button" class="linkbtn" id="wResume" hidden>Carry on with your routes</button>
+      <span class="allmore"><button type="button" class="linkbtn" id="wResume" hidden>Carry on with your routes</button>
+        <label class="btn ghost sm upl">Open a project file<input type="file" id="wOpen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
+        <span class="hint" id="wOpenMsg">Saved from Route Studio: loads your routes, maps, fares and guide again so you can carry on.</span></span>
     </div>
     <p class="orone">Or make just one thing</p>
     <div class="cards">
@@ -463,7 +468,7 @@ span.gbt{cursor:default}
         <div class="wsteps" id="wSteps" role="tablist" aria-label="Steps"></div>
         <div class="wroutes" id="wRoutes"></div>
         <p class="hint" id="wHint"></p>
-        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button></div>
+        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button><button type="button" class="btn ghost sm" id="wSaveFile">Save project file</button></div>
       </div>
       <div class="modes" id="ttModes" role="tablist" aria-label="New or update">
         <button type="button" role="tab" class="mode" id="modeNew" aria-selected="true">
@@ -1661,9 +1666,9 @@ function getDownloads(){ if(!downloadsP&&window.claude?.use)downloadsP=window.cl
 async function offer(data,filename,label){
   const st=$("status"); st.className="status";
   const dl=await getDownloads();
-  if(dl){ try{await dl.save({filename,data});st.textContent=`${label} downloaded.`}
+  if(dl){ try{await dl.save({filename,data});st.textContent=`${label} downloaded.`; if(label!=="Project file"&&typeof wOfferSave==="function")wOfferSave()}
     catch(err){ if(err&&err.code==="declined")st.textContent="Download cancelled."; else if(err&&err.code==="rate_limited")st.textContent="A download prompt is already open. Try again in a moment."; else{st.className="status err";st.textContent="Downloads are not available in this view."} } }
-  else{ const blob=data instanceof Blob?data:new Blob([data],{type:"text/csv"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),5000); st.textContent=`${label} created.` }
+  else{ const blob=data instanceof Blob?data:new Blob([data],{type:"text/csv"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),5000); st.textContent=`${label} created.`; if(label!=="Project file"&&typeof wOfferSave==="function")wOfferSave() }
 }
 function templateCsv(){
   const q=v=>/[",\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v;
@@ -1940,21 +1945,28 @@ function mapLayout(cfg){
     boxes.push([x-4,y-4,x+4,y+4])});
 
   const TF=11, SF=8, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
+  /* stop labels: crowded stops are placed first while there's still room; each tries spots around its stop
+     (further out with a leader line), then a smaller size, and only overlaps as a last resort, where it overlaps least */
   const labels=[];
-  stops.forEach(s=>{const {x,y}=s;
-    const tw=width(s.town,TF,"medium")+width(",",TF,"light"), nw=width(s.stop||"",SF,"light"), wdt=Math.max(tw,nw);
-    const hasB=s.badges.length>0, h=22+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
-    const cands=[[x+9,y+12],[x-9-wdt,y+12],[x+8,y+31],[x-8-wdt,y+31],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+32],[x+14,y+23],[x-14-wdt,y+23]];
-    for(const dist of [18,30,44,60])for(let ang=0;ang<360;ang+=30){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
-      cands.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
-    const lays=[{lay:"above",w:wdt,h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:22});
+  const ovl=(a,b)=>Math.max(0,Math.min(a[2],b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[3],b[3])-Math.max(a[1],b[1]));
+  const crowd=s=>stops.filter(o=>o!==s&&Math.hypot(o.x-s.x,o.y-s.y)<70).length;
+  const order=stops.slice().sort((a,b)=>crowd(b)-crowd(a));
+  order.forEach(s=>{const {x,y}=s, hasStop=!!s.stop;
+    const build=k=>{const tf=TF*k, sf=SF*k;
+      const tw=width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0), nw=hasStop?width(s.stop,sf,"light"):0, wdt=Math.max(tw,nw);
+      const th=(hasStop?22:13)*k, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
+      const anchors=[[x+9,y+th*0.55],[x-9-wdt,y+th*0.55],[x+8,y+th+9],[x-8-wdt,y+th+9],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+th+10]];
+      for(const dist of [18,30,44,60,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:30){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
+        anchors.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
+      const lays=[{lay:"above",w:wdt,h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
+      const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop})}));
+      return out};
     let best=null;
-    for(const strict of [true,false]){for(const [bx,B] of cands){for(const L of lays){
-        const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B;
-        const b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1];
-        if(inside(b)&&!hit(b,1)&&(!strict||!onRoute(b))){best={b,lay:L.lay};break}}
-        if(best)break} if(best)break}
-    if(!best){const [bx,B]=cands[0];best={b:[bx-2,B-h,bx+wdt+2,B+1],lay:"above"}}
+    for(const k of [1,0.86,0.74]){const cs=build(k);
+      best=cs.find(c=>!hit(c.b,1)&&!onRoute(c.b))||cs.find(c=>!hit(c.b,1)); if(best)break}
+    if(!best){const cs=build(0.74); let lo=Infinity;   // nowhere free: the spot where it overlaps least
+      cs.forEach(c=>{const ov=boxes.reduce((a,o)=>a+ovl(c.b,o),0)+Math.hypot(c.b[0]-x,c.b[3]-y)*0.05; if(ov<lo){lo=ov;best=c}})}
+    if(!best)best={b:[x+7,y-12,x+60,y+1],lay:"above",k:1,hasStop};
     boxes.push(best.b); labels.push({s,...best});
   });
 
@@ -2004,14 +2016,15 @@ function mapLayout(cfg){
   const roundel=(x,y,r=3.7)=>ops.push({k:"rail",x,y,r});
   stations.forEach(st=>{roundel(st.x,st.y); if(st.label){const [mode,tx,ty]=st.label; st.lines.forEach((l,i)=>T(l,mode==="c"?st.x:tx,ty+i*6.2,5.6,"light",C.rail,mode==="c"?"center":undefined))}});
   const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",badgeText(r.color),"center"); return w};
-  labels.forEach(({s,b,lay})=>{
-    const B=b[3]-1, lx=Math.min(Math.max(s.x,b[0]),b[2]-1), ly=Math.min(Math.max(s.y,B-22),B-1);
+  labels.forEach(({s,b,lay,k,hasStop})=>{
+    const tf=TF*k, sf=SF*k, th=(hasStop?22:13)*k;
+    const B=b[3]-1, lx=Math.min(Math.max(s.x,b[0]),b[2]-1), ly=Math.min(Math.max(s.y,B-th),B-1);
     if(Math.hypot(lx-s.x,ly-s.y)>9)ops.push({k:"l",x1:s.x,y1:s.y,x2:lx,y2:ly,c:C.leader,w:0.6});
-    const tx=b[0]+2, ty=B-13;
-    ops.push({k:"tr",x:tx,y:ty,size:TF,color:"#000000",runs:[[s.town,"medium"],[",","light"]]});
-    if(s.stop)T(s.stop,tx,B-3.5,SF,"light","#000000");
-    if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11-BADGE_H-1,r)+2.5})}
-    else{let bx=tx+width(s.town,TF,"medium")+width(",",TF,"light")+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4,r)+2.5})}
+    const tx=b[0]+2, ty=hasStop?B-13*k:B-3*k;
+    ops.push({k:"tr",x:tx,y:ty,size:tf,color:"#000000",runs:hasStop?[[s.town,"medium"],[",","light"]]:[[s.town,"medium"]]});
+    if(hasStop)T(s.stop,tx,B-3.5*k,sf,"light","#000000");
+    if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11*k-BADGE_H-1,r)+2.5})}
+    else{let bx=tx+width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0)+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4*k,r)+2.5})}
   });
   stops.forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2}));
 
@@ -4274,6 +4287,51 @@ function wStart(fresh){
   $("wBack").addEventListener("click",()=>{const i=WSTEPS.findIndex(s=>s[0]===W.step); if(i>0)wGo(WSTEPS[i-1][0])});
   $("wAddBig").addEventListener("click",wAddRoute); $("wZip").addEventListener("click",wZip);
 })();
+/* ---------- project file: everything in the steps, saved to a file and opened again later ---------- */
+const RS_KIND="route-studio-project";
+const rsOut=(k,v)=>k==="_memo"||k==="cache"||k==="_loading"||k==="_f"?undefined:v instanceof Set?{__set:[...v]}:v instanceof Map?undefined:v;
+const rsIn=(k,v)=>v&&typeof v==="object"&&Array.isArray(v.__set)?new Set(v.__set):v;
+const G_KEYS=["area","title","valid","coverNums","cover","entries","extraRows","notes","pageNums","blocks","colors","keyMeanings","feedback","address","phone","email","nextId","example"];
+function wProject(){
+  if(W.on)wSave();
+  else if(!wReady().length){ // made with the single tools: keep what's open in each as one route
+    const r={uid:W.nextUid++,tt:ttSnap(),map:mapSnapW(),fare:fareSnapW()}; if(wIds(r).length){W.routes=[r];W.cur=0;W.step="guide";W.guideBuilt=guideState.entries.length>0}}
+  const G={}; G_KEYS.forEach(k=>G[k]=guideState[k]);
+  G.uploads=Object.fromEntries(Object.entries(guideState.uploads).filter(([k,u])=>!u.builtin));
+  return {kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
+    W:{routes:W.routes,cur:W.cur,step:W.step,nextUid:W.nextUid,colors:W.colors,guideBuilt:W.guideBuilt},guide:G};
+}
+async function wSaveProject(){
+  const d=wProject(); if(!d.W.routes.some(r=>wIds(r).length)){wNote("There's nothing to save yet: add a timetable first.",true);return}
+  const ids=d.W.routes.flatMap(r=>wIds(r)).slice(0,6).join(" "), nm=`Route Studio project - ${(guideState.area&&W.guideBuilt?guideState.area+" ":"")+ids}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
+  await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Project file");
+  wNote("Project file saved. Open it from the Route Studio home page to carry on where you left off.");
+}
+function wOfferSave(){const st=$("status"); if(!W.on||!st||st.querySelector("[data-psave]"))return;
+  st.insertAdjacentHTML("beforeend",` <button type="button" class="linkbtn" data-psave>Save the project file too</button>, to change it later.`);
+  st.querySelector("[data-psave]").addEventListener("click",wSaveProject)}
+async function wOpenProject(f){
+  const msg=$("wOpenMsg");
+  try{const d=JSON.parse(await f.text(),rsIn); if(!d||d.kind!==RS_KIND||!d.W)throw new Error("That isn't a Route Studio project file.");
+    Object.assign(W,{routes:d.W.routes||[],cur:d.W.cur||0,step:d.W.step||"tt",nextUid:d.W.nextUid||1,colors:d.W.colors||{},guideBuilt:!!d.W.guideBuilt});
+    W.nextUid=Math.max(W.nextUid,...W.routes.map(r=>(r.uid||0)+1));
+    if(!W.routes.length)W.routes=[{uid:W.nextUid++}];
+    if(d.valid){state.valid=d.valid; $("valid").value=d.valid}
+    const g=d.guide||{}; G_KEYS.forEach(k=>{if(g[k]!==undefined)guideState[k]=g[k]});
+    guideState.uploads={promise:GUIDE_PROMISE,...(g.uploads||{})}; guideState.open=new Set(); guideState.openB=new Set(); guideState.last=null;
+    guideState.blocks.forEach(b=>{if(b.type==="map")b.loaded=null});
+    $("gArea").value=guideState.area||""; $("gTitle").value=guideState.title||""; $("gValid").value=guideState.valid||""; $("gCoverNums").checked=guideState.coverNums!==false;
+    $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
+    guideRenderRows();
+    msg.className="hint"; msg.textContent=`Opened ${f.name}: ${wReady().length} route${wReady().length===1?"":"s"}.`;
+    W.on=false; wStart(false);
+  }catch(e){msg.className="hint err"; msg.textContent=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.")}
+}
+(function wWire2(){
+  $("wSaveFile").addEventListener("click",wSaveProject);
+  $("wOpen").addEventListener("change",()=>{const f=$("wOpen").files[0]; $("wOpen").value=""; if(f)wOpenProject(f)});
+})();
+
 
 </script>
 <script>
