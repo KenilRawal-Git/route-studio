@@ -316,6 +316,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bodsreg{margin:6px 2px 0;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .bodsq{position:sticky;top:0;z-index:1}
 .bodsr input{width:16px;height:16px;accent-color:var(--btn);margin:0}
+.btpick{display:flex;flex-direction:column;gap:8px}
+.btlab{display:flex;flex-direction:column;gap:4px;font-size:.76rem;color:var(--muted)}
+.btops{display:flex;flex-wrap:wrap;gap:6px}
+.btopb{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:4px 11px;font:inherit;font-size:.78rem;cursor:pointer}
+.btopb small{color:var(--muted);margin-left:5px;font-size:.7rem}
+.btopb:hover{border-color:var(--btn)}
+.btopb.on{border-color:var(--btn);background:color-mix(in srgb,var(--btn) 14%,var(--panel));font-weight:600}
 .gbods{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:10px}
 /* make everything: steps */
 .allrow{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:26px}
@@ -531,6 +538,10 @@ span.gbt{cursor:default}
           <summary>Or load a Central Connect route from BODS</summary>
           <div class="helpbody"><div class="bodslist" id="bodsTTList"><p class="hint">Loading the routes…</p></div><p class="hint" id="bodsTTInfo"></p></div>
         </details>
+        <details class="help bodsbox" id="btTT">
+          <summary>Or load any operator's route from Bus Times</summary>
+          <div class="helpbody"><div class="btpick" id="btTTPick"></div></div>
+        </details>
         <details class="help">
           <summary>How should my file look?</summary>
           <div class="helpbody">
@@ -609,6 +620,10 @@ span.gbt{cursor:default}
           <details class="help bodsbox" id="bodsMap">
             <summary>Or load a Central Connect route from BODS</summary>
             <div class="helpbody"><div class="bodslist" id="bodsMapList"><p class="hint">Loading the routes…</p></div><p class="hint" id="bodsMapInfo"></p></div>
+          </details>
+          <details class="help bodsbox" id="btMap">
+            <summary>Or load any operator's route from Bus Times</summary>
+            <div class="helpbody"><div class="btpick" id="btMapPick"></div></div>
           </details>
           <details class="help">
             <summary>How should my file look?</summary>
@@ -765,12 +780,17 @@ span.gbt{cursor:default}
             <button type="button" class="gaddb" id="gPromiseAdd"><span class="gbi t-advert" data-ic="promise"></span><span><b>Passenger Promise</b><small>Standard page</small></span></button>
             <button type="button" class="gaddb" id="gAddApp"><span class="gbi t-app" data-ic="app"></span><span><b>App page</b><small>With the QR code</small></span></button>
             <button type="button" class="gaddb" id="gBodsBtn" aria-expanded="false"><span class="gbi t-route" data-ic="bods"></span><span><b>Routes from BODS</b><small>Central Connect timetables</small></span></button>
+            <button type="button" class="gaddb" id="gBtBtn" aria-expanded="false"><span class="gbi t-route" data-ic="bods"></span><span><b>Routes from Bus Times</b><small>Any operator</small></span></button>
             <button type="button" class="gaddb" id="gAddContents"><span class="gbi t-contents" data-ic="contents"></span><span><b>Contents</b><small>Routes and page numbers</small></span></button>
           </div>
           <div class="gbods" id="gBods" hidden>
             <div class="bodslist multi" id="gBodsList"><p class="hint">Loading the routes…</p></div>
             <div class="btnrow"><button type="button" class="btn sm" id="gBodsAdd" disabled>Add the chosen routes</button><button type="button" class="linkbtn" id="gBodsAll">Choose all</button></div>
             <p class="hint" id="gBodsInfo"></p>
+          </div>
+          <div class="gbods" id="gBt" hidden>
+            <div class="btpick" id="gBtPick"></div>
+            <div class="btnrow"><button type="button" class="btn sm" id="gBtAdd" disabled>Add the chosen routes</button><button type="button" class="linkbtn" id="gBtAll">Choose all</button></div>
           </div>
           <div class="btnrow"><button type="button" class="btn ghost sm" id="gFromTT">+ Timetable from the Timetable tab</button><button type="button" class="linkbtn" id="gExampleBtn">Show the example</button></div>
           <p class="hint">You can also drop timetable files or advert pictures straight onto the list of pages.</p>
@@ -4002,7 +4022,7 @@ async function bodsPaths(){
   return BODS.paths;
 }
 function bodsVia(r){
-  const P=BODS.paths&&BODS.paths.routes&&BODS.paths.routes[r.id]; if(!P||r.stops.length<2)return null;
+  const P=[...((BODS.paths&&BODS.paths.routes&&BODS.paths.routes[r.id])||[]),...((typeof BTT!=="undefined"&&BTT.paths[r.id])||[])]; if(!P.length||r.stops.length<2)return null;
   // a timing stop matches a stop of the pattern by NaPTAN code, or by being the same place (within 150 m: the other side of the road)
   const codes=r.stops.map(s=>String(s.code||"").trim().toUpperCase()), known=r.stops.filter((s,k)=>codes[k]||isFinite(s.lat)).length; if(known<2)return null;
   const near=(s,x)=>{if(!isFinite(s.lat)||!isFinite(s.lon))return false; const k=Math.cos(s.lat*Math.PI/180); return Math.hypot((x[1]-s.lon)*k,x[2]-s.lat)*111195<150};
@@ -4080,6 +4100,179 @@ function bodsRender(box,I,multi){
     st.className="status"; st.textContent=`Loading ${ids.length} route${ids.length>1?"s":""}…`;
     try{const files=[]; for(const id of ids)files.push(await bodsFile(I.groups.find(g=>g.id===id))); $("gBods").hidden=true; $("gBodsBtn").setAttribute("aria-expanded","false"); await gHandleFiles(files)}
     catch(e){st.className="status err";st.textContent=e.message}});
+})();
+/* ---------- Bus Times: any operator's timetables, built from bustimes.org (website only: artifacts can't reach other sites) ----------
+   Pick an operator, then a route. The journeys running over the next three weeks are read from the Bus Times API and turned into
+   the same timetable file the BODS routes use: day tabs, both directions, timing points only, with NaPTAN codes and positions.
+   Weeks with fewer journeys than the busiest one are taken as school holidays, so school-day journeys get SCH. */
+const BTT={csv:new Map(), paths:{}, ops:new Map(), svcs:new Map()};
+const BTT_Q="rs-bustimes-op", BTT_N="rs-bustimes-nocs";
+const BT_REG={EA:"East Anglia",SE:"South East",EM:"East Midlands",WM:"West Midlands",L:"London",SW:"South West",NW:"North West",NE:"North East",Y:"Yorkshire",S:"Scotland",W:"Wales",NI:"Northern Ireland",IM:"Isle of Man",CI:"Channel Islands",GB:"Great Britain"};
+const btNat=(a,b)=>String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:"base"});
+async function btPool(items,n,fn){const out=new Array(items.length); let i=0;
+  await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(i<items.length){const k=i++; out[k]=await fn(items[k],k)}})); return out}
+async function btGet(u){for(let k=0;;k++){try{return await btJson(u)}catch(e){if(k>=2)throw new Error("Bus Times couldn't be reached. Try again in a minute."); await new Promise(r=>setTimeout(r,900*(k+1)))}}}
+async function btOperators(q){q=q.trim(); if(q.length<2)return [];
+  if(!BTT.ops.has(q)){const d=await btGet(`operators/?name__icontains=${encodeURIComponent(q)}`);
+    BTT.ops.set(q,(d.results||[]).filter(x=>!x.vehicle_mode||/bus|coach/.test(x.vehicle_mode)).slice(0,40))}
+  return BTT.ops.get(q)}
+async function btServices(op){
+  if(BTT.svcs.has(op.noc))return BTT.svcs.get(op.noc);
+  const out=[]; let u=`services/?operator=${encodeURIComponent(op.noc)}&limit=500`;
+  for(let k=0;u&&k<5;k++){const d=await btGet(u); (d.results||[]).forEach(x=>out.push({id:x.id,line_name:String(x.line_name||"").trim()||"?",description:x.description||"",region:BT_REG[x.region_id]||x.region_id||"",mode:x.mode,op:op.name,noc:op.noc})); u=d.next}
+  out.sort((a,b)=>btNat(a.line_name,b.line_name)||btNat(a.description,b.description));
+  BTT.svcs.set(op.noc,out); return out}
+function btDates(){const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+((8-d.getDay())%7||7));   // next Monday
+  const iso=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`, out=[];
+  for(let w=0;w<3;w++)for(let k=0;k<7;k++){if(k>=5&&w>1)continue; const x=new Date(d); x.setDate(d.getDate()+w*7+k); out.push({date:iso(x),w,k})}
+  return out}
+function btSplitName(full){full=String(full||"").trim(); const i=full.indexOf(", "); let town="",name=full; if(i>0){town=full.slice(0,i);name=full.slice(i+2)}
+  name=name.replace(/^(o\/s|opp|adj|nr|outside|opposite|adjacent to|near)\s+/i,"").trim()||name; return {town,name}}
+function btMergeOrder(seqs){const master=[];
+  [...seqs].sort((a,b)=>b.length-a.length).forEach(s=>{let last=-1; s.forEach(a=>{let i=master.indexOf(a,last+1); if(i<0){master.splice(last+1,0,a);i=last+1} last=i})});
+  return master}
+async function btTimetable(svc,prog){
+  if(BTT.csv.has(svc.id))return BTT.csv.get(svc.id);
+  const dates=btDates(); let done=0;
+  const lists=await btPool(dates,4,async x=>{const d=await btGet(`trips/?service=${svc.id}&date=${x.date}`); prog&&prog(`reading the days it runs (${++done} of ${dates.length})`); return d.results||[]});
+  const on=new Map(); lists.forEach((L,i)=>L.forEach(t=>{if(!on.has(t.id))on.set(t.id,[]); on.get(t.id).push(dates[i])}));
+  if(!on.size)throw new Error(`Bus Times has no journeys on route ${svc.line_name} in the next three weeks.`);
+  let stops=[]; try{stops=await btServiceStops(svc.id)}catch(e){}
+  const S=new Map(stops.map(x=>[x.atco,{town:x.loc,name:x.cn,lon:x.lon,lat:x.lat}]));
+  const ids=[...on.keys()]; done=0;
+  const det=await btPool(ids,4,async id=>{const d=await btGet(`trips/${id}/`); prog&&prog(`reading the journeys (${++done} of ${ids.length})`); return d});
+  const hm=s=>{const [h,m]=String(s).split(":").map(Number); return h*60+m};
+  const J=new Map(), paths=BTT.paths;
+  det.forEach((d,ix)=>{const tt=(d.times||[]).filter(x=>x.stop&&x.stop.atco_code&&(x.aimed_departure_time||x.aimed_arrival_time)); if(tt.length<2)return;
+    tt.forEach(x=>{const a=x.stop.atco_code; if(!S.has(a)){const nm=btSplitName(x.stop.name); S.set(a,{...nm,lon:x.stop.location?x.stop.location[0]:NaN,lat:x.stop.location?x.stop.location[1]:NaN})}
+      else if(!isFinite(S.get(a).lat)&&x.stop.location){S.get(a).lon=x.stop.location[0];S.get(a).lat=x.stop.location[1]}});
+    let prev=-1; const all=tt.map(x=>{let m=hm(x.aimed_departure_time||x.aimed_arrival_time); while(prev>=0&&m<prev-180)m+=1440; prev=m; return [x.stop.atco_code,m]});
+    let tp=tt.map((x,i)=>i).filter(i=>tt[i].timing_status&&tt[i].timing_status!=="OTH"); if(tp.length<2)tp=tt.map((x,i)=>i);
+    if(tp[0]!==0)tp.unshift(0); if(tp[tp.length-1]!==tt.length-1)tp.push(tt.length-1);
+    const calls=tp.map(i=>all[i]), line=String((d.service&&d.service.line_name)||svc.line_name).trim();
+    const key=line+"|"+calls.map(c=>c.join("@")).join(",");
+    let j=J.get(key); if(!j){j={route:line,calls,full:all.map(c=>c[0]),on:[]};J.set(key,j)}
+    j.on.push(...on.get(ids[ix]));
+    // every stop the bus calls at, so the route map's line follows the roads it really takes
+    const P=paths[line]||(paths[line]=[]), sig=j.full.join(","), have=P.find(p=>p.sig===sig);
+    if(have)have.n++; else P.push({sig,n:1,stops:tt.map(x=>[x.stop.atco_code,x.stop.location?x.stop.location[0]:NaN,x.stop.location?x.stop.location[1]:NaN]).filter(x=>isFinite(x[1]))})});
+  const js=[...J.values()]; if(!js.length)throw new Error(`Bus Times doesn't have stop times for route ${svc.line_name}.`);
+  js.forEach(j=>{const seen=new Set(); j.on=j.on.filter(x=>!seen.has(x.date)&&seen.add(x.date))});
+  // direction: the same way along the longest journey's stops, or the other way
+  const ref=js.reduce((a,b)=>b.full.length>a.full.length?b:a), refIx=new Map(); ref.full.forEach((a,i)=>{if(!refIx.has(a))refIx.set(a,i)});
+  const pos=a=>S.get(a)||{lon:0,lat:0}, dist=(x,y)=>Math.hypot(x.lon-y.lon,x.lat-y.lat);
+  // (the two directions usually use stops on opposite sides of the road, so a journey sharing few of its stops goes the other way)
+  js.forEach(j=>{const ix=j.full.map(a=>refIx.get(a)).filter(i=>i!=null); let inc=0,dec=0; for(let i=1;i<ix.length;i++){if(ix[i]>ix[i-1])inc++; else if(ix[i]<ix[i-1])dec++}
+    if(ix.length>=j.full.length*0.4&&inc+dec>=2&&inc!==dec){j.dir=inc>dec?"0":"1";return}
+    const p=pos(j.full[0]); j.dir=dist(p,pos(ref.full[0]))<=dist(p,pos(ref.full[ref.full.length-1]))?"0":"1"});
+  // days: term weeks are the busiest ones; a weekday nothing runs on (a bank holiday) is left out
+  const dayN=new Map(); js.forEach(j=>j.on.forEach(x=>dayN.set(x.date,(dayN.get(x.date)||0)+1)));
+  const valid=dates.filter(x=>x.k<5&&dayN.get(x.date));
+  const avg=[0,1,2].map(w=>{const v=valid.filter(x=>x.w===w); return v.length?v.reduce((n,x)=>n+dayN.get(x.date),0)/v.length:0}), mx=Math.max(...avg);
+  const term=new Set([0,1,2].filter(w=>avg[w]>0&&avg[w]>=mx*0.98)), hol=new Set([0,1,2].filter(w=>avg[w]<mx*0.9));   // (a week with nothing at all is the half term of a school route)
+  const DN=["Mondays","Tuesdays","Wednesdays","Thursdays","Fridays"], DC=["MO","TUO","WO","THO","FO"];
+  const dayCodes=ks=>{if(!ks.length||ks.length===5)return [];
+    if(ks.length===1){if(KNOWN[DC[ks[0]]]==null)KNOWN[DC[ks[0]]]=DN[ks[0]]+" only"; return [DC[ks[0]]]}
+    const c=ks.map(k=>DN[k].slice(0,2)).join("").toUpperCase(); if(KNOWN[c]==null)KNOWN[c]=ks.slice(0,-1).map(k=>DN[k]).join(", ")+" and "+DN[ks[ks.length-1]]+" only"; return [c]};
+  const classify=j=>{const runs=new Set(j.on.map(x=>x.date)), tD=[], hD=[], out=[];
+    for(let k=0;k<5;k++){const T=valid.filter(x=>x.k===k&&term.has(x.w)), H=dates.filter(x=>x.k===k&&hol.has(x.w));
+      if((T.length?T:valid.filter(x=>x.k===k)).some(x=>runs.has(x.date)))tD.push(k); if(H.some(x=>runs.has(x.date)))hD.push(k)}
+    if(tD.length){const c=dayCodes(tD); if(hol.size&&!hD.length)c.push("SCH"); out.push(["MF",c])}
+    else if(hD.length)out.push(["MF",[...dayCodes(hD),"SH"]]);
+    if(j.on.some(x=>x.k===5))out.push(["SA",[]]); if(j.on.some(x=>x.k===6))out.push(["SU",[]]);
+    return out};
+  const tabs={MF:[],SA:[],SU:[]}; js.forEach(j=>classify(j).forEach(([t,c])=>tabs[t].push({j,c})));
+  const lab=a=>S.get(a)||{town:"",name:a,lat:NaN,lon:NaN}, fmt=m=>{m=((m%1440)+1440)%1440; return String(m/60|0).padStart(2,"0")+":"+String(m%60).padStart(2,"0")};
+  const lines=[]; let summary="", nJ=0;
+  for(const tab of ["MF","SA","SU"]){if(!tabs[tab].length)continue; lines.push([tab]);
+    for(const d of ["0","1"]){const col=tabs[tab].filter(x=>x.j.dir===d); if(!col.length)continue;
+      const master=btMergeOrder(col.map(x=>x.j.calls.map(c=>c[0])));
+      const placed=col.map(x=>{const row=new Map(); let last=-1; x.j.calls.forEach(([a,t])=>{const i=master.indexOf(a,last+1); row.set(i,t); last=i}); return {...x,row}});
+      const cover=new Map(); placed.forEach(p=>p.row.forEach((t,i)=>cover.set(i,(cover.get(i)||0)+1)));
+      let R=-1,bc=-1; cover.forEach((n,i)=>{if(n>bc||(n===bc&&i<R)){bc=n;R=i}});
+      const offs=new Map(); placed.forEach(p=>{if(p.row.has(R))p.row.forEach((t,i)=>{if(!offs.has(i))offs.set(i,[]); offs.get(i).push(p.row.get(R)-t)})});
+      placed.forEach(p=>{if(p.row.has(R)){p.k=p.row.get(R);return} const i0=Math.min(...p.row.keys()), o=(offs.get(i0)||[]).sort((a,b)=>a-b); p.k=p.row.get(i0)+(o.length?o[o.length>>1]:0)});
+      placed.sort((a,b)=>a.k-b.k);
+      // title from the commonest stopping pattern: where it starts, two places on the way, where it ends
+      const pc=new Map(); placed.forEach(p=>{const s=p.j.calls.map(c=>c[0]).join(","); pc.set(s,(pc.get(s)||0)+1)});
+      const main=[...pc.entries()].sort((a,b)=>b[1]-a[1]||b[0].split(",").length-a[0].split(",").length)[0][0].split(",");
+      let towns=[]; main.forEach(a=>{const L=lab(a), tw=L.town||L.name; if(towns[towns.length-1]!==tw)towns.push(tw)});
+      if(towns.length>4)towns=[towns[0],towns[Math.floor(towns.length/3)],towns[Math.floor(2*towns.length/3)],towns[towns.length-1]];
+      const title=[...new Set(towns)].join(" > "); summary=summary||title;
+      lines.push([title]); lines.push(["Route","NaPTAN","Latitude","Longitude",...placed.map(p=>p.j.route)]);
+      lines.push(["Codes","","","",...placed.map(p=>p.c.join(" "))]);
+      master.forEach((a,i)=>{const times=placed.map(p=>p.row.has(i)?fmt(p.row.get(i)):"–"); if(times.every(t=>t==="–"))return; const L=lab(a);
+        lines.push([L.town?`${L.town}, ${L.name}`:L.name,a,isFinite(L.lat)?L.lat.toFixed(6):"",isFinite(L.lon)?L.lon.toFixed(6):"",...times])});
+      lines.push([]); nJ+=placed.length}
+    lines.push([])}
+  if(!nJ)throw new Error(`Route ${svc.line_name} doesn't run on a normal week in the next three weeks.`);
+  const q=v=>{v=String(v); return /[",\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v};
+  const out={text:lines.map(r=>r.map(q).join(",")).join("\r\n")+"\r\n", name:summary, journeys:nJ};
+  BTT.csv.set(svc.id,out);
+  // the map's lines can now follow this route's roads
+  if(typeof mapState!=="undefined"){mapState.cache=new Map(); guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null})}
+  return out}
+async function btFile(svc,prog){const t=await btTimetable(svc,prog); return new File([t.text],`Route ${svc.line_name} from Bus Times.csv`,{type:"text/csv"})}
+/* the picker: an operator search (several operators can be ticked, e.g. all the Central Connect companies), then their routes */
+function btRender(box,multi,onPick,onChange){
+  if(box.dataset.ready)return; box.dataset.ready=1;
+  if(!LIVE_MAP.on){box.innerHTML=`<p class="hint">Bus Times can only be reached from the website version of Route Studio. <a href="${SITE_URL}" target="_blank" rel="noopener">Open the website</a> to load routes from Bus Times.</p>`; return}
+  let q0="Central Connect", nocs=null; try{q0=localStorage.getItem(BTT_Q)||q0; nocs=JSON.parse(localStorage.getItem(BTT_N)||"null")}catch(e){}
+  box.innerHTML=`<label class="btlab">Operator<input type="search" class="btop" placeholder="Operator name, e.g. Central Connect" aria-label="Find an operator"></label>
+    <div class="btops"></div><div class="bodslist${multi?" multi":""} btsv"></div><p class="hint btinfo"></p>`;
+  const inp=box.querySelector(".btop"), opsEl=box.querySelector(".btops"), list=box.querySelector(".btsv"), info=box.querySelector(".btinfo");
+  inp.value=q0; let ops=[], on=new Set(), run=0, tmr=0;
+  const save=()=>{try{localStorage.setItem(BTT_Q,inp.value.trim()); localStorage.setItem(BTT_N,JSON.stringify([...on]))}catch(e){}};
+  async function showServices(){const my=++run; save();
+    const chosen=ops.filter(o=>on.has(o.noc)); opsEl.querySelectorAll(".btopb").forEach(b=>b.classList.toggle("on",on.has(b.dataset.noc)));
+    if(!chosen.length){list.innerHTML=""; info.textContent=ops.length?"Choose an operator to see its routes.":""; onChange&&onChange(); return}
+    list.innerHTML=`<p class="hint">Loading the routes…</p>`; info.textContent="";
+    let svcs; try{svcs=(await Promise.all(chosen.map(btServices))).flat()}catch(e){if(my===run){list.innerHTML="";info.textContent=e.message}return}
+    if(my!==run)return; const seen=new Set(); svcs=svcs.filter(s=>!seen.has(s.id)&&seen.add(s.id)).sort((a,b)=>btNat(a.line_name,b.line_name));
+    const groups=chosen.length>1?chosen.map(o=>({h:o.name,s:svcs.filter(s=>s.noc===o.noc)})).filter(g=>g.s.length):[{h:"",s:svcs}];
+    const item=s=>{const c=colourFor(s.line_name);
+      return `<${multi?"label":"button type=\"button\""} class="bodsr" data-s="${s.id}" data-r="${esc(s.line_name)}" data-q="${esc((s.line_name+" "+s.description).toLowerCase())}">${multi?`<input type="checkbox" value="${s.id}">`:""}<span class="chips"><span class="chip" style="background:${c};color:${readableOn(c)}">${esc(s.line_name)}</span></span><span class="bn">${esc(s.description||"Route "+s.line_name)}<small>${esc([s.op,s.region].filter(Boolean).join(" · "))}</small></span></${multi?"label":"button"}>`};
+    list.innerHTML=`<input type="search" class="bodsq" placeholder="Find a route number or place" aria-label="Find a route">`
+      +groups.map(g=>`<div class="bodsgrp">${g.h?`<p class="bodsreg">${esc(g.h)}</p>`:""}${g.s.map(item).join("")}</div>`).join("");
+    info.textContent=svcs.length?`${svcs.length} routes on Bus Times. Picking one reads its journeys for the next three weeks, which takes a few seconds.`:"Bus Times has no routes for this operator.";
+    const fq=list.querySelector(".bodsq");
+    fq.addEventListener("input",()=>{const words=fq.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      list.querySelectorAll(".bodsr").forEach(el=>{const d=el.dataset.q, rs=d.split(" "); el.hidden=!!words.length&&!words.every(w=>/^[a-z]?\d/.test(w)?rs.some(x=>x===w||x.startsWith(w)):d.includes(w))});
+      list.querySelectorAll(".bodsgrp").forEach(gp=>gp.hidden=![...gp.querySelectorAll(".bodsr")].some(el=>!el.hidden))});
+    list.querySelectorAll(".bodsr").forEach(el=>{const s=svcs.find(x=>String(x.id)===el.dataset.s);
+      if(multi)el.querySelector("input").addEventListener("change",()=>onChange&&onChange());
+      else el.addEventListener("click",()=>onPick(s))});
+    box._svcs=svcs; onChange&&onChange()}
+  async function findOps(first){const my=++run, t=inp.value.trim();
+    if(t.length<2){ops=[];opsEl.innerHTML="";list.innerHTML="";info.textContent="Type at least two letters of the operator's name.";return}
+    opsEl.innerHTML=`<span class="hint">Searching…</span>`;
+    try{ops=await btOperators(t)}catch(e){if(my===run){opsEl.innerHTML="";info.textContent=e.message}return}
+    if(my!==run)return;
+    opsEl.innerHTML=ops.length?ops.map(o=>`<button type="button" class="btopb" data-noc="${esc(o.noc)}" aria-pressed="false">${esc(o.name)}${o.region_id?`<small>${esc(BT_REG[o.region_id]||o.region_id)}</small>`:""}</button>`).join(""):`<span class="hint">No operator on Bus Times matches “${esc(t)}”.</span>`;
+    on=new Set(ops.filter(o=>first&&nocs?nocs.includes(o.noc):false).map(o=>o.noc));
+    if(!on.size&&ops.length===1)on.add(ops[0].noc);
+    if(!on.size&&first&&!nocs)ops.filter(o=>o.name.toLowerCase().startsWith(t.toLowerCase())).forEach(o=>on.add(o.noc));
+    opsEl.querySelectorAll(".btopb").forEach(b=>b.addEventListener("click",()=>{const n=b.dataset.noc; on.has(n)?on.delete(n):on.add(n); b.setAttribute("aria-pressed",String(on.has(n))); showServices()}));
+    showServices()}
+  inp.addEventListener("input",()=>{clearTimeout(tmr); tmr=setTimeout(()=>findOps(false),350)});
+  findOps(true)}
+function btChosen(box){return [...box.querySelectorAll(".btsv input:checked")].map(i=>(box._svcs||[]).find(s=>String(s.id)===i.value)).filter(Boolean)}
+(function btWire(){
+  const single=(det,boxId,load)=>$(det).addEventListener("toggle",ev=>{if(!ev.target.open)return;
+    btRender($(boxId),false,async s=>{const st=$("status"); st.className="status"; const what=`route ${s.line_name}`; st.textContent=`Loading ${what} from Bus Times…`;
+      try{await load(await btFile(s,m=>st.textContent=`Loading ${what} from Bus Times: ${m}…`)); if(!st.classList.contains("err"))st.textContent=`Loaded ${what} from Bus Times.`; $(det).open=false}
+      catch(e){st.className="status err";st.textContent=e.message}})});
+  single("btTT","btTTPick",f=>handleFile(f)); single("btMap","btMapPick",f=>mapHandleFile(f));
+  const upd=()=>{const box=$("gBtPick"), n=btChosen(box).length, have=new Set(gShown().flatMap(gEntryRoutes));
+    box.querySelectorAll(".btsv .bodsr").forEach(l=>{if(have.has(l.dataset.r)){l.classList.add("have");l.title="Already in the guide"}});
+    $("gBtAdd").disabled=!n; $("gBtAdd").textContent=n?`Add ${n} route${n>1?"s":""}`:"Add the chosen routes"};
+  $("gBtBtn").addEventListener("click",()=>{const p=$("gBt"), open=p.hidden; p.hidden=!open; $("gBtBtn").setAttribute("aria-expanded",String(open)); if(open){btRender($("gBtPick"),true,null,upd); upd()}});
+  $("gBtAll").addEventListener("click",()=>{const ins=[...$("gBtPick").querySelectorAll(".btsv .bodsr:not([hidden]) input")], all=ins.every(i=>i.checked); ins.forEach(i=>i.checked=!all); upd()});
+  $("gBtAdd").addEventListener("click",async()=>{const svcs=btChosen($("gBtPick")), st=$("gStatus"); if(!svcs.length)return;
+    st.className="status"; $("gBtAdd").disabled=true;
+    try{const files=[]; for(const [k,s] of svcs.entries())files.push(await btFile(s,m=>st.textContent=`Loading route ${s.line_name} (${k+1} of ${svcs.length}) from Bus Times: ${m}…`));
+      $("gBt").hidden=true; $("gBtBtn").setAttribute("aria-expanded","false"); $("gBtPick").querySelectorAll(".btsv input:checked").forEach(i=>i.checked=false); upd(); await gHandleFiles(files)}
+    catch(e){st.className="status err";st.textContent=e.message; upd()}});
 })();
 (function guideWire(){
   const on=(id,ev,fn)=>$(id).addEventListener(ev,fn);
