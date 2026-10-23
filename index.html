@@ -316,6 +316,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bodsreg{margin:6px 2px 0;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .bodsq{position:sticky;top:0;z-index:1}
 .bodsr input{width:16px;height:16px;accent-color:var(--btn);margin:0}
+.combo{display:flex;gap:10px;align-items:flex-start;border:1px dashed var(--line);border-radius:10px;padding:9px 11px;cursor:pointer;font-size:.82rem;color:var(--fg)}
+.combo[hidden]{display:none}
+.combo input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--btn);flex:none}
+.combo small{display:block;color:var(--muted);font-size:.72rem;margin-top:2px;line-height:1.35}
+.combo:has(input:checked){border-style:solid;border-color:var(--btn);background:color-mix(in srgb,var(--btn) 8%,var(--panel))}
+.gcomb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+.gcomb select{flex:1;min-width:0}
 .btpick{display:flex;flex-direction:column;gap:8px}
 .btlab{display:flex;flex-direction:column;gap:4px;font-size:.76rem;color:var(--muted)}
 .btops{display:flex;flex-wrap:wrap;gap:6px}
@@ -534,6 +541,7 @@ span.gbt{cursor:default}
           <span class="ft"><b id="fileName"></b><span id="fileInfo"></span></span>
         </div>
         <div class="warn" id="warn" hidden></div>
+        <label class="combo" id="ttComboRow" hidden><input type="checkbox" id="ttCombine"><span><b>Combine with this timetable</b><small>The next route you load (a file, BODS or Bus Times) joins this one, for a combined timetable such as 88 + 88A.</small></span></label>
         <details class="help bodsbox" id="bodsTT">
           <summary>Or load a Central Connect route from BODS</summary>
           <div class="helpbody"><div class="bodslist" id="bodsTTList"><p class="hint">Loading the routes…</p></div><p class="hint" id="bodsTTInfo"></p></div>
@@ -617,6 +625,7 @@ span.gbt{cursor:default}
             <span>The same file works for the timetable and the map</span>
             <input type="file" id="mapFile" accept=".csv,.xlsx,.txt,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-label="Upload stops file">
           </div>
+          <label class="combo" id="mapComboRow" hidden><input type="checkbox" id="mapCombine"><span><b>Add to the routes on this map</b><small>The next route you load (a file, BODS or Bus Times) is added to this map instead of replacing it, for a combined map.</small></span></label>
           <details class="help bodsbox" id="bodsMap">
             <summary>Or load a Central Connect route from BODS</summary>
             <div class="helpbody"><div class="bodslist" id="bodsMapList"><p class="hint">Loading the routes…</p></div><p class="hint" id="bodsMapInfo"></p></div>
@@ -783,6 +792,7 @@ span.gbt{cursor:default}
             <button type="button" class="gaddb" id="gBtBtn" aria-expanded="false"><span class="gbi t-route" data-ic="bods"></span><span><b>Routes from Bus Times</b><small>Any operator</small></span></button>
             <button type="button" class="gaddb" id="gAddContents"><span class="gbi t-contents" data-ic="contents"></span><span><b>Contents</b><small>Routes and page numbers</small></span></button>
           </div>
+          <label class="combo"><input type="checkbox" id="gCombine"><span><b>Combine the routes I add together</b><small>Routes added in one go (files, BODS or Bus Times) become one timetable, e.g. 88 + 88A. To join timetables already in the guide, open one and use “Combine with”.</small></span></label>
           <div class="gbods" id="gBods" hidden>
             <div class="bodslist multi" id="gBodsList"><p class="hint">Loading the routes…</p></div>
             <div class="btnrow"><button type="button" class="btn sm" id="gBodsAdd" disabled>Add the chosen routes</button><button type="button" class="linkbtn" id="gBodsAll">Choose all</button></div>
@@ -946,6 +956,82 @@ async function parseXLSX(buf){
 }
 
 /* ===================== Grid -> timetable section ===================== */
+/* ===================== Combining routes: one timetable from several (e.g. 88 + 88A) =====================
+   Works on parsed tables, so any source can be combined: uploaded files, BODS, Bus Times, guide timetables.
+   Each table of the new route joins the table of the same days whose stops it shares in the same order
+   (by NaPTAN code, else by name); the stops are merged into one order and the journeys sorted by time.
+   Tables that share nothing (or run the other way) stay as tables of their own, next to the same days. */
+function ttDayOf(s){return expandDay(s.day||dayLabels(s.name).day)}
+function ttClone(s){return {...s,stops:s.stops.map(x=>({...x})),cols:s.cols.map(c=>({...c})),times:s.times.map(r=>r.slice())}}
+function ttMergeOrder(seqs){const master=[];
+  [...seqs].sort((a,b)=>b.length-a.length).forEach(s=>{let last=-1; s.forEach(a=>{let i=master.indexOf(a,last+1); if(i<0){master.splice(last+1,0,a);i=last+1} last=i})});
+  return master}
+// where b's stops sit in a: for each b stop the matching a stop (the next one along, so loops line up), and whether the order agrees
+function ttOrient(a,b){
+  const code=s=>String(s.code||"").trim().toUpperCase(), name=s=>naptanNorm([s.town,s.stop].filter(Boolean).join(" "));
+  const ac=a.stops.map(code), an=a.stops.map(name); let last=-1;
+  const map=b.stops.map(s=>{const c=code(s), n=name(s), hit=i=>c&&ac[i]?c===ac[i]:!!n&&an[i]===n;   // two codes must agree (the other side of the road has its own)
+    let k=-1; for(let i=last+1;i<a.stops.length;i++)if(hit(i)){k=i;break}
+    if(k<0)for(let i=0;i<=last&&i<a.stops.length;i++)if(hit(i)){k=i;break}
+    if(k>=0)last=k; return k});
+  const ix=map.filter(i=>i>=0); let inc=0,dec=0; for(let i=1;i<ix.length;i++){if(ix[i]>ix[i-1])inc++; else if(ix[i]<ix[i-1])dec++}
+  return {shared:new Set(ix).size,inc,dec,map}}
+function ttMergeTwo(a,b,o){
+  const ka=a.stops.map((s,i)=>"a"+i), kb=b.stops.map((s,i)=>o.map[i]>=0?"a"+o.map[i]:"b"+i);
+  const master=ttMergeOrder([ka,kb]);
+  const place=keys=>{let last=-1; return keys.map(k=>{const i=master.indexOf(k,last+1); last=i; return i})};
+  const pa=place(ka), pb=place(kb), stopOf=new Map();
+  ka.forEach((k,i)=>stopOf.set(k,a.stops[i]));
+  kb.forEach((k,i)=>{const t=b.stops[i]; if(!stopOf.has(k)){stopOf.set(k,t);return} const s=stopOf.get(k);
+    if(!s.code&&t.code)s.code=t.code; if(!(isFinite(s.lat)&&isFinite(s.lon))&&isFinite(t.lat)&&isFinite(t.lon)){s.lat=t.lat;s.lon=t.lon}});
+  const nA=a.cols.length, nB=b.cols.length, grid=master.map(()=>Array(nA+nB).fill("–"));
+  pa.forEach((r,i)=>a.times[i].forEach((t,j)=>{if(t)grid[r][j]=t}));
+  pb.forEach((r,i)=>b.times[i].forEach((t,j)=>{if(t)grid[r][nA+j]=t}));
+  const cols=[...a.cols,...b.cols];
+  // journeys in time order: by the time at the stop most of them call at, else their first time moved by the usual running time
+  const mins=v=>{const m=/^(\d\d):(\d\d)$/.exec(v||""); return m?+m[1]*60+ +m[2]:NaN};
+  const T=grid.map(r=>r.map(mins)); let R=0,bc=-1; T.forEach((r,i)=>{const n=r.filter(isFinite).length; if(n>bc){bc=n;R=i}});
+  const off=T.map((r,i)=>{const d=cols.map((c,j)=>isFinite(T[R][j])&&isFinite(r[j])?T[R][j]-r[j]:NaN).filter(isFinite).sort((x,y)=>x-y); return d.length?d[d.length>>1]:0});
+  const key=cols.map((c,j)=>{if(isFinite(T[R][j]))return T[R][j]; const i0=T.findIndex(r=>isFinite(r[j])); return i0<0?1e9:T[i0][j]+off[i0]});
+  const ord=cols.map((c,j)=>j).sort((x,y)=>key[x]-key[y]||x-y);
+  const out={...a,stops:master.map(k=>stopOf.get(k)),cols:ord.map(j=>cols[j]),times:grid.map(r=>ord.map(j=>r[j])),warnings:[]};
+  out.direction=guessDirection(out); return out}
+function ttCombine(A,B){
+  const out=A.map(ttClone);
+  B.map(ttClone).forEach(b=>{const day=ttDayOf(b); let best=null;
+    out.forEach((a,i)=>{if(ttDayOf(a)!==day)return; const o=ttOrient(a,b); if(o.shared>=2&&o.inc>o.dec&&(!best||o.shared>best.o.shared))best={i,o}});
+    if(best){out[best.i]=ttMergeTwo(out[best.i],b,best.o);return}
+    let at=-1; out.forEach((a,i)=>{if(ttDayOf(a)===day)at=i}); if(at<0)out.push(b); else out.splice(at+1,0,b)});
+  return out}
+// a route number from a file name ("Route 88A from BODS.csv", "88a.xlsx") for files that don't label their journeys
+function ttRouteFromName(n){const m=String(n||"").replace(/\.[^.]+$/,"").match(/(?:^|[^A-Za-z0-9])(?:route|service)?\s*([A-Za-z]{0,2}\d{1,4}[A-Za-z]?)(?![A-Za-z0-9])/i); return m?m[1].toUpperCase():""}
+async function ttReadSections(f){
+  let list;
+  if(/\.pdf$/i.test(f.name))throw new Error("PDF timetables can't be combined. Use the Excel or CSV file.");
+  if(/\.xlsx$/i.test(f.name)){if(!window.JSZip)throw new Error("The Excel reader did not load. Save the file as CSV, or check your connection."); list=await parseXLSX(await f.arrayBuffer())}
+  else if(/\.xls$/i.test(f.name))throw new Error("Old .xls files can't be read. In Excel, choose File › Save As › Excel Workbook (.xlsx) or CSV.");
+  else list=csvDaySheets(f.name,parseCSV(await f.text()));
+  const secs=expandTables(list).map(s=>{const sec=buildSection(s.name,s.rows); sec.direction=s.direction||guessDirection(sec); return sec}).filter(s=>s.stops.length);
+  if(!secs.length)throw new Error(`No stops with times were found in ${f.name}.`);
+  const r=ttRouteFromName(f.name); secs.forEach(s=>s.cols.forEach(c=>{if(!c.route&&r)c.route=r}));
+  return secs}
+function ttLabelled(secs,route){return secs.map(s=>({...ttClone(s),cols:s.cols.map(c=>({...c,route:c.route||route||""}))}))}
+// back to the template layout (day tabs, title, Route/NaPTAN/Latitude/Longitude, Codes, stops), so every tool reads it as usual
+function ttSectionsCSV(secs){
+  const tab=d=>{const k=String(d).toLowerCase(); return /^(monday to friday|mf)$/.test(k)?"MF":/^saturday/.test(k)?"SA":/^sunday/.test(k)?"SU":/^school/.test(k)?"SCH":"MF"};
+  const q=v=>{v=String(v==null?"":v); return /[",\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v}, L=[]; let cur=null;
+  secs.forEach(s=>{const t=tab(ttDayOf(s)); if(t!==cur){if(L.length)L.push([]); L.push([t]); cur=t}
+    const dir=String(s.direction||guessDirection(s)||"").replace(/\s*(→|->)\s*/g," > ");
+    if(/>/.test(dir))L.push([dir]);
+    L.push(["Route","NaPTAN","Latitude","Longitude",...s.cols.map(c=>c.route||"")]);
+    L.push(["Codes","","","",...s.cols.map(c=>c.code||"")]);
+    s.stops.forEach((x,i)=>L.push([x.stop?`${x.town}, ${x.stop}`:x.town,x.code||"",isFinite(x.lat)?(+x.lat).toFixed(6):"",isFinite(x.lon)?(+x.lon).toFixed(6):"",...s.times[i].map(v=>v||"–")]));
+    L.push([])});
+  return L.map(r=>r.map(q).join(",")).join("\r\n")+"\r\n"}
+function ttRoutesOf(secs){const rs=[]; secs.forEach(s=>s.cols.forEach(c=>{if(c.route&&!rs.includes(c.route))rs.push(c.route)})); return rs.sort(routeOrder)}
+function ttComboFile(secs){const rs=ttRoutesOf(secs); return new File([ttSectionsCSV(secs)],`Routes ${rs.join(" + ")||"combined"} combined.csv`,{type:"text/csv"})}
+// files → one combined file (the guide's "combine" option)
+async function ttCombineFiles(files){let all=null; for(const f of files){const s=await ttReadSections(f); all=all?ttCombine(all,s):s} return ttComboFile(all)}
 const TIME_RE=/^\s*(\d{1,2})[:.](\d{2})\s*$/, HHMM_RE=/^\s*(\d{3,4})\s*$/;
 function isTimeLike(s){s=String(s||"").trim();return TIME_RE.test(s)||HHMM_RE.test(s)||/^(-|–|—|\||\.\.)$/.test(s)}
 function normTime(s){
@@ -1377,7 +1463,7 @@ function loadSections(list,meta){
     return sec}).filter((s,i,all)=>s.stops.length||(s.warnings.length&&!all.some(o=>o.stops.length)));
   const warns=state.sections.flatMap(s=>s.warnings.map(w=>(state.sections.length>1?s.name+": ":"")+w));
   $("warn").hidden=!warns.length; $("warn").textContent=warns.join(" ");
-  fileMeta=meta; $("fileCard").hidden=!meta;
+  fileMeta=meta; $("fileCard").hidden=!meta; $("ttComboRow").hidden=!meta||meta.name==="Example timetable";
   if(meta){$("fileName").textContent=meta.name;
     const jr=state.sections.reduce((a,s)=>a+s.cols.length,0);
     $("fileInfo").textContent=`${state.sections.length} ${state.sections.length===1?"table":"tables"} · ${state.sections[0]?state.sections[0].stops.length:0} stops · ${jr} journeys`}
@@ -1395,6 +1481,13 @@ function guessDirection(sec){
   return pick.join(" > ");
 }
 async function handleFile(f){
+  // "Combine with this timetable": the new route joins what's loaded
+  if($("ttCombine").checked&&!$("ttComboRow").hidden&&state.sections.some(s=>s.stops.length)&&!/\.pdf$/i.test(f.name)){
+    const st=$("status");
+    try{const secs=ttCombine(ttLabelled(state.sections,state.route),await ttReadSections(f)); f=ttComboFile(secs)}
+    catch(e){st.className="status err";st.textContent=e.message;return}}
+  return handleFile1(f)}
+async function handleFile1(f){
   const st=$("status"); st.className="status"; st.textContent="";
   try{
     let list;
@@ -1825,7 +1918,7 @@ function mapPath(g,a,b){
 function mapRoute(g,stops){
   const warn=[], legs=[];
   const snaps=stops.map(s=>mapSnap(g,s.lon,s.lat));
-  snaps.forEach((sn,i)=>{if(sn.m>400)warn.push(`${stops[i].town}${stops[i].stop?", "+stops[i].stop:""} is ${Math.round(sn.m)} m from the nearest road in the map data.`)});
+  snaps.forEach((sn,i)=>{if(sn.m>400&&!stops[i].via)warn.push(`${stops[i].town}${stops[i].stop?", "+stops[i].stop:""} is ${Math.round(sn.m)} m from the nearest road in the map data.`)});
   for(let i=0;i+1<stops.length;i++){
     const a=snaps[i],b=snaps[i+1]; let p=(a.m<=400&&b.m<=400)?mapPath(g,a.i,b.i):null;
     if(p&&p.length>1)legs.push({nodes:p,pts:p.map(n=>[g.lon[n],g.lat[n]])});
@@ -2593,7 +2686,7 @@ function mapRenderStops(){
   $("mapUpload").hidden=tt&&!mapState.own;
   $("mapOwnBtn").hidden=!tt||mapState.own;
   $("mapFromTT").hidden=!tt||!mapState.own;
-  $("mapCard").hidden=!mapState.routes.length;
+  $("mapCard").hidden=!mapState.routes.length; $("mapComboRow").hidden=!mapState.routes.length||mapState.example||(tt&&!mapState.own);
   $("mapName").textContent=mapState.source;
   $("mapInfo").textContent=mapState.routes.length?`${mapState.routes.length} route${mapState.routes.length>1?"s":""} · ${n} stops`+(mapState.example?" · example data":""):"";
   const ex=$("mapExampleNote"); ex.hidden=!(mapFromTT()&&mapTTIsExample());
@@ -2628,6 +2721,18 @@ function mapIsStopList(rows){
   return hasHdr&&timedRows<2;
 }
 async function mapHandleFile(f){
+  // "Add to the routes on this map": keep the routes already on it
+  if(!($("mapCombine").checked&&!$("mapComboRow").hidden&&mapState.routes.length&&!mapState.example))return mapHandleFile1(f);
+  const st=$("status");
+  if(state.mode==="map"&&mapState.ttRoutes&&state.sections.some(s=>s.stops.length)&&!/\.pdf$/i.test(f.name)){
+    let secs=null; try{secs=await ttReadSections(f)}catch(e){}
+    if(secs){try{return await mapHandleFile1(ttComboFile(ttCombine(ttLabelled(state.sections,state.route),secs)))}catch(e){st.className="status err";st.textContent=e.message;return}}}
+  const old=mapState.routes, src=mapState.source, keepTT=mapState.ttRoutes; await mapHandleFile1(f);
+  if(mapState.routes===old||st.classList.contains("err"))return;
+  const ids=new Set(mapState.routes.map(r=>r.id));
+  mapSetRoutes([...old.filter(r=>!ids.has(r.id)),...mapState.routes],`${src} + ${f.name}`,keepTT&&mapState.ttRoutes);
+}
+async function mapHandleFile1(f){
   const st=$("status"); st.className="status"; st.textContent="";
   try{
     let list;
@@ -3720,6 +3825,8 @@ async function gReadFile(f){
 }
 async function gHandleFiles(files){
   const pics=files.filter(f=>/^image\//.test(f.type)); if(pics.length){gAddAdverts(pics); files=files.filter(f=>!pics.includes(f)); if(!files.length)return}
+  const tabs=files.filter(f=>!/\.pdf$/i.test(f.name));
+  if($("gCombine").checked&&tabs.length>1){try{files=[await ttCombineFiles(tabs),...files.filter(f=>!tabs.includes(f))]}catch(e){const st=$("gStatus");st.className="status err";st.textContent=e.message;return}}
   const st=$("gStatus"); st.className="status"; st.textContent=`Reading ${files.length>1?files.length+" files":files[0].name}…`;
   const errs=[]; let added=0;
   for(const f of files){ try{ if(/\.pdf$/i.test(f.name))await loadPdfJs(); gAddEntry(await gReadFile(f)); added++ }catch(e){errs.push(e.message||`${f.name} couldn't be read.`)} }
@@ -3825,6 +3932,8 @@ function gEditorHtml(b){
         <p class="hint">${s.stops.length} stops · ${s.cols.length} journeys${k?` · <label class="check sm inl"><input type="checkbox" data-sk="newPage" ${s.newPage===true?"checked":""}> Start on a new page</label>`:""}</p></div>`).join("")}
       <label>Route number for unlabelled journeys <input data-k="route" value="${esc(e.route||"")}" maxlength="8"></label>
     </div></details>
+    ${(()=>{const others=gBlocksOf("route").map(x=>gEntry(x.eid)).filter(x=>x&&x!==e&&!x.example&&x.sections.some(s=>s.stops.length));
+      return others.length?`<label class="gcomb">Combine with <select data-combine aria-label="Combine this timetable with another"><option value="">another timetable in the guide…</option>${others.map(x=>`<option value="${x.id}">Route ${esc(gEntryRoutes(x).join(" / "))}</option>`).join("")}</select></label>`:""})()}
     <div class="btnrow"><label class="btn ghost sm upl">Replace with a new file<input type="file" data-replace accept=".csv,.xlsx,.pdf,.txt,text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-label="Replace this timetable"></label></div>`}
   if(b.type==="map"){const opts=gBlocksOf("route").map(x=>gEntry(x.eid)).filter(Boolean);
     return `<label>Routes on the map <select data-m="eid"><option value="all">All routes in the guide</option>${opts.map(e=>`<option value="${e.id}"${b.eid===e.id?" selected":""}>Route ${esc(gEntryRoutes(e).join(" / "))}</option>`).join("")}</select></label>
@@ -3861,6 +3970,7 @@ function gWireEditor(li,b){
       const pickC=col=>{c.colors[r]=col; chip.style.background=col; chip.style.color=readableOn(col); swatchRow(line,col,pickC,"g:"+r); state.routeColors[r]=col; render()};
       swatchRow(line,gColour(r),pickC,"g:"+r)});
     li.querySelector("details").addEventListener("toggle",ev=>{if(ev.target.open)c.open.add(e.id);else c.open.delete(e.id)});
+    const cmb=li.querySelector("[data-combine]"); if(cmb)cmb.addEventListener("change",()=>{const o=gEntry(cmb.value); if(o)gCombineEntries(e,o)});
     li.querySelectorAll("[data-k]").forEach(inp=>inp.addEventListener(inp.type==="checkbox"?"change":"input",()=>{const k=inp.dataset.k; e[k]=inp.value;
       if(k==="desc"&&inp.value==="")e.desc=null; if(k==="route"){e.route=inp.value.trim();gGiveColours(gEntryRoutes(e))} render()}));
     const cb=li.querySelector("[data-note]"), ni=li.querySelector("[data-k=endNote]");
@@ -3920,6 +4030,17 @@ async function gAddAdverts(files,at){const st=$("gStatus"); st.textContent=""; l
 function gMove(id,to){const B=guideState.blocks, i=B.findIndex(b=>b.id===id); if(i<0)return;
   const lo=B[0]&&B[0].type==="cover"?1:0, hi=B.length-(B.length&&B[B.length-1].type==="back"?1:0);
   const [b]=B.splice(i,1); if(to>i)to--; to=Math.max(lo,Math.min(hi-1,to)); B.splice(to,0,b); gRenderBlocks(); render()}
+/* two of the guide's timetables become one (the other's pages go; maps that showed it show the combined one) */
+function gCombineEntries(e,o){
+  const secs=ttCombine(ttLabelled(e.sections,e.route),ttLabelled(o.sections,o.route));
+  e.sections=secs.map(s=>({...s,day:s.day||expandDay(dayLabels(s.name).day),sub:s.sub??dayLabels(s.name).sub}));
+  e.colors={...(o.colors||{}),...(e.colors||{})}; if(!e.endNote&&o.endNote)e.endNote=o.endNote;
+  const names=[e.name,o.name].filter(Boolean); e.name=names.length>1?names.join(" + "):names[0]||"";
+  guideState.blocks.forEach(b=>{if(b.type==="map"&&b.eid===o.id)b.eid=e.id; b._memo=null; if(b.cache)b.cache=new Map()});
+  const ob=guideState.blocks.find(b=>b.type==="route"&&b.eid===o.id); if(ob)gRemove(ob.id); else guideState.entries=guideState.entries.filter(x=>x!==o);
+  gGiveColours(gEntryRoutes(e),e.colors);
+  const st=$("gStatus"); st.className="status"; st.textContent=`Combined into one timetable: route ${gEntryRoutes(e).join(" + ")}.`;
+  guideRenderAll(); render()}
 function gRemove(id){const B=guideState.blocks, i=B.findIndex(b=>b.id===id); if(i<0)return; const b=B[i]; B.splice(i,1);
   if(b.type==="route"){guideState.entries=guideState.entries.filter(e=>e.id!==b.eid); gBlocksOf("map").forEach(m=>{if(m.eid===b.eid)m.eid="all"})}
   if(mapState.guideBlock===id)mapState.guideBlock=null;
@@ -4034,7 +4155,7 @@ function bodsVia(r){
   if(!best||best.found<Math.max(2,Math.ceil(known*0.8)))return null;   // the timetable's stops don't follow any BODS pattern
   const out=[]; let prev=-1;
   r.stops.forEach((s,k)=>{const i=best.hits[k];
-    if(i>=0&&prev>=0)for(let j=prev+1;j<i;j++){const x=best.p.stops[j]; out.push({lon:x[1],lat:x[2],town:"",stop:"stop "+x[0]})}
+    if(i>=0&&prev>=0)for(let j=prev+1;j<i;j++){const x=best.p.stops[j]; out.push({lon:x[1],lat:x[2],town:"",stop:"stop "+x[0],via:true})}
     out.push(s); if(i>=0)prev=i});
   return out;
 }
