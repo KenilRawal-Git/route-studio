@@ -989,6 +989,7 @@ function layout(){
   const usedCodes=new Set(); state.sections.forEach(s=>s.cols.forEach(c=>{if(c.code)String(c.code).split(/[\s,/]+/).forEach(k=>k&&usedCodes.add(k.toUpperCase()))}));
   const keyItems=state.key.filter(k=>usedCodes.has(String(k.code).trim().toUpperCase())), hasKey=keyItems.length>0, bottom=hasKey?G.bottom:G.bottomNoKey;
   let tight=0; // space to drop above a first table that has no codes row
+  let colMaxW=0; // direction width when two tables share the page side by side
 
   const page=()=>{
     ops=[]; pages.push(ops);
@@ -1038,7 +1039,7 @@ function layout(){
     const dir=(sec.direction||"").toUpperCase();
     // direction: full size if it fits, slightly smaller if needed, otherwise two lines split at a ">"
     let dirExtra=0;
-    if(dir){ const MAXW=552; let fs=12; while(fs>10.5&&width(dir,fs,"semibold")>MAXW)fs-=.25;
+    if(dir){ const MAXW=colMaxW||552; let fs=12; while(fs>10.5&&width(dir,fs,"semibold")>MAXW)fs-=.25;
       if(width(dir,fs,"semibold")<=MAXW)T(dir,22.68,G.dirBase-3,fs,"semibold",C.dir);
       else{ fs=12; const parts=dir.split(/\s*>\s*/); let best=null;
         for(let k=1;k<parts.length;k++){const a=parts.slice(0,k).join(" > ")+" >", b=parts.slice(k).join(" > "); const w=Math.max(width(a,fs,"semibold"),width(b,fs,"semibold")); if(!best||w<best.w)best={a,b,w}}
@@ -1123,9 +1124,30 @@ function layout(){
   const blockH=(sec,c0,c1,rows,first)=>(sec.cols.slice(c0,c1).some(c=>c.code)&&!first?G.codesH:0)+G.barH+rows*sec._f.rh;
 
   if(!state.sections.length){ page(); return pages }
+  /* two small tables side by side: each table (stop names + journeys) fits in half the page and on one page */
+  const GAP=16, COLW=(572.6-G.stopX-GAP)/2, live=state.sections.filter(s=>s.stops.length), done=new Set();
+  const small=s=>s&&s._f&&s._f.ranges.length===1&&s._f.rowsPer>=s.stops.length&&G.stopW+s.cols.length*s._f.cw<=COLW;
+  const tryPair=(a,b)=>{
+    const save={pages:pages.length,ops,len:ops?ops.length:0,y,tight};
+    const fresh=a===live[0]||a.newPage!==false||!ops;
+    const drawOne=(sec,dx)=>{const start=ops.length, st={...sec._f}; colMaxW=COLW;
+      sec._f.stopW=Math.min(sec._f.stopW,COLW-sec.cols.length*sec._f.cw); sec._f.colX=G.stopX+sec._f.stopW;
+      banner(sec,false); block(sec,0,sec.cols.length,0,sec.stops.length,false); colMaxW=0; sec._f=st;
+      if(dx)for(let i=start;i<ops.length;i++)shiftOpX(ops[i],dx); return y};
+    const run=()=>{const top=ops.length, yA=drawOne(a,0), yB=drawOne(b,COLW+GAP); return {top,bottomY:Math.max(yA,yB)}};
+    if(fresh)page();
+    let r=run();
+    if(!fresh){ // after the previous table on this page: move the pair down below it
+      const shift=save.y+30-G.bannerY; for(let i=r.top;i<ops.length;i++)shiftOp(ops[i],shift); r.bottomY+=shift;
+      if(r.bottomY>bottom){ops.length=r.top; page(); r=run()} }
+    if(r.bottomY>bottom){ // doesn't fit even on its own page: draw them one after another as usual
+      pages.length=save.pages; ops=save.ops; if(ops)ops.length=save.len; y=save.y; tight=save.tight; return false}
+    y=r.bottomY; return true;
+  };
   state.sections.forEach((sec,si)=>{
-    if(!sec.stops.length)return;
+    if(!sec.stops.length||done.has(sec))return;
     fitSection(sec);
+    { const next=live[live.indexOf(sec)+1]; if(next){fitSection(next); if(small(sec)&&small(next)&&tryPair(sec,next)){done.add(next);return}} }
     const newPage=si===0||sec.newPage!==false||!ops;
     if(newPage){page();banner(sec,false)}
     else{
@@ -1160,6 +1182,7 @@ function layout(){
   return pages;
 }
 function shiftOp(o,dy){ if(o.k==="t"||o.k==="r"||o.k==="img")o.y+=dy; else if(o.k==="l"){o.y1+=dy;o.y2+=dy} }
+function shiftOpX(o,dx){ if(o.k==="t"||o.k==="r"||o.k==="img"||o.k==="link")o.x+=dx; else if(o.k==="l"){o.x1+=dx;o.x2+=dx} }
 
 /* SVG preview */
 const FW={light:300,normal:400,medium:500,semibold:600};
