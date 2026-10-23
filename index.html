@@ -1982,6 +1982,14 @@ function mapCleanLine(xy,sp){
   const out=[]; let piece=[];
   keep.forEach((k,n)=>{piece.push(xy[k]); if((prot[k]&&piece.length>1)||n===keep.length-1){const sm=mapSmooth(mapDP(piece,1.4)); sm.forEach((p,q)=>{if(q||!out.length)out.push(p)}); piece=[xy[k]]}});
   return out}
+/* a line moved sideways by d (to its left, in drawing order): for routes drawn side by side */
+function mapOffset(xy,d){
+  const n=xy.length; if(n<2)return xy; const out=[];
+  for(let i=0;i<n;i++){const a=xy[Math.max(0,i-1)], b=xy[Math.min(n-1,i+1)]; let dx=b[0]-a[0], dy=b[1]-a[1], l=Math.hypot(dx,dy)||1; dx/=l; dy/=l;
+    // keep corners even: push out a bit more where the line bends (capped)
+    let k=1; if(i>0&&i<n-1){const ux=xy[i][0]-xy[i-1][0], uy=xy[i][1]-xy[i-1][1], ul=Math.hypot(ux,uy)||1, c=(ux/ul)*dx+(uy/ul)*dy; k=1/Math.max(0.6,Math.sqrt((1+Math.min(1,c))/2))}
+    out.push([xy[i][0]-dy*d*k, xy[i][1]+dx*d*k])}
+  return out}
 /* Chaikin corner cutting: rounds the corners of a simplified line (ends stay put) */
 function mapSmooth(xy,it=2){
   for(let n=0;n<it&&xy.length>2;n++){const o=[xy[0]];
@@ -2000,14 +2008,18 @@ function mapLayout(cfg){
   if(!routes.length)return {ops:[],warn:["Add some stops to draw a map."]};
 
   /* route every route along the roads */
-  const routed=routes.map(r=>{
+  const routeOf=r=>{
     // with BODS data the line goes through every stop the bus calls at, not just the timing points, so it follows the real roads
     const via=(typeof bodsVia==="function"&&bodsVia(r))||r.stops;
     const ck=via.map(s=>s.lon.toFixed(6)+","+s.lat.toFixed(6)).join(";");
     let res=cfg.cache&&cfg.graph?cfg.cache.get(ck):null;
     if(!res){res=cfg.graph?mapRoute(cfg.graph,via):{legs:via.slice(1).map((s,i)=>({nodes:null,pts:[[via[i].lon,via[i].lat],[s.lon,s.lat]]})),warn:[]};
       if(cfg.cache&&cfg.graph)cfg.cache.set(ck,res)}
-    res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)}); return res});
+    return res};
+  const routed=routes.map(r=>{const res=routeOf(r); res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)}); return res});
+  // the other direction (where known): roads it shares with the drawn direction are two-way, the rest one-way
+  const backKeys=routes.map(r=>{if(!r.back)return null; if(r.back.length<2)return new Set();
+    const res=routeOf({id:r.id,stops:r.back}), K=new Set(); res.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; K.add(a<b?a+"-"+b:b+"-"+a)}}); return K});
 
   /* key and notes sizes decide how much room the map needs at the bottom */
   const stationsOn=!!(cfg.data&&cfg.data.stations.length);
@@ -2085,19 +2097,35 @@ function mapLayout(cfg){
       const r=side==="left"?{x:MX0,y:MY0,w:dep,h:MY1-MY0}:side==="right"?{x:MX1-dep,y:MY0,w:dep,h:MY1-MY0}:side==="bottom"?{x:MX0,y:MY1-dep,w:MX1-MX0,h:dep}:{x:MX0,y:MY0,w:MX1-MX0,h:dep};
       ops.push({k:"r",...r,c:"#FFFFFF",a:A})}}
 
-  /* ----- route lines: each route draws only where it differs from the routes before it ----- */
-  const used=new Set(), lines=[], stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
-  routed.forEach((rr,ri)=>{const segs=[]; let cur=null;
+  /* ----- route lines: routes sharing a road are drawn side by side as one band, touching, instead of on top of each other ----- */
+  const LW=3.2, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
+  const edgeRoutes=new Map(), canon=new Map(), f5=p=>p[0].toFixed(5)+","+p[1].toFixed(5);
+  const seqs=routed.map((rr,ri)=>{const E=[];
     rr.legs.forEach(l=>{
-      if(!l.nodes){const key="s:"+l.pts.flat().map(v=>v.toFixed(5)).join(","); if(used.has(key)){cur=null;return} segs.push(l.pts.slice()); cur=null; used.add(key); return}
-      for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1], key=a<b?a+"-"+b:b+"-"+a;
-        if(ri>0&&used.has(key)){cur=null;continue}
-        if(!cur){cur=[l.pts[q]];segs.push(cur)} cur.push(l.pts[q+1])}
-    });
-    rr.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1];used.add(a<b?a+"-"+b:b+"-"+a)}});
-    lines.push({r:routes[ri],segs:segs.map(s=>mapCleanLine(proj(s,0.2),stopPts))});
+      if(!l.nodes){const a=f5(l.pts[0]), b=f5(l.pts[l.pts.length-1]); E.push({key:"s:"+(a<b?a+"|"+b:b+"|"+a),from:a,pts:l.pts}); return}
+      for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; if(a===b)continue; E.push({key:a<b?a+"-"+b:b+"-"+a,from:String(a),pts:[l.pts[q],l.pts[q+1]]})}});
+    E.forEach(e=>{if(!canon.has(e.key))canon.set(e.key,e.from); e.sign=canon.get(e.key)===e.from?1:-1;
+      const B=edgeRoutes.get(e.key)||[]; if(!B.includes(ri))B.push(ri); edgeRoutes.set(e.key,B)});
+    return E});
+  edgeRoutes.forEach(B=>B.sort((a,b)=>a-b));
+  const cleanMemo=new Map();
+  seqs.forEach((E,ri)=>{
+    // runs of edges with the same routes on them, travelled the same way
+    const runs=[]; let run=null;
+    E.forEach(e=>{const B=edgeRoutes.get(e.key), bk=B.join(",");
+      if(run&&run.bk===bk&&run.sign===e.sign){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
+      else{run={bk,B,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
+    let poly=null;
+    runs.forEach(R=>{
+      const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
+      let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
+      const slot=R.B.indexOf(ri), off=(slot-(R.B.length-1)/2)*LW;
+      let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
+      const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
+      const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
+      if(!poly){poly=xy.slice(); lines[ri].segs.push(poly)} else xy.forEach(p=>poly.push(p))});
   });
-  for(let i=lines.length-1;i>=0;i--)lines[i].segs.forEach(s=>pline(s,lines[i].r.color,3.2));
+  lines.forEach(L=>L.segs.forEach(s=>pline(s,L.r.color,LW,"butt")));
   ops.push({k:"endclip"});
 
   /* ----- collision bookkeeping ----- */
@@ -2107,7 +2135,7 @@ function mapLayout(cfg){
   const rpts=[]; lines.forEach(L=>L.segs.forEach(xy=>{for(let i=0;i+1<xy.length;i++){const [x0,y0]=xy[i],[x1,y1]=xy[i+1];const n=Math.max(1,Math.floor(Math.hypot(x1-x0,y1-y0)/3));for(let j=0;j<n;j++)rpts.push([x0+(x1-x0)*j/n,y0+(y1-y0)*j/n])}}));
   // a stop marker goes onto the route line when the line passes close (the line follows the road, the stop is at the kerb)
   const onLine=(x,y)=>{let bx=x,by=y,bd=144;
-    lines.forEach(L=>L.segs.forEach(xy=>{for(let i=0;i+1<xy.length;i++){const [ax,ay]=xy[i],[cx2,cy2]=xy[i+1], dx=cx2-ax, dy=cy2-ay, l2=dx*dx+dy*dy;
+    [{segs:centre}].forEach(L=>L.segs.forEach(xy=>{for(let i=0;i+1<xy.length;i++){const [ax,ay]=xy[i],[cx2,cy2]=xy[i+1], dx=cx2-ax, dy=cy2-ay, l2=dx*dx+dy*dy;
       const t=l2?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/l2)):0, px=ax+t*dx, py=ay+t*dy, d=(px-x)**2+(py-y)**2; if(d<bd){bd=d;bx=px;by=py}}}));
     return [bx,by]};
   const onRoute=(b,pad=2.5)=>rpts.some(([x,y])=>b[0]-pad<x&&x<b[2]+pad&&b[1]-pad<y&&y<b[3]+pad);
@@ -2196,6 +2224,23 @@ function mapLayout(cfg){
     const opts=[["c",x,y+9.8,[x-nw/2-1,y+4.5,x+nw/2+1,y+5.5+nh]],["l",x+6,y-nh/2+5,[x+5,y-nh/2-1,x+7+nw,y+nh/2+1]],["r",x-6-nw,y-nh/2+5,[x-7-nw,y-nh/2-1,x-5,y+nh/2+1]]];
     for(const o of opts){if(!hit(o[3],0.5)){boxes.push(o[3]);st.label=o;break}}});
 
+  /* direction arrows along the lines: the routes on that stretch and which way they run (both ways, or one way) */
+  const dirTags=[];
+  if(cfg.arrows!==false)runsAll.forEach(G=>{const xy=G.C; if(xy.length<2)return;
+    const cum=[0]; for(let i=1;i<xy.length;i++)cum.push(cum[i-1]+Math.hypot(xy[i][0]-xy[i-1][0],xy[i][1]-xy[i-1][1])); const L=cum[cum.length-1];
+    if(L<(INS?45:80))return;
+    const ids=G.B.map(i=>routes[i].id).join(" / "), two=G.members.some(m=>m.two), one=G.members.find(m=>!m.two)||G.members[0];
+    const fs=INS?5.2:5.8, tw=width(ids,fs,"semibold"), AW=11, tot=tw+3+AW, half=G.B.length*LW/2, nT=Math.max(1,Math.floor(L/(INS?200:300)));
+    for(let t=0;t<nT;t++){const at=(t+0.5)*L/nT; let i=cum.findIndex(c=>c>=at); i=Math.max(1,i);
+      const f=(at-cum[i-1])/((cum[i]-cum[i-1])||1), px=xy[i-1][0]+(xy[i][0]-xy[i-1][0])*f, py=xy[i-1][1]+(xy[i][1]-xy[i-1][1])*f;
+      const j0=Math.max(0,i-3), j1=Math.min(xy.length-1,i+2); let ang=Math.atan2(xy[j1][1]-xy[j0][1],xy[j1][0]-xy[j0][0]), flip=false;
+      if(ang>Math.PI/2){ang-=Math.PI;flip=true} else if(ang<-Math.PI/2){ang+=Math.PI;flip=true}
+      const ca=Math.cos(ang), sa=Math.sin(ang);
+      for(const side of [-1,1]){const d=half+6.5, cx=px-sa*d*side, cy=py+ca*d*side;
+        const hw=Math.abs(ca)*tot/2+Math.abs(sa)*4, hh=Math.abs(sa)*tot/2+Math.abs(ca)*4, b=[cx-hw,cy-hh,cx+hw,cy+hh];
+        if(!inside(b,10)||hit(b,1.5)||rpts.some(([x,y])=>{const u=(x-cx)*ca+(y-cy)*sa, v=-(x-cx)*sa+(y-cy)*ca; return Math.abs(u)<tot/2+2&&Math.abs(v)<4+1.4}))continue;   // clear of the lines (in the tag's own turned frame) if(dirTags.some(o=>Math.hypot(o.x-cx,o.y-cy)<(INS?60:110)))continue;
+        boxes.push(b); dirTags.push({x:cx,y:cy,ca,sa,ang,ids,tw,tot,fs,two,fwd:(one.sign>0)!==flip}); break}}});
+
   /* road numbers set along the road */
   const tags=[]; const byRef={};
   roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
@@ -2234,6 +2279,12 @@ function mapLayout(cfg){
   places.forEach(p=>p.ls.forEach((l,i)=>T(l,p.x,p.y+i*p.fs*1.15,p.fs,p.wt,C.place,"center")));
   if(vale)vale.txt.forEach((l,i)=>T(l,vale.x,vale.y+i*vale.fs*1.15,vale.fs,"light",C.vale,"center"));
   tags.forEach(t=>T(t.ref,t.x,t.y+2,5.8,"normal",C.roadTxt,"center",t.ang));
+  dirTags.forEach(t=>{const U=(u,v)=>[t.x+u*t.ca-v*t.sa, t.y+u*t.sa+v*t.ca], u0=-t.tot/2, ink="#1E2B4A";
+    const [qx,qy]=U(u0+t.tw/2,2); T(t.ids,qx,qy,t.fs,"semibold",ink,"center",t.ang*180/Math.PI);
+    const a0=u0+t.tw+3, a1=a0+11, seg=(...ps)=>ops.push({k:"pl",p:ps.flatMap(([u,v])=>U(u,v)),c:ink,w:0.8,cap:"round"});
+    seg([a0,0.2],[a1,0.2]);
+    if(t.two||t.fwd)seg([a1-2.6,-2],[a1,0.2],[a1-2.6,2.4]);
+    if(t.two||!t.fwd)seg([a0+2.6,-2],[a0,0.2],[a0+2.6,2.4])});
   const roundel=(x,y,r=3.7)=>ops.push({k:"rail",x,y,r});
   stations.forEach(st=>{roundel(st.x,st.y); if(st.label){const [mode,tx,ty]=st.label; st.lines.forEach((l,i)=>T(l,mode==="c"?st.x:tx,ty+i*6.2,5.6,"light",C.rail,mode==="c"?"center":undefined))}});
   const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",badgeText(r.color),"center"); return w};
@@ -2767,21 +2818,27 @@ function mapParseStops(rows){
 function mapPickSections(sections,ids,timed){
   const dayOf=s=>expandDay(s.day||dayLabels(s.name).day).toLowerCase(), rank=d=>/monday to friday|weekday/.test(d)?0:/school/.test(d)?1:/monday to saturday|daily/.test(d)?2:3;
   const ends=sec=>{const t=sec.stops.filter((x,i)=>sec.times[i].some(timed)); return t.length?[t[0].town,t[t.length-1].town]:["",""]};
-  const out={}, per={};
+  const out={back:{},oneWay:new Set()}, per={};
   ids.forEach(id=>{let L=sections.filter(sec=>sec.cols.some((c,j)=>(c.route||state.route)===id&&sec.times.some(r=>timed(r[j]))));
     if(mapState.days!=="all"&&L.length){const r0=Math.min(...L.map(x=>rank(dayOf(x)))); const d0=dayOf(L.find(x=>rank(dayOf(x))===r0)); L=L.filter(x=>dayOf(x)===d0)}
     per[id]=L});
   // the town where the routes meet: most often at an end of their tables
   const cnt={}; Object.values(per).forEach(L=>{const seen=new Set(); L.forEach(sec=>ends(sec).forEach(t=>{if(t&&!seen.has(t)){seen.add(t);cnt[t]=(cnt[t]||0)+1}}))});
   const hubN=Math.max(0,...Object.values(cnt)), hub=hubN>1?Object.keys(cnt).find(t=>cnt[t]===hubN):null;
-  ids.forEach(id=>{const L=per[id]; if(L.length<2||mapState.dir==="both"){out[id]=L;return}
+  ids.forEach(id=>{const L=per[id]; if(L.length<2||mapState.dir==="both"){out[id]=L; if(L.length===1)out.oneWay.add(id); return}
     const score=(sec,k)=>{const d=String(sec.direction||"")+" "+sec.name; let v=0;
       if(/\binbound\b/i.test(d))v+=100; if(/\boutbound\b/i.test(d))v-=100;
       const [a,b]=ends(sec); if(hub&&b===hub&&a!==hub)v+=10; if(hub&&a===hub&&b!==hub)v-=10;
       return v+(k%2?1:0)};
     const sc=L.map((sec,k)=>({sec,v:score(sec,k)})).sort((x,y)=>mapState.dir==="out"?x.v-y.v:y.v-x.v);
-    out[id]=[sc[0].sec]});
+    out[id]=[sc[0].sec]; out.back[id]=sc[sc.length-1].sec});
   return out}
+/* the other direction's stops get positions: their own, else those of the same-named stop on the map (the other side of the road) */
+function mapBackStops(r,all){
+  if(r.back==null)return null; if(!r.back.length)return [];
+  const nk=s=>naptanNorm(s.town)+"|"+naptanNorm(s.stop), pos=new Map(); all.forEach(x=>x.stops.forEach(s=>{if(isFinite(s.lat)&&isFinite(s.lon)&&!pos.has(nk(s)))pos.set(nk(s),s)}));
+  const out=r.back.map(s=>isFinite(s.lat)&&isFinite(s.lon)?s:pos.get(nk(s))).filter(Boolean);
+  return out.length>=2?out:null}
 function mapTimetableStops(sections=state.sections){
   const timed=v=>/^\d\d:\d\d$/.test(v||"");
   const ids=[]; sections.forEach(sec=>sec.cols.forEach(c=>{const r=c.route||state.route; if(!ids.includes(r))ids.push(r)}));
@@ -2801,7 +2858,12 @@ function mapTimetableStops(sections=state.sections){
     const gap=idx.slice(1).map((i,p)=>{const g=cols.map(j=>{const a=mins(sec.times[idx[p]][j]), b=mins(sec.times[i][j]); return isFinite(a)&&isFinite(b)?((b-a+1440)%1440):NaN}).filter(isFinite).sort((x,y)=>x-y);
       return g.length?g[Math.floor(g.length/2)]:NaN});
     const at=[0]; gap.forEach((g,p)=>at.push(at[p]+g));
-    return {id,termini,stops:idx.map((i,p)=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN,t:at[p]}})};
+    // the other direction's stops (if it runs both ways), for the direction arrows: [] = it only runs this way
+    const ob=(pick.back&&pick.back[id])||null; let back=null;
+    if(ob){const oc=ob.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0);
+      back=ob.stops.filter((s,i)=>oc.some(j=>timed(ob.times[i][j]))).map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN}))}
+    else if(pick.oneWay&&pick.oneWay.has(id))back=[];
+    return {id,termini,back,stops:idx.map((i,p)=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN,t:at[p]}})};
   }).filter(Boolean);
 }
 const mapTTIsExample=()=>typeof fileMeta!=="undefined"&&fileMeta&&fileMeta.name==="Example timetable";
@@ -3009,6 +3071,7 @@ function mapCfg(){
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
+  routes.forEach(r=>r.back=mapBackStops(r,routes));
   return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false};
 }
 function mapDraw(){
@@ -3823,7 +3886,8 @@ function gMapSync(b){
 function gMapCfg(b){
   const D=mapData();
   const routes=(b.routes||[]).map(r=>{const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
-    if(keep.length){term.add(0);term.add(keep.length-1)} return {id:r.id,color:gColour(r.id),termini:term,stops:keep}}).filter(r=>r.stops.length);
+    if(keep.length){term.add(0);term.add(keep.length-1)} return {id:r.id,color:gColour(r.id),termini:term,stops:keep,back:r.back}}).filter(r=>r.stops.length);
+  routes.forEach(r=>r.back=mapBackStops(r,routes));
   if(!routes.some(r=>r.stops.length>1))return null;
   let lo0=Infinity,lo1=-Infinity,la0=Infinity,la1=-Infinity; routes.forEach(r=>r.stops.forEach(s=>{lo0=Math.min(lo0,s.lon);lo1=Math.max(lo1,s.lon);la0=Math.min(la0,s.lat);la1=Math.max(la1,s.lat)}));
   const k=Math.cos((la0+la1)/2*Math.PI/180), spanX=(lo1-lo0)*k, spanY=la1-la0;
