@@ -1,6 +1,8 @@
 """Weekly refresh for the Route Studio website (run by .github/workflows/refresh.yml, or by hand).
-Downloads the NaPTAN stops and the operator's BODS timetables, and rebuilds naptan/ and bods/.
-Settings are in config.json: operator (as named in BODS), regions (BODS regional GTFS files; "all" checks every region)."""
+Downloads the NaPTAN stops, the operator's BODS timetables and OpenStreetMap, and rebuilds naptan/, bods/ and
+mapdata/ (map squares around every stop the operator's routes call at, so new routes get maps automatically).
+Settings are in config.json: operator (as named in BODS), regions (BODS regional GTFS files; "all" checks every
+region), osm_extract (the Geofabrik extract to cut the map squares from)."""
 import json, os, shutil, subprocess, sys, urllib.request, zipfile, io, csv
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); T = os.path.join(ROOT, "tools"); W = os.path.join(ROOT, ".work")
 cfg = json.load(open(os.path.join(ROOT, "config.json")))
@@ -36,3 +38,8 @@ dst = os.path.join(ROOT, "bods"); shutil.rmtree(dst, ignore_errors=True); os.mak
 keep = {g["file"] for g in json.load(open(os.path.join(out, "index.json")))["groups"]} | {"index.json", "paths.json"}
 for f in keep: shutil.copy(os.path.join(out, f), dst)   # only timetables in the index (border routes appear in two regions)
 if cfg.get("regions") == "all": print("regions with this operator:", found)
+
+# Map squares from OpenStreetMap around every stop the routes call at
+osm = get(f"https://download.geofabrik.de/{cfg.get('osm_extract', 'europe/united-kingdom/england')}-latest.osm.pbf", os.path.join(W, "extract.osm.pbf"))
+run(os.path.join(T, "build_tiles.py"), osm, os.path.join(dst, "paths.json"), os.path.join(ROOT, "mapdata"), str(cfg.get("map_margin", 1)))
+os.remove(osm)

@@ -2151,8 +2151,8 @@ function mapStopsExtent(){
 }
 async function mapAutoData(){
   const ext=mapStopsExtent(); if(!ext)return;
-  if(LIVE_MAP.on&&await mapLiveData(ext))return;   // on the website: roads straight from OpenStreetMap
-  const idx=await mapTileIndex();
+  if(await mapCellData(ext))return;   // 0.25° squares: pre-built for the operator's areas, downloaded live anywhere else (website)
+  const idx=(await mapTileIndex()).filter(t=>!t.cell);
   const need=idx.filter(t=>{const [s,w,n,e]=t.bbox;return s<ext.n&&n>ext.s&&w<ext.e&&e>ext.w});
   const key=need.map(t=>t.file).sort().join("|");
   if(key===mapState.tileKey)return;
@@ -2219,23 +2219,31 @@ function liveCell(i,j){
   })();
   LIVE_MAP.pending.set(k,p); p.finally(()=>LIVE_MAP.pending.delete(k)); return p;
 }
-async function mapLiveData(ext){
+async function mapCellTile(t){
+  if(!MAP_TILES.cache.has(t.file)){const r=await fetch("mapdata/"+t.file); if(!r.ok)throw new Error(t.file); const d=mapDecode(await r.json()); d.bbox=t.bbox; MAP_TILES.cache.set(t.file,d)}
+  return MAP_TILES.cache.get(t.file);
+}
+async function mapCellData(ext){
+  const idx=await mapTileIndex(), pre=new Map(idx.filter(t=>t.cell).map(t=>[t.cell.join(","),t]));
+  if(!pre.size&&!LIVE_MAP.on)return false;
   const c=LIVE_MAP.CELL, i0=Math.floor(ext.s/c), i1=Math.floor(ext.n/c), j0=Math.floor(ext.w/c), j1=Math.floor(ext.e/c), cells=[];
   for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++)cells.push([i,j]);
-  if(cells.length>36)return false;   // an area this big would take too long to download: use the published areas
-  const key="live:"+cells.map(x=>x.join(",")).join("|"); if(key===mapState.tileKey)return true;
-  const st=$("status"), todo=cells.filter(([i,j])=>!LIVE_MAP.cells.has(i+","+j)).length; let done=0;
-  const say=()=>{if(todo){st.className="status";st.textContent=`Getting the roads for this area from OpenStreetMap… ${done} of ${cells.length}`}};
+  if(cells.length>36)return false;   // an area this big would take too long to load
+  const avail=cells.filter(([i,j])=>pre.has(i+","+j)||LIVE_MAP.on); if(!avail.length)return false;
+  const key="cells:"+avail.map(x=>x.join(",")).join("|"); if(key===mapState.tileKey)return true;
+  const st=$("status"), live=avail.filter(([i,j])=>!pre.has(i+","+j)&&!LIVE_MAP.cells.has(i+","+j)).length; let done=0, failed=0;
+  const say=()=>{if(live){st.className="status";st.textContent=`Getting the roads for this area from OpenStreetMap… ${done} of ${avail.length}`}};
   say(); mapState.liveKey=key;
-  try{const parts=await Promise.all(cells.map(([i,j])=>liveCell(i,j).then(d=>{done++; if(mapState.liveKey===key)say(); return d})));
-    if(mapState.liveKey!==key)return true;   // the stops changed while downloading; a newer request takes over
-    mapState.tiles=mapMergeParts(parts,"OpenStreetMap"); mapState.tileKey=key; mapState.cache=new Map();
-    guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null});
-    if(todo)st.textContent=""; render(); return true}
-  catch(e){if(todo){st.className="status";st.textContent="OpenStreetMap couldn't be reached just now, so the map uses the builder's own map data."} return false}
+  const parts=(await Promise.all(avail.map(([i,j])=>{const t=pre.get(i+","+j);
+    return (t?mapCellTile(t):liveCell(i,j)).then(d=>{done++; if(mapState.liveKey===key)say(); return d}).catch(()=>{failed++; return null})}))).filter(Boolean);
+  if(mapState.liveKey!==key)return true;   // the stops changed meanwhile; the newer request takes over
+  if(!parts.length){if(live){st.className="status";st.textContent="OpenStreetMap couldn't be reached just now, so the map uses the builder's own map data."} return false}
+  mapState.tiles=mapMergeParts(parts,"OpenStreetMap"); mapState.tileKey=failed?key+"|partial"+Date.now():key; mapState.cache=new Map();
+  guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null});
+  if(live)st.textContent=failed?`OpenStreetMap is busy: ${failed} part${failed>1?"s":""} of the map couldn't be downloaded. Try again in a few minutes.`:"";
+  mapRenderData(); render(); return true;
 }
 
-/* NaPTAN stops for every published area (small files), for finding stops by code or name */
 /* every NaPTAN stop in Britain, split by area (naptan/index.json): the areas a timetable needs are found from its
    stops' NaPTAN codes, their town names and any stops already placed, so stops can be found anywhere */
 async function mapNaptanIndex(){
@@ -2494,7 +2502,7 @@ function mapRenderData(){
   const info=$("mapDataInfo"), L=mapState.last, outside=L&&L.coverage<0.6;
   const D=mapData(); const src=mapState.osm?`your file ${mapState.osmName}`:D?`the builder's map of ${D.data.name}`:"no map data";
   info.className=outside?"warn":"hint";
-  info.textContent=mapState.tileKey&&mapState.tileKey.startsWith("live:")&&!mapState.osm?"Using live OpenStreetMap data for the area your stops are in. It's fetched automatically and kept in this browser for 60 days."
+  info.textContent=mapState.tileKey&&mapState.tileKey.startsWith("cells:")&&!mapState.osm?"Using OpenStreetMap data for the area your stops are in. It loads automatically: built in for Central Connect's areas, downloaded for anywhere else and kept in this browser for 60 days."
     :outside?"Your stops are outside the areas the builder has map data for. Ask Claude to add this area to the builder, or download the map data and drop it below.":`Using ${src}. It loads automatically for the area your stops are in.`;
   $("mapUseBuiltin").hidden=!mapState.osm;
   if(outside)$("mapGet").open=true;
