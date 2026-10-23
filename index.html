@@ -546,6 +546,10 @@ span.gbt{cursor:default}
             <span>The same file works for the timetable and the map</span>
             <input type="file" id="mapFile" accept=".csv,.xlsx,.txt,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-label="Upload stops file">
           </div>
+          <details class="help bodsbox" id="bodsMap">
+            <summary>Or load a Central Connect route from BODS</summary>
+            <div class="helpbody"><div class="bodslist" id="bodsMapList"><p class="hint">Loading the routes…</p></div><p class="hint" id="bodsMapInfo"></p></div>
+          </details>
           <details class="help">
             <summary>How should my file look?</summary>
             <div class="helpbody">
@@ -3810,6 +3814,11 @@ function bodsRender(box,I,multi){
     box.querySelectorAll(".bodsr").forEach(b=>b.addEventListener("click",async()=>{const g=I.groups.find(x=>x.id===b.dataset.g), st=$("status");
       st.className="status"; st.textContent=`Loading route ${g.routes.join(" / ")}…`; try{await handleFile(await bodsFile(g)); if(!st.classList.contains("err"))st.textContent=`Loaded route ${g.routes.join(" / ")} from BODS.`; $("bodsTT").open=false}
       catch(e){st.className="status err";st.textContent=e.message}}))});
+  $("bodsMap").addEventListener("toggle",async ev=>{if(!ev.target.open)return; const I=await bodsIndex(), box=$("bodsMapList");
+    if(!box.querySelector(".bodsr"))bodsRender(box,I,false); $("bodsMapInfo").textContent=bodsInfo(I);
+    box.querySelectorAll(".bodsr").forEach(b=>{if(b.dataset.w)return; b.dataset.w=1; b.addEventListener("click",async()=>{const g=I.groups.find(x=>x.id===b.dataset.g), st=$("status");
+      st.className="status"; st.textContent=`Loading route ${g.routes.join(" / ")}…`; try{await mapHandleFile(await bodsFile(g)); if(!st.classList.contains("err"))st.textContent=`Loaded route ${g.routes.join(" / ")} from BODS.`; $("bodsMap").open=false}
+      catch(e){st.className="status err";st.textContent=e.message}})})});
   $("gBodsBtn").addEventListener("click",async()=>{const p=$("gBods"), open=p.hidden; p.hidden=!open; $("gBodsBtn").setAttribute("aria-expanded",String(open)); if(!open)return;
     const I=await bodsIndex(), box=$("gBodsList"), have=new Set(gShown().flatMap(gEntryRoutes));
     bodsRender(box,I,true); $("gBodsInfo").textContent=bodsInfo(I);
