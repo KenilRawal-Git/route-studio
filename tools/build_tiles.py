@@ -50,7 +50,7 @@ class Elements(osmium.SimpleHandler):
         super().__init__(); s.cells = defaultdict(list); s.member_ways = member_ways; s.member_geo = {}
     def node(s, n):
         t = n.tags
-        if not (t.get('place') in ('city', 'town', 'village') or t.get('railway') == 'station'): return
+        if not (t.get('place') in ('city', 'town', 'village', 'suburb', 'hamlet') or t.get('railway') == 'station'): return
         if not n.location.valid(): return
         c = cell_of(n.location.lon, n.location.lat)
         if c in want: s.cells[c].append({'type': 'node', 'id': n.id, 'lat': n.location.lat, 'lon': n.location.lon, 'tags': dict(t)})
@@ -73,7 +73,7 @@ if subprocess.run(["which", "osmium"], capture_output=True).returncode == 0:
     src = os.path.join(tempfile.gettempdir(), "mapfeatures.osm.pbf")
     subprocess.run(["osmium", "tags-filter", PBF, "-o", src, "--overwrite",
                     "w/highway=motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,unclassified,residential",
-                    "w/waterway=river", "nwr/natural=water", "w/railway=rail", "n/railway=station", "n/place=city,town,village",
+                    "w/waterway=river", "nwr/natural=water", "w/railway=rail", "n/railway=station", "n/place=city,town,village,suburb,hamlet",
                     "nwr/landuse=residential,commercial,retail,industrial", "nwr/boundary=protected_area,national_park"], check=True)
     print("filtered", round(os.path.getsize(src) / 1e6), "MB", flush=True)
 

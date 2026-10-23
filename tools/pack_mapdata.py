@@ -86,7 +86,7 @@ for e in els:
     if e['type'] == 'node':
         if t.get('railway') == 'station' and t.get('name'):
             out['stations'].append([t['name'], round(e['lon'], 5), round(e['lat'], 5)])
-        elif t.get('place') in ('city', 'town', 'village') and t.get('name'):
+        elif t.get('place') in ('city', 'town', 'village', 'suburb', 'hamlet') and t.get('name'):
             out['places'].append([t['name'], t['place'], round(e['lon'], 5), round(e['lat'], 5)])
         continue
     if e['type'] == 'way':

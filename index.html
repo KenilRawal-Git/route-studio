@@ -1892,7 +1892,7 @@ function mapFromOverpass(j){
   (j.elements||[]).forEach(el=>{const t=el.tags||{};
     if(el.type==="node"){
       if(t.railway==="station"&&t.name)d.stations.push({name:t.name,lon:el.lon,lat:el.lat});
-      else if(["city","town","village"].includes(t.place)&&t.name)d.places.push({name:t.name,kind:t.place,lon:el.lon,lat:el.lat});
+      else if(["city","town","village","suburb","hamlet"].includes(t.place)&&t.name)d.places.push({name:t.name,kind:t.place,lon:el.lon,lat:el.lat});
       return}
     if(el.type==="way"){const g=(el.geometry||[]).filter(Boolean).map(p=>[p.lon,p.lat]); if(!g.length)return;
       g.forEach(([x,y])=>{if(y<s)s=y;if(y>n)n=y;if(x<w)w=x;if(x>e)e=x});
@@ -2016,7 +2016,7 @@ function mapLayout(cfg){
   const KEYW=150, keyH=INS||cfg.showKey===false?0:35+keyRows.length*15.2+6;
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
-  const PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120;
+  let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
 
   /* projection: fit the routed lines and stops */
   const all=[]; routed.forEach(r=>r.legs.forEach(l=>l.pts.forEach(p=>all.push(p)))); routes.forEach(r=>r.stops.forEach(s=>all.push([s.lon,s.lat])));
@@ -2031,7 +2031,18 @@ function mapLayout(cfg){
   const MX0=0,MX1=W,MY0=HEAD,MY1=H;
   /* zoom: 1 = the whole route fits; above 1 zooms in on the focus (a town on the route) or the middle of the route */
   const zoom=Math.max(1,Math.min(8,+cfg.zoom||1));
-  const fit=Math.min((MX1-MX0-2*PADX)/spanX,(MY1-MY0-PTOP-PBOT)/spanY, INS?400000:60000); // cap the zoom for very short routes
+  const mk=(pt,pb,px)=>({pt,pb,px,fit:Math.min((MX1-MX0-2*px)/spanX,(MY1-MY0-pt-pb)/spanY, INS?400000:60000)}); // cap the zoom for very short routes
+  let LAY=mk(PTOP,PBOT,PADX);
+  /* use the page: the route is drawn as big as it fits with small margins, and the key and notes go in a corner the route
+     leaves empty; only when no corner is free is a strip kept for them along the bottom */
+  if(!INS&&zoom===1){const t=mk(40,26,56), bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH);
+    if(!bwK||!bhK)LAY=t;
+    else{const mx=(lo0+lo1)/2, my=(la0+la1)/2, pts=all.map(([x,y])=>[(MX0+MX1)/2+(x-mx)*k*t.fit, MY0+t.pt+(MY1-MY0-t.pt-t.pb)/2-(y-my)*t.fit]);
+      const free=([,x,y])=>!pts.some(([px,py])=>px>x-24&&px<x+bwK+24&&py>y-24&&py<y+bhK+24);
+      const c=[["b",16,H-16-bhK],["b",W-16-bwK,H-16-bhK],["t",16,MY0+16],["t",W-16-bwK,MY0+16]].find(free);
+      if(c){LAY=t;keyAt=c}
+      else{const m=mk(48,PBOT,80); LAY=m.fit>LAY.fit?m:LAY}}}
+  PTOP=LAY.pt; PBOT=LAY.pb; PADX=LAY.px; const fit=LAY.fit;
   const scale=fit*zoom;
   let cx=(lo0+lo1)/2, cy=(la0+la1)/2;
   if(zoom>1&&cfg.focus){const fp=[];routes.forEach(r=>r.stops.forEach(s=>{if(s.town===cfg.focus)fp.push(s)}));
@@ -2061,9 +2072,9 @@ function mapLayout(cfg){
     D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green));
     poly(D.areas.filter(a=>a.kind==="water").flatMap(a=>a.rings),C.water,{minArea:25});
     D.rivers.forEach(r=>{const xy=proj(r.pts);if(visible(xy))pline(xy,C.water,0.9)});
-    const local=scale/111>40; // zoomed in far enough (over ~40 pt per km) to show side streets
-    var roads=[]; D.roads.forEach(r=>{if(r.cls>3&&!local)return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
-    if(local)[5,4].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,C.roadMinor,c===5?0.4:0.5)}));
+    var kmPt=scale/111, local=kmPt>40; // points per km: more local roads and places the further in the map is
+    var roads=[]; D.roads.forEach(r=>{if((r.cls===4&&kmPt<=14)||(r.cls===5&&!local))return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
+    [5,4].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,C.roadMinor,c===5?0.4:(local?0.5:0.4))}));
     [3,2,1,0].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,c===3?C.roadMinor:C.road,MAPX.roadW[c]*(local?1.35:1))}));
     D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,0.75,"butt")});
   } else var roads=[];
@@ -2101,8 +2112,9 @@ function mapLayout(cfg){
     return [bx,by]};
   const onRoute=(b,pad=2.5)=>rpts.some(([x,y])=>b[0]-pad<x&&x<b[2]+pad&&b[1]-pad<y&&y<b[3]+pad);
 
-  const KEY=keyH?[16,H-16-keyH,16+KEYW,H-16]:null;
-  const NOTE=noteH?[(KEY?KEY[2]+10:16),H-16-noteH,(KEY?KEY[2]+10:16)+NOTEW,H-16]:null;
+  const kx0=keyAt?keyAt[1]:16, ktop=keyAt&&keyAt[0]==="t", ky=h=>ktop?keyAt[2]:H-16-h;
+  const KEY=keyH?[kx0,ky(keyH),kx0+KEYW,ky(keyH)+keyH]:null;
+  const NOTE=noteH?[(KEY?KEY[2]+10:kx0),ky(noteH),(KEY?KEY[2]+10:kx0)+NOTEW,ky(noteH)+noteH]:null;
   if(KEY)boxes.push(KEY); if(NOTE)boxes.push(NOTE);
 
   /* ----- stops (one marker per place, shared between routes) ----- */
@@ -2186,7 +2198,7 @@ function mapLayout(cfg){
 
   /* road numbers set along the road */
   const tags=[]; const byRef={};
-  roads.forEach(r=>{if(r.cls<=1&&/^[AM]\d/.test(r.ref))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
+  roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
   Object.keys(byRef).sort().forEach(ref=>{const segs=byRef[ref].map(s=>[s,s.reduce((a,p,i)=>i?a+Math.hypot(p[0]-s[i-1][0],p[1]-s[i-1][1]):0,0)]).sort((a,b)=>b[1]-a[1]).map(a=>a[0]);
     const placed=[], wdt=width(ref,5.8,"normal")+3, max=segs.length>60?2:1;
     for(const s of segs.slice(0,40)){if(placed.length>=max)break; const m=s.length>>1, a=s[Math.max(0,m-1)], b=s[Math.min(s.length-1,m+1)];
@@ -2197,7 +2209,7 @@ function mapLayout(cfg){
       placed.push([x,y]); boxes.push(b2); tags.push({ref,x,y,ang})}});
 
   /* place names: towns and villages, multi-word names on two lines */
-  const SZ={city:9,town:8.2,village:7.4}, stopTowns=new Set(stops.map(s=>s.town));
+  const zk=typeof kmPt!=="undefined"?kmPt:0, SZ={city:9,town:8.2,village:7.4,...(zk>18?{suburb:6.8}:{}),...(zk>22?{hamlet:6.4}:{})}, stopTowns=new Set(stops.map(s=>s.town));
   const places=[];
   if(D)D.places.slice().sort((a,b)=>(SZ[b.kind]||0)-(SZ[a.kind]||0)).forEach(p=>{
     if(!SZ[p.kind]||stopTowns.has(p.name)||p.name.includes("("))return;
@@ -2959,7 +2971,7 @@ function mapQuery(ext){
   node[railway=station];
   nwr[landuse~"^(residential|commercial|retail|industrial)$"];
   nwr[boundary~"^(protected_area|national_park)$"];
-  node[place~"^(city|town|village)$"];
+  node[place~"^(city|town|village|suburb|hamlet)$"];
 );
 out geom;`;
 }
