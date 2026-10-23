@@ -996,12 +996,29 @@ function ttMergeTwo(a,b,o){
   const ord=cols.map((c,j)=>j).sort((x,y)=>key[x]-key[y]||x-y);
   const out={...a,stops:master.map(k=>stopOf.get(k)),cols:ord.map(j=>cols[j]),times:grid.map(r=>ord.map(j=>r[j])),warnings:[]};
   out.direction=guessDirection(out); return out}
+// does b run the same way as a? <0 yes, >0 the other way, null can't tell: from where they start and end,
+// else where b's first and last stops (or towns) come in a
+function ttEnds(a,b){
+  const P=s=>isFinite(s.lat)&&isFinite(s.lon), ends=x=>{const st=x.stops.filter(P); return st.length>=2?[st[0],st[st.length-1]]:null}, ea=ends(a), eb=ends(b);
+  if(ea&&eb){const d=(p,q)=>Math.hypot((p.lon-q.lon)*Math.cos(p.lat*Math.PI/180),p.lat-q.lat), f=d(eb[0],ea[0])+d(eb[1],ea[1]), r=d(eb[0],ea[1])+d(eb[1],ea[0]);
+    if(Math.abs(f-r)>0.005)return f-r}
+  for(const key of [s=>naptanNorm([s.town,s.stop].filter(Boolean).join(" ")),s=>naptanNorm(s.town)]){
+    const an=a.stops.map(key), i=an.indexOf(key(b.stops[0])), j=an.lastIndexOf(key(b.stops[b.stops.length-1]));
+    if(i>=0&&j>=0&&i!==j)return i<j?-1:1}
+  return null}
+// every route of the same days and direction goes into one table (stops a route doesn't call at get –)
 function ttCombine(A,B){
-  const out=A.map(ttClone);
-  B.map(ttClone).forEach(b=>{const day=ttDayOf(b); let best=null;
-    out.forEach((a,i)=>{if(ttDayOf(a)!==day)return; const o=ttOrient(a,b); if(o.shared>=2&&o.inc>o.dec&&(!best||o.shared>best.o.shared))best={i,o}});
-    if(best){out[best.i]=ttMergeTwo(out[best.i],b,best.o);return}
-    let at=-1; out.forEach((a,i)=>{if(ttDayOf(a)===day)at=i}); if(at<0)out.push(b); else out.splice(at+1,0,b)});
+  const out=A.map(ttClone), Bc=B.map(ttClone), nth=new Map(), cnt={};
+  Bc.forEach(b=>{const d=ttDayOf(b); cnt[d]=cnt[d]||0; nth.set(b,cnt[d]++)});
+  Bc.forEach(b=>{const day=ttDayOf(b), cands=out.map((a,i)=>({a,i,o:ttOrient(a,b)})).filter(x=>ttDayOf(x.a)===day);
+    if(!cands.length){out.push(b);return}
+    // 1. stops in common, in the same order
+    let best=null; cands.forEach(x=>{if(x.o.shared>=2&&x.o.inc>x.o.dec&&(!best||x.o.shared>best.o.shared))best=x});
+    // 2. starts and ends the same way round
+    if(!best){let bs=null; cands.forEach(x=>{const e=ttEnds(x.a,b); if(e!=null&&e<0&&(!bs||e<bs.e))bs={x,e}}); if(bs)best=bs.x}
+    // 3. the same place in its own file: first table with the first, second with the second (not one that clearly runs the other way)
+    if(!best){const ok=cands.filter(x=>!(x.o.shared>=2&&x.o.dec>x.o.inc)&&!(ttEnds(x.a,b)>0)), L=ok.length?ok:cands; best=L[Math.min(nth.get(b),L.length-1)]}
+    out[best.i]=ttMergeTwo(best.a,b,best.o)});
   return out}
 // a route number from a file name ("Route 88A from BODS.csv", "88a.xlsx") for files that don't label their journeys
 function ttRouteFromName(n){const m=String(n||"").replace(/\.[^.]+$/,"").match(/(?:^|[^A-Za-z0-9])(?:route|service)?\s*([A-Za-z]{0,2}\d{1,4}[A-Za-z]?)(?![A-Za-z0-9])/i); return m?m[1].toUpperCase():""}
