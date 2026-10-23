@@ -351,6 +351,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wizon .wnav .wnext{flex:1 1 auto}
 .wtools{display:flex;flex-wrap:wrap;gap:8px}
 .allmore{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.openproj svg{width:17px;height:17px}
+.tabs .tabopen{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;font-weight:500;padding:13px 12px 12px;white-space:nowrap;cursor:pointer;position:relative}
+.tabs .tabopen:hover{color:var(--fg)}
+.tabs .tabopen svg{width:17px;height:17px;flex:none}
 .status .linkbtn{margin-left:6px}
 .hint.err{color:var(--err)}
 .wizon #nextMap{display:none!important}
@@ -426,6 +430,7 @@ span.gbt{cursor:default}
   <button type="button" id="segHome" class="home" aria-label="All tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
   <span class="tdiv" aria-hidden="true"></span>
   <button type="button" data-tab="tt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg><span>Timetable</span></button><button type="button" data-tab="map" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>Route map</span></button><button type="button" data-tab="fare" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V5h18v4a3 3 0 0 0 0 6v4H3v-4a3 3 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 2"/></svg><span>Fare chart</span></button><button type="button" data-tab="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5z"/><path d="M12 6v14"/></svg><span>Bus guide</span></button>
+<label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
 </div></nav>
 <div class="wrap">
   <section class="choose" id="choose">
@@ -439,7 +444,7 @@ span.gbt{cursor:default}
         <span class="go">Start <span aria-hidden="true">→</span></span>
       </button>
       <span class="allmore"><button type="button" class="linkbtn" id="wResume" hidden>Carry on with your routes</button>
-        <label class="btn ghost sm upl">Open a project file<input type="file" id="wOpen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
+        <label class="btn ghost upl openproj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg>Open a project file<input type="file" id="wOpen" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
         <span class="hint" id="wOpenMsg">Saved from Route Studio: loads your routes, maps, fares and guide again so you can carry on.</span></span>
     </div>
     <p class="orone">Or make just one thing</p>
@@ -468,7 +473,7 @@ span.gbt{cursor:default}
         <div class="wsteps" id="wSteps" role="tablist" aria-label="Steps"></div>
         <div class="wroutes" id="wRoutes"></div>
         <p class="hint" id="wHint"></p>
-        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button><button type="button" class="btn ghost sm" id="wSaveFile">Save project file</button></div>
+        <div class="wtools"><button type="button" class="btn ghost sm" id="wBack" hidden></button><button type="button" class="btn ghost sm" id="wAddBig" hidden>+ Add another route</button><button type="button" class="btn ghost sm" id="wZip" hidden></button><button type="button" class="btn ghost sm" id="wSaveFile">Save project file</button><label class="btn ghost sm upl">Open project file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label></div>
       </div>
       <div class="modes" id="ttModes" role="tablist" aria-label="New or update">
         <button type="button" role="tab" class="mode" id="modeNew" aria-selected="true">
@@ -4325,11 +4330,15 @@ async function wOpenProject(f){
     guideRenderRows();
     msg.className="hint"; msg.textContent=`Opened ${f.name}: ${wReady().length} route${wReady().length===1?"":"s"}.`;
     W.on=false; wStart(false);
-  }catch(e){msg.className="hint err"; msg.textContent=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.")}
+  }catch(e){const t=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.");
+    msg.className="hint err"; msg.textContent=t; if(!$("builder").hidden)wNote(t,true)}
 }
 (function wWire2(){
   $("wSaveFile").addEventListener("click",wSaveProject);
-  $("wOpen").addEventListener("change",()=>{const f=$("wOpen").files[0]; $("wOpen").value=""; if(f)wOpenProject(f)});
+  document.querySelectorAll("input.rsopen").forEach(inp=>inp.addEventListener("change",()=>{const f=inp.files[0]; inp.value=""; if(f)wOpenProject(f)}));
+  // or drop a project file anywhere on the home page
+  const home=$("choose"); ["dragover","drop"].forEach(ev=>home.addEventListener(ev,e=>{if(![...e.dataTransfer.types].includes("Files"))return; e.preventDefault();
+    if(ev==="drop"){const f=[...e.dataTransfer.files].find(f=>/\.json$/i.test(f.name)); if(f)wOpenProject(f)}}));
 })();
 
 
