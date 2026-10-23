@@ -2299,6 +2299,8 @@ async function mapResolve(){
   const res={byMemory:0,byCode:0,byName:[]};
   const add=r=>{res.byCode+=r.byCode;res.byName.push(...r.byName)};
   res.byMemory=mapMemApply(); mapCountMissing();
+  // routes Central Connect runs: their own stops from BODS first, so names match the right stop on the right road
+  if(mapState.missing.length&&typeof bodsRouteStops==="function"){const recs=await bodsRouteStops(mapState.routes); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); mapCountMissing()}
   if(mapState.missing.length){const recs=await mapAreaStops(); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); mapCountMissing()}
   if(mapState.missing.length&&mapState.naptan){try{add(mapNaptanMatch(mapState.naptan,mapState.routes))}catch(e){} mapCountMissing()}
   mapMemSave();
@@ -3778,9 +3780,13 @@ async function bodsPaths(){
 }
 function bodsVia(r){
   const P=BODS.paths&&BODS.paths.routes&&BODS.paths.routes[r.id]; if(!P||r.stops.length<2)return null;
-  const codes=r.stops.map(s=>String(s.code||"").trim().toUpperCase()), known=codes.filter(Boolean).length; if(known<2)return null;
+  // a timing stop matches a stop of the pattern by NaPTAN code, or by being the same place (within 150 m: the other side of the road)
+  const codes=r.stops.map(s=>String(s.code||"").trim().toUpperCase()), known=r.stops.filter((s,k)=>codes[k]||isFinite(s.lat)).length; if(known<2)return null;
+  const near=(s,x)=>{if(!isFinite(s.lat)||!isFinite(s.lon))return false; const k=Math.cos(s.lat*Math.PI/180); return Math.hypot((x[1]-s.lon)*k,x[2]-s.lat)*111195<150};
   let best=null;
-  for(const p of P){const ids=p.stops.map(x=>String(x[0]).toUpperCase()); let at=0; const hits=codes.map(c=>{if(!c)return -1; const i=ids.indexOf(c,at); if(i<0)return -1; at=i+1; return i});
+  for(const p of P){const ids=p.stops.map(x=>String(x[0]).toUpperCase()); let at=0;
+    const hits=r.stops.map((s,k)=>{let i=codes[k]?ids.indexOf(codes[k],at):-1; if(i<0)for(let j=at;j<p.stops.length;j++)if(near(s,p.stops[j])){i=j;break}
+      if(i<0)return -1; at=i+1; return i});
     const found=hits.filter(i=>i>=0).length; if(!best||found>best.found||(found===best.found&&p.n>best.p.n))best={p,hits,found}}
   if(!best||best.found<Math.max(2,Math.ceil(known*0.8)))return null;   // the timetable's stops don't follow any BODS pattern
   const out=[]; let prev=-1;
@@ -3790,6 +3796,21 @@ function bodsVia(r){
   return out;
 }
 bodsPaths();
+/* the stops of the BODS timetables with the same route numbers, as NaPTAN-style records for naptanMatch */
+async function bodsRouteStops(routes){
+  const I=await bodsIndex(), ids=new Set(routes.map(r=>String(r.id).toUpperCase()));
+  const gs=I.groups.filter(g=>g.routes.some(r=>ids.has(r.toUpperCase()))); if(!gs.length)return [];
+  BODS.stops=BODS.stops||new Map(); const out=[], seen=new Set();
+  for(const g of gs){
+    if(!BODS.stops.has(g.file)){const recs=[];
+      try{const r=await fetch("bods/"+g.file); if(r.ok)parseCSV(await r.text()).forEach(row=>{const code=String(row[1]||"").trim(), lat=parseFloat(row[2]), lon=parseFloat(row[3]);
+        if(!code||!isFinite(lat)||!isFinite(lon)||!/^[0-9A-Z]{6,}$/i.test(code))return; const sp=splitStop(String(row[0]||""));
+        recs.push({atco:code,cn:sp.stop||sp.town,ind:"",lm:"",st:"",loc:sp.town,par:"",gp:"",town:"",sub:"",lon,lat,type:"BCT"})})}catch(e){}
+      BODS.stops.set(g.file,recs)}
+    BODS.stops.get(g.file).forEach(x=>{if(!seen.has(x.atco)){seen.add(x.atco);out.push(x)}});
+  }
+  return out;
+}
 async function bodsFile(g){const r=await fetch("bods/"+g.file,{cache:"no-cache"}); if(!r.ok)throw new Error(`Route ${g.routes.join(" / ")} couldn't be loaded.`);
   return new File([await r.text()],`Route ${g.routes.join(" ")} from BODS.csv`,{type:"text/csv"})}
 function bodsInfo(I){if(!I.groups.length)return "The BODS timetables aren't available right now.";
