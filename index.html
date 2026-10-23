@@ -2232,8 +2232,10 @@ async function mapCellData(ext){
   if(!pre.size&&!LIVE_MAP.on)return false;
   const c=LIVE_MAP.CELL, i0=Math.floor(ext.s/c), i1=Math.floor(ext.n/c), j0=Math.floor(ext.w/c), j1=Math.floor(ext.e/c), cells=[];
   for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++)cells.push([i,j]);
-  if(cells.length>36)return false;   // an area this big would take too long to load
-  const avail=cells.filter(([i,j])=>pre.has(i+","+j)||LIVE_MAP.on); if(!avail.length)return false;
+  if(cells.length>160)return false;   // an area this big would take too long to load
+  // squares that aren't built in are downloaded on the website, unless that's more than a dozen or so (too slow on the free servers)
+  const missing=cells.filter(([i,j])=>!pre.has(i+","+j)&&!LIVE_MAP.cells.has(i+","+j)).length, canLive=LIVE_MAP.on&&missing<=16;
+  const avail=cells.filter(([i,j])=>pre.has(i+","+j)||(canLive)); if(!avail.length)return false;
   const key="cells:"+avail.map(x=>x.join(",")).join("|"); if(key===mapState.tileKey)return true;
   const st=$("status"), live=avail.filter(([i,j])=>!pre.has(i+","+j)&&!LIVE_MAP.cells.has(i+","+j)).length; let done=0, failed=0;
   const say=()=>{if(live){st.className="status";st.textContent=`Getting the roads for this area from OpenStreetMap… ${done} of ${avail.length}`}};

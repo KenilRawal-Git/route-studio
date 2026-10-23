@@ -2,5 +2,5 @@
   "operator": "Central Connect",
   "regions": ["east_anglia", "south_east", "east_midlands"],
   "osm_extract": "europe/united-kingdom/england",
-  "map_margin": 1
+  "map_margin": 2
 }

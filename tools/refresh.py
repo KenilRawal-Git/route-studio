@@ -41,5 +41,5 @@ if cfg.get("regions") == "all": print("regions with this operator:", found)
 
 # Map squares from OpenStreetMap around every stop the routes call at
 osm = get(f"https://download.geofabrik.de/{cfg.get('osm_extract', 'europe/united-kingdom/england')}-latest.osm.pbf", os.path.join(W, "extract.osm.pbf"))
-run(os.path.join(T, "build_tiles.py"), osm, os.path.join(dst, "paths.json"), os.path.join(ROOT, "mapdata"), str(cfg.get("map_margin", 1)))
+run(os.path.join(T, "build_tiles.py"), osm, os.path.join(dst, "paths.json"), os.path.join(ROOT, "mapdata"), str(cfg.get("map_margin", 2)))
 os.remove(osm)

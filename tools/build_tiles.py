@@ -3,7 +3,7 @@
 Usage: python3 build_tiles.py <extract.osm.pbf> <bods/paths.json> <out mapdata dir> [margin cells]
 
 The map is cut into 0.25° squares (the same grid the website uses for live OpenStreetMap downloads).
-Every square within <margin> squares (default 1) of a stop on any route gets mapdata/cell_<i>_<j>.json in the
+Every square within <margin> squares (default 2, enough for the space a map shows around its stops) of a stop on any route gets mapdata/cell_<i>_<j>.json in the
 builder's compact format (made by pack_mapdata.py), and mapdata/index.json lists them with their cell number,
 so the page loads only the squares a map needs. Squares nobody needs aren't built.
 """
@@ -12,7 +12,7 @@ from collections import defaultdict
 import osmium
 
 PBF, PATHS, OUT = sys.argv[1:4]
-MARGIN = int(sys.argv[4]) if len(sys.argv) > 4 else 1
+MARGIN = int(sys.argv[4]) if len(sys.argv) > 4 else 2
 CELL = 0.25
 HERE = os.path.dirname(os.path.abspath(__file__))
 HW = {'motorway', 'trunk', 'primary', 'secondary', 'tertiary', 'unclassified', 'residential'}
@@ -91,11 +91,14 @@ for f in os.listdir(OUT):
 tiles = []
 with tempfile.TemporaryDirectory() as tmp:
     for (i, j) in sorted(want):
-        els = E.cells.get((i, j), [])
-        if not els: continue
-        src_json = os.path.join(tmp, "cell.json"); fn = f"cell_{i}_{j}.json"
-        json.dump({'elements': els}, open(src_json, "w"))
-        subprocess.run([sys.executable, os.path.join(HERE, "pack_mapdata.py"), src_json, os.path.join(OUT, fn), "OpenStreetMap"], check=True, capture_output=True)
+        els = E.cells.get((i, j), []); fn = f"cell_{i}_{j}.json"
+        if not els:   # open sea or empty country: still listed, so the page knows there's nothing to download
+            json.dump({"v": 1, "name": "OpenStreetMap", "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL], "roads": [], "rivers": [], "rails": [],
+                       "areas": [], "places": [], "stations": []}, open(os.path.join(OUT, fn), "w"), separators=(",", ":"))
+        else:
+            src_json = os.path.join(tmp, "cell.json")
+            json.dump({'elements': els}, open(src_json, "w"))
+            subprocess.run([sys.executable, os.path.join(HERE, "pack_mapdata.py"), src_json, os.path.join(OUT, fn), "OpenStreetMap"], check=True, capture_output=True)
         tiles.append({"file": fn, "name": "OpenStreetMap", "cell": [i, j], "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL]})
 json.dump({"v": 2, "cell": CELL, "tiles": tiles}, open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"))
 print(len(tiles), "squares built,", round(sum(os.path.getsize(os.path.join(OUT, t["file"])) for t in tiles) / 1e6, 1), "MB")
