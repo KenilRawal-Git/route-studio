@@ -348,7 +348,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wiz{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:12px;box-shadow:var(--shadow)}
 .wsteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .wst{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:var(--field);color:var(--muted);border-radius:10px;padding:8px 6px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
-.wst .sn{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;background:var(--line);color:var(--fg)}
+.wst .sn{flex:none;min-width:20px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;background:var(--line);color:var(--fg)}
 .wst.done{color:var(--fg)}.wst.done .sn{background:var(--ok);color:#fff}
 .wst.on{border-color:var(--btn);background:color-mix(in srgb,var(--btn) 12%,var(--panel));color:var(--fg)}.wst.on .sn{background:var(--btn);color:#fff}
 .wroutes{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
@@ -360,10 +360,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wnetpick{font-size:.8rem;margin-left:4px}
 .wnetbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:8px;padding:8px 12px;border:1px solid var(--btn);border-radius:10px;background:color-mix(in srgb,var(--btn) 8%,var(--panel));font-size:.84rem}
 .wnetbar[hidden]{display:none}
+.wnt{display:inline-flex;gap:3px;align-items:center;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:3px 5px;cursor:pointer;font:inherit;opacity:.45}
+.wnt.on{opacity:1;border-color:var(--btn)}
+.wnt .chip{border-radius:5px;padding:1px 6px;font-weight:600;font-size:.72rem}
 .wlab{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
-.wr{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--field);padding:2px 4px 2px 2px}
+.wr{display:inline-flex;align-items:center;max-width:100%;border:1px solid var(--line);border-radius:10px;background:var(--field);padding:2px 4px 2px 2px}
 .wr.cur{border-color:var(--btn);box-shadow:0 0 0 2px color-mix(in srgb,var(--btn) 30%,transparent)}
-.wrb{display:inline-flex;align-items:center;gap:4px;border:0;background:none;padding:4px 6px;font:inherit;color:var(--fg);cursor:pointer}
+.wrb{display:inline-flex;align-items:center;flex-wrap:wrap;row-gap:4px;min-width:0;text-align:left;gap:4px;border:0;background:none;padding:4px 6px;font:inherit;color:var(--fg);cursor:pointer}
 .wrb .chip{border-radius:6px;padding:1px 7px;font-weight:600;font-size:.78rem}
 .wrb small{font-size:.7rem;color:var(--muted);margin-left:2px}
 .wnew{font-size:.8rem;font-weight:600;color:var(--muted)}
@@ -4838,7 +4841,12 @@ function wSkipFares(){
   $("status").textContent=""; wLoad(); window.scrollTo({top:0,behavior:"smooth"});
 }
 function wAddRoute(){wSave(); W.routes.push({uid:W.nextUid++}); W.cur=W.routes.length-1; W.step="tt"; wLoad(); $("dataSet").scrollIntoView({behavior:"smooth",block:"start"})}
-function wRemoveRoute(k){if(W.step==="tt")wSave(); W.routes.splice(k,1); if(!W.routes.length)W.routes.push({uid:W.nextUid++}); W.cur=Math.min(W.cur>k?W.cur-1:W.cur,W.routes.length-1); wLoad()}
+function wRemoveRoute(k){wSave(); const uid=W.routes[k]&&W.routes[k].uid; W.routes.splice(k,1); if(!W.routes.length)W.routes.push({uid:W.nextUid++});
+  // network maps lose the route too (and go when fewer than two routes are left)
+  W.nets.forEach(n=>n.members=n.members.filter(u=>u!==uid)); const keep=W.nets.filter(n=>n.members.length>=2), cn=W.curNet!=null?W.nets[W.curNet]:null; W.nets=keep; W.curNet=cn&&keep.includes(cn)?keep.indexOf(cn):null;
+  W.cur=Math.min(W.cur>k?W.cur-1:W.cur,W.routes.length-1);
+  if(W.step!=="tt"&&!wIds(W.routes[W.cur]).length){const r=wReady()[0]; if(r)W.cur=W.routes.indexOf(r); else W.step="tt"}
+  wLoad()}
 function wRender(){
   const z=$("wiz"); z.hidden=!W.on; document.body.classList.toggle("wizon",W.on); if(!W.on)return;
   const idx=WSTEPS.findIndex(s=>s[0]===W.step), ready=wReady();
@@ -4849,7 +4857,7 @@ function wRender(){
   strip.innerHTML=`<span class="wlab">${W.step==="tt"?"Your routes":"Route"}</span>`+list.map(r=>{const k=W.routes.indexOf(r), ids=wIds(r), st=wSt(r);
       const chips=ids.length?ids.map(id=>`<span class="chip" style="background:${wColour(st,id)};color:${readableOn(wColour(st,id))}">${esc(id)}</span>`).join(""):`<span class="wnew">New route</span>`;
       const tag=W.step==="fare"?`<small>${r.fare?"Fares added":"No fares"}</small>`:W.step==="map"?`<small>${r.map?"Done":""}</small>`:"";
-      return `<span class="wr${k===W.cur?" cur":""}"><button type="button" class="wrb" data-k="${k}" aria-pressed="${k===W.cur}">${chips}${tag}</button>${W.step==="tt"&&W.routes.length>1?`<button type="button" class="ib xs" data-del="${k}" aria-label="Remove ${esc(wName(r))}">✕</button>`:""}</span>`}).join("")
+      return `<span class="wr${k===W.cur?" cur":""}"><button type="button" class="wrb" data-k="${k}" aria-pressed="${k===W.cur}">${chips}${tag}</button>${W.step!=="guide"&&W.routes.length>1?`<button type="button" class="ib xs" data-del="${k}" aria-label="Remove ${esc(wName(r))}" title="Remove this route">✕</button>`:""}</span>`}).join("")
 ;
   if(W.step==="map"){
     strip.querySelectorAll(".wr").forEach(sp=>{const b=sp.querySelector("[data-k]"); if(b&&W.sel.has(+b.dataset.k))sp.classList.add("sel"); if(W.curNet!=null)sp.classList.remove("cur")});
@@ -4865,8 +4873,14 @@ function wRender(){
     if(W.step==="map"&&(ev.shiftKey||W.selMode)){ // choosing routes for a network map
       if(!W.sel.size&&W.curNet==null&&k!==W.cur)W.sel.add(W.cur); W.sel.has(k)?W.sel.delete(k):W.sel.add(k); W.selMode=W.sel.size>0; wRender(); return}
     W.sel=new Set(); W.selMode=false; wGo(W.step,k)}));
-  const nb=$("wNetBar"); nb.hidden=!(W.step==="map"&&W.selMode);
-  if(!nb.hidden){const n=W.sel.size; nb.innerHTML=`<span>${n?`${n} route${n>1?"s":""} chosen`:"Click the routes to put on one map"}${n<2?" (choose two or more)":""}</span><button type="button" class="btn sm" id="wNetMake"${n<2?" disabled":""}>Make a network map</button><button type="button" class="linkbtn" id="wNetCancel">Cancel</button>`;
+  const nb=$("wNetBar"), net=W.step==="map"&&!W.selMode&&W.curNet!=null?W.nets[W.curNet]:null; nb.hidden=!(W.step==="map"&&(W.selMode||net));
+  if(net){nb.innerHTML=`<span>Routes on this network map:</span>`+ready.map(r=>{const k=W.routes.indexOf(r), on=net.members.includes(r.uid);
+      return `<button type="button" class="wnt${on?" on":""}" data-nt="${k}" aria-pressed="${on}" title="${on?"Take off":"Put on"} this map">${wIds(r).map(id=>`<span class="chip" style="background:${wColour(r.tt.state,id)};color:${readableOn(wColour(r.tt.state,id))}">${esc(id)}</span>`).join("")}</button>`}).join("")
+      +`<span class="hint" style="margin:0">Click a route to take it off the map or put it back.</span>`;
+    nb.querySelectorAll("[data-nt]").forEach(b=>b.addEventListener("click",()=>{const r=W.routes[+b.dataset.nt], i=net.members.indexOf(r.uid);
+      if(i>=0){if(net.members.length<=2){wNote("A network map needs at least two routes.",true);return} net.members.splice(i,1)} else net.members.push(r.uid);
+      wSave(); wLoad()}))}
+  else if(!nb.hidden){const n=W.sel.size; nb.innerHTML=`<span>${n?`${n} route${n>1?"s":""} chosen`:"Click the routes to put on one map"}${n<2?" (choose two or more)":""}</span><button type="button" class="btn sm" id="wNetMake"${n<2?" disabled":""}>Make a network map</button><button type="button" class="linkbtn" id="wNetCancel">Cancel</button>`;
     $("wNetMake").addEventListener("click",wMakeNet); $("wNetCancel").addEventListener("click",()=>{W.sel=new Set();W.selMode=false;wRender()})}
   strip.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>wRemoveRoute(+b.dataset.del)));
   const at=W.step==="map"&&W.curNet!=null?ready.length-1:ready.indexOf(W.routes[W.cur]), more=at>=0&&at<ready.length-1, nx=more?ready[at+1]:null;
