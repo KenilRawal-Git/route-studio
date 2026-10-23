@@ -2136,6 +2136,17 @@ function naptanTownScore(T,r){
   return 0;
 }
 /* fill code/lat/lon in place for stops that have no position; returns what was found */
+/* how far apart two stops on a route can be, from the timetable: about a kilometre a minute (60 km/h) plus 2 km */
+const stopKm=(a,b)=>Math.hypot((a.lon-b.lon)*Math.cos(a.lat*Math.PI/180),a.lat-b.lat)*111.195;
+const stopReach=(a,b)=>isFinite(a.t)&&isFinite(b.t)?Math.abs(a.t-b.t)+2:Infinity;
+/* pick from the candidates for a stop: within reach of its placed neighbour if the timetable says how far that is,
+   then the best name match, then the nearest. Returns null when no candidate is within reach. */
+function stopPick(cands,s,n){
+  if(!n){const top=Math.max(...cands.map(k=>k.score)); return cands.find(k=>k.score>=top-0.25).r}
+  const lim=stopReach(s,n), pool=cands.filter(k=>stopKm(k.r,n)<=lim); if(!pool.length)return null;
+  const top=Math.max(...pool.map(k=>k.score)), best=pool.filter(k=>k.score>=top-0.25).map(k=>k.r);
+  return best.sort((a,b)=>stopKm(a,n)-stopKm(b,n))[0];
+}
 function naptanMatch(records,routes){
   const byAtco=new Map(); records.forEach(r=>{byAtco.set(String(r.atco).toUpperCase(),r);
     if(r._loc==null){r._loc=naptanNorm(r.loc);r._par=naptanNorm(r.par);r._gp=naptanNorm(r.gp);r._town=naptanNorm(r.town);r._sub=naptanNorm(r.sub);r._cn=naptanNorm(r.cn);r._lm=naptanNorm(r.lm);r._st=naptanNorm(r.st)}});
@@ -2151,7 +2162,7 @@ function naptanMatch(records,routes){
     if(x.cands.length){const top=Math.max(...x.cands.map(k=>k.score)); x.best=x.cands.filter(k=>k.score>=top-0.25).map(k=>k.r)}});
   const near=x=>{const st=x.r.stops; for(let d=1;d<st.length;d++)for(const j of [x.i-d,x.i+d]){const o=st[j]; if(o&&isFinite(o.lat)&&isFinite(o.lon))return o} return null};
   for(let pass=0;pass<3;pass++)todo.forEach(x=>{if(x.how||!x.best)return; const n=near(x); if(!n&&pass<2)return;
-    const pick=n?x.best.slice().sort((a,b)=>Math.hypot(a.lat-n.lat,a.lon-n.lon)-Math.hypot(b.lat-n.lat,b.lon-n.lon))[0]:x.best[0];
+    const pick=stopPick(x.cands,x.s,n); if(!pick)return;
     x.badCode=x.s.code||""; x.s.lat=pick.lat;x.s.lon=pick.lon;x.s.code=pick.atco;x.how="name";x.rec=pick;x.alts=x.best.length});
   return {byCode:new Set(todo.filter(x=>x.how==="code").map(x=>x.s.code.toUpperCase())).size,
     byName:todo.filter(x=>x.how==="name").map(x=>({town:x.s.town,stop:x.s.stop,atco:x.rec.atco,name:x.rec.cn,ind:x.rec.ind,loc:x.rec.loc,alts:x.alts,badCode:x.badCode})),
@@ -2366,8 +2377,10 @@ function mapRejectOutliers(){
       const gaps=P.slice(1).map((s,k)=>km(P[k],s)), lim=Math.max(15,6*med(gaps));
       const c={lat:med(P.map(s=>s.lat)),lon:med(P.map(s=>s.lon))}, far=Math.max(25,4*med(P.map(s=>km(s,c))));
       let worst=null,wd=0;
-      P.forEach((s,k)=>{if(!s._auto)return; const dp=k>0?km(s,P[k-1]):Infinity, dn=k<P.length-1?km(s,P[k+1]):Infinity, dc=km(s,c);
-        const bad=Math.min(dp,dn)>lim||dc>far; if(bad&&dc>wd){wd=dc;worst=s}});
+      P.forEach((s,k)=>{if(!s._auto)return; const p=P[k-1], q=P[k+1], dp=p?km(s,p):Infinity, dn=q?km(s,q):Infinity, dc=km(s,c);
+        // further from a neighbour than the bus could get in the minutes between them (by the timetable)
+        const late=(p&&dp>stopReach(s,p))||(q&&dn>stopReach(s,q));
+        const bad=Math.min(dp,dn)>lim||dc>far||late; const sc=late?dc+1e6:dc; if(bad&&sc>wd){wd=sc;worst=s}});
       if(!worst)return;
       if(worst._mem){mem=mem||mapMemLoad(); if(worst.code)delete mem.c[String(worst.code).toUpperCase()]; delete mem.n[mapMemName(worst)]}
       worst.lat=NaN; worst.lon=NaN; worst.code=worst._code0||""; worst._auto=false; worst._mem=false; dropped++;
@@ -2415,11 +2428,11 @@ function routeStopMatch(records,routes){
   records.forEach(r=>{if(r._full==null){r._cn=naptanNorm(r.cn);r._full=naptanNorm(r.full||[r.loc,r.cn].join(" "));r._loc=naptanNorm(r.loc)}});
   const todo=[]; routes.forEach(r=>r.stops.forEach((s,i)=>{if(!isFinite(s.lat)||!isFinite(s.lon))todo.push({s,r,i})}));
   todo.forEach(x=>{const N=naptanNorm(x.s.stop||x.s.town), F=naptanNorm([x.s.town,x.s.stop].filter(Boolean).join(" ")), T=naptanNorm(x.s.town);
-    let best=[],top=0; records.forEach(rec=>{const sc=Math.max(naptanNameScore(N,rec._cn,"",""),naptanNameScore(F,rec._full,"",""))+(T&&rec._loc&&(rec._loc===T||rec._loc.includes(T))?1:0);
-      if(sc<2)return; if(sc>top+0.25){top=sc;best=[rec]} else if(sc>=top-0.25)best.push(rec)}); x.best=best});
+    x.cands=[]; records.forEach(rec=>{const sc=Math.max(naptanNameScore(N,rec._cn,"",""),naptanNameScore(F,rec._full,"",""))+(T&&rec._loc&&(rec._loc===T||rec._loc.includes(T))?1:0);
+      if(sc>=2)x.cands.push({r:rec,score:sc})}); x.best=x.cands.map(k=>k.r)});
   const near=x=>{const st=x.r.stops; for(let d=1;d<st.length;d++)for(const j of [x.i-d,x.i+d]){const o=st[j]; if(o&&isFinite(o.lat)&&isFinite(o.lon))return o} return null};
   for(let pass=0;pass<3;pass++)todo.forEach(x=>{if(x.how||!x.best.length)return; const n=near(x); if(!n&&pass<2)return;
-    const pick=n?x.best.slice().sort((a,b)=>Math.hypot(a.lat-n.lat,a.lon-n.lon)-Math.hypot(b.lat-n.lat,b.lon-n.lon))[0]:x.best[0];
+    const pick=stopPick(x.cands,x.s,n); if(!pick)return;
     x.s.lat=pick.lat;x.s.lon=pick.lon;x.s.code=pick.atco;x.how="name";x.rec=pick});
   return {byCode:0,byName:todo.filter(x=>x.how).map(x=>({town:x.s.town,stop:x.s.stop,atco:x.rec.atco,name:x.rec.cn,ind:x.rec.ind,loc:x.rec.loc,alts:x.best.length,badCode:""})),missing:todo.filter(x=>!x.how).map(x=>x.s)};
 }
@@ -2461,7 +2474,13 @@ function mapTimetableStops(sections=state.sections){
     if(!best||!best.idx.length)return null;
     const {sec,cols,idx}=best, termini=new Set([0,idx.length-1]);
     cols.forEach(j=>{const t=idx.filter(i=>timed(sec.times[i][j])); if(t.length){termini.add(idx.indexOf(t[0]));termini.add(idx.indexOf(t[t.length-1]))}});
-    return {id,termini,stops:idx.map(i=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN}})};
+    // minutes along the route at each stop (median running time between stops over the journeys), so stop finding
+    // can tell how far apart two stops can be: a bus doesn't cover 100 km in 6 minutes
+    const mins=v=>{const m=/^(\d\d):(\d\d)$/.exec(v||""); return m?+m[1]*60+ +m[2]:NaN};
+    const gap=idx.slice(1).map((i,p)=>{const g=cols.map(j=>{const a=mins(sec.times[idx[p]][j]), b=mins(sec.times[i][j]); return isFinite(a)&&isFinite(b)?((b-a+1440)%1440):NaN}).filter(isFinite).sort((x,y)=>x-y);
+      return g.length?g[Math.floor(g.length/2)]:NaN});
+    const at=[0]; gap.forEach((g,p)=>at.push(at[p]+g));
+    return {id,termini,stops:idx.map((i,p)=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN,t:at[p]}})};
   }).filter(Boolean);
 }
 const mapTTIsExample=()=>typeof fileMeta!=="undefined"&&fileMeta&&fileMeta.name==="Example timetable";
