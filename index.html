@@ -2161,7 +2161,17 @@ function mapLayout(cfg){
   const nameKey=s=>naptanNorm(s.town)+"|"+naptanNorm(s.stop), close=(x,s)=>Math.hypot((x.lon-s.lon)*k,x.lat-s.lat)*111195<400;
   routes.forEach(r=>r.stops.forEach((s,i)=>{const kk=stopKey(s), nk=nameKey(s); let o=stops.find(x=>x.key===kk)||stops.find(x=>x.nk===nk&&close(x,s));
     if(!o){let [x,y]=P(s.lon,s.lat); if(x<MX0+8||x>MX1-8||y<MY0+8||y>MY1-8)return; [x,y]=onLine(x,y); o={key:kk,nk,town:s.town,stop:s.stop,x,y,lon:s.lon,lat:s.lat,badges:[]}; stops.push(o)}
+    (o.rs||(o.rs=new Set())).add(r.id);
     if(r.termini.has(i)&&!o.badges.includes(r))o.badges.push(r)}));
+  /* a network map (or any map with lots of routes and stops) names places, not every stop: the ends of the routes get their
+     full name, each other town is named once (at its busiest stop), and the remaining stops are small marks without a label */
+  const NET=!INS&&cfg.netLabels!==false&&(cfg.title==="Network Map"||(routes.length>=4&&stops.length>24));
+  if(NET){const byTown=new Map(); stops.forEach(s=>{if(!byTown.has(s.town))byTown.set(s.town,[]); byTown.get(s.town).push(s)});
+    byTown.forEach((L,t)=>{const ends=L.filter(s=>s.badges.length); L.forEach(s=>{if(!s.badges.length)s.quiet=true});
+      if(ends.length||!t)return;
+      const cx=L.reduce((a,s)=>a+s.x,0)/L.length, cy=L.reduce((a,s)=>a+s.y,0)/L.length;
+      const rep=L.slice().sort((a,b)=>b.rs.size-a.rs.size||Math.hypot(a.x-cx,a.y-cy)-Math.hypot(b.x-cx,b.y-cy))[0];
+      rep.quiet=false; rep.townOnly=true})}
   stops.forEach(s=>boxes.push([s.x-5,s.y-5,s.x+5,s.y+5]));
 
   const stations=[];
@@ -2210,7 +2220,7 @@ function mapLayout(cfg){
   const labels=[];
   const ovl=(a,b)=>Math.max(0,Math.min(a[2],b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[3],b[3])-Math.max(a[1],b[1]));
   const crowd=s=>stops.filter(o=>o!==s&&Math.hypot(o.x-s.x,o.y-s.y)<70).length;
-  const order=stops.filter(s=>!s.inset).sort((a,b)=>crowd(b)-crowd(a));
+  const order=stops.filter(s=>!s.inset&&!s.quiet).map(s=>s.townOnly?{...s,stop:"",_s:s}:s).sort((a,b)=>crowd(b)-crowd(a));
   insets.forEach(I=>{const bd=[]; I.g.forEach(s=>s.badges.forEach(r=>{if(!bd.includes(r))bd.push(r)})); if(bd.length>3)bd.length=0;   // lots of termini: their badges are in the enlargement
     order.unshift({town:I.town,stop:"see the enlarged map",x:(I.near[0]+I.near[2])/2,y:(I.near[1]+I.near[3])/2,badges:bd,cluster:I})});
   order.forEach(s=>{const {x,y}=s, hasStop=!!s.stop;
@@ -2311,7 +2321,7 @@ function mapLayout(cfg){
     if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11*k-BADGE_H-1,r)+2.5})}
     else{let bx=tx+width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0)+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4*k,r)+2.5})}
   });
-  stops.forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:s.inset?3.4:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset?1.6:2}));
+  stops.forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:s.inset||s.quiet?3:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset||s.quiet?1.4:2}));
   insets.forEach(I=>{const [x0,y0,x1,y1]=I.b, [a0,b0,a1,b1]=I.near;
     ops.push({k:"r",x:a0,y:b0,w:a1-a0,h:b1-b0,c:"#FFFFFF",nofill:true,rx:6,stroke:C.leader||"#555555",sw:0.9});   // the area on the main map
     ops.push({k:"r",x:x0+1.5,y:y0+2,w:x1-x0,h:y1-y0,c:"#000000",a:0.08,rx:7});
