@@ -694,6 +694,7 @@ span.gbt{cursor:default}
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
           <p class="hint">Each route is drawn one way, from one day's timetable, so the map stays clean.</p></div>
         <label class="check"><input type="checkbox" id="mapInsets" checked> Enlarge crowded areas <span class="opt">Close-together stops get a zoomed-in box</span></label>
+        <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option></select></label>
       </fieldset>
       <fieldset id="mapTextSet" hidden>
         <legend><span class="num">3</span>Map details</legend>
@@ -2165,13 +2166,22 @@ function mapLayout(cfg){
     if(r.termini.has(i)&&!o.badges.includes(r))o.badges.push(r)}));
   /* a network map (or any map with lots of routes and stops) names places, not every stop: the ends of the routes get their
      full name, each other town is named once (at its busiest stop), and the remaining stops are small marks without a label */
-  const NET=!INS&&cfg.netLabels!==false&&(cfg.title==="Network Map"||(routes.length>=4&&stops.length>24));
+  const NET=!INS&&cfg.netLabels!==false&&cfg.style!=="detailed"&&(cfg.style==="summary"||cfg.title==="Network Map"||(routes.length>=4&&stops.length>24));
   if(NET){const byTown=new Map(); stops.forEach(s=>{if(!byTown.has(s.town))byTown.set(s.town,[]); byTown.get(s.town).push(s)});
     byTown.forEach((L,t)=>{const ends=L.filter(s=>s.badges.length); L.forEach(s=>{if(!s.badges.length)s.quiet=true});
       if(ends.length||!t)return;
       const cx=L.reduce((a,s)=>a+s.x,0)/L.length, cy=L.reduce((a,s)=>a+s.y,0)/L.length;
       const rep=L.slice().sort((a,b)=>b.rs.size-a.rs.size||Math.hypot(a.x-cx,a.y-cy)-Math.hypot(b.x-cx,b.y-cy))[0];
       rep.quiet=false; rep.townOnly=true})}
+  /* summary map: one point per town or village (the routes' ends included), named by place only; for busy networks
+     ("Map style: Auto" picks it when there are more than 30 stops) or when chosen */
+  var SUM=NET&&(cfg.style==="summary"||(cfg.style!=="detailed"&&stops.length>30));
+  if(SUM){const byTown=new Map(); stops.forEach(s=>{const t=s.town||s.stop; if(!byTown.has(t))byTown.set(t,[]); byTown.get(t).push(s)});
+    byTown.forEach(L=>{const cx=L.reduce((a,s)=>a+s.x,0)/L.length, cy=L.reduce((a,s)=>a+s.y,0)/L.length;
+      const node=L.slice().sort((a,b)=>b.rs.size-a.rs.size||Math.hypot(a.x-cx,a.y-cy)-Math.hypot(b.x-cx,b.y-cy))[0];
+      L.forEach(s=>{if(s!==node){s.hidden=true; s.badges.forEach(r=>{if(!node.badges.includes(r))node.badges.push(r)}); s.rs.forEach(x=>node.rs.add(x))}});
+      node.quiet=false; node.townOnly=true; if(!node.town){node.town=node.stop}});
+    for(let i=stops.length-1;i>=0;i--)if(stops[i].hidden)stops.splice(i,1)}
   stops.forEach(s=>boxes.push([s.x-5,s.y-5,s.x+5,s.y+5]));
 
   const stations=[];
@@ -2185,7 +2195,7 @@ function mapLayout(cfg){
   /* ----- enlargements: a tight cluster of stops (3 or more close together) is drawn again, bigger, in a box of its own;
      on the main map the cluster gets one label instead of a label per stop ----- */
   const insets=[];
-  if(!INS&&cfg.insets!==false){
+  if(!INS&&cfg.insets!==false&&!SUM){
     const seen=new Set(), groups=[];
     stops.forEach(s=>{if(seen.has(s))return; const g=[s]; seen.add(s);
       for(let i=0;i<g.length;i++)stops.forEach(o=>{if(!seen.has(o)&&Math.hypot(o.x-g[i].x,o.y-g[i].y)<26){seen.add(o);g.push(o)}});
@@ -2321,7 +2331,7 @@ function mapLayout(cfg){
     if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11*k-BADGE_H-1,r)+2.5})}
     else{let bx=tx+width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0)+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4*k,r)+2.5})}
   });
-  stops.forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:s.inset||s.quiet?3:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset||s.quiet?1.4:2}));
+  stops.forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:s.inset||s.quiet?3:SUM&&s.rs.size>2?5.4:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset||s.quiet?1.4:2}));
   insets.forEach(I=>{const [x0,y0,x1,y1]=I.b, [a0,b0,a1,b1]=I.near;
     ops.push({k:"r",x:a0,y:b0,w:a1-a0,h:b1-b0,c:"#FFFFFF",nofill:true,rx:6,stroke:C.leader||"#555555",sw:0.9});   // the area on the main map
     ops.push({k:"r",x:x0+1.5,y:y0+2,w:x1-x0,h:y1-y0,c:"#000000",a:0.08,rx:7});
@@ -2336,7 +2346,7 @@ function mapLayout(cfg){
     T("Key",kx+11,ky+18,9,"semibold","#000000");
     keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*140, yy=ky+35+i*15.2, cy=yy-2.5;
       if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
-      else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T("Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
+      else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T(SUM?"Town or village served":"Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="rail"){roundel(kx+20,cy,3.7);T("National Rail Line / Station",kx+40,yy,7.5,"light","#000000")}
       else{const w=bw(row.r);badge(kx+20-w/2,cy-BADGE_H/2,row.r);T("Route Terminus",kx+40,yy,7.5,"light","#000000")}});
   }
@@ -3095,7 +3105,7 @@ function mapCfg(){
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false,title:mapState.title||""};
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false,title:mapState.title||"",style:mapState.style||"auto"};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3148,6 +3158,7 @@ function mapRederive(){mapState.cache=new Map();
 $("mapDays").addEventListener("change",()=>{mapState.days=$("mapDays").value; mapRederive()});
 $("mapDir").addEventListener("change",()=>{mapState.dir=$("mapDir").value; mapRederive()});
 $("mapInsets").addEventListener("change",()=>{mapState.insets=$("mapInsets").checked; render()});
+$("mapStyle").addEventListener("change",()=>{mapState.style=$("mapStyle").value; guideState.blocks.forEach(b=>b._memo=null); render()});
 document.querySelectorAll('input[name=mapOrient]').forEach(r=>r.addEventListener("change",()=>{if(r.checked){mapState.orient=r.value;render()}}));
 $("mapUseBuiltin").addEventListener("click",()=>{mapState.osm=null;mapState.osmName="";mapState.cache=new Map();render();mapAutoData()});
 $("mapForget").addEventListener("click",()=>{try{localStorage.removeItem(MAP_MEM_KEY)}catch(e){} $("mapForget").textContent="Saved stop positions cleared"});
@@ -3916,7 +3927,7 @@ function gMapCfg(b){
   let lo0=Infinity,lo1=-Infinity,la0=Infinity,la1=-Infinity; routes.forEach(r=>r.stops.forEach(s=>{lo0=Math.min(lo0,s.lon);lo1=Math.max(lo1,s.lon);la0=Math.min(la0,s.lat);la1=Math.max(la1,s.lat)}));
   const k=Math.cos((la0+la1)/2*Math.PI/180), spanX=(lo1-lo0)*k, spanY=la1-la0;
   const land=b.orient==="landscape"||(b.orient!=="portrait"&&spanX>spanY*1.1);
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:b.cache||(b.cache=new Map()),valid:guideState.valid||state.valid,notes:b.notes||"",showKey:b.key!==false,title:b.title||"",
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:b.cache||(b.cache=new Map()),valid:guideState.valid||state.valid,notes:b.notes||"",showKey:b.key!==false,title:b.title||"",style:b.style||mapState.style||"auto",
     W:(land?GH:GW)/GMAP_S,H:(land?GW:GH)/GMAP_S,land};
 }
 function gMapStatus(b){
@@ -4698,10 +4709,10 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto"}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
   mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient;
-  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets;
+  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
 }
