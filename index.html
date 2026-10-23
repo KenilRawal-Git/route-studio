@@ -1027,15 +1027,15 @@ function layout(){
       runs.forEach(([t,w,c])=>{T(t,x,by,size,w,c);x+=width(t,size,w)});
     }
   };
-  const banner=(sec,cont)=>{
+  const banner=(sec,cont,noDay)=>{
     const lab=dayLabels(sec.name), day=expandDay(sec.day??lab.day).toUpperCase(), sub=sec.sub??lab.sub;
     // day in SemiBold, then a light-blue bar and the detail in Light, spaced as in the template
     const parts=[[day,"semibold","#ffffff",0]]; const tail=(sub||"")+(cont?(sub?" (continued)":"(continued)"):"");
     if(tail){parts.push(["|","light",C.pipe,2.8]);parts.push([tail,"light","#ffffff",5.89])}
     // gaps are measured from the previous item's start for the bar, as in the template
     let x=22.68; const xs=[]; parts.forEach(([t,wt,c,gap],i)=>{ if(i===2)x=xs[1]+gap; else x+=gap; xs.push(x); x+=width(t,10,wt)});
-    R(19.86,G.bannerY,x-22.68+2.82*2,G.bannerH,C.banner);
-    parts.forEach(([t,wt,c],i)=>T(t,xs[i],G.bannerY+14.84,10,wt,c));
+    if(!noDay){R(19.86,G.bannerY,x-22.68+2.82*2,G.bannerH,C.banner);
+      parts.forEach(([t,wt,c],i)=>T(t,xs[i],G.bannerY+14.84,10,wt,c))}
     const dir=(sec.direction||"").toUpperCase();
     // direction: full size if it fits, slightly smaller if needed, otherwise two lines split at a ">"
     let dirExtra=0;
@@ -1130,9 +1130,12 @@ function layout(){
   const tryPair=(a,b)=>{
     const save={pages:pages.length,ops,len:ops?ops.length:0,y,tight};
     const fresh=a===live[0]||a.newPage!==false||!ops;
+    // the same days on both sides (e.g. Monday to Friday, both directions): the day banner only once, on the left
+    const dayKey=sec=>{const lab=dayLabels(sec.name); return expandDay(sec.day??lab.day).toUpperCase()+"|"+(sec.sub??lab.sub??"")};
+    const sameDays=dayKey(a)===dayKey(b);
     const drawOne=(sec,dx)=>{const start=ops.length, st={...sec._f}; colMaxW=COLW;
       sec._f.stopW=Math.min(sec._f.stopW,COLW-sec.cols.length*sec._f.cw); sec._f.colX=G.stopX+sec._f.stopW;
-      banner(sec,false); block(sec,0,sec.cols.length,0,sec.stops.length,false); colMaxW=0; sec._f=st;
+      banner(sec,false,dx>0&&sameDays); block(sec,0,sec.cols.length,0,sec.stops.length,false); colMaxW=0; sec._f=st;
       if(dx)for(let i=start;i<ops.length;i++)shiftOpX(ops[i],dx); return y};
     const run=()=>{const top=ops.length, yA=drawOne(a,0), yB=drawOne(b,COLW+GAP); return {top,bottomY:Math.max(yA,yB)}};
     if(fresh)page();
