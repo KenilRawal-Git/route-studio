@@ -2046,7 +2046,7 @@ const mapIsTruthy=v=>/^(y|yes|true|1|x|✓)$/i.test(String(v||"").trim());
 /* ---------- layout ---------- */
 /* cfg: {routes:[{id,color,stops:[{town,stop,lon,lat,code}],termini:Set<index>}], data, graph, valid, notes, showKey} */
 function mapLayout(cfg){
-  const C=MAPX.col, INS=cfg.inset||null, HEAD=INS?0:MAPX.HEAD;
+  const C=MAPX.col, INS=cfg.inset||null, GH_K=!INS&&cfg.guideHead?cfg.guideHead:0, HEAD=INS?0:GH_K?31*GH_K:MAPX.HEAD;   // in the bus guide: the guide's own header
   const ops=[], warn=[];
   const T=(text,x,y,size,w,color,align,angle)=>ops.push({k:"t",text:String(text),x,y,size,w,color,align,angle});
   const routes=cfg.routes.filter(r=>r.stops.length>=1);
@@ -2419,6 +2419,12 @@ function mapLayout(cfg){
   }
   if(INS)return {ops,warn,extent,coverage,W,H};
   /* ----- header ----- */
+  if(GH_K){const k=GH_K; // the bus guide's header, like its timetable pages: the route numbers, then the title (no logo or date)
+    ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
+    let gx=17.7*k; routes.forEach(r=>{const w=Math.max(21*k,width(r.id,12.5*k,"medium")+9*k); ops.push({k:"r",x:gx,y:5*k,w,h:21*k,c:r.color,rx:3.5*k}); T(r.id,gx+w/2,20*k,12.5*k,"medium",badgeText(r.color),"center"); gx+=w+2.3*k});
+    T(cfg.title||"Route Map",gx+16*k,18.4*k,7*k,"light","#FFFFFF");
+    T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
+    return {ops,warn,extent,coverage,W,H}}
   ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
   let bx=22.68; routes.forEach(r=>{const w=Math.max(29,width(r.id,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:r.color,rx:5}); T(r.id,bx+w/2,36.9,18,"medium",badgeText(r.color),"center"); bx+=w+4});
   T(cfg.title||"Route Map",22.68,58.14,9,"light","#FFFFFF");
@@ -3988,7 +3994,7 @@ function gMapCfg(b){
   let lo0=Infinity,lo1=-Infinity,la0=Infinity,la1=-Infinity; routes.forEach(r=>r.stops.forEach(s=>{lo0=Math.min(lo0,s.lon);lo1=Math.max(lo1,s.lon);la0=Math.min(la0,s.lat);la1=Math.max(la1,s.lat)}));
   const k=Math.cos((la0+la1)/2*Math.PI/180), spanX=(lo1-lo0)*k, spanY=la1-la0;
   const land=b.orient==="landscape"||(b.orient!=="portrait"&&spanX>spanY*1.1);
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:b.cache||(b.cache=new Map()),valid:guideState.valid||state.valid,notes:b.notes||"",showKey:b.key!==false,title:b.title||"",style:b.style||mapState.style||"auto",
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:b.cache||(b.cache=new Map()),valid:guideState.valid||state.valid,notes:b.notes||"",showKey:b.key!==false,title:b.title||"",guideHead:1/GMAP_S,style:b.style||mapState.style||"auto",
     W:(land?GH:GW)/GMAP_S,H:(land?GW:GH)/GMAP_S,land};
 }
 function gMapStatus(b){
