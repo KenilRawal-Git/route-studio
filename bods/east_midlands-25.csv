@@ -1,0 +1,60 @@
+MF
+Peterborough > Woodston > Orton Waterville > Yaxley
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25,25,25,25,25
+Codes,,,,,,,,,,,,
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:20,06:00,17:15,18:15,18:45,19:35,20:15,21:25,22:35
+"Woodston, Bakers Lane",0590PFW800,52.562359,-0.259516,05:25,06:05,17:24,18:22,18:52,19:42,20:22,21:32,22:40
+"Orton Longueville, Orton Mere",0590POL600,52.556237,-0.279923,05:28,06:08,17:27,18:25,18:55,19:45,20:25,21:35,22:43
+"Orton Waterville, Church Drive",0590POW142,52.54977,-0.29522,05:31,06:11,17:31,18:29,18:59,19:49,20:29,21:39,22:46
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:37,06:17,17:38,18:35,19:05,–,20:35,21:45,–
+
+Yaxley > Orton Waterville > Woodston > Peterborough
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25
+Codes,,,,,,,,
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:38,06:18,07:23,08:28,22:16
+"Orton Waterville, Church Drive",0590POW141,52.549823,-0.295218,05:43,06:23,07:28,08:33,22:21
+"Orton Longueville, Orton Mere",0590POL132,52.556535,-0.279366,05:47,06:27,07:32,08:37,22:24
+"Woodston, Bakers Lane",0590PFW120,52.562715,-0.25869,05:49,06:29,07:35,08:40,22:26
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:55,06:37,07:47,08:52,22:32
+
+
+SA
+Peterborough > Woodston > Orton Waterville > Yaxley
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25,25
+Codes,,,,,,,,,
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:20,06:05,19:15,20:15,21:25,22:35
+"Woodston, Bakers Lane",0590PFW800,52.562359,-0.259516,05:25,06:10,19:22,20:22,21:32,22:40
+"Orton Longueville, Orton Mere",0590POL600,52.556237,-0.279923,05:28,06:13,19:25,20:25,21:35,22:43
+"Orton Waterville, Church Drive",0590POW142,52.54977,-0.29522,05:31,06:16,19:29,20:29,21:39,22:46
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:37,06:22,19:35,20:35,21:45,–
+
+Yaxley > Orton Waterville > Woodston > Peterborough
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25
+Codes,,,,,,,,
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:38,06:23,07:31,08:31,22:16
+"Orton Waterville, Church Drive",0590POW141,52.549823,-0.295218,05:43,06:28,07:36,08:36,22:21
+"Orton Longueville, Orton Mere",0590POL132,52.556535,-0.279366,05:47,06:32,07:40,08:40,22:24
+"Woodston, Bakers Lane",0590PFW120,52.562715,-0.25869,05:49,06:34,07:42,08:42,22:26
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:55,06:40,07:50,08:50,22:32
+
+
+SU
+Peterborough > Woodston > Orton Waterville > Yaxley
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25,25
+Codes,,,,,,,,,
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:20,06:05,19:15,20:15,21:25,22:35
+"Woodston, Bakers Lane",0590PFW800,52.562359,-0.259516,05:25,06:10,19:22,20:22,21:32,22:40
+"Orton Longueville, Orton Mere",0590POL600,52.556237,-0.279923,05:28,06:13,19:25,20:25,21:35,22:43
+"Orton Waterville, Church Drive",0590POW142,52.54977,-0.29522,05:31,06:16,19:29,20:29,21:39,22:46
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:37,06:22,19:35,20:35,21:45,–
+
+Yaxley > Orton Waterville > Woodston > Peterborough
+Route,NaPTAN,Latitude,Longitude,25,25,25,25,25
+Codes,,,,,,,,
+"Yaxley, Waterworth Road",0500HYAXL900,52.534593,-0.302767,05:38,06:23,07:31,08:31,22:16
+"Orton Waterville, Church Drive",0590POW141,52.549823,-0.295218,05:43,06:28,07:36,08:36,22:21
+"Orton Longueville, Orton Mere",0590POL132,52.556535,-0.279366,05:47,06:32,07:40,08:40,22:24
+"Woodston, Bakers Lane",0590PFW120,52.562715,-0.25869,05:49,06:34,07:42,08:42,22:26
+"Peterborough, Queensgate Bus Stn",0590PQG15,52.574907,-0.24649,05:55,06:40,07:50,08:50,22:32
+
+
