@@ -2032,8 +2032,10 @@ function mapLayout(cfg){
   /* key and notes sizes decide how much room the map needs at the bottom */
   const stationsOn=!!(cfg.data&&cfg.data.stations.length);
   const keyRows=[]; routes.forEach(r=>keyRows.push({type:"line",r})); keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
-  routes.forEach(r=>{if(r.termini.size)keyRows.push({type:"term",r})});
-  const KEYW=150, keyH=INS||cfg.showKey===false?0:35+keyRows.length*15.2+6;
+  { const tr=routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
+  // many routes: the key goes into columns instead of one long list
+  const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
+  const KEYW=150+(kCols-1)*140, keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
   let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
@@ -2061,7 +2063,7 @@ function mapLayout(cfg){
       const free=([,x,y])=>!pts.some(([px,py])=>px>x-24&&px<x+bwK+24&&py>y-24&&py<y+bhK+24);
       const c=[["b",16,H-16-bhK],["b",W-16-bwK,H-16-bhK],["t",16,MY0+16],["t",W-16-bwK,MY0+16]].find(free);
       if(c){LAY=t;keyAt=c}
-      else{const m=mk(48,PBOT,80); LAY=m.fit>LAY.fit?m:LAY}}}
+      else{const m=mk(48,Math.min(PBOT,H*0.3),80); LAY=m.fit>LAY.fit?m:LAY}}}
   PTOP=LAY.pt; PBOT=LAY.pb; PADX=LAY.px; const fit=LAY.fit;
   const scale=fit*zoom;
   let cx=(lo0+lo1)/2, cy=(la0+la1)/2;
@@ -2127,13 +2129,13 @@ function mapLayout(cfg){
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
       let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
-      const slot=R.B.indexOf(ri), off=(slot-(R.B.length-1)/2)*LW;
+      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(ri), off=(slot-(R.B.length-1)/2)*bw;   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
-      if(!poly){poly=xy.slice(); lines[ri].segs.push(poly)} else xy.forEach(p=>poly.push(p))});
+      const last=poly&&poly[poly.length-1]; poly=last?[last,...xy]:xy.slice(); lines[ri].segs.push(poly); (lines[ri].ws||(lines[ri].ws=[])).push(bw)});
   });
-  lines.forEach(L=>L.segs.forEach(s=>pline(s,L.r.color,LW,"butt")));
+  lines.forEach(L=>L.segs.forEach((s,i)=>pline(s,L.r.color,(L.ws&&L.ws[i])||LW,"butt")));
   ops.push({k:"endclip"});
 
   /* ----- collision bookkeeping ----- */
@@ -2169,7 +2171,7 @@ function mapLayout(cfg){
     const words=nm.split(" "); stations.push({x,y,lines:nearStop?[]:(words.length===1?[nm]:[words.slice(0,-1).join(" "),words[words.length-1]]),label:null});
     boxes.push([x-4,y-4,x+4,y+4])});
 
-  const TF=INS?9.4:11, SF=INS?7:8, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
+  const crowdK=stops.length>45?0.8:stops.length>28?0.88:1, TF=(INS?9.4:11)*crowdK, SF=(INS?7:8)*crowdK, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
   /* ----- enlargements: a tight cluster of stops (3 or more close together) is drawn again, bigger, in a box of its own;
      on the main map the cluster gets one label instead of a label per stop ----- */
   const insets=[];
@@ -2178,24 +2180,27 @@ function mapLayout(cfg){
     stops.forEach(s=>{if(seen.has(s))return; const g=[s]; seen.add(s);
       for(let i=0;i<g.length;i++)stops.forEach(o=>{if(!seen.has(o)&&Math.hypot(o.x-g[i].x,o.y-g[i].y)<26){seen.add(o);g.push(o)}});
       if(g.length>=3)groups.push(g)});
-    const IW=W>H?215:190, IH=W>H?165:150, TB=15;
+    const TB=15;
     groups.sort((a,b)=>b.length-a.length).slice(0,2).forEach(g=>{
       const xs=g.map(s=>s.x), ys=g.map(s=>s.y), gw=Math.max(...xs)-Math.min(...xs), gh=Math.max(...ys)-Math.min(...ys);
       if(Math.max(gw,gh)>130)return;                                  // spread out enough for labels of their own
-      const f=Math.min((IW-2*34)/Math.max(gw,6),(IH-TB-2*16)/Math.max(gh,6)); if(f<2.2)return;
       const los=g.map(s=>s.lon), las=g.map(s=>s.lat), pl=(Math.max(...los)-Math.min(...los))*0.12+0.0008, pa=(Math.max(...las)-Math.min(...las))*0.12+0.0005;
       const bbox=[Math.min(...los)-pl,Math.max(...los)+pl,Math.min(...las)-pa,Math.max(...las)+pa];
       const tc={}; g.forEach(s=>{tc[s.town]=(tc[s.town]||0)+1}); const town=Object.keys(tc).sort((a,b)=>tc[b]-tc[a])[0]||"";
       const near=[Math.min(...xs)-10,Math.min(...ys)-10,Math.max(...xs)+10,Math.max(...ys)+10];
-      // where the box goes: a corner or edge of the map clear of the routes, the stops, the key, the notes and other boxes
-      const M=14, cand=[[MX1-IW-M,MY0+M],[MX0+M,MY0+M],[MX1-IW-M,MY1-IH-M-12],[MX1-IW-M,(MY0+MY1-IH)/2],[MX0+M,(MY0+MY1-IH)/2],[(MX0+MX1-IW)/2,MY0+M],[(MX0+MX1-IW)/2,MY1-IH-M-12]];
-      if(KEY)cand.push([KEY[0],KEY[1]-IH-10]); if(NOTE)cand.push([NOTE[0],NOTE[1]-IH-10]);
+      const ov=(a,c)=>Math.max(0,Math.min(a[2],c[2])-Math.max(a[0],c[0]))*Math.max(0,Math.min(a[3],c[3])-Math.max(a[1],c[1]));
+      // where the box goes: a corner or edge of the map that covers no stop, the key, the notes or another box, and as little route as
+      // possible; a cluster with many stops gets a bigger box when there's room for one
       let best=null;
-      cand.forEach(([ix,iy])=>{const b=[ix,iy,ix+IW,iy+IH]; if(b[0]<MX0||b[2]>MX1||b[1]<MY0||b[3]>MY1)return;
-        const ov=(a,c)=>Math.max(0,Math.min(a[2],c[2])-Math.max(a[0],c[0]))*Math.max(0,Math.min(a[3],c[3])-Math.max(a[1],c[1]));
-        let v=rpts.filter(([x,y])=>x>b[0]-4&&x<b[2]+4&&y>b[1]-4&&y<b[3]+4).length*3+stops.filter(s=>s.x>b[0]-8&&s.x<b[2]+8&&s.y>b[1]-8&&s.y<b[3]+8).length*60
-          +ov(b,near)*2+(KEY?ov(b,KEY):0)*5+(NOTE?ov(b,NOTE):0)*5+insets.reduce((a,o)=>a+ov(b,o.b)*10,0);
-        if(!best||v<best.v)best={v,b}});
+      for(const big of g.length>=8?[1.4,1.15,1]:g.length>=5?[1.15,1]:[1]){const IW=(W>H?215:190)*big, IH=(W>H?165:150)*big;
+        if(Math.min((IW-2*34)/Math.max(gw,6),(IH-TB-2*16)/Math.max(gh,6))<2.2)continue;
+        const M=14, cand=[[MX1-IW-M,MY0+M],[MX0+M,MY0+M],[MX1-IW-M,MY1-IH-M-12],[MX1-IW-M,(MY0+MY1-IH)/2],[MX0+M,(MY0+MY1-IH)/2],[(MX0+MX1-IW)/2,MY0+M],[(MX0+MX1-IW)/2,MY1-IH-M-12]];
+        if(KEY)cand.push([KEY[0],KEY[1]-IH-10],[KEY[2]+10,MY1-IH-M-12]); if(NOTE)cand.push([NOTE[0],NOTE[1]-IH-10]);
+        cand.forEach(([ix,iy])=>{const b=[ix,iy,ix+IW,iy+IH]; if(b[0]<MX0||b[2]>MX1||b[1]<MY0||b[3]>MY1)return;
+          if(stops.some(s=>s.x>b[0]-10&&s.x<b[2]+10&&s.y>b[1]-10&&s.y<b[3]+10)||ov(b,near)||(KEY&&ov(b,KEY))||(NOTE&&ov(b,NOTE))||insets.some(o=>ov(b,o.b)))return;
+          const v=rpts.filter(([x,y])=>x>b[0]-4&&x<b[2]+4&&y>b[1]-4&&y<b[3]+4).length;
+          if(!best||v<best.v)best={v,b}});
+        if(best)break}
       if(!best)return;
       g.forEach(s=>s.inset=true); boxes.push(best.b);
       insets.push({b:best.b,bbox,town,g,TB,near,n:insets.length})});
@@ -2206,7 +2211,7 @@ function mapLayout(cfg){
   const ovl=(a,b)=>Math.max(0,Math.min(a[2],b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[3],b[3])-Math.max(a[1],b[1]));
   const crowd=s=>stops.filter(o=>o!==s&&Math.hypot(o.x-s.x,o.y-s.y)<70).length;
   const order=stops.filter(s=>!s.inset).sort((a,b)=>crowd(b)-crowd(a));
-  insets.forEach(I=>{const bd=[]; I.g.forEach(s=>s.badges.forEach(r=>{if(!bd.includes(r))bd.push(r)}));
+  insets.forEach(I=>{const bd=[]; I.g.forEach(s=>s.badges.forEach(r=>{if(!bd.includes(r))bd.push(r)})); if(bd.length>3)bd.length=0;   // lots of termini: their badges are in the enlargement
     order.unshift({town:I.town,stop:"see the enlarged map",x:(I.near[0]+I.near[2])/2,y:(I.near[1]+I.near[3])/2,badges:bd,cluster:I})});
   order.forEach(s=>{const {x,y}=s, hasStop=!!s.stop;
     const build=k=>{const tf=TF*k, sf=SF*k;
@@ -2215,7 +2220,7 @@ function mapLayout(cfg){
       const anchors=[[x+9,y+th*0.55],[x-9-wdt,y+th*0.55],[x+8,y+th+9],[x-8-wdt,y+th+9],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+th+10]];
       for(const dist of [18,30,44,60,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:30){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
         anchors.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
-      const lays=[{lay:"above",w:wdt,h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
+      const lays=[{lay:"above",w:Math.max(wdt,bwsum),h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
       const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop})}));
       return out};
     let best=null; const tried=[];
@@ -2319,7 +2324,7 @@ function mapLayout(cfg){
   if(KEY){const [kx,ky,kx1,ky1]=KEY;
     ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
     T("Key",kx+11,ky+18,9,"semibold","#000000");
-    keyRows.forEach((row,i)=>{const yy=ky+35+i*15.2, cy=yy-2.5;
+    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*140, yy=ky+35+i*15.2, cy=yy-2.5;
       if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T("Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="rail"){roundel(kx+20,cy,3.7);T("National Rail Line / Station",kx+40,yy,7.5,"light","#000000")}
