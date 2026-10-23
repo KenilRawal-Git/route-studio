@@ -2032,7 +2032,20 @@ function mapLayout(cfg){
 
   /* key and notes sizes decide how much room the map needs at the bottom */
   const stationsOn=!!(cfg.data&&cfg.data.stations.length);
-  const keyRows=[]; routes.forEach(r=>keyRows.push({type:"line",r})); keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
+  /* route families (82, 82A, 82B): see the route lines below */
+  const famOf=id=>{const m=String(id).match(/^([A-Za-z]*\d+)/); return m?m[1].toUpperCase():String(id)};
+  const famIds=[...new Set(routes.map(r=>famOf(r.id)))], fi=routes.map(r=>famIds.indexOf(famOf(r.id)));
+  const FAM=cfg.style!=="detailed"&&(cfg.title==="Network Map"||routes.length>=4)&&famIds.length<routes.length;
+  const famBase=famIds.map(f=>{const m=routes.filter(r=>famOf(r.id)===f); return m.find(r=>String(r.id).toUpperCase()===f)||m[0]});
+  const legKeys=rr=>{const K=new Map(); rr.legs.forEach(l=>{if(!l.nodes)return; for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; if(a===b)continue;
+      const [x0,y0]=l.pts[q],[x1,y1]=l.pts[q+1]; K.set(a<b?a+"-"+b:b+"-"+a,Math.hypot((x1-x0)*Math.cos(y0*Math.PI/180),y1-y0)*111195)}}); return K};
+  const RK=FAM?routed.map(legKeys):[];
+  // variations with a stretch of their own (drawn dashed)
+  const varOwn=FAM?routes.map((r,ri)=>r!==famBase[fi[ri]]&&[...RK[ri]].reduce((a,[k,m])=>a+(routes.some((o,oi)=>oi!==ri&&fi[oi]===fi[ri]&&RK[oi].has(k))?0:m),0)>900):[];   // over ~1 km of its own
+  const keyRows=FAM?famIds.flatMap((f,k)=>{const m=routes.filter((r,ri)=>fi[ri]===k);
+      return [{type:"line",r:famBase[k],label:"Route "+m.map(r=>r.id).join(" / ")},...m.filter(r=>varOwn[routes.indexOf(r)]).map(r=>({type:"dash",r,label:`Route ${r.id} only`}))]})
+    :routes.map(r=>({type:"line",r}));
+  keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
   { const tr=routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
   const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
@@ -2109,6 +2122,7 @@ function mapLayout(cfg){
       ops.push({k:"r",...r,c:"#FFFFFF",a:A})}}
 
   /* ----- route lines: routes sharing a road are drawn side by side as one band, touching, instead of on top of each other ----- */
+  const keyLate=[];
   const LW=3.2, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
   const edgeRoutes=new Map(), canon=new Map(), f5=p=>p[0].toFixed(5)+","+p[1].toFixed(5);
   const seqs=routed.map((rr,ri)=>{const E=[];
@@ -2119,24 +2133,34 @@ function mapLayout(cfg){
       const B=edgeRoutes.get(e.key)||[]; if(!B.includes(ri))B.push(ri); edgeRoutes.set(e.key,B)});
     return E});
   edgeRoutes.forEach(B=>B.sort((a,b)=>a-b));
+  /* network maps: a route and its variations (82, 82A, 82B) are one family, drawn as ONE solid line where they run together;
+     a stretch only some variations take branches off as a dashed line in that variation's colour */
+  const slotsOf=B=>FAM?[...new Set(B.map(i=>fi[i]))]:B, mine=ri=>FAM?fi[ri]:ri;
+  const coreOf=(B,ri)=>{if(!FAM)return true; const m=B.filter(i=>fi[i]===fi[ri]); return m.length>=2||m.some(i=>routes[i]===famBase[fi[ri]])};
   const cleanMemo=new Map();
   seqs.forEach((E,ri)=>{
     // runs of edges with the same routes on them, travelled the same way
     const runs=[]; let run=null;
-    E.forEach(e=>{const B=edgeRoutes.get(e.key), bk=B.join(",");
+    E.forEach(e=>{const B0=edgeRoutes.get(e.key), B=slotsOf(B0), core=coreOf(B0,ri), bk=B.join(",")+(core?"":"|v"+ri);
       if(run&&run.bk===bk&&run.sign===e.sign){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
-      else{run={bk,B,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
+      else{run={bk,B,B0,core,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
     let poly=null;
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
       let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
-      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(ri), off=(slot-(R.B.length-1)/2)*bw;   // a wide band gets thinner lines
+      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*bw;   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
-      const last=poly&&poly[poly.length-1]; poly=last?[last,...xy]:xy.slice(); lines[ri].segs.push(poly); (lines[ri].ws||(lines[ri].ws=[])).push(bw)});
+      const last=poly&&poly[poly.length-1]; poly=last?[last,...xy]:xy.slice(); lines[ri].segs.push(poly); (lines[ri].ws||(lines[ri].ws=[])).push(bw);
+      const plen=C.reduce((a,p,i)=>i?a+Math.hypot(p[0]-C[i-1][0],p[1]-C[i-1][1]):0,0);   // a few metres apart (the other side of a junction) isn't a branch
+      (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):{c:routes[ri].color})});
   });
-  lines.forEach(L=>L.segs.forEach((s,i)=>pline(s,L.r.color,(L.ws&&L.ws[i])||LW,"butt")));
+  const FAMVAR=new Set(); lines.forEach((L,ri)=>(L.st||[]).forEach(x=>{if(x.dash)FAMVAR.add(ri)}));
+  // solid lines first, then the dashed variations on top
+  [false,true].forEach(dsh=>lines.forEach(L=>L.segs.forEach((s,i)=>{const st=(L.st&&L.st[i])||{c:L.r.color}; if(!!st.dash!==dsh)return;
+    if(st.dash){pline(s,"#FFFFFF",((L.ws&&L.ws[i])||LW)+0.2,"butt"); ops.push({k:"pl",p:s.flatMap(p=>p),c:st.c,w:(L.ws&&L.ws[i])||LW,cap:"butt",dash:[5,3]})}
+    else pline(s,st.c,(L.ws&&L.ws[i])||LW,"butt")})));
   ops.push({k:"endclip"});
 
   /* ----- collision bookkeeping ----- */
@@ -2262,7 +2286,7 @@ function mapLayout(cfg){
   if(cfg.arrows!==false)runsAll.forEach(G=>{const xy=G.C; if(xy.length<2)return;
     const cum=[0]; for(let i=1;i<xy.length;i++)cum.push(cum[i-1]+Math.hypot(xy[i][0]-xy[i-1][0],xy[i][1]-xy[i-1][1])); const L=cum[cum.length-1];
     if(L<(INS?45:80))return;
-    const ids=G.B.map(i=>routes[i].id).join(" / "), two=G.members.some(m=>m.two), one=G.members.find(m=>!m.two)||G.members[0];
+    const ids=[...new Set(G.members.map(m=>m.ri))].sort((a,b)=>a-b).map(i=>routes[i].id).join(" / "), two=G.members.some(m=>m.two), one=G.members.find(m=>!m.two)||G.members[0];
     const fs=INS?5.2:5.8, tw=width(ids,fs,"semibold"), AW=11, tot=tw+3+AW, half=G.B.length*LW/2, nT=Math.max(1,Math.floor(L/(INS?200:300)));
     for(let t=0;t<nT;t++){const at=(t+0.5)*L/nT; let i=cum.findIndex(c=>c>=at); i=Math.max(1,i);
       const f=(at-cum[i-1])/((cum[i]-cum[i-1])||1), px=xy[i-1][0]+(xy[i][0]-xy[i-1][0])*f, py=xy[i-1][1]+(xy[i][1]-xy[i-1][1])*f;
@@ -2345,7 +2369,8 @@ function mapLayout(cfg){
     ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
     T("Key",kx+11,ky+18,9,"semibold","#000000");
     keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*140, yy=ky+35+i*15.2, cy=yy-2.5;
-      if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
+      if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(row.label||`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
+      else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:3.2,cap:"butt",dash:[5,3]});T(row.label,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T(SUM?"Town or village served":"Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="rail"){roundel(kx+20,cy,3.7);T("National Rail Line / Station",kx+40,yy,7.5,"light","#000000")}
       else{const w=bw(row.r);badge(kx+20-w/2,cy-BADGE_H/2,row.r);T("Route Terminus",kx+40,yy,7.5,"light","#000000")}});
@@ -2397,7 +2422,7 @@ function mapSvg(ops,VW,VH){
     if(o.k==="clip"){if(o.y===MAPX.HEAD&&o.x===0)s+=`<g clip-path="url(#mclip)">`; else{const id="mclip"+(++mapSvg.n||(mapSvg.n=1)); s+=`<clipPath id="${id}"><rect x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}"/></clipPath><g clip-path="url(#${id})">`} clip++}
     else if(o.k==="endclip"){s+="</g>";clip--}
     else if(o.k==="poly")s+=`<path d="${o.rings.map(r=>pathD(r,true)).join("")}" fill="${o.c}" fill-rule="evenodd"${o.sw?` stroke="${o.c}" stroke-width="${o.sw}" stroke-linejoin="round"`:""}/>`;
-    else if(o.k==="pl")s+=`<path d="${pathD(o.p)}" fill="none" stroke="${o.c}" stroke-width="${o.w}" stroke-linecap="${o.cap}" stroke-linejoin="round"/>`;
+    else if(o.k==="pl")s+=`<path d="${pathD(o.p)}" fill="none" stroke="${o.c}" stroke-width="${o.w}" stroke-linecap="${o.cap}" stroke-linejoin="round"${o.dash?` stroke-dasharray="${o.dash.join(" ")}"`:""}/>`;
     else if(o.k==="r")s+=`<rect x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}"${o.rx?` rx="${o.rx}"`:""} fill="${o.nofill?"none":o.c}"${o.a!=null?` fill-opacity="${o.a}"`:""}${o.stroke?` stroke="${o.stroke}" stroke-width="${o.sw}"`:""}/>`;
     else if(o.k==="l")s+=`<line x1="${f(o.x1)}" y1="${f(o.y1)}" x2="${f(o.x2)}" y2="${f(o.y2)}" stroke="${o.c}" stroke-width="${o.w}" stroke-linecap="round"/>`;
     else if(o.k==="circ")s+=`<circle cx="${f(o.x)}" cy="${f(o.y)}" r="${o.r}" fill="${o.fill}" stroke="${o.stroke}" stroke-width="${o.sw}"/>`;
@@ -2425,7 +2450,7 @@ function mapPdfDraw(doc,ops){
     else if(o.k==="endclip")doc.restoreGraphicsState();
     else if(o.k==="poly"){doc.setFillColor(...hexRgb(o.c)); o.rings.forEach(r=>path(r,true));
       if(o.sw){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.sw);doc.setLineJoin("round");doc.fillStrokeEvenOdd()} else doc.fillEvenOdd()}
-    else if(o.k==="pl"){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.w);doc.setLineCap(o.cap==="butt"?"butt":"round");doc.setLineJoin("round");path(o.p);doc.stroke()}
+    else if(o.k==="pl"){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.w);doc.setLineCap(o.cap==="butt"?"butt":"round");doc.setLineJoin("round");if(o.dash)doc.setLineDashPattern(o.dash,0);path(o.p);doc.stroke();if(o.dash)doc.setLineDashPattern([],0)}
     else if(o.k==="r"){doc.setFillColor(...hexRgb(o.c)); if(o.a!=null)alpha(o.a);
       const st=o.nofill?"S":o.stroke?"FD":"F"; if(o.stroke){doc.setDrawColor(...hexRgb(o.stroke));doc.setLineWidth(o.sw)}
       if(o.rx)doc.roundedRect(o.x,o.y,o.w,o.h,o.rx,o.rx,st); else doc.rect(o.x,o.y,o.w,o.h,st);
