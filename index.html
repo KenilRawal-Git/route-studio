@@ -2143,7 +2143,11 @@ function naptanMatch(records,routes){
   todo.forEach(x=>{const rec=x.s.code&&byAtco.get(x.s.code.trim().toUpperCase());
     if(rec){x.s.lat=rec.lat;x.s.lon=rec.lon;x.how="code";x.rec=rec;return}
     const T=naptanNorm(x.s.town), N=naptanNorm(x.s.stop||x.s.town); x.cands=[];
-    records.forEach(r=>{const ts=naptanTownScore(T,r); if(!ts)return; const ns=naptanNameScore(N,r._cn,r._lm,r._st); if(ns>=2)x.cands.push({r,score:ts+ns+(/^BC[TSQE]|^BST/.test(r.type)?0.5:0)})});
+    // a name with no town ("The Street") is only taken as a place when it is exactly a place's name: otherwise it would
+    // match the town of Street in Somerset; the route's own stops (BODS, Bus Times) are matched by name instead
+    const only=!x.s.stop, raw=String(x.s.town||"").trim().toLowerCase();
+    if(only&&/^the\s|\b(street|road|lane|hall|green|store|station|corner|bank|rbt|roundabout|school|college|church|inn|arms|lion|crown|park|close|avenue|way|drive|farm|garage|hospital|shop|stores|square|cross|bridge|common)\b/.test(raw))return; // reads like a stop, not a town
+    records.forEach(r=>{const ts=naptanTownScore(T,r); if(!ts)return; if(only&&![r.loc,r.par,r.town].some(v=>String(v||"").trim().toLowerCase()===raw))return; const ns=naptanNameScore(N,r._cn,r._lm,r._st); if(ns>=2)x.cands.push({r,score:ts+ns+(/^BC[TSQE]|^BST/.test(r.type)?0.5:0)})});
     if(x.cands.length){const top=Math.max(...x.cands.map(k=>k.score)); x.best=x.cands.filter(k=>k.score>=top-0.25).map(k=>k.r)}});
   const near=x=>{const st=x.r.stops; for(let d=1;d<st.length;d++)for(const j of [x.i-d,x.i+d]){const o=st[j]; if(o&&isFinite(o.lat)&&isFinite(o.lon))return o} return null};
   for(let pass=0;pass<3;pass++)todo.forEach(x=>{if(x.how||!x.best)return; const n=near(x); if(!n&&pass<2)return;
@@ -2329,18 +2333,48 @@ async function mapResolve(){
   const run=++mapState.resolving;
   const res={byMemory:0,byCode:0,byName:[]};
   const add=r=>{res.byCode+=r.byCode;res.byName.push(...r.byName)};
-  res.byMemory=mapMemApply(); mapCountMissing();
+  // every step: note which stops it placed, then throw out any it put miles from the rest of the route
+  // (a stop called "The Street" can match the town of Street in Somerset); the next step gets another go at them
+  const before=()=>{const m=new Set(); mapState.routes.forEach(r=>r.stops.forEach(s=>{if(!(isFinite(s.lat)&&isFinite(s.lon))){m.add(s); if(s._code0===undefined)s._code0=s.code||""}})); return m};
+  const after=(m,mem)=>{m.forEach(s=>{if(isFinite(s.lat)&&isFinite(s.lon)){s._auto=true; s._mem=!!mem}}); mapRejectOutliers(); mapCountMissing()};
+  let m=before(); res.byMemory=mapMemApply(); after(m,true);
   // routes Central Connect runs: their own stops from BODS first, so names match the right stop on the right road
-  if(mapState.missing.length&&typeof bodsRouteStops==="function"){const recs=await bodsRouteStops(mapState.routes); if(run!==mapState.resolving)return; if(recs.length){add(naptanMatch(recs,mapState.routes)); mapCountMissing(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes))} mapCountMissing()}
+  if(mapState.missing.length&&typeof bodsRouteStops==="function"){m=before(); const recs=await bodsRouteStops(mapState.routes); if(run!==mapState.resolving)return;
+    if(recs.length){add(naptanMatch(recs,mapState.routes)); after(m); m=before(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes))} after(m)}
   // any operator's route (website): the same route number's stops from Bus Times, found through the stops that are missing
   if(mapState.missing.length&&LIVE_MAP.on){const st=$("status"); st.className="status"; st.textContent="Looking up your route's stops on Bus Times…";
-    const recs=await busTimesRouteStops(mapState.routes); if(run!==mapState.resolving)return; st.textContent="";
-    if(recs.length){add(naptanMatch(recs,mapState.routes)); mapCountMissing(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes)); mapCountMissing()}}
-  if(mapState.missing.length){const recs=await mapAreaStops(); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); mapCountMissing()}
-  if(mapState.missing.length&&mapState.naptan){try{add(mapNaptanMatch(mapState.naptan,mapState.routes))}catch(e){} mapCountMissing()}
+    m=before(); const recs=await busTimesRouteStops(mapState.routes); if(run!==mapState.resolving)return; st.textContent="";
+    if(recs.length){add(naptanMatch(recs,mapState.routes)); after(m); m=before(); if(mapState.missing.length)add(routeStopMatch(recs,mapState.routes)); after(m)}}
+  if(mapState.missing.length){m=before(); const recs=await mapAreaStops(); if(run!==mapState.resolving)return; if(recs.length)add(naptanMatch(recs,mapState.routes)); after(m)}
+  if(mapState.missing.length&&mapState.naptan){m=before(); try{add(mapNaptanMatch(mapState.naptan,mapState.routes))}catch(e){} after(m)}
+  // the "matched by name" list only shows stops that stayed put
+  const placed=new Set(); mapState.routes.forEach(r=>r.stops.forEach(s=>{if(isFinite(s.lat))placed.add(s.town+"|"+s.stop+"|"+s.code)}));
+  res.byName=res.byName.filter(x=>placed.has(x.town+"|"+x.stop+"|"+x.atco));
   mapMemSave();
   mapState.lastMatch=(res.byMemory||res.byCode||res.byName.length)?res:null; mapState.cache=new Map();
   mapShowMatch(); mapShowMissing(); mapRenderRoutes(); render(); mapAutoData();
+}
+/* a stop placed automatically is thrown out when it lands far from both its neighbours on the route
+   (more than 15 km and six times the route's usual gap between stops), or far from where the rest of the route is */
+function mapRejectOutliers(){
+  const km=(a,b)=>Math.hypot((a.lon-b.lon)*Math.cos(a.lat*Math.PI/180),a.lat-b.lat)*111.195;
+  const med=a=>{const v=a.slice().sort((x,y)=>x-y); return v.length?v[Math.floor(v.length/2)]:0};
+  let mem=null, dropped=0;
+  mapState.routes.forEach(r=>{
+    for(let pass=0;pass<10;pass++){
+      const P=r.stops.filter(s=>isFinite(s.lat)&&isFinite(s.lon)); if(P.length<3)return;
+      const gaps=P.slice(1).map((s,k)=>km(P[k],s)), lim=Math.max(15,6*med(gaps));
+      const c={lat:med(P.map(s=>s.lat)),lon:med(P.map(s=>s.lon))}, far=Math.max(25,4*med(P.map(s=>km(s,c))));
+      let worst=null,wd=0;
+      P.forEach((s,k)=>{if(!s._auto)return; const dp=k>0?km(s,P[k-1]):Infinity, dn=k<P.length-1?km(s,P[k+1]):Infinity, dc=km(s,c);
+        const bad=Math.min(dp,dn)>lim||dc>far; if(bad&&dc>wd){wd=dc;worst=s}});
+      if(!worst)return;
+      if(worst._mem){mem=mem||mapMemLoad(); if(worst.code)delete mem.c[String(worst.code).toUpperCase()]; delete mem.n[mapMemName(worst)]}
+      worst.lat=NaN; worst.lon=NaN; worst.code=worst._code0||""; worst._auto=false; worst._mem=false; dropped++;
+    }
+  });
+  if(mem)try{localStorage.setItem(MAP_MEM_KEY,JSON.stringify(mem))}catch(e){}
+  return dropped;
 }
 
 /* ---------- stops from Bus Times (bustimes.org), for any operator's route (website only: artifacts can't fetch other sites) ----------
@@ -2461,7 +2495,9 @@ function mapShowMissing(){
   if(!m.length){w.hidden=true;return}
   const names=[...new Set(m.map(s=>s.stop?`${s.town}, ${s.stop}`:s.town))];
   w.hidden=false;
+  const noTown=m.some(s=>!s.stop);
   w.textContent=`${names.length} stop${names.length>1?"s":""} couldn't be found (${names.slice(0,3).join("; ")}${names.length>3?"…":""}). `+
+    (noTown?"Some have no town: put the town before the stop, e.g. “Wakes Colne, The Street”. ":"")+
     (LIVE_MAP.on?"Bus Times and NaPTAN were searched too. Check the town and stop names and the route number, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below."
       :`Check the town and stop names, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below. Route Studio's website (${SITE_URL}) also looks your route's stops up on Bus Times.`);
 }
