@@ -1967,6 +1967,21 @@ function mapDespike(xy,maxLen=22,close=2.2){
     i=jump>0?jump:i+1}
   if(out[out.length-1]!==xy[xy.length-1])out.push(xy[xy.length-1]);
   return out}
+/* a drawn line made clean: detours and loops cut out, simplified and rounded, but never away from a stop:
+   the point nearest each stop stays where it is, and the line is simplified and rounded between those points */
+function mapCleanLine(xy,sp){
+  if(xy.length<3)return xy;
+  const prot=new Uint8Array(xy.length), d2=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2;
+  let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity; xy.forEach(([x,y])=>{if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y});
+  sp.forEach(p=>{if(p[0]<x0-15||p[0]>x1+15||p[1]<y0-15||p[1]>y1+15)return; let bi=-1,bd=225; for(let i=0;i<xy.length;i++){const d=d2(xy[i],p); if(d<bd){bd=d;bi=i}} if(bi>=0)prot[bi]=1});
+  prot[0]=prot[xy.length-1]=1;
+  const keep=[]; let i=0;
+  while(i<xy.length){keep.push(i); let jump=-1,L=0;
+    for(let j=i+1;j<xy.length&&L<22;j++){if(j-1>i&&prot[j-1])break; L+=Math.sqrt(d2(xy[j],xy[j-1])); if(j>i+1&&L>8.8&&d2(xy[j],xy[i])<4.84)jump=j}
+    i=jump>0?jump:i+1}
+  const out=[]; let piece=[];
+  keep.forEach((k,n)=>{piece.push(xy[k]); if((prot[k]&&piece.length>1)||n===keep.length-1){const sm=mapSmooth(mapDP(piece,1.4)); sm.forEach((p,q)=>{if(q||!out.length)out.push(p)}); piece=[xy[k]]}});
+  return out}
 /* Chaikin corner cutting: rounds the corners of a simplified line (ends stay put) */
 function mapSmooth(xy,it=2){
   for(let n=0;n<it&&xy.length>2;n++){const o=[xy[0]];
@@ -2060,7 +2075,7 @@ function mapLayout(cfg){
       ops.push({k:"r",...r,c:"#FFFFFF",a:A})}}
 
   /* ----- route lines: each route draws only where it differs from the routes before it ----- */
-  const used=new Set(), lines=[];
+  const used=new Set(), lines=[], stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
   routed.forEach((rr,ri)=>{const segs=[]; let cur=null;
     rr.legs.forEach(l=>{
       if(!l.nodes){const key="s:"+l.pts.flat().map(v=>v.toFixed(5)).join(","); if(used.has(key)){cur=null;return} segs.push(l.pts.slice()); cur=null; used.add(key); return}
@@ -2069,7 +2084,7 @@ function mapLayout(cfg){
         if(!cur){cur=[l.pts[q]];segs.push(cur)} cur.push(l.pts[q+1])}
     });
     rr.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1];used.add(a<b?a+"-"+b:b+"-"+a)}});
-    lines.push({r:routes[ri],segs:segs.map(s=>mapSmooth(mapDP(mapDespike(proj(s,0.2)),1.4)))});
+    lines.push({r:routes[ri],segs:segs.map(s=>mapCleanLine(proj(s,0.2),stopPts))});
   });
   for(let i=lines.length-1;i>=0;i--)lines[i].segs.forEach(s=>pline(s,lines[i].r.color,3.2));
   ops.push({k:"endclip"});
@@ -2079,6 +2094,11 @@ function mapLayout(cfg){
   const hit=(b,pad=0)=>boxes.some(o=>!(b[2]+pad<o[0]||b[0]-pad>o[2]||b[3]+pad<o[1]||b[1]-pad>o[3]));
   const inside=(b,m=6)=>b[0]>MX0+m&&b[2]<MX1-m&&b[1]>MY0+m&&b[3]<MY1-m;
   const rpts=[]; lines.forEach(L=>L.segs.forEach(xy=>{for(let i=0;i+1<xy.length;i++){const [x0,y0]=xy[i],[x1,y1]=xy[i+1];const n=Math.max(1,Math.floor(Math.hypot(x1-x0,y1-y0)/3));for(let j=0;j<n;j++)rpts.push([x0+(x1-x0)*j/n,y0+(y1-y0)*j/n])}}));
+  // a stop marker goes onto the route line when the line passes close (the line follows the road, the stop is at the kerb)
+  const onLine=(x,y)=>{let bx=x,by=y,bd=144;
+    lines.forEach(L=>L.segs.forEach(xy=>{for(let i=0;i+1<xy.length;i++){const [ax,ay]=xy[i],[cx2,cy2]=xy[i+1], dx=cx2-ax, dy=cy2-ay, l2=dx*dx+dy*dy;
+      const t=l2?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/l2)):0, px=ax+t*dx, py=ay+t*dy, d=(px-x)**2+(py-y)**2; if(d<bd){bd=d;bx=px;by=py}}}));
+    return [bx,by]};
   const onRoute=(b,pad=2.5)=>rpts.some(([x,y])=>b[0]-pad<x&&x<b[2]+pad&&b[1]-pad<y&&y<b[3]+pad);
 
   const KEY=keyH?[16,H-16-keyH,16+KEYW,H-16]:null;
@@ -2090,7 +2110,7 @@ function mapLayout(cfg){
   // the same stop name on both sides of the road (routes running opposite ways) is one marker and one label
   const nameKey=s=>naptanNorm(s.town)+"|"+naptanNorm(s.stop), close=(x,s)=>Math.hypot((x.lon-s.lon)*k,x.lat-s.lat)*111195<400;
   routes.forEach(r=>r.stops.forEach((s,i)=>{const kk=stopKey(s), nk=nameKey(s); let o=stops.find(x=>x.key===kk)||stops.find(x=>x.nk===nk&&close(x,s));
-    if(!o){const [x,y]=P(s.lon,s.lat); if(x<MX0+8||x>MX1-8||y<MY0+8||y>MY1-8)return; o={key:kk,nk,town:s.town,stop:s.stop,x,y,lon:s.lon,lat:s.lat,badges:[]}; stops.push(o)}
+    if(!o){let [x,y]=P(s.lon,s.lat); if(x<MX0+8||x>MX1-8||y<MY0+8||y>MY1-8)return; [x,y]=onLine(x,y); o={key:kk,nk,town:s.town,stop:s.stop,x,y,lon:s.lon,lat:s.lat,badges:[]}; stops.push(o)}
     if(r.termini.has(i)&&!o.badges.includes(r))o.badges.push(r)}));
   stops.forEach(s=>boxes.push([s.x-5,s.y-5,s.x+5,s.y+5]));
 
@@ -2150,9 +2170,9 @@ function mapLayout(cfg){
       const lays=[{lay:"above",w:wdt,h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
       const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop})}));
       return out};
-    let best=null;
-    for(const k of [1,0.86,0.74]){const cs=build(k);
-      best=cs.find(c=>!hit(c.b,1)&&!onRoute(c.b))||cs.find(c=>!hit(c.b,1)); if(best)break}
+    let best=null; const tried=[];
+    for(const k of [1,0.86,0.74]){const cs=build(k); tried.push(cs); best=cs.find(c=>!hit(c.b,1)&&!onRoute(c.b)); if(best)break}   // clear of labels and lines
+    if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
     if(!best){const cs=build(0.74); let lo=Infinity;   // nowhere free: the spot where it overlaps least
       cs.forEach(c=>{const ov=boxes.reduce((a,o)=>a+ovl(c.b,o),0)+Math.hypot(c.b[0]-x,c.b[3]-y)*0.05; if(ov<lo){lo=ov;best=c}})}
     if(!best)best={b:[x+7,y-12,x+60,y+1],lay:"above",k:1,hasStop};
