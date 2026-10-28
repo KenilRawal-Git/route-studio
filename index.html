@@ -4935,9 +4935,10 @@ function wNetSnap(n){const rs=wNetRoutes(n), colors={...W.colors}; let secs=[];
   const used=new Set(); rs.flatMap(wIds).forEach(id=>{const c=String(colors[id]||"").toUpperCase(); if(used.has(c)){const f=SWATCHES.find(x=>!used.has(String(x).toUpperCase())); if(f)colors[id]=f} used.add(String(colors[id]).toUpperCase())});
   const st0=rs[0]?rs[0].tt.state:{};
   return {state:{route:wIds(rs[0]||{})[0]||"",color:colors[wIds(rs[0]||{})[0]]||"#E30F13",label:"Network Map",valid:st0.valid||state.valid||(W.routes.find(r=>r.tt&&r.tt.state.valid)||{tt:{state:{}}}).tt.state.valid,routeColors:colors,sections:secs,endNote:"",key:[],keyMeanings:{}},fileMeta:{name:"Network map"}}}
+const wNetKind=n=>n.kind||"map", wStepNet=()=>W.step==="map"||W.step==="fare", wNetWord=()=>W.step==="fare"?"fare chart":"map";
 function wMakeNet(){const members=[...W.sel].map(k=>W.routes[k]).filter(r=>r&&wIds(r).length).map(r=>r.uid);
-  if(members.length<2){wNote("Choose two or more routes for a network map (hold Shift and click them).",true);return}
-  wSave(); W.nets.push({uid:"n"+(W.nextUid++),members,map:null}); W.sel=new Set(); W.selMode=false; W.curNet=W.nets.length-1; wLoad()}
+  if(members.length<2){wNote(`Choose two or more routes for a network ${wNetWord()} (hold Shift and click them).`,true);return}
+  wSave(); W.nets.push({uid:"n"+(W.nextUid++),members,kind:W.step==="fare"?"fare":"map",map:null,fare:null}); W.sel=new Set(); W.selMode=false; W.curNet=W.nets.length-1; wLoad()}
 /* ---------- the guide: built from the routes, then kept in step with them (your changes to it stay) ---------- */
 function wGuideSync(){
   const G=guideState;
@@ -4966,7 +4967,12 @@ function wGuideSync(){
   });
   // network maps: one map page each, after the last route's pages
   const netIds=new Set(W.nets.map(n=>n.uid)); G.blocks=G.blocks.filter(b=>!b.wnet||netIds.has(b.wnet));
-  W.nets.forEach(n=>{const eids=G.entries.filter(e=>n.members.includes(e.wuid)).map(e=>e.id); let b=G.blocks.find(x=>x.wnet===n.uid);
+  W.nets.forEach(n=>{let b=G.blocks.find(x=>x.wnet===n.uid);
+    if(wNetKind(n)==="fare"){ // a network fare chart: its own fare page, after the network maps and route pages
+      if(!n.fare){if(b)G.blocks.splice(G.blocks.indexOf(b),1); return}
+      if(b){b.fare=n.fare; b._memo=null; return}
+      b=gNewBlock("fare",{wnet:n.uid,fare:n.fare}); let at=-1; G.blocks.forEach((x,k)=>{if(x.wuid||x.wnet)at=k}); if(at<0)at=Math.max(0,G.blocks.length-2); G.blocks.splice(at+1,0,b); return}
+    const eids=G.entries.filter(e=>n.members.includes(e.wuid)).map(e=>e.id);
     const m=n.map||{}; if(b){b.eids=eids; b.notes=m.notes||""; b.key=m.showKey!==false; b.loaded=null; b._memo=null; return}
     b=gNewBlock("map",{eid:"net",eids,wnet:n.uid,title:"Network Map",orient:m.orient||"auto",notes:m.notes||"",key:m.showKey!==false});
     let at=-1; G.blocks.forEach((x,k)=>{if(x.wuid||x.wnet)at=k}); if(at<0)at=Math.max(0,G.blocks.length-2); G.blocks.splice(at+1,0,b)});
@@ -4977,13 +4983,14 @@ function wGuideSync(){
 function wSave(){const r=W.routes[W.cur]; if(!r)return;
   if(W.step==="tt"){r.tt=ttSnap(); const ids=wIds(r); ids.forEach(id=>W.colors[id]=wColour(r.tt.state,id))}
   else if(W.step==="map"){if(W.curNet!=null&&W.nets[W.curNet])W.nets[W.curNet].map={...mapSnapW(),title:"Network Map"}; else r.map=mapSnapW()}
-  else if(W.step==="fare")r.fare=fareSnapW();
+  else if(W.step==="fare"){if(W.curNet!=null&&W.nets[W.curNet])W.nets[W.curNet].fare=fareSnapW(); else r.fare=fareSnapW()}
 }
 function wLoad(){
   const r=W.routes[W.cur];
   if(W.step==="tt"){setStage("tt"); ttRestore(r&&r.tt)}
   else if(W.step==="map"&&W.curNet!=null&&W.nets[W.curNet]){const n=W.nets[W.curNet]; ttRestore(wNetSnap(n),true); mapRestoreW({...(n.map||{notes:"",showKey:true,orient:"auto"}),title:"Network Map"}); setStage("map")}
   else if(W.step==="map"){ttRestore(r.tt,true); mapRestoreW(r.map); setStage("map")}
+  else if(W.step==="fare"&&W.curNet!=null&&W.nets[W.curNet]){const n=W.nets[W.curNet], snap=wNetSnap(n); ttRestore(snap,true); setStage("fare"); fareRestoreW(n.fare,{tt:snap})}
   else if(W.step==="fare"){ttRestore(r.tt,true); setStage("fare"); fareRestoreW(r.fare,r)}
   else{wGuideSync(); setStage("guide")}
   $("stages").hidden=true; $("ttModes").hidden=true;
@@ -5004,6 +5011,7 @@ function wNext(){
   wGo(W.step==="map"?"fare":"guide",W.routes.indexOf(ready[0]));
 }
 function wSkipFares(){
+  if(W.curNet!=null&&W.nets[W.curNet]){W.nets[W.curNet].fare=null; W.curNet=null; W.step="guide"; $("status").textContent=""; wLoad(); return}
   const r=W.routes[W.cur]; if(r)r.fare=null; const ready=wReady(), at=ready.indexOf(r);
   // move on without saving the example fares shown for this route
   if(at>=0&&at<ready.length-1)W.cur=W.routes.indexOf(ready[at+1]); else{W.step="guide"; W.cur=W.routes.indexOf(ready[0])}
@@ -5028,42 +5036,42 @@ function wRender(){
       const tag=W.step==="fare"?`<small>${r.fare?"Fares added":"No fares"}</small>`:W.step==="map"?`<small>${r.map?"Done":""}</small>`:"";
       return `<span class="wr${k===W.cur?" cur":""}"><button type="button" class="wrb" data-k="${k}" aria-pressed="${k===W.cur}">${chips}${tag}</button>${W.step!=="guide"&&W.routes.length>1?`<button type="button" class="ib xs" data-del="${k}" aria-label="Remove ${esc(wName(r))}" title="Remove this route">✕</button>`:""}</span>`}).join("")
 ;
-  if(W.step==="map"){
+  if(wStepNet()){
     strip.querySelectorAll(".wr").forEach(sp=>{const b=sp.querySelector("[data-k]"); if(b&&W.sel.has(+b.dataset.k))sp.classList.add("sel"); if(W.curNet!=null)sp.classList.remove("cur")});
-    strip.insertAdjacentHTML("beforeend",W.nets.map((n,i)=>{const rs=wNetRoutes(n); if(rs.length<2)return "";
+    strip.insertAdjacentHTML("beforeend",W.nets.map((n,i)=>{const rs=wNetRoutes(n); if(rs.length<2||wNetKind(n)!==(W.step==="fare"?"fare":"map"))return "";
       const chips=rs.flatMap(r=>wIds(r).map(id=>`<span class="chip sm" style="background:${wColour(r.tt.state,id)};color:${readableOn(wColour(r.tt.state,id))}">${esc(id)}</span>`)).join("");
-      return `<span class="wr net${W.curNet===i?" cur":""}"><button type="button" class="wrb" data-net="${i}" aria-pressed="${W.curNet===i}"><b class="wnl">Network</b>${chips}<small>${n.map?"Done":""}</small></button><button type="button" class="ib xs" data-netdel="${i}" aria-label="Remove this network map">✕</button></span>`}).join("")
-      +(ready.length>1?`<button type="button" class="linkbtn wnetpick" id="wNetPick">${W.selMode?"Cancel":"+ Network map"}</button>`:""));
+      return `<span class="wr net${W.curNet===i?" cur":""}"><button type="button" class="wrb" data-net="${i}" aria-pressed="${W.curNet===i}"><b class="wnl">Network</b>${chips}<small>${W.step==="fare"?(n.fare?"Fares added":""):n.map?"Done":""}</small></button><button type="button" class="ib xs" data-netdel="${i}" aria-label="Remove this network ${wNetWord()}">✕</button></span>`}).join("")
+      +(ready.length>1?`<button type="button" class="linkbtn wnetpick" id="wNetPick">${W.selMode?"Cancel":"+ Network "+wNetWord()}</button>`:""));
     strip.querySelectorAll("[data-net]").forEach(b=>b.addEventListener("click",()=>{wSave(); W.curNet=+b.dataset.net; W.sel=new Set(); W.selMode=false; $("status").textContent=""; wLoad()}));
     strip.querySelectorAll("[data-netdel]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.netdel; wSave(); W.nets.splice(i,1); if(W.curNet===i)W.curNet=null; else if(W.curNet>i)W.curNet--; wLoad()}));
     const pk=$("wNetPick"); if(pk)pk.addEventListener("click",()=>{W.selMode=!W.selMode; W.sel=new Set(); if(W.selMode&&W.curNet==null)W.sel.add(W.cur); wRender()});
   }
   strip.querySelectorAll("[data-k]").forEach(b=>b.addEventListener("click",ev=>{const k=+b.dataset.k;
-    if(W.step==="map"&&(ev.shiftKey||W.selMode)){ // choosing routes for a network map
+    if(wStepNet()&&(ev.shiftKey||W.selMode)){ // choosing routes for a network map or fare chart
       if(!W.sel.size&&W.curNet==null&&k!==W.cur)W.sel.add(W.cur); W.sel.has(k)?W.sel.delete(k):W.sel.add(k); W.selMode=W.sel.size>0; wRender(); return}
     W.sel=new Set(); W.selMode=false; wGo(W.step,k)}));
-  const nb=$("wNetBar"), net=W.step==="map"&&!W.selMode&&W.curNet!=null?W.nets[W.curNet]:null; nb.hidden=!(W.step==="map"&&(W.selMode||net));
-  if(net){nb.innerHTML=`<span>Routes on this network map:</span>`+ready.map(r=>{const k=W.routes.indexOf(r), on=net.members.includes(r.uid);
+  const nb=$("wNetBar"), net=wStepNet()&&!W.selMode&&W.curNet!=null?W.nets[W.curNet]:null; nb.hidden=!(wStepNet()&&(W.selMode||net));
+  if(net){nb.innerHTML=`<span>Routes on this network ${wNetWord()}:</span>`+ready.map(r=>{const k=W.routes.indexOf(r), on=net.members.includes(r.uid);
       return `<button type="button" class="wnt${on?" on":""}" data-nt="${k}" aria-pressed="${on}" title="${on?"Take off":"Put on"} this map">${wIds(r).map(id=>`<span class="chip" style="background:${wColour(r.tt.state,id)};color:${readableOn(wColour(r.tt.state,id))}">${esc(id)}</span>`).join("")}</button>`}).join("")
-      +`<span class="hint" style="margin:0">Click a route to take it off the map or put it back.</span>`;
+      +`<span class="hint" style="margin:0">Click a route to take it off the ${wNetWord()} or put it back.</span>`;
     nb.querySelectorAll("[data-nt]").forEach(b=>b.addEventListener("click",()=>{const r=W.routes[+b.dataset.nt], i=net.members.indexOf(r.uid);
-      if(i>=0){if(net.members.length<=2){wNote("A network map needs at least two routes.",true);return} net.members.splice(i,1)} else net.members.push(r.uid);
+      if(i>=0){if(net.members.length<=2){wNote(`A network ${wNetWord()} needs at least two routes.`,true);return} net.members.splice(i,1)} else net.members.push(r.uid);
       wSave(); wLoad()}))}
-  else if(!nb.hidden){const n=W.sel.size; nb.innerHTML=`<span>${n?`${n} route${n>1?"s":""} chosen`:"Click the routes to put on one map"}${n<2?" (choose two or more)":""}</span><button type="button" class="btn sm" id="wNetMake"${n<2?" disabled":""}>Make a network map</button><button type="button" class="linkbtn" id="wNetCancel">Cancel</button>`;
+  else if(!nb.hidden){const n=W.sel.size; nb.innerHTML=`<span>${n?`${n} route${n>1?"s":""} chosen`:`Click the routes to put on one ${wNetWord()}`}${n<2?" (choose two or more)":""}</span><button type="button" class="btn sm" id="wNetMake"${n<2?" disabled":""}>Make a network ${wNetWord()}</button><button type="button" class="linkbtn" id="wNetCancel">Cancel</button>`;
     $("wNetMake").addEventListener("click",wMakeNet); $("wNetCancel").addEventListener("click",()=>{W.sel=new Set();W.selMode=false;wRender()})}
   if(W.step==="tt"){strip.insertAdjacentHTML("beforeend",`<button type="button" class="wradd" id="wAddChip">+ Add a route</button>`); $("wAddChip").addEventListener("click",wAddRoute)}
   strip.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>wRemoveRoute(+b.dataset.del)));
-  const at=W.step==="map"&&W.curNet!=null?ready.length-1:ready.indexOf(W.routes[W.cur]), more=at>=0&&at<ready.length-1, nx=more?ready[at+1]:null;
+  const at=wStepNet()&&W.curNet!=null?ready.length-1:ready.indexOf(W.routes[W.cur]), more=at>=0&&at<ready.length-1, nx=more?ready[at+1]:null;
   $("wNext").hidden=W.step==="guide";
   $("wNext").textContent=W.step==="tt"?"Next: route maps →":more?`Next route: ${wName(nx)} →`:W.step==="map"?"Next: fares →":"Next: bus guide →";
-  $("wSkip").hidden=W.step!=="fare"; $("wSkip").textContent=more?"No fares for this route":"No fares: go to the bus guide";
+  $("wSkip").hidden=W.step!=="fare"; $("wSkip").textContent=W.curNet!=null?"No network fares: go to the bus guide":more?"No fares for this route":"No fares: go to the bus guide";
   $("wAddBig").hidden=true;
   $("wZip").hidden=W.step==="guide"||ready.length<1||(W.step==="fare"&&!ready.some(r=>r.fare||r===W.routes[W.cur]&&!fareState.example));
   $("wZip").textContent=W.step==="tt"?"Download all timetables (.zip)":W.step==="map"?"Download all maps (.zip)":"Download all fare charts (.zip)";
   $("wBack").hidden=idx===0; $("wBack").textContent=idx>0?`← ${WSTEPS[idx-1][1]}`:"";
   $("wHint").textContent=W.step==="tt"?(ready.length?`${ready.length} route${ready.length>1?"s":""} added. Add the next route's timetable, or carry on to the route maps.`:"Start with your first route's timetable: upload it, or load a Central Connect route from BODS.")
     :W.step==="map"?(W.curNet!=null?"A network map of the chosen routes. Check it and add notes if you like.":"Each route's map is made from its timetable. Check it, add notes if you like, then go on to the next route. Hold Shift and click routes to put them together on one network map.")
-    :W.step==="fare"?"Upload fares for this route, or skip it if it doesn't have a fare chart."
+    :W.step==="fare"?(W.curNet!=null?"A network fare chart for the chosen routes. Upload the fares; the header shows every route number (or switch it to a title).":"Upload fares for this route, or skip it if it doesn't have a fare chart. Hold Shift and click routes to make one network fare chart for them.")
     :"Everything is in the guide: cover, contents, Passenger Promise, then each route's timetable, map and fares. Rearrange or change anything below.";
 }
 async function wZip(){
@@ -5080,6 +5088,8 @@ async function wZip(){
     if(step==="map")for(const nt of W.nets){if(wNetRoutes(nt).length<2)continue; const ids=wNetIds(nt).join(" ").replace(/[\\/:*?"<>|]/g,""); wNote(`Making the network map for ${ids}…`);
       ttRestore(wNetSnap(nt),true); mapRestoreW({...(nt.map||{notes:"",showKey:true,orient:"auto"}),title:"Network Map"}); mapSyncFromTT(); await mapState.resolveP; await mapAutoData();
       const res=mapLayout(mapCfg()); if(res.ops.length){zip.file(`Network map ${ids}.pdf`,mapPdf(res.ops,`Network map ${ids}`,res.W,res.H).output("arraybuffer")); n++}}
+    if(step==="fare")for(const nt of W.nets){if(wNetKind(nt)!=="fare"||!nt.fare||wNetRoutes(nt).length<2)continue; const ids=wNetIds(nt).join(" ").replace(/[\\/:*?"<>|]/g,"");
+      const lay=fareLayout(fareCfgFrom({...nt.fare,valid:nt.fare.valid||state.valid})); zip.file(`Network fare chart ${ids}.pdf`,farePdf(lay.pages,lay.W,lay.H,`Network fare chart ${ids}`).output("arraybuffer")); n++}
     const kind=step==="tt"?"timetables":step==="map"?"route maps":"fare charts";
     if(!n){wNote(`There are no ${kind} to download yet.`,true);return}
     const blob=await zip.generateAsync({type:"blob"});
