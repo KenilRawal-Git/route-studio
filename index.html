@@ -331,6 +331,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bodsbox.srcpanel{border:1px solid var(--line);border-radius:12px}
 .bodsbox.srcpanel>.helpbody{padding-top:12px}
 @media (max-width:560px){.srcpick{grid-template-columns:1fr}.srct{flex-direction:row;align-items:center;gap:10px}.srci{margin:0}}
+.frow{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:center;gap:8px}
+.frow input.frid{font-weight:600;text-transform:uppercase}
+.zcols{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 10px;margin-top:6px}
+.zlab{font-size:.78rem;color:var(--muted)}
+.fpimg{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;align-items:center}
+.fpth{width:70px;height:56px;border-radius:7px;background:#F0F3FB;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;font-size:.64rem;color:var(--muted);text-align:center}
+.fpth img{max-width:58px;max-height:46px}
 .combo{display:flex;gap:10px;align-items:flex-start;border:1px dashed var(--line);border-radius:10px;padding:9px 11px;cursor:pointer;font-size:.82rem;color:var(--fg)}
 .combo[hidden]{display:none}
 label.combo{flex-direction:row!important;align-items:flex-start!important}
@@ -814,12 +821,21 @@ span.gbt{cursor:default}
       </fieldset>
       <fieldset id="fareHeadSet" hidden>
         <legend><span class="num">2</span>Header</legend>
+        <div class="seg" role="radiogroup" aria-label="What the header shows">
+          <label><input type="radio" name="fareHead" value="routes" checked><span>Route numbers</span></label>
+          <label><input type="radio" name="fareHead" value="text"><span>A title</span></label>
+        </div>
+        <div id="fareHeadRoutes" class="stack"><div id="fareRouteRows" class="stack"></div>
+          <div class="btnrow"><button type="button" class="btn ghost sm" id="fareAddRoute">+ Add a route number</button></div></div>
+        <label id="fareHeadTextWrap" hidden>Title <span class="opt">Shown in Lexend SemiBold instead of the route numbers</span><input id="fareHeadText" placeholder="e.g. Colchester Network" maxlength="40"></label>
+        <input id="fareRoute" type="hidden" value="X">
         <div class="row">
-          <label>Route number <input id="fareRoute" value="X" maxlength="24" placeholder="e.g. 44, 44A" title="For several routes, separate them with commas: 44, 44A"></label>
+          <label>Label under it <input id="fareTitle" value="Fare Chart"></label>
           <label>Valid from <input id="fareValid" type="date"></label>
         </div>
-        <div class="field">Route colour <div class="colorline" id="fareColour"></div></div>
-        <label>Label under the route number <input id="fareTitle" value="Fare Chart"></label>
+        <div class="field">Zone colours <span class="opt">The zone columns in price tables, and the group headings above them</span>
+          <div class="zcols"><span class="zlab">Zone 1</span><div class="colorline" id="fareZ1"></div><span class="zlab">Zone 2</span><div class="colorline" id="fareZ2"></div><span class="zlab">Headings</span><div class="colorline" id="fareZG"></div></div>
+          <button type="button" class="linkbtn" id="fareZReset">Back to the standard zone colours</button></div>
       </fieldset>
       <fieldset id="fareSecSet" hidden>
         <legend><span class="num">3</span>Fare tables</legend>
@@ -3265,7 +3281,8 @@ const FARE_PANELS=()=>[
   {id:"intalink",title:"Intalink Connect",text:"Intalink Tickets are valid on these routes for journeys starting or finishing within Hertfordshire.",icon:"intalink",wide:false,show:true},
   {id:"herts",title:"Hertfordshire Saver Cards",text:"Hertfordshire Savercard accepted for journeys beginning or ending in Hertfordshire, *restrictions apply, see **hertfordshire.gov.uk/savercard** for details",icon:"herts",wide:false,show:true}];
 const FARE_SMALL="*Some Airport, Express & School services are excluded, see **travelessex.co.uk** for details.\nZonal tickets are also valid on other Central Connect services. See website for details. Restrictions apply.\nPrices correct as of 5th January 2026. Subject to change.";
-const fareState={route:"X",color:"#1E7AD6",title:"Fare Chart",valid:"",sections:[],foot:"",panels:FARE_PANELS(),expiry:"2026-11-06",app:true,small:FARE_SMALL,file:null,example:false,last:null,nextId:1};
+const FARE_ZONES={c1:"#7F85C0",c2:"#597AAC",grp:"#00AFD7"};
+const fareState={route:"X",color:"#1E7AD6",routes:null,headMode:"routes",headText:"",zones:{...FARE_ZONES},title:"Fare Chart",valid:"",sections:[],foot:"",panels:FARE_PANELS(),expiry:"2026-11-06",app:true,small:FARE_SMALL,file:null,example:false,last:null,nextId:1};
 
 /* ---------- reading the file ---------- */
 const fareIsVal=v=>{v=String(v||"").trim().replace(/,/g,"");return /^£?\s?\d+(\.\d{1,2})?p?$/i.test(v)||/^(free|n\/a|-|–|—)$/i.test(v)};
@@ -3341,15 +3358,18 @@ function fareLayout(cfg){
   /* header */
   /* header: the same navy band as the timetables and maps. Several routes can be listed ("44, 44A"), one badge each */
   R(0,0,W,70.95,"#223160");
-  const ids=String(cfg.route||"").split(/[\s,;&\/]+/).map(s=>s.trim()).filter(Boolean);
-  let bx=22.68; ids.forEach((r,i)=>{const c=i?(cfg.colors[r]||SWATCHES.filter(x=>x.toLowerCase()!==cfg.color.toLowerCase())[(i-1)%9]):cfg.color, w=Math.max(29,width(r,18,"medium")+14);
-    R(bx,16.06,w,29,c,5); T(r,bx+w/2,36.9,18,"medium",badgeText(c),"center"); bx+=w+6});
+  if(cfg.headMode==="text"&&String(cfg.headText||"").trim()){const t=String(cfg.headText).trim(), z=fitS(t,24,"semibold",W-190,10); T(t,22.68,40.5,z,"semibold","#FFFFFF")}
+  else{let bx=22.68; (cfg.routes||[]).forEach(({id:r,color:c})=>{const w=Math.max(29,width(r,18,"medium")+14);
+    R(bx,16.06,w,29,c,5); T(r,bx+w/2,36.9,18,"medium",badgeText(c),"center"); bx+=w+6})}
   T(cfg.title||"",22.68,58.14,9,"light","#FFFFFF");
   ops.push({k:"img",src:"logo",x:W-119.25,y:8.95,w:106.76,h:42.41});
   if(cfg.valid)T(`Valid from ${longDate(cfg.valid)}`,W-22.68,58.28,9,"light","#FFFFFF","right");
   };
   let y=0;
 
+  /* zone colours: two alternating zone colours (light fill, darker text) and the group headings */
+  const ZN={...FARE_ZONES,...(cfg.zones||{})}, tint=(c,t)=>{const [r,g,b]=hexRgb(c); return "#"+[r,g,b].map(v=>Math.round(v+(255-v)*t).toString(16).padStart(2,"0")).join("")};
+  const ZZ=[[tint(ZN.c1,0.72),ZN.c1],[tint(ZN.c2,0.72),ZN.c2]], ZG=ZN.grp;
   /* fare sections */
   const box=(top,h)=>R(BX,top,BW,h,"#FFFFFF",10,{stroke:FC.box,sw:2});
   cfg.sections.filter(s=>s.show).forEach(s=>{
@@ -3377,13 +3397,13 @@ function fareLayout(cfg){
       titleOps(); let yy=top+(s.title?28:12);
       // colour by position within its group
       const pos=[]; if(s.groups){let j=0;s.groups.forEach(g=>{for(let q=0;q<g.span;q++)pos[j++]=q})} else s.heads.forEach((h,j)=>pos[j]=j);
-      if(s.groups){let j=0;s.groups.forEach(g=>{const x=C0+j*pitch, w=g.span*pitch-7; if(g.name){R(x,yy,w,16,FC.grp,3);boxText(up(g.name),x+w/2,yy,16,w-6,10,"normal","#FFFFFF")} j+=g.span}); yy+=25.2}
-      if(s.heads.some(Boolean)){s.heads.forEach((hd,j)=>{const [bg,fg]=FC.z[pos[j]%2], x=C0+j*pitch; R(x,yy,cw,rh,bg,4); if(hd)boxText(hd,x+cw/2,yy,rh,cw-8,9,"normal",fg)}); yy+=rp}
+      if(s.groups){let j=0;s.groups.forEach(g=>{const x=C0+j*pitch, w=g.span*pitch-7; if(g.name){R(x,yy,w,16,ZG,3);boxText(up(g.name),x+w/2,yy,16,w-6,10,"normal",badgeText(ZG))} j+=g.span}); yy+=25.2}
+      if(s.heads.some(Boolean)){s.heads.forEach((hd,j)=>{const [bg,fg]=ZZ[pos[j]%2], x=C0+j*pitch; R(x,yy,cw,rh,bg,4); if(hd)boxText(hd,x+cw/2,yy,rh,cw-8,9,"normal",fg)}); yy+=rp}
       s.rows.forEach(r=>{const star=/\*/.test(r.label), m=r.label.match(/^(.*?)\s*(\(.*\))\s*$/), main=up(m?m[1]:r.label), note=m?m[2]:"";
         R(LX,yy,LW,rh,star?FC.star:FC.rowLab,4);
         if(note){const z=fitS(main,9,"normal",LW-8);T(main,LX+LW/2,yy+13.6,z,"normal",FC.ink,"center");T(note,LX+LW/2,yy+24.1,6,"normal",FC.ink,"center")}
         else boxText(main,LX+LW/2,yy,rh,LW-8,9,"normal",FC.ink);
-        r.values.forEach((v,j)=>{const [bg]=FC.z[pos[j]%2], x=C0+j*pitch; R(x,yy,cw,rh,bg,4); if(v){const z=fitS(v,9,"normal",cw-6);T(v,x+cw/2,yy+rh/2+.36*z,z,"normal",FC.ink,"center")}});
+        r.values.forEach((v,j)=>{const [bg]=ZZ[pos[j]%2], x=C0+j*pitch; R(x,yy,cw,rh,bg,4); if(v){const z=fitS(v,9,"normal",cw-6);T(v,x+cw/2,yy+rh/2+.36*z,z,"normal",FC.ink,"center")}});
         yy+=rp});
       bottom=yy-rp+rh+13;
     }
@@ -3402,15 +3422,16 @@ function fareLayout(cfg){
   rows.forEach(row=>{
     ops=[]; y=0;
     const cols=row.length===1?[[X1,XR]]:[[X1,(X1+XR)/2-3],[(X1+XR)/2+3,XR]]; // a panel without a partner fills the row
-    const lay=row.map((p,i)=>{const [x0,x1]=cols[i], hasIc=!!(p.icon&&FARE_IMG[p.icon]), tx=hasIc?x0+TILE+GAP:x0, tw=x1-tx, lines=fareWrap(p.text,tw-23,8.6);
+    const lay=row.map((p,i)=>{const [x0,x1]=cols[i], hasIc=!p.noImg&&!!(p.img||p.icon&&FARE_IMG[p.icon]||p.tile), tx=hasIc?x0+TILE+GAP:x0, tw=x1-tx, lines=fareWrap(p.text,tw-23,8.6);
       return {p,x0,x1,tx,tw,lines,hasIc,h:Math.max(row.length===1?57.9:83.4,(p.title?33:16)+lines.length*10+12)}});
     const h=Math.max(...lay.map(l=>l.h));
     lay.forEach(L=>{
       if(L.hasIc){R(L.x0,y,TILE,h,FC.tile,7);
         // every icon fits the same box (60 × 48 pt) and sits in the middle of its tile
-        const im=FARE_IMG_SIZE[L.p.icon], sc=Math.min((TILE-18)/im[0],Math.min(48,h-18)/im[1]), iw=im[0]*sc, ih=im[1]*sc, ix=L.x0+(TILE-iw)/2, iy=y+(h-ih)/2;
-        ops.push({k:"img",src:L.p.icon,x:ix,y:iy,w:iw,h:ih});
-        if(L.p.icon==="encts"&&cfg.expiry){const t=fareExpiry(cfg.expiry), z=fitS(t,10.8*sc,"normal",58.8*sc,1);T(t,ix+60.85*sc,iy+69.25*sc,z,"normal","#000000")}}
+        const P=L.p, im=P.img?[P.img.w,P.img.h]:FARE_IMG_SIZE[P.icon];
+        if(im){const sc=Math.min((TILE-18)/im[0],Math.min(48,h-18)/im[1]), iw=im[0]*sc, ih=im[1]*sc, ix=L.x0+(TILE-iw)/2, iy=y+(h-ih)/2;
+        ops.push(P.img?{k:"img",src:"p_"+P.id,url:P.img.url,fmt:P.img.fmt,x:ix,y:iy,w:iw,h:ih}:{k:"img",src:P.icon,x:ix,y:iy,w:iw,h:ih});
+        if(!P.img&&P.icon==="encts"&&cfg.expiry){const t=fareExpiry(cfg.expiry), z=fitS(t,10.8*sc,"normal",58.8*sc,1);T(t,ix+60.85*sc,iy+69.25*sc,z,"normal","#000000")}}}
       R(L.tx,y,L.tw,h,FC.panel,7);
       let yy=y+(h-((L.p.title?13.5:0)+L.lines.length*10))/2+7.2;
       if(L.p.title){T(L.p.title,L.tx+12,yy,8.8,"semibold",FC.text,undefined);yy+=13.5}
@@ -3461,7 +3482,7 @@ function fareSvg(ops,W,H){
   for(const o of ops){
     if(o.k==="r")s+=`<rect x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}"${o.rx?` rx="${o.rx}"`:""} fill="${o.c}"${o.a!=null?` fill-opacity="${o.a}"`:""}${o.stroke?` stroke="${o.stroke}" stroke-width="${o.sw}"`:""}/>`;
     else if(o.k==="l")s+=`<line x1="${f(o.x1)}" y1="${f(o.y1)}" x2="${f(o.x2)}" y2="${f(o.y2)}" stroke="${o.c}" stroke-width="${o.w}"/>`;
-    else if(o.k==="img")s+=`<image href="data:image/png;base64,${fareSrc(o.src)}" x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}" preserveAspectRatio="none"/>`;
+    else if(o.k==="img")s+=`<image href="${o.url||"data:image/png;base64,"+fareSrc(o.src)}" x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}" preserveAspectRatio="none"/>`;
     else if(o.k==="tr")s+=`<text x="${f(o.x)}" y="${f(o.y)}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" fill="${o.color}" xml:space="preserve">${o.runs.map(([t,w])=>`<tspan font-weight="${FW[w]||400}">${esc(t)}</tspan>`).join("")}</text>`;
     else if(o.k==="t")s+=`<text x="${f(o.x)}" y="${f(o.y)}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" font-weight="${FW[o.w]||400}" fill="${o.color}"${o.align==="center"?' text-anchor="middle"':o.align==="right"?' text-anchor="end"':""} xml:space="preserve">${esc(o.text)}</text>`;
   }
@@ -3481,7 +3502,7 @@ function farePdfDraw(doc,ops){
       const st=o.nofill?"S":o.stroke?"FD":"F"; if(o.stroke){doc.setDrawColor(...hexRgb(o.stroke));doc.setLineWidth(o.sw)}
       if(o.rx)doc.roundedRect(o.x,o.y,o.w,o.h,o.rx,o.rx,st); else doc.rect(o.x,o.y,o.w,o.h,st); if(o.a!=null)alpha(1)}
     else if(o.k==="l"){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.w);doc.line(o.x1,o.y1,o.x2,o.y2)}
-    else if(o.k==="img")doc.addImage("data:image/png;base64,"+fareSrc(o.src),"PNG",o.x,o.y,o.w,o.h,"fare_"+o.src);
+    else if(o.k==="img")doc.addImage(o.url||"data:image/png;base64,"+fareSrc(o.src),o.url?o.fmt||"PNG":"PNG",o.x,o.y,o.w,o.h,"fare_"+o.src);
     else if(o.k==="tr"){let x=o.x;doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));o.runs.forEach(([t,w])=>{doc.setFont("Lexend",w);doc.text(t,x,o.y);x+=doc.getTextWidth(t)})}
     else if(o.k==="t"){doc.setFont("Lexend",o.w||"normal");doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));doc.text(o.text,o.x,o.y,o.align?{align:o.align}:undefined)}
   }
@@ -3579,10 +3600,14 @@ function fareRenderPanels(){
   const box=$("farePanels"), n=fareState.panels.length;
   box.innerHTML=fareState.panels.map((p,i)=>`<div class="sec fpan${p.show?"":" off"}" data-i="${i}">
     <div class="sec-h"><label class="check"><input type="checkbox" data-k="show" ${p.show?"checked":""}> <b>${esc(p.title||"New panel")}</b></label>
-      <span><button type="button" class="ib" data-mv="-1" ${i?"":"disabled"} aria-label="Move up">↑</button><button type="button" class="ib" data-mv="1" ${i<n-1?"":"disabled"} aria-label="Move down">↓</button>${p.icon?"":`<button type="button" class="ib" data-del aria-label="Remove panel">✕</button>`}</span></div>
-    <details${p.icon?"":" open"}><summary>Edit</summary><div class="stack">
+      <span><button type="button" class="ib" data-mv="-1" ${i?"":"disabled"} aria-label="Move up">↑</button><button type="button" class="ib" data-mv="1" ${i<n-1?"":"disabled"} aria-label="Move down">↓</button><button type="button" class="ib" data-del aria-label="Remove panel" title="Remove this panel">✕</button></span></div>
+    <details${fareState.openP===p.id?" open":""}><summary>Edit</summary><div class="stack">
       <label>Title <input data-k="title" value="${esc(p.title)}"></label>
       <label>Text <span class="opt">Wrap words in **double stars** for bold</span><textarea class="short" data-k="text" rows="3">${esc(p.text)}</textarea></label>
+      <div class="field">Image <div class="fpimg"><span class="fpth">${p.noImg?"No image":p.img?`<img alt="" src="${p.img.url}">`:p.icon&&FARE_IMG[p.icon]?`<img alt="" src="data:image/png;base64,${FARE_IMG[p.icon]}">`:"Empty"}</span>
+        <div class="btnrow"><label class="btn ghost sm upl">${p.img||(p.icon&&FARE_IMG[p.icon])?"Replace image":"Add an image"}<input type="file" data-pimg accept="image/png,image/jpeg,image/webp" aria-label="Panel image"></label>
+          ${p.img&&p.icon&&FARE_IMG[p.icon]?`<button type="button" class="linkbtn" data-pstd>Use the standard image</button>`:""}
+          <button type="button" class="linkbtn" data-pnone>${p.noImg?"Show the image block":"No image block"}</button></div></div></div>
       <div class="row">${p.id==="encts"?`<label>Pass expiry date <input type="date" data-x="expiry" value="${esc(fareState.expiry)}"></label>`:""}
         <label>Width <select data-k="wide"><option value="" ${p.wide?"":"selected"}>Half</option><option value="1" ${p.wide?"selected":""}>Full</option></select></label></div>
     </div></details></div>`).join("");
@@ -3593,6 +3618,11 @@ function fareRenderPanels(){
     el.querySelectorAll("[data-x]").forEach(inp=>inp.addEventListener("input",()=>{fareState.expiry=inp.value;render()}));
     el.querySelectorAll("[data-mv]").forEach(b=>b.addEventListener("click",()=>{const j=i+ +b.dataset.mv,a=fareState.panels;[a[i],a[j]]=[a[j],a[i]];fareRenderPanels();render()}));
     const d=el.querySelector("[data-del]"); if(d)d.addEventListener("click",()=>{fareState.panels.splice(i,1);fareRenderPanels();render()});
+    el.querySelector("details").addEventListener("toggle",ev=>{if(ev.target.open)fareState.openP=p.id});
+    el.querySelector("[data-pimg]").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.target.value=""; if(!f)return;
+      try{p.img=await fareReadImage(f); p.noImg=false; fareState.openP=p.id; fareRenderPanels(); render()}catch(e){const st=$("status");st.className="status err";st.textContent=e.message}});
+    const ps=el.querySelector("[data-pstd]"); if(ps)ps.addEventListener("click",()=>{p.img=null; fareState.openP=p.id; fareRenderPanels(); render()});
+    el.querySelector("[data-pnone]").addEventListener("click",()=>{p.noImg=!p.noImg; fareState.openP=p.id; fareRenderPanels(); render()});
   });
 }
 function fareEnsure(){
@@ -3601,7 +3631,7 @@ function fareEnsure(){
   fareRenderPanels();
 }
 function fareCfg(){return fareCfgFrom(fareState)}
-function fareCfgFrom(f){return {colors:state.routeColors||{},route:f.route,color:f.color,title:f.title,valid:f.valid,sections:f.sections,foot:f.foot,panels:f.panels,expiry:f.expiry,app:f.app,small:f.small}}
+function fareCfgFrom(f){return {colors:state.routeColors||{},route:f.route,color:f.color,routes:fareRoutesOf(f),headMode:f.headMode,headText:f.headText,zones:f.zones,title:f.title,valid:f.valid,sections:f.sections,foot:f.foot,panels:f.panels,expiry:f.expiry,app:f.app,small:f.small}}
 function fareDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
   const res=fareLayout(fareCfg()); fareState.last=res; const n=res.pages.length;
@@ -3648,8 +3678,40 @@ $("fareBlank").addEventListener("click",()=>{fareState.sections=[];fareState.fil
 [["fareAddTri","tri"],["fareAddTable","table"],["fareAddGrid","grid"]].forEach(([id,k])=>$(id).addEventListener("click",()=>{const s=fareNewSection(k);
   fareState.sections.push(s);fareState.open.add(s.id);if(!fareState.file)fareState.file={name:"Typed in"};fareRenderSecs();render();
   const el=[...document.querySelectorAll(".fsec")].pop();if(el){el.scrollIntoView({behavior:"smooth",block:"nearest"});const f=el.querySelector(".fwrap input");if(f)f.focus({preventScroll:true})}}));
-$("fareAddPanel").addEventListener("click",()=>{fareState.panels.push({id:"p"+Date.now(),title:"",text:"",icon:"",wide:false,show:true});fareRenderPanels();render()});
-function fareRenderColour(){swatchRow($("fareColour"),fareState.color,c=>{fareState.color=c;fareRenderColour();render()},"fare")}
+$("fareAddPanel").addEventListener("click",()=>{const id="p"+Date.now(); fareState.panels.push({id,title:"",text:"",icon:"",tile:true,img:null,wide:false,show:true}); fareState.openP=id; fareRenderPanels(); render();
+  const el=[...document.querySelectorAll(".fpan")].pop(); if(el)el.scrollIntoView({behavior:"smooth",block:"nearest"})});
+/* a panel picture: read, made no bigger than 600 px, kept as PNG (or JPEG for photos) */
+function fareReadImage(f){return new Promise((ok,no)=>{const r=new FileReader(); r.onerror=()=>no(new Error("That picture couldn't be read."));
+  r.onload=()=>{const im=new Image(); im.onerror=()=>no(new Error("That picture couldn't be read. Use a PNG or JPG.")); im.onload=()=>{
+    const k=Math.min(1,600/Math.max(im.naturalWidth,im.naturalHeight)), w=Math.max(1,Math.round(im.naturalWidth*k)), h=Math.max(1,Math.round(im.naturalHeight*k));
+    const cv=document.createElement("canvas"); cv.width=w; cv.height=h; cv.getContext("2d").drawImage(im,0,0,w,h);
+    const png=!/jpe?g/i.test(f.type); ok({url:cv.toDataURL(png?"image/png":"image/jpeg",0.9),fmt:png?"PNG":"JPEG",w,h})}; im.src=r.result}; r.readAsDataURL(f)})}
+/* the header: route numbers (each with its own colour), or a title */
+function fareRoutesOf(f){
+  if(f.routes&&f.routes.length)return f.routes.filter(r=>String(r.id||"").trim());
+  const ids=String(f.route||"").split(/[\s,;&\/]+/).map(x=>x.trim()).filter(Boolean), base=f.color||"#1E7AD6";
+  return ids.map((id,i)=>({id,color:i?((state.routeColors||{})[id]||SWATCHES.filter(x=>x.toLowerCase()!==base.toLowerCase())[(i-1)%9]):base}))}
+function fareSetRoutes(list){fareState.routes=list; const ok=list.filter(r=>String(r.id).trim()); fareState.route=ok.map(r=>r.id).join(", ")||"X"; if(ok[0])fareState.color=ok[0].color; $("fareRoute").value=fareState.route}
+function fareRenderColour(){
+  const mode=fareState.headMode==="text"?"text":"routes";
+  document.querySelectorAll('input[name=fareHead]').forEach(r=>r.checked=r.value===mode);
+  $("fareHeadRoutes").hidden=mode!=="routes"; $("fareHeadTextWrap").hidden=mode!=="text"; $("fareHeadText").value=fareState.headText||"";
+  let list=fareState.routes&&fareState.routes.length?fareState.routes.map(r=>({...r})):fareRoutesOf(fareState); if(!list.length)list=[{id:"",color:fareState.color||"#1E7AD6"}];
+  const box=$("fareRouteRows");
+  box.innerHTML=list.map((r,i)=>`<div class="frow" data-i="${i}"><input class="frid" value="${esc(r.id)}" maxlength="6" placeholder="e.g. 44" aria-label="Route number ${i+1}"><div class="colorline"></div>${list.length>1?`<button type="button" class="ib" data-rdel aria-label="Remove this route number">✕</button>`:"<span></span>"}</div>`).join("");
+  box.querySelectorAll(".frow").forEach(row=>{const i=+row.dataset.i;
+    row.querySelector(".frid").addEventListener("input",ev=>{list[i].id=ev.target.value.trim().toUpperCase(); fareSetRoutes(list); render()});
+    swatchRow(row.querySelector(".colorline"),list[i].color,c=>{list[i].color=c; fareSetRoutes(list); fareRenderColour(); render()},"fare"+i);
+    const d=row.querySelector("[data-rdel]"); if(d)d.addEventListener("click",()=>{list.splice(i,1); fareSetRoutes(list); fareRenderColour(); render()})});
+  const Z={...FARE_ZONES,...(fareState.zones||{})};
+  [["fareZ1","c1"],["fareZ2","c2"],["fareZG","grp"]].forEach(([id,k])=>swatchRow($(id),Z[k],c=>{fareState.zones={...Z,[k]:c}; fareRenderColour(); render()},"fz"+k));
+}
+$("fareAddRoute").addEventListener("click",()=>{const list=fareState.routes&&fareState.routes.length?fareState.routes:fareRoutesOf(fareState), used=new Set(list.map(r=>r.color.toLowerCase()));
+  list.push({id:"",color:SWATCHES.find(c=>!used.has(c.toLowerCase()))||"#1E7AD6"}); fareState.routes=list; fareRenderColour();
+  const ins=$("fareRouteRows").querySelectorAll(".frid"); ins[ins.length-1].focus()});
+document.querySelectorAll('input[name=fareHead]').forEach(r=>r.addEventListener("change",()=>{if(r.checked){fareState.headMode=r.value; fareRenderColour(); render()}}));
+$("fareHeadText").addEventListener("input",()=>{fareState.headText=$("fareHeadText").value; render()});
+$("fareZReset").addEventListener("click",()=>{fareState.zones={...FARE_ZONES}; fareRenderColour(); render()});
 fareRenderColour();
 $("fareFoot").value=fareState.foot; $("fareSmall").value=fareState.small;
 
@@ -4822,7 +4884,7 @@ document.querySelectorAll(".srcpick").forEach(box=>box.querySelectorAll(".srct")
 const W={on:false,step:"tt",routes:[],cur:0,nextUid:1,colors:{},guideBuilt:false,nets:[],curNet:null,sel:new Set(),selMode:false};
 const WSTEPS=[["tt","Timetables"],["map","Route maps"],["fare","Fares"],["guide","Bus guide"]];
 const TT_KEYS=["route","color","label","routeColors","sections","endNote","key","keyMeanings"];
-const FARE_KEYS=["route","color","title","valid","sections","foot","panels","expiry","app","small","file","example"];
+const FARE_KEYS=["route","color","routes","headMode","headText","zones","title","valid","sections","foot","panels","expiry","app","small","file","example"];
 function wIds(r){const live=W.on&&W.step==="tt"&&r&&r===W.routes[W.cur], st=live?state:r&&r.tt&&r.tt.state; if(!st||!st.sections.some(s=>s.stops.length))return [];
   const ids=[]; st.sections.forEach(s=>s.cols.forEach(c=>{const x=String(c.route||st.route||"").trim(); if(x&&!ids.includes(x))ids.push(x)})); if(!ids.length&&st.route)ids.push(st.route); return ids.sort(routeOrder)}
 function wSt(r){return W.on&&W.step==="tt"&&r===W.routes[W.cur]?state:r.tt&&r.tt.state}
@@ -4852,9 +4914,10 @@ function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
 }
 function fareSnapW(){if(fareState.example||!fareState.sections.length)return null; const o={}; FARE_KEYS.forEach(k=>o[k]=fareState[k]); return structuredClone(o)}
 function fareRestoreW(f,r){
+  Object.assign(fareState,{routes:null,headMode:"routes",headText:"",zones:{...FARE_ZONES}});
   if(f)Object.assign(fareState,structuredClone(f));
   else{fareState.panels=FARE_PANELS(); fareState.small=FARE_SMALL; fareState.foot=""; fareSetData(FARE_EXAMPLE,{name:"Example fare chart",example:true});
-    const ids=wIds(r); fareState.route=ids.join(" / ")||"X"; fareState.color=ids.length?wColour(r.tt.state,ids[0]):fareState.color}
+    const ids=wIds(r); fareState.routes=null; fareState.headMode="routes"; fareState.route=ids.join(", ")||"X"; fareState.color=ids.length?wColour(r.tt.state,ids[0]):fareState.color}
   if(!fareState.valid)fareState.valid=state.valid;
   $("fareRoute").value=fareState.route; $("fareValid").value=fareState.valid||""; $("fareTitle").value=fareState.title||""; $("fareFoot").value=fareState.foot||"";
   $("fareApp").checked=fareState.app!==false; $("fareSmall").value=fareState.small||"";
