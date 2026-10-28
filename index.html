@@ -4537,8 +4537,21 @@ function guideRenderRows(){
     el.querySelector("[data-del]").addEventListener("click",()=>{guideState.extraRows.splice(+el.dataset.i,1);guideRenderRows();render()})});
 }
 function guideRenderAll(){guideRenderRows();gRenderBlocks()}
+/* a fare chart is complete when it has real fares (not the example) in at least one table that's shown */
+function fareComplete(f){return !!(f&&!f.example&&(f.sections||[]).some(s=>s.show!==false&&(s.kind==="tri"?(s.places||[]).length>1&&(s.fares||[]).some(r=>(r||[]).some(Boolean)):(s.rows||[]).some(r=>(r.values||[]).some(Boolean)))))}
+/* the Fare chart tool's fares go into the guide by themselves once they're complete: after the timetable (and map) of the same route */
+function gAutoFare(){
+  if(!fareComplete(fareState))return null; const snap=structuredClone(Object.fromEntries(FARE_KEYS.map(k=>[k,fareState[k]])));
+  const B=guideState.blocks; let b=B.find(x=>x.type==="fare"&&x.autoFare);
+  if(b){b.fare=snap; b._memo=null; return null}
+  if(B.some(x=>x.type==="fare"&&!x.fare))return null;   // there's already a page showing the Fare chart tool
+  const ids=new Set(fareRoutesOf(snap).map(r=>String(r.id).toUpperCase()));
+  let at=-1; B.forEach((x,k)=>{if(x.type==="route"){const e=gEntry(x.eid); if(e&&gEntryRoutes(e).some(r=>ids.has(String(r).toUpperCase())))at=k}});
+  if(at>=0){while(B[at+1]&&(B[at+1].type==="map"||B[at+1].type==="fare"))at++; at++} else at=gInsertAt("fare");
+  b=gNewBlock("fare",{fare:snap,autoFare:true}); B.splice(at,0,b); return b}
 function guideEnsure(){
   if(!guideState.entries.length)gExample();
+  if(!(typeof W!=="undefined"&&W.on)){const nb=gAutoFare(); if(nb){const st=$("gStatus"); st.className="status"; st.textContent=`Added the fare chart for route ${nb.fare.route} from the Fare chart tab.`}}
   if(!guideState.valid&&state.valid){guideState.valid=state.valid;$("gValid").value=state.valid}
   guideRenderAll();
 }
@@ -4963,7 +4976,7 @@ function wGuideSync(){
     if(!has("route"))add.push(gNewBlock("route",{eid:e.id,wuid:r.uid}));
     const mb=has("map"); if(!mb)add.push(gNewBlock("map",{eid:e.id,wuid:r.uid,orient:(r.map&&r.map.orient)||"auto",notes:(r.map&&r.map.notes)||"",key:r.map?r.map.showKey!==false:true}));
     else{if(r.map){mb.notes=r.map.notes;mb.key=r.map.showKey!==false} mb.loaded=null}
-    const fb=has("fare"); if(r.fare){if(fb){fb.fare=r.fare;fb._memo=null} else add.push(gNewBlock("fare",{wuid:r.uid,fare:r.fare}))} else if(fb)B.splice(B.indexOf(fb),1);
+    const fb=has("fare"); if(r.fare&&fareComplete(r.fare)){if(fb){fb.fare=r.fare;fb._memo=null} else add.push(gNewBlock("fare",{wuid:r.uid,fare:r.fare}))} else if(fb)B.splice(B.indexOf(fb),1);
     if(add.length){ // after this route's own pages, else after the route before it, else after the Passenger Promise
       let at=-1; B.forEach((b,k)=>{if(b.wuid===r.uid)at=k});
       if(at<0){const prev=new Set(routes.slice(0,ri).map(x=>x.uid)); B.forEach((b,k)=>{if(prev.has(b.wuid))at=k});
@@ -4974,7 +4987,7 @@ function wGuideSync(){
   const netIds=new Set(W.nets.map(n=>n.uid)); G.blocks=G.blocks.filter(b=>!b.wnet||netIds.has(b.wnet));
   W.nets.forEach(n=>{let b=G.blocks.find(x=>x.wnet===n.uid);
     if(wNetKind(n)==="fare"){ // a network fare chart: its own fare page, after the network maps and route pages
-      if(!n.fare){if(b)G.blocks.splice(G.blocks.indexOf(b),1); return}
+      if(!n.fare||!fareComplete(n.fare)){if(b)G.blocks.splice(G.blocks.indexOf(b),1); return}
       if(b){b.fare=n.fare; b._memo=null; return}
       b=gNewBlock("fare",{wnet:n.uid,fare:n.fare}); let at=-1; G.blocks.forEach((x,k)=>{if(x.wuid||x.wnet)at=k}); if(at<0)at=Math.max(0,G.blocks.length-2); G.blocks.splice(at+1,0,b); return}
     const eids=G.entries.filter(e=>n.members.includes(e.wuid)).map(e=>e.id);
