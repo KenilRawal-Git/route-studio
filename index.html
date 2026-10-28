@@ -5138,12 +5138,14 @@ function wProject(){
     const r={uid:W.nextUid++,tt:ttSnap(),map:mapSnapW(),fare:fareSnapW()}; if(wIds(r).length){W.routes=[r];W.cur=0;W.step="guide";W.guideBuilt=guideState.entries.length>0}}
   const G={}; G_KEYS.forEach(k=>G[k]=guideState[k]);
   G.uploads=Object.fromEntries(Object.entries(guideState.uploads).filter(([k,u])=>!u.builtin));
-  return {kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
+  // what's open in the Fare chart tab is always kept too (it may not belong to a route in the steps)
+  const fareTool=fareState.sections.length&&!fareState.example?structuredClone(Object.fromEntries(FARE_KEYS.map(k=>[k,fareState[k]]))):null;
+  return {kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,tools:{fare:fareTool},
     W:{routes:W.routes,cur:W.cur,step:W.step,nextUid:W.nextUid,colors:W.colors,guideBuilt:W.guideBuilt,nets:W.nets},guide:G};
 }
 async function wSaveProject(){
-  const d=wProject(); if(!d.W.routes.some(r=>wIds(r).length)){wNote("There's nothing to save yet: add a timetable first.",true);return}
-  const ids=d.W.routes.flatMap(r=>wIds(r)).slice(0,6).join(" "), nm=`Route Studio project - ${(guideState.area&&W.guideBuilt?guideState.area+" ":"")+ids}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
+  const d=wProject(); if(!d.W.routes.some(r=>wIds(r).length)&&!d.tools.fare){wNote("There's nothing to save yet: add a timetable or fares first.",true);return}
+  const ids=d.W.routes.flatMap(r=>wIds(r)).slice(0,6).join(" ")||(d.tools.fare?d.tools.fare.route+" fares":""), nm=`Route Studio project - ${(guideState.area&&W.guideBuilt?guideState.area+" ":"")+ids}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Project file");
   wNote("Project file saved. Open it from the Route Studio home page to carry on where you left off.");
 }
@@ -5163,6 +5165,7 @@ async function wOpenProject(f){
     $("gArea").value=guideState.area||""; $("gTitle").value=guideState.title||""; $("gValid").value=guideState.valid||""; $("gCoverNums").checked=guideState.coverNums!==false;
     $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
     guideRenderRows();
+    if(d.tools&&d.tools.fare)fareRestoreW(d.tools.fare);   // the Fare chart tab as it was saved
     msg.className="hint"; msg.textContent=`Opened ${f.name}: ${wReady().length} route${wReady().length===1?"":"s"}.`;
     W.on=false; wStart(false);
   }catch(e){const t=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.");
