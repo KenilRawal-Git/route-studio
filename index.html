@@ -2157,8 +2157,11 @@ function mapLayout(cfg){
   { const tr=!SCH&&routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
   const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
-  const KCW=SCH?Math.max(130,...keyRows.map(r=>r.label?width(r.label,7.5,"light")+52:0)):140;   // school maps: columns as wide as their labels
-  const KEYW=SCH?KCW*kCols+10:Math.max(150,0)+(kCols-1)*140, keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
+  // each column as wide as its longest entry, a steady gap between columns and the same margin on both sides
+  const rowTxt=r=>r.type==="line"?(r.label||`Route ${r.r.id}`):r.type==="dash"?r.label:r.type==="stop"?"Town or village served":r.type==="rail"?"National Rail Line / Station":"Route Terminus";
+  const colW=[...Array(kCols)].map((_,c)=>40+Math.max(...keyRows.slice(c*kPer,(c+1)*kPer).map(r=>width(rowTxt(r),7.5,"light"))));
+  const colX=colW.map((w,c)=>colW.slice(0,c).reduce((a,v)=>a+v+18,0));
+  const KEYW=Math.max(150,colX[kCols-1]+colW[kCols-1]+14), keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
   let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
@@ -2501,7 +2504,7 @@ function mapLayout(cfg){
   if(KEY){const [kx,ky,kx1,ky1]=KEY;
     ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
     T("Key",kx+11,ky+18,9,"semibold","#000000");
-    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*(SCH?KCW:kCols>1?(KEYW-10)/kCols:140), yy=ky+35+i*15.2, cy=yy-2.5;
+    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+colX[col], yy=ky+35+i*15.2, cy=yy-2.5;
       if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(row.label||`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:3.2,cap:"butt",dash:[5,3]});T(row.label,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T(SUM||SCH?"Town or village served":"Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
