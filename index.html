@@ -334,7 +334,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .scr{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--panel)}
 .scrh{display:flex;align-items:center;gap:8px}
 .scrh input{width:90px;font-weight:600;text-transform:uppercase}
-.scrh .scn{flex:1;font-size:.74rem;color:var(--muted)}
+.scr .scn{font-size:.72rem;color:var(--muted)}
+.scrh .sccol{flex:1;min-width:0}
 .scr textarea{min-height:64px}
 .frow{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:center;gap:8px}
 .frow input.frid{font-weight:600;text-transform:uppercase}
@@ -696,7 +697,9 @@ span.gbt{cursor:default}
             <p class="hint" style="margin:0">File columns: <b>Route</b>, <b>Town</b>, and <b>Stop</b>, <b>Latitude</b>, <b>Longitude</b> if you have them. One row per town or stop, in order.</p>
           </div>
           <label>Title in the header <input id="scTitle" placeholder="School Map" maxlength="40"></label>
-          <div class="btnrow"><button type="button" class="btn sm" id="scDraw">Draw the school map</button></div>
+          <div class="btnrow"><button type="button" class="btn sm" id="scDraw">Draw the school map</button>
+            <button type="button" class="btn ghost sm" id="scSave" title="Save this school map to a file you can open again to make changes">Save school map file</button>
+            <label class="btn ghost sm upl">Open a school map file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a school map file"></label></div>
           <p class="hint" id="scMsg" style="margin:0"></p>
         </div>
         <div class="filecard" id="mapCard" hidden>
@@ -2141,7 +2144,7 @@ function mapLayout(cfg){
       return [{type:"line",r:famBase[k],label:"Route "+m.map(r=>r.id).join(" / ")},...m.filter(r=>varOwn[routes.indexOf(r)]).map(r=>({type:"dash",r,label:`Route ${r.id} only`}))]})
     :routes.map(r=>({type:"line",r,label:SCH?`Route ${r.id}: ${(r.stops[0]||{}).town||""} to ${SCH.name||SCH.town||"school"}`:null}));
   keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
-  { const tr=routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
+  { const tr=!SCH&&routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
   const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
   const KEYW=Math.max(150,SCH?Math.max(...keyRows.map(r=>r.label?width(r.label,7.5,"light")+52:0)):0)+(kCols-1)*140, keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
@@ -2282,7 +2285,7 @@ function mapLayout(cfg){
   routes.forEach(r=>r.stops.forEach((s,i)=>{const kk=stopKey(s), nk=nameKey(s); let o=stops.find(x=>x.key===kk)||stops.find(x=>x.nk===nk&&close(x,s));
     if(!o){let [x,y]=P(s.lon,s.lat); if(x<MX0+8||x>MX1-8||y<MY0+8||y>MY1-8)return; if(!s.dest)[x,y]=onLine(x,y); o={key:kk,nk,dest:!!s.dest,town:s.town,stop:s.stop,x,y,lon:s.lon,lat:s.lat,badges:[]}; stops.push(o)}
     (o.rs||(o.rs=new Set())).add(r.id);
-    if(r.termini.has(i)&&!o.badges.includes(r)&&!o.dest)o.badges.push(r)}));
+    if(r.termini.has(i)&&!o.badges.includes(r)&&!o.dest&&!SCH)o.badges.push(r)}));   // school maps: no terminus badges
   /* a network map (or any map with lots of routes and stops) names places, not every stop: the ends of the routes get their
      full name, each other town is named once (at its busiest stop), and the remaining stops are small marks without a label */
   const NET=!INS&&!SCH&&cfg.netLabels!==false&&cfg.style!=="detailed"&&(cfg.style==="summary"||cfg.title==="Network Map"||(routes.length>=4&&stops.length>24));
@@ -2387,7 +2390,8 @@ function mapLayout(cfg){
 
   /* direction arrows along the lines: the routes on that stretch and which way they run (both ways, or one way) */
   const dirTags=[];
-  if(cfg.arrows!==false)runsAll.forEach(G=>{const xy=G.C; if(xy.length<2)return;
+  if(cfg.arrows!==false&&!SCH)runsAll.forEach(G=>{   // school maps: no direction arrows
+    const xy=G.C; if(xy.length<2)return;
     const cum=[0]; for(let i=1;i<xy.length;i++)cum.push(cum[i-1]+Math.hypot(xy[i][0]-xy[i-1][0],xy[i][1]-xy[i-1][1])); const L=cum[cum.length-1];
     if(L<(INS?45:80))return;
     const ids=[...new Set(G.members.map(m=>m.ri))].sort((a,b)=>a-b).map(i=>routes[i].id).join(" / "), two=G.members.some(m=>m.two), one=G.members.find(m=>!m.two)||G.members[0];
@@ -3180,6 +3184,7 @@ function mapColour(id,i){
   return state.routeColors[id]||MAP_DEFAULTS[i%MAP_DEFAULTS.length];
 }
 function mapSetColour(id,c){
+  if(mapState.kind==="school"&&typeof SCHOOL!=="undefined"){const sr=SCHOOL.routes.find(r=>r.id===id); if(sr){sr.color=c; setTimeout(scRender)}}
   if(mapState.example)mapState.exColours[id]=c;
   else if(mapState.ttRoutes&&id===state.route){state.color=c;delete state.routeColors[id]} else state.routeColors[id]=c;
   if(typeof renderRouteUI==="function")renderRouteUI(); mapRenderRoutes(); render();
@@ -3323,10 +3328,11 @@ function scRender(){
   document.querySelectorAll('input[name=scShow]').forEach(r=>r.checked=r.value===S.show); $("scLabelWrap").hidden=S.show!=="label"; $("scImgWrap").hidden=S.show!=="image";
   $("scImgName").textContent=S.img?"Picture chosen":"No picture yet"; $("scImgBtn").textContent=S.img?"Replace the picture":"Choose a picture";
   const box=$("scRoutes");
-  box.innerHTML=S.routes.map((r,i)=>`<div class="scr" data-i="${i}"><div class="scrh"><input value="${esc(r.id)}" maxlength="6" aria-label="Route number" placeholder="Route"><span class="scn">${scLines(r).length} places</span>${S.routes.length>1?`<button type="button" class="ib" data-del aria-label="Remove this route">✕</button>`:""}</div>
-    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea></div>`).join("");
+  box.innerHTML=S.routes.map((r,i)=>`<div class="scr" data-i="${i}"><div class="scrh"><input value="${esc(r.id)}" maxlength="6" aria-label="Route number" placeholder="Route"><div class="colorline sccol"></div>${S.routes.length>1?`<button type="button" class="ib" data-del aria-label="Remove this route">✕</button>`:""}</div>
+    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea><span class="scn">${scLines(r).length} places</span></div>`).join("");
   box.querySelectorAll(".scr").forEach(el=>{const r=S.routes[+el.dataset.i];
-    el.querySelector(".scrh input").addEventListener("input",ev=>{r.id=ev.target.value.trim().toUpperCase(); scLater()});
+    el.querySelector(".scrh input").addEventListener("input",ev=>{r.id=ev.target.value.trim().toUpperCase(); if(r.color)state.routeColors[r.id]=r.color; scLater()});
+    const i=+el.dataset.i; swatchRow(el.querySelector(".sccol"),r.color||mapColour(r.id,i),c=>{r.color=c; state.routeColors[r.id]=c; mapRenderRoutes(); render(); scRender()},"sc"+i);
     el.querySelector("textarea").addEventListener("input",ev=>{r.towns=ev.target.value; el.querySelector(".scn").textContent=`${scLines(r).length} places`; scLater()});
     const d=el.querySelector("[data-del]"); if(d)d.addEventListener("click",()=>{S.routes.splice(+el.dataset.i,1); scRender(); scLater()})});
 }
@@ -3336,7 +3342,7 @@ async function scBuild(){
   const m=String(S.pos||"").match(/(-?\d+(?:\.\d+)?)\s*[,\s]\s*(-?\d+(?:\.\d+)?)/);
   let dest=m?{lat:+m[1],lon:+m[2]}:S.town?await scGeo(S.town,S.stop,null):null;
   const routes=[], missing=[];
-  for(const [i,r] of S.routes.entries()){let L=scLines(r); if(!L.length)continue;
+  for(const [i,r] of S.routes.entries()){let L=scLines(r); if(!L.length)continue; if(r.color)state.routeColors[r.id||String(i+1)]=r.color;
     // a last line naming the school's town is the school itself
     const last=L[L.length-1]; if(L.length>1&&S.town&&naptanNorm(last.town)===naptanNorm(S.town)){if(!dest&&isFinite(last.lat))dest={lat:last.lat,lon:last.lon}; L=L.slice(0,-1)}
     let near=dest; for(let k=L.length-1;k>=0;k--){const x=L[k]; if(!(isFinite(x.lat)&&isFinite(x.lon))){const g=await scGeo(x.town,x.stop,near); if(g){x.lat=g.lat;x.lon=g.lon} else missing.push(x.line)} if(isFinite(x.lat))near={lat:x.lat,lon:x.lon}}
@@ -3361,6 +3367,14 @@ $("scImg").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.t
   try{SCHOOL.img=await fareReadImage(f); SCHOOL.show="image"; scRender(); render()}catch(e){$("scMsg").className="hint err"; $("scMsg").textContent=e.message}});
 $("scAdd").addEventListener("click",()=>{const n=SCHOOL.routes.length+1; SCHOOL.routes.push({id:String(n),towns:"",fixed:{}}); scRender(); const t=[...$("scRoutes").querySelectorAll(".scrh input")].pop(); if(t){t.focus();t.select()}});
 $("scDraw").addEventListener("click",scBuild);
+// a school map on its own, as a project file: open it again to make changes
+$("scSave").addEventListener("click",async()=>{const msg=$("scMsg");
+  if(!SCHOOL.routes.some(r=>scLines(r).length)){msg.className="hint err"; msg.textContent="Add a route's towns first."; return}
+  SCHOOL.routes.forEach((r,i)=>{if(!r.color)r.color=mapColour(r.id,i)});
+  const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
+    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto"}},W:{routes:[],nets:[]},guide:{}};
+  const nm=`School map - ${SCHOOL.name||SCHOOL.town||"routes"}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
+  await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")});
 $("scCsv").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.target.value=""; if(!f)return; const msg=$("scMsg");
   try{let rows; if(/\.xlsx$/i.test(f.name)){const sh=await parseXLSX(await f.arrayBuffer()); rows=sh[0]?sh[0].rows:[]} else rows=parseCSV(await f.text());
     const rs=mapParseStops(rows);
@@ -5287,7 +5301,14 @@ async function wOpenProject(f){
     $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
     guideRenderRows();
     if(d.tools&&d.tools.fare)fareRestoreW(d.tools.fare);   // the Fare chart tab as it was saved
-    if(d.tools&&d.tools.school){Object.assign(SCHOOL,d.tools.school); scRender()}   // and the school map (Route map tab › School map)
+    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient;   // and the school map (Route map tab › School map)
+      SCHOOL.routes.forEach(r=>{if(r.color)state.routeColors[r.id]=r.color}); scRender()}
+    if(!(d.W.routes||[]).some(r=>wIds(r).length)&&d.tools&&(d.tools.school||d.tools.fare)){   // a school map or fare chart file on its own: open that tool, ready to change
+      W.on=false; wRender();
+      if(d.tools.school){const sc=d.tools.school; pick("map"); if(sc.notes!=null){mapState.notes=sc.notes;$("mapNotes").value=sc.notes}
+        if(sc.orient){mapState.orient=sc.orient; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===sc.orient)} mapSetKind("school")}
+      else pick("fare");
+      msg.className="hint"; msg.textContent=`Opened ${f.name}.`; return}
     msg.className="hint"; msg.textContent=`Opened ${f.name}: ${wReady().length} route${wReady().length===1?"":"s"}.`;
     W.on=false; wStart(false);
   }catch(e){const t=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.");
