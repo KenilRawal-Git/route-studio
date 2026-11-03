@@ -798,6 +798,7 @@ span.gbt{cursor:default}
         <label>Notes box <span class="opt">Wrap words in **double stars** for bold. Leave blank for none.</span>
           <textarea id="mapNotes" rows="5" placeholder="e.g. **44A extends towards Norman Way Schools**, with drop off at 08:20 Monday-Friday."></textarea></label>
         <label class="check"><input type="checkbox" id="mapKey" checked> Show the key</label>
+        <label>Key size <span class="scsize"><input type="range" id="mapKeySize" min="60" max="150" step="5" value="100" aria-label="Key size"><output id="mapKeySizeV">100%</output></span></label>
       </fieldset>
       <fieldset id="mapDataSet" hidden>
         <legend><span class="num">4</span>Map data</legend>
@@ -2159,9 +2160,10 @@ function mapLayout(cfg){
   const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
   // each column as wide as its longest entry, a steady gap between columns and the same margin on both sides
   const rowTxt=r=>r.type==="line"?(r.label||`Route ${r.r.id}`):r.type==="dash"?r.label:r.type==="stop"?"Town or village served":r.type==="rail"?"National Rail Line / Station":"Route Terminus";
-  const colW=[...Array(kCols)].map((_,c)=>40+Math.max(...keyRows.slice(c*kPer,(c+1)*kPer).map(r=>width(rowTxt(r),7.5,"light"))));
-  const colX=colW.map((w,c)=>colW.slice(0,c).reduce((a,v)=>a+v+18,0));
-  const KEYW=Math.max(150,colX[kCols-1]+colW[kCols-1]+14), keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
+  const KS=Math.max(0.5,Math.min(1.6,+cfg.keyScale||1));   // the key's size (slider)
+  const colW=[...Array(kCols)].map((_,c)=>40*KS+Math.max(...keyRows.slice(c*kPer,(c+1)*kPer).map(r=>width(rowTxt(r),7.5*KS,"light"))));
+  const colX=colW.map((w,c)=>colW.slice(0,c).reduce((a,v)=>a+v+18*KS,0));
+  const KEYW=Math.max(110*KS,colX[kCols-1]+colW[kCols-1]+14*KS), keyH=INS||cfg.showKey===false?0:(35+kPer*15.2+6)*KS;
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
   let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
@@ -2288,7 +2290,20 @@ function mapLayout(cfg){
     return [bx,by]};
   const onRoute=(b,pad=2.5)=>rpts.some(([x,y])=>b[0]-pad<x&&x<b[2]+pad&&b[1]-pad<y&&y<b[3]+pad);
 
-  const kx0=keyAt?keyAt[1]:16, ktop=keyAt&&keyAt[0]==="t", ky=h=>ktop?keyAt[2]:H-16-h;
+  let kx0=keyAt?keyAt[1]:16, ktop=keyAt&&keyAt[0]==="t", kyT=ktop?keyAt[2]:null, kyB=H-16;
+  /* the key (and notes) go where they cover no route line, stop or the school box: every spot on the map is tried and
+     the free one nearest a corner wins; only if there's none free does it stay where the layout first put it */
+  if(!INS&&(keyH||noteH)){const bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH), G=4;
+    const gw=Math.ceil(W/G)+2, gh=Math.ceil(H/G)+2, occ=new Uint8Array(gw*gh), mark=(x0,y0,x1,y1)=>{for(let gy=Math.max(0,Math.floor(y0/G));gy<=Math.min(gh-1,Math.floor(y1/G));gy++)for(let gx=Math.max(0,Math.floor(x0/G));gx<=Math.min(gw-1,Math.floor(x1/G));gx++)occ[gy*gw+gx]=1};
+    rpts.forEach(([x,y])=>mark(x-9,y-9,x+9,y+9)); stopPts.forEach(([x,y])=>mark(x-14,y-12,x+14,y+12));
+    if(SCH){const dp=routes.flatMap(r=>r.stops.filter(s=>s.dest)).map(s=>P(s.lon,s.lat))[0]; if(dp)mark(dp[0]-110,dp[1]-34,dp[0]+110,dp[1]+34)}
+    const S=new Int32Array((gw+1)*(gh+1)); for(let y=0;y<gh;y++)for(let x=0;x<gw;x++)S[(y+1)*(gw+1)+x+1]=occ[y*gw+x]+S[y*(gw+1)+x+1]+S[(y+1)*(gw+1)+x]-S[y*(gw+1)+x];
+    const busy=(x0,y0,x1,y1)=>{const a=Math.max(0,Math.floor(x0/G)), b=Math.max(0,Math.floor(y0/G)), c=Math.min(gw,Math.ceil(x1/G)), d=Math.min(gh,Math.ceil(y1/G)); return S[d*(gw+1)+c]-S[b*(gw+1)+c]-S[d*(gw+1)+a]+S[b*(gw+1)+a]};
+    const M=16, X0=MX0+M, X1=MX1-M-bwK, Y0=MY0+M, Y1=MY1-M-bhK; let best=null;
+    if(X1>=X0&&Y1>=Y0){const xs=[], ys=[]; for(let x=X0;x<X1;x+=8)xs.push(x); xs.push(X1); for(let y=Y0;y<Y1;y+=8)ys.push(y); ys.push(Y1);
+      xs.forEach(x=>ys.forEach(y=>{if(busy(x,y,x+bwK,y+bhK))return; const sc=Math.min(x-X0,X1-x)+Math.min(y-Y0,Y1-y); if(!best||sc<best.sc)best={x,y,sc}}))}
+    if(best){kx0=best.x; const top=best.y+bhK/2<(MY0+MY1)/2; ktop=top; kyT=top?best.y:null; kyB=best.y+bhK}}
+  const ky=h=>ktop?kyT:kyB-h;
   const KEY=keyH?[kx0,ky(keyH),kx0+KEYW,ky(keyH)+keyH]:null;
   const NOTE=noteH?[(KEY?KEY[2]+10:kx0),ky(noteH),(KEY?KEY[2]+10:kx0)+NOTEW,ky(noteH)+noteH]:null;
   if(KEY)boxes.push(KEY); if(NOTE)boxes.push(NOTE);
@@ -2503,13 +2518,13 @@ function mapLayout(cfg){
   /* ----- key ----- */
   if(KEY){const [kx,ky,kx1,ky1]=KEY;
     ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
-    T("Key",kx+11,ky+18,9,"semibold","#000000");
-    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+colX[col], yy=ky+35+i*15.2, cy=yy-2.5;
-      if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(row.label||`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
-      else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:3.2,cap:"butt",dash:[5,3]});T(row.label,kx+40,yy,7.5,"light","#000000")}
-      else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T(SUM||SCH?"Town or village served":"Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
-      else if(row.type==="rail"){roundel(kx+20,cy,3.7);T("National Rail Line / Station",kx+40,yy,7.5,"light","#000000")}
-      else{const w=bw(row.r);badge(kx+20-w/2,cy-BADGE_H/2,row.r);T("Route Terminus",kx+40,yy,7.5,"light","#000000")}});
+    const q=KS, tf=7.5*q; T("Key",kx+11*q,ky+18*q,9*q,"semibold","#000000");
+    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+colX[col], yy=ky+(35+i*15.2)*q, cy=yy-2.5*q, tx=kx+40*q;
+      if(row.type==="line"){ops.push({k:"pl",p:[kx+11*q,cy,kx+30*q,cy],c:row.r.color,w:4*q,cap:"round"});T(row.label||`Route ${row.r.id}`,tx,yy,tf,"light","#000000")}
+      else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11*q,cy,kx+30*q,cy],c:row.r.color,w:3.2*q,cap:"butt",dash:[5*q,3*q]});T(row.label,tx,yy,tf,"light","#000000")}
+      else if(row.type==="stop"){ops.push({k:"circ",x:kx+20*q,y:cy,r:4.5*q,fill:"#FFFFFF",stroke:"#000000",sw:2*q});T(SUM||SCH?"Town or village served":"Timing Point Stop",tx,yy,tf,"light","#000000")}
+      else if(row.type==="rail"){roundel(kx+20*q,cy,3.7*q);T("National Rail Line / Station",tx,yy,tf,"light","#000000")}
+      else{const w=bw(row.r);badge(kx+20*q-w/2,cy-BADGE_H/2,row.r);T("Route Terminus",tx,yy,tf,"light","#000000")}});
   }
   /* ----- notes ----- */
   if(NOTE){const [nx0,ny0,nx1,ny1]=NOTE; const nc=routes[1]?routes[1].color:routes[0].color;
@@ -3281,7 +3296,7 @@ function mapCfg(){
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3399,7 +3414,7 @@ const scSaveFile=async()=>{const msg=$("scMsg");
   if(!SCHOOL.routes.some(r=>scLines(r).length)){msg.className="hint err"; msg.textContent="Add a route's towns first."; return}
   SCHOOL.routes.forEach((r,i)=>{if(!r.color)r.color=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||""}},W:{routes:[],nets:[]},guide:{}};
+    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1}},W:{routes:[],nets:[]},guide:{}};
   const nm=`School map - ${SCHOOL.name||SCHOOL.town||"routes"}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")};
 document.querySelectorAll("[data-scsave]").forEach(b=>b.addEventListener("click",scSaveFile));
@@ -3423,6 +3438,8 @@ function mapHeadUi(){const t=mapState.headMode==="text"; document.querySelectorA
 document.querySelectorAll("input[name=mapHead]").forEach(r=>r.addEventListener("change",()=>{if(!r.checked)return; mapState.headMode=r.value;
   if(r.value==="text"&&!mapState.headText&&mapState.kind==="school")mapState.headText=SCHOOL.name||""; mapHeadUi(); render()}));
 $("mapHeadText").addEventListener("input",()=>{mapState.headText=$("mapHeadText").value; render()});
+function mapKeySizeUi(){const v=Math.round((mapState.keyScale||1)*100); $("mapKeySize").value=v; $("mapKeySizeV").textContent=v+"%"}
+$("mapKeySize").addEventListener("input",()=>{mapState.keyScale=$("mapKeySize").value/100; mapKeySizeUi(); render()});
 $("mapBand").addEventListener("change",()=>{mapState.bandGap=$("mapBand").value==="1"; render()});
 $("mapCredits").addEventListener("change",()=>{mapState.credits=$("mapCredits").checked; render()});
 $("scSize").addEventListener("input",()=>{SCHOOL.size=$("scSize").value/100; $("scSizeV").textContent=$("scSize").value+"%"; render()});
@@ -5095,10 +5112,10 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||""}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
   mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient;
-  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
+  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
 }
@@ -5339,7 +5356,7 @@ async function wOpenProject(f){
     $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
     guideRenderRows();
     if(d.tools&&d.tools.fare)fareRestoreW(d.tools.fare);   // the Fare chart tab as it was saved
-    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient; delete SCHOOL.bandGap; delete SCHOOL.credits; delete SCHOOL.headMode; delete SCHOOL.headText;
+    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient; delete SCHOOL.bandGap; delete SCHOOL.credits; delete SCHOOL.headMode; delete SCHOOL.headText; delete SCHOOL.keyScale; if(sc.keyScale){mapState.keyScale=sc.keyScale; mapKeySizeUi()}
       if(sc.headMode){mapState.headMode=sc.headMode; mapState.headText=sc.headText||""; mapHeadUi()}
       if("bandGap" in sc){mapState.bandGap=!!sc.bandGap; $("mapBand").value=sc.bandGap?"1":"0"} if("credits" in sc){mapState.credits=sc.credits!==false; $("mapCredits").checked=mapState.credits}   // and the school map (Route map tab › School map)
       SCHOOL.routes.forEach(r=>{if(r.color)state.routeColors[r.id]=r.color}); scRender()}
