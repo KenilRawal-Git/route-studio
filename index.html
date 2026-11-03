@@ -422,6 +422,9 @@ label.combo{flex-direction:row!important;align-items:flex-start!important}
 .allmore{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .openproj svg{width:17px;height:17px}
 .tabs .tabopen{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;font-weight:500;padding:13px 12px 12px;white-space:nowrap;cursor:pointer;position:relative}
+.tabs .tabopen+.tabopen{margin-left:0}
+.tabs .tabopen[hidden]{display:none}
+.tabs button.tabopen{background:none;border:0;font:inherit}
 .tabs .tabopen:hover{color:var(--fg)}
 .tabs .tabopen svg{width:17px;height:17px;flex:none}
 .status .linkbtn{margin-left:6px}
@@ -510,7 +513,7 @@ span.gbt{cursor:default}
   <button type="button" id="segHome" class="home" aria-label="All tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
   <span class="tdiv" aria-hidden="true"></span>
   <button type="button" data-tab="tt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg><span>Timetable</span></button><button type="button" data-tab="map" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>Route map</span></button><button type="button" data-tab="fare" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V5h18v4a3 3 0 0 0 0 6v4H3v-4a3 3 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 2"/></svg><span>Fare chart</span></button><button type="button" data-tab="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5z"/><path d="M12 6v14"/></svg><span>Bus guide</span></button>
-<label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
+<button type="button" class="tabopen" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save school map</span></button><label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
 </div></nav>
 <div class="wrap">
   <section class="choose" id="choose">
@@ -682,7 +685,6 @@ span.gbt{cursor:default}
           <label><input type="radio" name="mapKind" value="school"><span>School map</span></label>
         </div>
         <div id="schoolBox" class="stack" hidden>
-          <div class="btnrow scfile"><button type="button" class="btn ghost sm" data-scsave><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Save school map file</button><label class="btn ghost sm upl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Open a school map file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a school map file"></label></div>
           <p class="hint" style="margin:0">Several routes that all go to one school or college. The routes are drawn on the map in the usual style, and the school sits in the middle as a label or a picture.</p>
           <div class="field">The school or college
             <div class="row"><label>Name <input id="scName" placeholder="e.g. West Suffolk College"></label><label>Town <input id="scTown" placeholder="e.g. Bury St Edmunds"></label></div>
@@ -699,9 +701,7 @@ span.gbt{cursor:default}
             <p class="hint" style="margin:0">File columns: <b>Route</b>, <b>Town</b>, and <b>Stop</b>, <b>Latitude</b>, <b>Longitude</b> if you have them. One row per town or stop, in order.</p>
           </div>
           <label>Title in the header <input id="scTitle" placeholder="School Map" maxlength="40"></label>
-          <div class="btnrow"><button type="button" class="btn sm" id="scDraw">Draw the school map</button>
-            <button type="button" class="btn ghost sm" id="scSave" data-scsave title="Save this school map to a file you can open again to make changes">Save school map file</button>
-            <label class="btn ghost sm upl">Open a school map file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a school map file"></label></div>
+          <div class="btnrow"><button type="button" class="btn sm" id="scDraw">Draw the school map</button></div>
           <p class="hint" id="scMsg" style="margin:0"></p>
         </div>
         <div class="filecard" id="mapCard" hidden>
@@ -946,7 +946,6 @@ span.gbt{cursor:default}
       <div class="actions">
         <button type="submit" class="primary" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span id="goLabel">Download timetable PDF</span></button>
         <button type="button" class="btn ghost" id="goPrint" hidden title="For the printer: 3 mm bleed, crop marks, registration marks and colour bars">Print-ready PDF (3 mm bleed + crop marks)</button>
-        <button type="button" class="btn ghost" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes">Save school map file</button>
         <button type="button" class="btn ghost nextstep" id="nextMap">Next: make the route map</button>
         <div class="wnav"><button type="button" class="btn ghost sm" id="wSkip" hidden></button><button type="button" class="btn wnext" id="wNext" hidden></button></div>
         <div class="status" id="status" role="status"></div>
