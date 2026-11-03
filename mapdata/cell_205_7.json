@@ -1,1 +1,1 @@
-{"v":1,"name":"OpenStreetMap","bbox":[51.25,1.75,51.5,2.0],"roads":[],"rivers":[],"rails":[],"areas":[],"places":[],"stations":[]}
+{"v":1,"name":"OpenStreetMap","bbox":[51.25,1.75,51.5,2.0],"roads":[],"rivers":[],"rails":[],"areas":[["sea",[[200000,5125000,0,25000,-25000,0,0,-25000,25000,0]]]],"places":[],"stations":[]}

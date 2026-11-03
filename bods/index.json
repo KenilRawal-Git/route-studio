@@ -886,7 +886,7 @@
    ],
    "name": "Hertford > Sacombe > Benington > Stevenage",
    "file": "south_east-38.csv",
-   "journeys": 32,
+   "journeys": 33,
    "days": [
     "MF",
     "SA"
@@ -1288,8 +1288,8 @@
    ]
   }
  ],
- "feed_version": "20261022_034732",
- "generated": "2026-11-02",
+ "feed_version": "20261103_042324",
+ "generated": "2026-11-03",
  "term_month": [
   "2026-11-09",
   "2026-12-06"
