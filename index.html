@@ -335,7 +335,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .scr{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--panel)}
 .scrh{display:flex;align-items:center;gap:8px}
 .scrh input{width:90px;font-weight:600;text-transform:uppercase}
-.scr .scn{font-size:.72rem;color:var(--muted)}
+.scr .scn{font-size:.72rem;color:var(--muted);white-space:nowrap;padding-bottom:10px}
+.scr .sckey{display:flex;gap:10px;align-items:flex-end}.scr .sckey label{flex:1;min-width:0;font-size:.78rem}
+.scsize{display:flex;align-items:center;gap:10px}.scsize input{flex:1}.scsize output{font-size:.8rem;color:var(--muted);min-width:3em;text-align:right}
 .scrh .sccol{flex:1;min-width:0}
 .scr textarea{min-height:64px}
 .frow{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:center;gap:8px}
@@ -693,6 +695,7 @@ span.gbt{cursor:default}
           <div class="field">In the middle of the map
             <div class="seg" role="radiogroup" aria-label="What the school box shows"><label><input type="radio" name="scShow" value="label" checked><span>A label</span></label><label><input type="radio" name="scShow" value="image"><span>A picture or logo</span></label></div>
             <label id="scLabelWrap">Label <span class="opt">Lexend SemiBold; a new line starts a new line</span><textarea id="scLabel" class="short" rows="2" placeholder="West Suffolk College"></textarea></label>
+            <label>Size of the box <span class="scsize"><input type="range" id="scSize" min="50" max="150" step="5" value="80" aria-label="Size of the school box"><output id="scSizeV">80%</output></span></label>
             <div id="scImgWrap" class="btnrow" hidden><label class="btn ghost sm upl"><span id="scImgBtn">Choose a picture</span><input type="file" id="scImg" accept="image/png,image/jpeg,image/webp" aria-label="School logo or picture"></label><span class="hint" id="scImgName" style="margin:0"></span></div>
           </div>
           <div class="field">Routes <span class="opt">Each route's towns and villages in order, one per line, ending nearest the school. The school is added at the end.</span>
@@ -782,6 +785,8 @@ span.gbt{cursor:default}
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
           <p class="hint">Each route is drawn one way, from one day's timetable, so the map stays clean.</p></div>
         <label class="check"><input type="checkbox" id="mapInsets" checked> Enlarge crowded areas <span class="opt">Close-together stops get a zoomed-in box</span></label>
+        <label>Routes on the same road <select id="mapBand"><option value="0">Side by side, touching</option><option value="1">Side by side, with a gap</option></select></label>
+        <label class="check"><input type="checkbox" id="mapCredits" checked> Show the map credits <span class="opt">The small OpenStreetMap and NaPTAN line at the bottom</span></label>
         <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option></select></label>
       </fieldset>
       <fieldset id="mapTextSet" hidden>
@@ -2144,12 +2149,13 @@ function mapLayout(cfg){
   const varOwn=FAM?routes.map((r,ri)=>r!==famBase[fi[ri]]&&[...RK[ri]].reduce((a,[k,m])=>a+(routes.some((o,oi)=>oi!==ri&&fi[oi]===fi[ri]&&RK[oi].has(k))?0:m),0)>900):[];   // over ~1 km of its own
   const keyRows=FAM?famIds.flatMap((f,k)=>{const m=routes.filter((r,ri)=>fi[ri]===k);
       return [{type:"line",r:famBase[k],label:"Route "+m.map(r=>r.id).join(" / ")},...m.filter(r=>varOwn[routes.indexOf(r)]).map(r=>({type:"dash",r,label:`Route ${r.id} only`}))]})
-    :routes.map(r=>({type:"line",r,label:SCH?`Route ${r.id}: ${(r.stops[0]||{}).town||""} to ${SCH.name||SCH.town||"school"}`:null}));
+    :routes.map(r=>({type:"line",r,label:SCH?(((SCH.routes||[]).find(x=>x.id===r.id)||{}).key||"").trim()||`Route ${r.id}`:null}));
   keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
   { const tr=!SCH&&routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
   const kPer=keyRows.length<=9?keyRows.length:Math.ceil(keyRows.length/Math.ceil(keyRows.length/8)), kCols=Math.ceil(keyRows.length/Math.max(1,kPer));
-  const KEYW=Math.max(150,SCH?Math.max(...keyRows.map(r=>r.label?width(r.label,7.5,"light")+52:0)):0)+(kCols-1)*140, keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
+  const KCW=SCH?Math.max(130,...keyRows.map(r=>r.label?width(r.label,7.5,"light")+52:0)):140;   // school maps: columns as wide as their labels
+  const KEYW=SCH?KCW*kCols+10:Math.max(150,0)+(kCols-1)*140, keyH=INS||cfg.showKey===false?0:35+kPer*15.2+6;
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
   let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
@@ -2204,6 +2210,7 @@ function mapLayout(cfg){
   ops.push({k:"r",x:MX0,y:MY0,w:MX1-MX0,h:MY1-MY0,c:C.land});
   const D=cfg.data;
   if(D){
+    poly(D.areas.filter(a=>a.kind==="sea").flatMap(a=>a.rings),C.water,{soften:0.8});   // the sea, cut along the coastline (one piece per map square)
     poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
     D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green));
     poly(D.areas.filter(a=>a.kind==="water").flatMap(a=>a.rings),C.water,{minArea:25});
@@ -2223,7 +2230,7 @@ function mapLayout(cfg){
 
   /* ----- route lines: routes sharing a road are drawn side by side as one band, touching, instead of on top of each other ----- */
   const keyLate=[];
-  const LW=3.2, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
+  const LW=3.2, GAP=cfg.bandGap?1.4:0, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
   const edgeRoutes=new Map(), canon=new Map(), f5=p=>p[0].toFixed(5)+","+p[1].toFixed(5);
   const seqs=routed.map((rr,ri)=>{const E=[];
     rr.legs.forEach(l=>{
@@ -2248,7 +2255,7 @@ function mapLayout(cfg){
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
       let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
-      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*bw;   // a wide band gets thinner lines
+      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*(bw+GAP);   // touching, or with a small gap between   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
@@ -2306,7 +2313,13 @@ function mapLayout(cfg){
       L.forEach(s=>{if(s!==node){s.hidden=true; s.badges.forEach(r=>{if(!node.badges.includes(r))node.badges.push(r)}); s.rs.forEach(x=>node.rs.add(x))}});
       node.quiet=false; node.townOnly=true; if(!node.town){node.town=node.stop}});
     for(let i=stops.length-1;i>=0;i--)if(stops[i].hidden)stops.splice(i,1)}
-  stops.forEach(s=>boxes.push([s.x-5,s.y-5,s.x+5,s.y+5]));
+  /* a stop on a stretch two or more routes share is one long marker across the band (a joint stop), else a ring */
+  const joint=s=>{if(INS||SUM||s.quiet||s.dest||!s.rs||s.rs.size<2)return null; let best=null;
+    runsAll.forEach(G=>{if(G.B.length<2)return; const xy=G.C; for(let i=0;i+1<xy.length;i++){const [ax,ay]=xy[i],[bx2,by2]=xy[i+1], dx=bx2-ax, dy=by2-ay, l2=dx*dx+dy*dy; if(!l2)continue;
+      const t=Math.max(0,Math.min(1,((s.x-ax)*dx+(s.y-ay)*dy)/l2)), d=Math.hypot(ax+t*dx-s.x,ay+t*dy-s.y);
+      if(d<2.5&&(!best||G.B.length>best.n||(G.B.length===best.n&&d<best.d))){const L=Math.sqrt(l2); best={n:G.B.length,d,nx:-dy/L,ny:dx/L,bw:Math.min(LW,13/G.B.length)}}}});
+    if(!best)return null; const h=(best.n-1)*(best.bw+GAP)/2+0.6; return [s.x-best.nx*h,s.y-best.ny*h,s.x+best.nx*h,s.y+best.ny*h]};
+  stops.forEach(s=>{s.joint=joint(s); const j=s.joint; boxes.push(j?[Math.min(j[0],j[2])-5.5,Math.min(j[1],j[3])-5.5,Math.max(j[0],j[2])+5.5,Math.max(j[1],j[3])+5.5]:[s.x-5,s.y-5,s.x+5,s.y+5])});
 
   const stations=[];
   if(D)D.stations.forEach(st=>{const [x,y]=P(st.lon,st.lat); if(!inside([x-4,y-4,x+4,y+4],14))return;
@@ -2322,7 +2335,7 @@ function mapLayout(cfg){
   /* the destination box: a label (Lexend SemiBold) or a picture, centred on the destination; the routes end under it */
   let DEST=null;
   if(SCH){const d=stops.find(s=>s.dest);
-    if(d){const k=INS?0.7:1;
+    if(d){const k=(INS?0.7:1)*(+SCH.size||0.8);
       if(SCH.show==="image"&&SCH.img){const sc=Math.min(150*k/SCH.img.w,70*k/SCH.img.h), w=SCH.img.w*sc+18*k, h=SCH.img.h*sc+16*k; DEST={d,w,h,img:true,iw:SCH.img.w*sc,ih:SCH.img.h*sc}}
       else{const txt=String(SCH.label||SCH.name||SCH.town||"School").trim(), fs=10.5*k, words=txt.split(/\s+/), L=[]; let cur="";
         txt.split("\n").forEach(par=>{cur=""; par.split(/\s+/).filter(Boolean).forEach(w=>{const t=cur?cur+" "+w:w; if(width(t,fs,"semibold")>130*k&&cur){L.push(cur);cur=w}else cur=t}); if(cur)L.push(cur)});
@@ -2465,7 +2478,9 @@ function mapLayout(cfg){
     if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11*k-BADGE_H-1,r)+2.5})}
     else{let bx=tx+width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0)+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4*k,r)+2.5})}
   });
-  stops.filter(s=>!s.hideMark).forEach(s=>ops.push({k:"circ",x:s.x,y:s.y,r:s.inset||s.quiet?3:SUM&&s.rs.size>2?5.4:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset||s.quiet?1.4:2}));
+  stops.filter(s=>!s.hideMark).forEach(s=>{const j=!s.inset&&s.joint;
+    if(j){ops.push({k:"pl",p:j,c:"#000000",w:11,cap:"round"}); ops.push({k:"pl",p:j,c:"#FFFFFF",w:7,cap:"round"}); return}
+    ops.push({k:"circ",x:s.x,y:s.y,r:s.inset||s.quiet?3:SUM&&s.rs.size>2?5.4:4.5,fill:"#FFFFFF",stroke:"#000000",sw:s.inset||s.quiet?1.4:2})});
   if(DEST){const [x0,y0,x1,y1]=DEST.b;
     ops.push({k:"r",x:x0+1.5,y:y0+2,w:x1-x0,h:y1-y0,c:"#000000",a:0.10,rx:9});
     ops.push({k:"r",x:x0,y:y0,w:x1-x0,h:y1-y0,c:"#FFFFFF",rx:9,stroke:C.header,sw:1.6});
@@ -2483,7 +2498,7 @@ function mapLayout(cfg){
   if(KEY){const [kx,ky,kx1,ky1]=KEY;
     ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
     T("Key",kx+11,ky+18,9,"semibold","#000000");
-    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*(kCols>1?(KEYW-10)/kCols:140), yy=ky+35+i*15.2, cy=yy-2.5;
+    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+col*(SCH?KCW:kCols>1?(KEYW-10)/kCols:140), yy=ky+35+i*15.2, cy=yy-2.5;
       if(row.type==="line"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:4,cap:"round"});T(row.label||`Route ${row.r.id}`,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11,cy,kx+30,cy],c:row.r.color,w:3.2,cap:"butt",dash:[5,3]});T(row.label,kx+40,yy,7.5,"light","#000000")}
       else if(row.type==="stop"){ops.push({k:"circ",x:kx+20,y:cy,r:4.5,fill:"#FFFFFF",stroke:"#000000",sw:2});T(SUM||SCH?"Town or village served":"Timing Point Stop",kx+40,yy,7.5,"light","#000000")}
@@ -2502,14 +2517,14 @@ function mapLayout(cfg){
     ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
     let gx=17.7*k; routes.forEach(r=>{const w=Math.max(21*k,width(r.id,12.5*k,"medium")+9*k); ops.push({k:"r",x:gx,y:5*k,w,h:21*k,c:r.color,rx:3.5*k}); T(r.id,gx+w/2,20*k,12.5*k,"medium",badgeText(r.color),"center"); gx+=w+2.3*k});
     T(cfg.title||"Route Map",gx+16*k,18.4*k,7*k,"light","#FFFFFF");
-    T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
+    if(cfg.credits!==false)T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
     return {ops,warn,extent,coverage,W,H}}
   ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
   let bx=22.68; routes.forEach(r=>{const w=Math.max(29,width(r.id,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:r.color,rx:5}); T(r.id,bx+w/2,36.9,18,"medium",badgeText(r.color),"center"); bx+=w+4});
   T(cfg.title||"Route Map",22.68,58.14,9,"light","#FFFFFF");
   ops.push({k:"img",x:W-119.25,y:8.95,w:106.76,h:42.41});
   if(cfg.valid)T(`Valid from ${longDate(cfg.valid)}`,W-22.68,58.28,9,"light","#FFFFFF","right");
-  T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
+  if(cfg.credits!==false)T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
   return {ops,warn,extent,coverage,W,H};
 }
 /* a copy of a map drawing op moved by (dx, dy): used to place an enlargement inside the main map */
@@ -3258,7 +3273,7 @@ function mapCfg(){
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3329,12 +3344,14 @@ function scRender(){
   const S=SCHOOL; [["scName","name"],["scTown","town"],["scStop","stop"],["scPos","pos"],["scLabel","label"],["scTitle","title"]].forEach(([id,k])=>{if(document.activeElement!==$(id))$(id).value=S[k]||""});
   document.querySelectorAll('input[name=scShow]').forEach(r=>r.checked=r.value===S.show); $("scLabelWrap").hidden=S.show!=="label"; $("scImgWrap").hidden=S.show!=="image";
   $("scImgName").textContent=S.img?"Picture chosen":"No picture yet"; $("scImgBtn").textContent=S.img?"Replace the picture":"Choose a picture";
+  const sz=Math.round((+S.size||0.8)*100); $("scSize").value=sz; $("scSizeV").textContent=sz+"%";
   const box=$("scRoutes");
   box.innerHTML=S.routes.map((r,i)=>`<div class="scr" data-i="${i}"><div class="scrh"><input value="${esc(r.id)}" maxlength="6" aria-label="Route number" placeholder="Route"><div class="colorline sccol"></div>${S.routes.length>1?`<button type="button" class="ib" data-del aria-label="Remove this route">✕</button>`:""}</div>
-    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea><span class="scn">${scLines(r).length} places</span></div>`).join("");
+    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea><div class="sckey"><label>Key label <input data-sckey value="${esc(r.key||"")}" placeholder="Route ${esc(r.id)}" maxlength="60"></label><span class="scn">${scLines(r).length} places</span></div></div>`).join("");
   box.querySelectorAll(".scr").forEach(el=>{const r=S.routes[+el.dataset.i];
     el.querySelector(".scrh input").addEventListener("input",ev=>{r.id=ev.target.value.trim().toUpperCase(); if(r.color)state.routeColors[r.id]=r.color; scLater()});
     const i=+el.dataset.i; swatchRow(el.querySelector(".sccol"),r.color||mapColour(r.id,i),c=>{r.color=c; state.routeColors[r.id]=c; mapRenderRoutes(); render(); scRender()},"sc"+i);
+    el.querySelector("[data-sckey]").addEventListener("input",ev=>{r.key=ev.target.value; render()});
     el.querySelector("textarea").addEventListener("input",ev=>{r.towns=ev.target.value; el.querySelector(".scn").textContent=`${scLines(r).length} places`; scLater()});
     const d=el.querySelector("[data-del]"); if(d)d.addEventListener("click",()=>{S.routes.splice(+el.dataset.i,1); scRender(); scLater()})});
 }
@@ -3374,7 +3391,7 @@ const scSaveFile=async()=>{const msg=$("scMsg");
   if(!SCHOOL.routes.some(r=>scLines(r).length)){msg.className="hint err"; msg.textContent="Add a route's towns first."; return}
   SCHOOL.routes.forEach((r,i)=>{if(!r.color)r.color=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto"}},W:{routes:[],nets:[]},guide:{}};
+    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false}},W:{routes:[],nets:[]},guide:{}};
   const nm=`School map - ${SCHOOL.name||SCHOOL.town||"routes"}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")};
 document.querySelectorAll("[data-scsave]").forEach(b=>b.addEventListener("click",scSaveFile));
@@ -3394,6 +3411,9 @@ function mapRederive(){mapState.cache=new Map();
 $("mapDays").addEventListener("change",()=>{mapState.days=$("mapDays").value; mapRederive()});
 $("mapDir").addEventListener("change",()=>{mapState.dir=$("mapDir").value; mapRederive()});
 $("mapInsets").addEventListener("change",()=>{mapState.insets=$("mapInsets").checked; render()});
+$("mapBand").addEventListener("change",()=>{mapState.bandGap=$("mapBand").value==="1"; render()});
+$("mapCredits").addEventListener("change",()=>{mapState.credits=$("mapCredits").checked; render()});
+$("scSize").addEventListener("input",()=>{SCHOOL.size=$("scSize").value/100; $("scSizeV").textContent=$("scSize").value+"%"; render()});
 $("mapStyle").addEventListener("change",()=>{mapState.style=$("mapStyle").value; guideState.blocks.forEach(b=>b._memo=null); render()});
 document.querySelectorAll('input[name=mapOrient]').forEach(r=>r.addEventListener("change",()=>{if(r.checked){mapState.orient=r.value;render()}}));
 $("mapUseBuiltin").addEventListener("click",()=>{mapState.osm=null;mapState.osmName="";mapState.cache=new Map();render();mapAutoData()});
@@ -5063,10 +5083,10 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto"}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
   mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient;
-  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
+  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
 }
@@ -5307,7 +5327,8 @@ async function wOpenProject(f){
     $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
     guideRenderRows();
     if(d.tools&&d.tools.fare)fareRestoreW(d.tools.fare);   // the Fare chart tab as it was saved
-    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient;   // and the school map (Route map tab › School map)
+    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient; delete SCHOOL.bandGap; delete SCHOOL.credits;
+      if("bandGap" in sc){mapState.bandGap=!!sc.bandGap; $("mapBand").value=sc.bandGap?"1":"0"} if("credits" in sc){mapState.credits=sc.credits!==false; $("mapCredits").checked=mapState.credits}   // and the school map (Route map tab › School map)
       SCHOOL.routes.forEach(r=>{if(r.color)state.routeColors[r.id]=r.color}); scRender()}
     if(!(d.W.routes||[]).some(r=>wIds(r).length)&&d.tools&&(d.tools.school||d.tools.fare)){   // a school map or fare chart file on its own: open that tool, ready to change
       W.on=false; wRender();

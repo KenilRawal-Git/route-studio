@@ -10,6 +10,7 @@ so the page loads only the squares a map needs. Squares nobody needs aren't buil
 import json, os, subprocess, sys, tempfile
 from collections import defaultdict
 import osmium
+from sea import sea_cells
 
 PBF, PATHS, OUT = sys.argv[1:4]
 MARGIN = int(sys.argv[4]) if len(sys.argv) > 4 else 2
@@ -47,7 +48,7 @@ class Rels(osmium.SimpleHandler):
 class Elements(osmium.SimpleHandler):
     """pass 2: places, stations and ways with their geometry, filed under every wanted square they touch"""
     def __init__(s, member_ways):
-        super().__init__(); s.cells = defaultdict(list); s.member_ways = member_ways; s.member_geo = {}
+        super().__init__(); s.cells = defaultdict(list); s.coast = defaultdict(list); s.member_ways = member_ways; s.member_geo = {}
     def node(s, n):
         t = n.tags
         if not (t.get('place') in ('city', 'town', 'village', 'suburb', 'hamlet') or t.get('railway') == 'station'): return
@@ -55,12 +56,15 @@ class Elements(osmium.SimpleHandler):
         c = cell_of(n.location.lon, n.location.lat)
         if c in want: s.cells[c].append({'type': 'node', 'id': n.id, 'lat': n.location.lat, 'lon': n.location.lon, 'tags': dict(t)})
     def way(s, w):
-        mem = w.id in s.member_ways; t = dict(w.tags) if (mem or way_wanted(w.tags)) else None
+        mem = w.id in s.member_ways; t = dict(w.tags) if (mem or way_wanted(w.tags) or w.tags.get('natural') == 'coastline') else None
         if t is None: return
         try: g = [(x.lon, x.lat) for x in w.nodes if x.location.valid()]; ids = [x.ref for x in w.nodes]
         except osmium.InvalidLocationError: return
         if len(g) < 2: return
         if mem: s.member_geo[w.id] = g
+        if t.get('natural') == 'coastline':   # land on the left, sea on the right: made into sea areas per square below
+            for c in {cell_of(lon, lat) for lon, lat in g} & want: s.coast[c].append(g)
+            return
         if not way_wanted(t): return
         cs = {cell_of(lon, lat) for lon, lat in g} & want
         if not cs: return
@@ -73,7 +77,7 @@ if subprocess.run(["which", "osmium"], capture_output=True).returncode == 0:
     src = os.path.join(tempfile.gettempdir(), "mapfeatures.osm.pbf")
     subprocess.run(["osmium", "tags-filter", PBF, "-o", src, "--overwrite",
                     "w/highway=motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,unclassified,residential",
-                    "w/waterway=river", "nwr/natural=water", "w/railway=rail", "n/railway=station", "n/place=city,town,village,suburb,hamlet",
+                    "w/waterway=river", "nwr/natural=water", "w/natural=coastline", "w/railway=rail", "n/railway=station", "n/place=city,town,village,suburb,hamlet",
                     "nwr/landuse=residential,commercial,retail,industrial", "nwr/boundary=protected_area,national_park"], check=True)
     print("filtered", round(os.path.getsize(src) / 1e6), "MB", flush=True)
 
@@ -84,6 +88,10 @@ for rid, t, members in R.rels:
     cs = {cell_of(p['lon'], p['lat']) for m in mem for p in m['geometry']} & want
     el = {'type': 'relation', 'id': rid, 'tags': t, 'members': mem}
     for c in cs: E.cells[c].append(el)
+
+# the sea: each square cut along the coastline, the side to the right of it is sea; empty squares next to sea are sea
+SEA = sea_cells(want, E.coast, {c for c in want if E.cells.get(c)}, CELL)
+print(sum(1 for v in SEA.values() if v), "squares with sea", flush=True)
 
 os.makedirs(OUT, exist_ok=True)
 for f in os.listdir(OUT):
@@ -99,6 +107,9 @@ with tempfile.TemporaryDirectory() as tmp:
             src_json = os.path.join(tmp, "cell.json")
             json.dump({'elements': els}, open(src_json, "w"))
             subprocess.run([sys.executable, os.path.join(HERE, "pack_mapdata.py"), src_json, os.path.join(OUT, fn), "OpenStreetMap"], check=True, capture_output=True)
+        if SEA.get((i, j)):
+            d = json.load(open(os.path.join(OUT, fn))); d["areas"] = SEA[(i, j)] + d["areas"]
+            json.dump(d, open(os.path.join(OUT, fn), "w"), separators=(",", ":"), ensure_ascii=False)
         tiles.append({"file": fn, "name": "OpenStreetMap", "cell": [i, j], "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL]})
 json.dump({"v": 2, "cell": CELL, "tiles": tiles}, open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"))
 print(len(tiles), "squares built,", round(sum(os.path.getsize(os.path.join(OUT, t["file"])) for t in tiles) / 1e6, 1), "MB")
