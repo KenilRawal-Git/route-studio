@@ -28,6 +28,8 @@ for pats in json.load(open(PATHS))["routes"].values():
             i, j = cell_of(lon, lat)
             for di in range(-MARGIN, MARGIN + 1):
                 for dj in range(-MARGIN, MARGIN + 1): want.add((i + di, j + dj))
+# a further ring of squares that are only built when they're open sea, so a map's edge over the sea is still blue
+extra = {(i + di, j + dj) for i, j in want for di in range(-2, 3) for dj in range(-2, 3)} - want
 print(len(want), "squares to build", flush=True)
 
 def area_tags(t):
@@ -63,7 +65,7 @@ class Elements(osmium.SimpleHandler):
         if len(g) < 2: return
         if mem: s.member_geo[w.id] = g
         if t.get('natural') == 'coastline':   # land on the left, sea on the right: made into sea areas per square below
-            for c in {cell_of(lon, lat) for lon, lat in g} & want: s.coast[c].append(g)
+            for c in {cell_of(lon, lat) for lon, lat in g} & (want | extra): s.coast[c].append(g)
             return
         if not way_wanted(t): return
         cs = {cell_of(lon, lat) for lon, lat in g} & want
@@ -90,7 +92,7 @@ for rid, t, members in R.rels:
     for c in cs: E.cells[c].append(el)
 
 # the sea: each square cut along the coastline, the side to the right of it is sea; empty squares next to sea are sea
-SEA = sea_cells(want, E.coast, {c for c in want if E.cells.get(c)}, CELL)
+SEA = sea_cells(want | extra, E.coast, {c for c in want if E.cells.get(c)}, CELL)
 print(sum(1 for v in SEA.values() if v), "squares with sea", flush=True)
 
 os.makedirs(OUT, exist_ok=True)
@@ -111,5 +113,10 @@ with tempfile.TemporaryDirectory() as tmp:
             d = json.load(open(os.path.join(OUT, fn))); d["areas"] = SEA[(i, j)] + d["areas"]
             json.dump(d, open(os.path.join(OUT, fn), "w"), separators=(",", ":"), ensure_ascii=False)
         tiles.append({"file": fn, "name": "OpenStreetMap", "cell": [i, j], "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL]})
+for (i, j) in sorted(c for c in extra if SEA.get(c)):   # the sea beyond: just its sea areas
+    fn = f"cell_{i}_{j}.json"
+    json.dump({"v": 1, "name": "OpenStreetMap", "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL], "roads": [], "rivers": [], "rails": [],
+               "areas": SEA[(i, j)], "places": [], "stations": []}, open(os.path.join(OUT, fn), "w"), separators=(",", ":"))
+    tiles.append({"file": fn, "name": "OpenStreetMap", "cell": [i, j], "sea": 1, "bbox": [i * CELL, j * CELL, (i + 1) * CELL, (j + 1) * CELL]})
 json.dump({"v": 2, "cell": CELL, "tiles": tiles}, open(os.path.join(OUT, "index.json"), "w"), separators=(",", ":"))
 print(len(tiles), "squares built,", round(sum(os.path.getsize(os.path.join(OUT, t["file"])) for t in tiles) / 1e6, 1), "MB")
