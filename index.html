@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.schoolhide{display:none!important}
+</style></head><body>
 <title>Central Connect Route Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap">
@@ -681,6 +682,7 @@ span.gbt{cursor:default}
           <label><input type="radio" name="mapKind" value="school"><span>School map</span></label>
         </div>
         <div id="schoolBox" class="stack" hidden>
+          <div class="btnrow scfile"><button type="button" class="btn ghost sm" data-scsave><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Save school map file</button><label class="btn ghost sm upl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Open a school map file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a school map file"></label></div>
           <p class="hint" style="margin:0">Several routes that all go to one school or college. The routes are drawn on the map in the usual style, and the school sits in the middle as a label or a picture.</p>
           <div class="field">The school or college
             <div class="row"><label>Name <input id="scName" placeholder="e.g. West Suffolk College"></label><label>Town <input id="scTown" placeholder="e.g. Bury St Edmunds"></label></div>
@@ -698,7 +700,7 @@ span.gbt{cursor:default}
           </div>
           <label>Title in the header <input id="scTitle" placeholder="School Map" maxlength="40"></label>
           <div class="btnrow"><button type="button" class="btn sm" id="scDraw">Draw the school map</button>
-            <button type="button" class="btn ghost sm" id="scSave" title="Save this school map to a file you can open again to make changes">Save school map file</button>
+            <button type="button" class="btn ghost sm" id="scSave" data-scsave title="Save this school map to a file you can open again to make changes">Save school map file</button>
             <label class="btn ghost sm upl">Open a school map file<input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a school map file"></label></div>
           <p class="hint" id="scMsg" style="margin:0"></p>
         </div>
@@ -944,6 +946,7 @@ span.gbt{cursor:default}
       <div class="actions">
         <button type="submit" class="primary" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span id="goLabel">Download timetable PDF</span></button>
         <button type="button" class="btn ghost" id="goPrint" hidden title="For the printer: 3 mm bleed, crop marks, registration marks and colour bars">Print-ready PDF (3 mm bleed + crop marks)</button>
+        <button type="button" class="btn ghost" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes">Save school map file</button>
         <button type="button" class="btn ghost nextstep" id="nextMap">Next: make the route map</button>
         <div class="wnav"><button type="button" class="btn ghost sm" id="wSkip" hidden></button><button type="button" class="btn wnext" id="wNext" hidden></button></div>
         <div class="status" id="status" role="status"></div>
@@ -1849,7 +1852,7 @@ function setStage(st){
   $("gPagesSet").hidden=!guide;
   $("pdfSet").hidden=map||fare||guide||!upd;
   if(map||fare||guide)$("dataSet").hidden=true; else if(upd&&state.template)useTimesChoice(); else $("dataSet").hidden=false;
-  $("goPrint").hidden=!guide;
+  $("goPrint").hidden=!guide; if(typeof scUi==="function")scUi();
   $("goLabel").textContent=guide?"Download bus guide PDF":fare?"Download fare chart PDF":map?"Download map PDF":"Download timetable PDF";
   $("sheets").setAttribute("aria-label",guide?"Bus guide preview":fare?"Fare chart preview":map?"Route map preview":"Timetable preview");
   $("status").textContent="";
@@ -3356,7 +3359,7 @@ async function scBuild(){
   msg.textContent=missing.length?`Couldn't find: ${missing.join(", ")}. Check the spelling, or add a position in a file.${LIVE_MAP.on?"":" Town lookups work on the website version of Route Studio."}`:`${routes.length} route${routes.length===1?"":"s"} to ${dn}.`;
 }
 function mapSetKind(k){mapState.kind=k; document.querySelectorAll('input[name=mapKind]').forEach(r=>r.checked=r.value===k);
-  const sch=k==="school"; $("schoolBox").hidden=!sch; ["mapUpload","mapFromTT","mapOwnBtn","mapExampleNote","mapComboRow"].forEach(id=>{const e=$(id); if(e&&sch)e.hidden=true});
+  const sch=k==="school"; $("schoolBox").hidden=!sch; scUi(); ["mapUpload","mapFromTT","mapOwnBtn","mapExampleNote","mapComboRow"].forEach(id=>{const e=$(id); if(e&&sch)e.hidden=true});
   if(sch){if(/^\*\*44A/.test(mapState.notes||"")){mapState.notes="";$("mapNotes").value=""} scRender(); if(SCHOOL.routes.some(r=>scLines(r).length))scBuild()}
   else{mapState.title=""; mapState.routes=[]; mapState.own=false; mapRenderStops(); if(mapFromTT()){mapState.ttSections=null; mapSyncFromTT()} else mapLoadExample()}}
 document.querySelectorAll('input[name=mapKind]').forEach(r=>r.addEventListener("change",()=>{if(r.checked)mapSetKind(r.value)}));
@@ -3368,13 +3371,17 @@ $("scImg").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.t
 $("scAdd").addEventListener("click",()=>{const n=SCHOOL.routes.length+1; SCHOOL.routes.push({id:String(n),towns:"",fixed:{}}); scRender(); const t=[...$("scRoutes").querySelectorAll(".scrh input")].pop(); if(t){t.focus();t.select()}});
 $("scDraw").addEventListener("click",scBuild);
 // a school map on its own, as a project file: open it again to make changes
-$("scSave").addEventListener("click",async()=>{const msg=$("scMsg");
+const scSaveFile=async()=>{const msg=$("scMsg");
   if(!SCHOOL.routes.some(r=>scLines(r).length)){msg.className="hint err"; msg.textContent="Add a route's towns first."; return}
   SCHOOL.routes.forEach((r,i)=>{if(!r.color)r.color=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
     tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto"}},W:{routes:[],nets:[]},guide:{}};
   const nm=`School map - ${SCHOOL.name||SCHOOL.town||"routes"}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
-  await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")});
+  await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")};
+document.querySelectorAll("[data-scsave]").forEach(b=>b.addEventListener("click",scSaveFile));
+// school maps: their routes and colours are set in the route rows above, so the map's own list is hidden, and saving sits by the download button
+function scUi(){const sch=mapState.kind==="school", map=state.stage==="map";
+  $("mapRoutesSet").classList.toggle("schoolhide",sch); $("goSchoolSave").hidden=!(sch&&map)}
 $("scCsv").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.target.value=""; if(!f)return; const msg=$("scMsg");
   try{let rows; if(/\.xlsx$/i.test(f.name)){const sh=await parseXLSX(await f.arrayBuffer()); rows=sh[0]?sh[0].rows:[]} else rows=parseCSV(await f.text());
     const rs=mapParseStops(rows);
