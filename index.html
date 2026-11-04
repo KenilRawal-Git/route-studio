@@ -2089,6 +2089,10 @@ function mapDespike(xy,maxLen=22,close=2.2){
   return out}
 /* a drawn line made clean: detours and loops cut out, simplified and rounded, but never away from a stop:
    the point nearest each stop stays where it is, and the line is simplified and rounded between those points */
+/* tube style: a stretch of road as one straight run and one 45° run between its ends */
+function mapOcti(xy){if(xy.length<2)return xy; const a=xy[0], b=xy[xy.length-1], dx=b[0]-a[0], dy=b[1]-a[1], m=Math.min(Math.abs(dx),Math.abs(dy));
+  if(Math.hypot(dx,dy)<1)return [a,b];
+  const c=Math.abs(dx)>Math.abs(dy)?[a[0]+(dx-Math.sign(dx)*m),a[1]]:[a[0],a[1]+(dy-Math.sign(dy)*m)]; return [a,c,b]}
 /* tube style lines: straight runs, each corner a small even curve */
 function mapTubeCorners(xy,R=9){
   const p=[]; xy.forEach(q=>{const l=p[p.length-1]; if(!l||Math.hypot(q[0]-l[0],q[1]-l[1])>0.3)p.push(q)});
@@ -2154,7 +2158,8 @@ function mapLayout(cfg){
       const fwd=a.lon<b.lon||(a.lon===b.lon&&a.lat<b.lat), A=fwd?a:b, B=fwd?b:a, ex=(B.lon-A.lon)*kk, ey=B.lat-A.lat;
       const c=Math.abs(ex)>Math.abs(ey)?[A.lon+(ex-Math.sign(ex)*m)/kk,A.lat]:[A.lon,A.lat+(ey-Math.sign(ey)*m)];
       const pts=[[A.lon,A.lat],c,[B.lon,B.lat]]; return {nodes:null,pts:fwd?pts:pts.reverse()}})}};
-  const routed=routes.map(r=>{const res=TUBE?tubeOf(r):routeOf(r); res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)}); return res});
+  // tube style still follows the roads, to know which routes share them
+  const routed=routes.map(r=>{const res=TUBE&&!cfg.graph?tubeOf(r):routeOf(r); res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)}); return res});
   // the other direction (where known): roads it shares with the drawn direction are two-way, the rest one-way
   const backKeys=routes.map(r=>{if(!r.back)return null; if(r.back.length<2)return new Set();
     const res=routeOf({id:r.id,stops:r.back}), K=new Set(); res.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; K.add(a<b?a+"-"+b:b+"-"+a)}}); return K});
@@ -2274,19 +2279,21 @@ function mapLayout(cfg){
      a stretch only some variations take branches off as a dashed line in that variation's colour */
   const slotsOf=B=>FAM?[...new Set(B.map(i=>fi[i]))]:B, mine=ri=>FAM?fi[ri]:ri;
   const coreOf=(B,ri)=>{if(!FAM)return true; const m=B.filter(i=>fi[i]===fi[ri]); return m.length>=2||m.some(i=>routes[i]===famBase[fi[ri]])};
-  const cleanMemo=new Map();
+  const cleanMemo=new Map(); let stopNodes=null;
   seqs.forEach((E,ri)=>{
     // runs of edges with the same routes on them, travelled the same way
     const runs=[]; let run=null;
+    // tube style: the line is redrawn straight between stops and the points where routes join or part, so every stop is a break
+    if(TUBE&&!stopNodes){stopNodes=new Set(); routed.forEach(rr=>rr.legs.forEach(l=>{if(l.nodes&&l.nodes.length){stopNodes.add(String(l.nodes[0])); stopNodes.add(String(l.nodes[l.nodes.length-1]))}}))}
     // a road the route takes there and back (off its way to a village, then back): both ways on the same line, so it reads as a branch
     const seen=new Map(); E.forEach(e=>seen.set(e.key,(seen.get(e.key)||0)+1));
     E.forEach(e=>{const B0=edgeRoutes.get(e.key), B=slotsOf(B0), core=coreOf(B0,ri), rp=seen.get(e.key)>1, bk=B.join(",")+(core?"":"|v"+ri)+(rp?"|loop":"");
-      if(run&&run.bk===bk&&run.sign===e.sign){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
+      if(run&&run.bk===bk&&run.sign===e.sign&&!(TUBE&&stopNodes.has(e.from))){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
       else{run={bk,B,B0,core,rp,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
     let poly=null;
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
-      let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=TUBE?mapTubeCorners(proj(cp,0.2)):mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
+      let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=TUBE?mapTubeCorners(mapOcti(proj(cp,0.2))):mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
       const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*(bw+GAP);   // touching, or with a small gap between; a road taken there and back is one line (a short branch to the stop)   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
