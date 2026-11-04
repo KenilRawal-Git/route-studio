@@ -2303,7 +2303,9 @@ function mapLayout(cfg){
     const busy=(x0,y0,x1,y1)=>{const a=Math.max(0,Math.floor(x0/G)), b=Math.max(0,Math.floor(y0/G)), c=Math.min(gw,Math.ceil(x1/G)), d=Math.min(gh,Math.ceil(y1/G)); return S[d*(gw+1)+c]-S[b*(gw+1)+c]-S[d*(gw+1)+a]+S[b*(gw+1)+a]};
     const M=16, X0=MX0+M, X1=MX1-M-bwK, Y0=MY0+M, Y1=MY1-M-bhK; let best=null;
     if(X1>=X0&&Y1>=Y0){const xs=[], ys=[]; for(let x=X0;x<X1;x+=8)xs.push(x); xs.push(X1); for(let y=Y0;y<Y1;y+=8)ys.push(y); ys.push(Y1);
-      xs.forEach(x=>ys.forEach(y=>{if(busy(x,y,x+bwK,y+bhK))return; const sc=Math.min(x-X0,X1-x)+Math.min(y-Y0,Y1-y); if(!best||sc<best.sc)best={x,y,sc}}))}
+      // near a corner, and as far from the stops as it can (their names need the room around them)
+      const room=(x,y)=>{let m=Infinity; for(const [px,py] of stopPts){const d=Math.hypot(Math.max(x-px,0,px-x-bwK),Math.max(y-py,0,py-y-bhK)); if(d<m)m=d} return Math.min(m,140)};
+      xs.forEach(x=>ys.forEach(y=>{if(busy(x,y,x+bwK,y+bhK))return; const sc=Math.min(x-X0,X1-x)+Math.min(y-Y0,Y1-y)-room(x,y)*0.8; if(!best||sc<best.sc)best={x,y,sc}}))}
     if(best){kx0=best.x; const top=best.y+bhK/2<(MY0+MY1)/2; ktop=top; kyT=top?best.y:null; kyB=best.y+bhK}}
   const ky=h=>ktop?kyT:kyB-h;
   const KEY=keyH?[kx0,ky(keyH),kx0+KEYW,ky(keyH)+keyH]:null;
@@ -2351,7 +2353,7 @@ function mapLayout(cfg){
     const words=nm.split(" "); stations.push({x,y,lines:nearStop?[]:(words.length===1?[nm]:[words.slice(0,-1).join(" "),words[words.length-1]]),label:null});
     boxes.push([x-4,y-4,x+4,y+4])});
 
-  const crowdK=stops.length>45?0.8:stops.length>28?0.88:1, TF=(INS?9.4:11)*crowdK, SF=(INS?7:8)*crowdK, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
+  const crowdK=stops.length>45?0.9:stops.length>28?0.95:1, TF=(INS?9:10.2)*crowdK, SF=(INS?6.8:7.6)*crowdK, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
   /* ----- enlargements: a tight cluster of stops (3 or more close together) is drawn again, bigger, in a box of its own;
      on the main map the cluster gets one label instead of a label per stop ----- */
   const insets=[];
@@ -2410,7 +2412,7 @@ function mapLayout(cfg){
       const tw=sp?sp.m:width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0), nw=hasStop?width(s.stop,sf,"light"):0, wdt=Math.max(tw,nw);
       const th=(sp?24:hasStop?22:13)*k, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
       const anchors=[[x+9,y+th*0.55],[x-9-wdt,y+th*0.55],[x+8,y+th+9],[x-8-wdt,y+th+9],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+th+10]];
-      for(const dist of [18,30,44,60,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:30){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
+      for(const dist of [14,18,24,30,37,44,52,60,70,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:15){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
         anchors.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
       const lays=[{lay:"above",w:Math.max(wdt,bwsum),h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
       const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop,two:sp?[sp.a,sp.b]:null})}));
@@ -2433,11 +2435,11 @@ function mapLayout(cfg){
       return v*(c.k===1?1:c.k>0.8?1.15:1.3)};
     const under=b=>{let n=0; for(const [rx,ry] of rpts)if(rx>b[0]&&rx<b[2]&&ry>b[1]&&ry<b[3])n++; return n};
     // first only spots clear of every route line (names never sit on a route); only if there's none anywhere, the least covered
-    for(const k of [1,0.86,0.74]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); tried.push(all);
-      all.filter(c=>!onRoute(c.b,2)).forEach(c=>{c.cost=cost(c)+(k===1?0:k>0.8?6:14)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best&&best.cost<25)break}
+    for(const k of [1,0.9]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); tried.push(all);
+      all.filter(c=>!onRoute(c.b,2)).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best&&best.cost<25)break}
     if(!best)tried.forEach(cs=>cs.forEach(c=>{c.cost=cost(c)+under(c.b)*25; if(!best||c.cost<best.cost)best=c}));
     if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
-    if(!best){const cs=build(0.74); let lo=Infinity;   // nowhere free: the spot where it overlaps least
+    if(!best){const cs=build(0.9); let lo=Infinity;   // nowhere free: the spot where it overlaps least
       cs.forEach(c=>{const ov=boxes.reduce((a,o)=>a+ovl(c.b,o),0)+Math.hypot(c.b[0]-x,c.b[3]-y)*0.05; if(ov<lo){lo=ov;best=c}})}
     if(!best)best={b:[x+7,y-12,x+60,y+1],lay:"above",k:1,hasStop};
     boxes.push(best.b); labels.push({s,...best});
