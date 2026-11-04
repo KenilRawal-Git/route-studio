@@ -789,7 +789,7 @@ span.gbt{cursor:default}
         <label>Routes on the same road <select id="mapBand"><option value="0">Side by side, touching</option><option value="1">Side by side, with a gap</option></select></label>
         <label class="check"><input type="checkbox" id="mapFade" checked> Fade the map's edges <span class="opt">The map softens to white at the sides</span></label>
         <label class="check"><input type="checkbox" id="mapCredits" checked> Show the map credits <span class="opt">The small OpenStreetMap and NaPTAN line at the bottom</span></label>
-        <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option><option value="tube">Tube style: straight lines, few roads</option></select></label>
+        <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option><option value="tube">Tube style: straight lines on a plain map</option></select></label>
       </fieldset>
       <fieldset id="mapTextSet" hidden>
         <legend><span class="num">3</span>Map details</legend>
@@ -2089,6 +2089,16 @@ function mapDespike(xy,maxLen=22,close=2.2){
   return out}
 /* a drawn line made clean: detours and loops cut out, simplified and rounded, but never away from a stop:
    the point nearest each stop stays where it is, and the line is simplified and rounded between those points */
+/* tube style lines: straight runs, each corner a small even curve */
+function mapTubeCorners(xy,R=9){
+  const p=[]; xy.forEach(q=>{const l=p[p.length-1]; if(!l||Math.hypot(q[0]-l[0],q[1]-l[1])>0.3)p.push(q)});
+  // drop points on a straight run
+  const s=[p[0]]; for(let i=1;i+1<p.length;i++){const a=s[s.length-1], b=p[i], c=p[i+1]; const cr=(b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]); if(Math.abs(cr)>0.5*Math.hypot(b[0]-a[0],b[1]-a[1]))s.push(b)} if(p.length>1)s.push(p[p.length-1]);
+  if(s.length<3)return s; const out=[s[0]];
+  for(let i=1;i+1<s.length;i++){const a=s[i-1], b=s[i], c=s[i+1], l1=Math.hypot(b[0]-a[0],b[1]-a[1]), l2=Math.hypot(c[0]-b[0],c[1]-b[1]), r=Math.min(R,l1/2,l2/2);
+    const u=[(b[0]-a[0])/l1,(b[1]-a[1])/l1], v=[(c[0]-b[0])/l2,(c[1]-b[1])/l2], p0=[b[0]-u[0]*r,b[1]-u[1]*r], p1=[b[0]+v[0]*r,b[1]+v[1]*r];
+    for(let t=0;t<=1.0001;t+=0.125){const m=1-t; out.push([m*m*p0[0]+2*m*t*b[0]+t*t*p1[0], m*m*p0[1]+2*m*t*b[1]+t*t*p1[1]])}}
+  out.push(s[s.length-1]); return out}
 function mapCleanLine(xy,sp){
   if(xy.length<3)return xy;
   const prot=new Uint8Array(xy.length), d2=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2;
@@ -2150,7 +2160,7 @@ function mapLayout(cfg){
     const res=routeOf({id:r.id,stops:r.back}), K=new Set(); res.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; K.add(a<b?a+"-"+b:b+"-"+a)}}); return K});
 
   /* key and notes sizes decide how much room the map needs at the bottom */
-  const stationsOn=!!(cfg.data&&cfg.data.stations.length);
+  const stationsOn=cfg.style!=="tube"&&!!(cfg.data&&cfg.data.stations.length);
   /* route families (82, 82A, 82B): see the route lines below */
   const famOf=id=>{const m=String(id).match(/^([A-Za-z]*\d+)/); return m?m[1].toUpperCase():String(id)};
   const famIds=[...new Set(routes.map(r=>famOf(r.id)))], fi=routes.map(r=>famIds.indexOf(famOf(r.id)));
@@ -2230,15 +2240,15 @@ function mapLayout(cfg){
   const D=cfg.data;
   if(D){
     poly(D.areas.filter(a=>a.kind==="sea").flatMap(a=>a.rings),C.water,{soften:0.8});   // the sea, cut along the coastline (one piece per map square)
-    poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
-    D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green));
+    if(!TUBE){poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
+    D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green))}   // tube style: a plain map, only the sea and water under the lines
     poly(D.areas.filter(a=>a.kind==="water").flatMap(a=>a.rings),C.water,{minArea:25});
     if(!TUBE)D.rivers.forEach(r=>{const xy=proj(r.pts);if(visible(xy))pline(xy,C.water,0.9)});
     var kmPt=scale/111, local=kmPt>40; // points per km: more local roads and places the further in the map is
-    var roads=[]; D.roads.forEach(r=>{if(TUBE&&r.cls>1)return; if((r.cls===4&&kmPt<=14)||(r.cls===5&&!local))return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
+    var roads=[]; D.roads.forEach(r=>{if(TUBE)return; if((r.cls===4&&kmPt<=14)||(r.cls===5&&!local))return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
     [5,4].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,C.roadMinor,c===5?0.4:(local?0.5:0.4))}));
     [3,2,1,0].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,TUBE?C.roadMinor:c===3?C.roadMinor:C.road,TUBE?0.6:MAPX.roadW[c]*(local?1.35:1))}));   // tube style: just the main roads, faint
-    D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,TUBE?0.6:0.75,"butt")});
+    if(!TUBE)D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,0.75,"butt")});
   } else var roads=[];
   /* soft fade to white at the map edges */
   const F=MAPX.fade, N=INS||cfg.fade===false?0:70, A=0.085;   // the fade can be turned off (Page › Fade the map's edges)
@@ -2275,7 +2285,7 @@ function mapLayout(cfg){
     let poly=null;
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
-      let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
+      let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=TUBE?mapTubeCorners(proj(cp,0.2)):mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
       const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*(bw+GAP);   // touching, or with a small gap between; a road taken there and back is one line (a short branch to the stop)   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
@@ -2358,7 +2368,7 @@ function mapLayout(cfg){
   stops.forEach(s=>{s.joint=joint(s); const j=s.joint; boxes.push(j?[Math.min(j[0],j[2])-5.5,Math.min(j[1],j[3])-5.5,Math.max(j[0],j[2])+5.5,Math.max(j[1],j[3])+5.5]:[s.x-5,s.y-5,s.x+5,s.y+5])});
 
   const stations=[];
-  if(D)D.stations.forEach(st=>{const [x,y]=P(st.lon,st.lat); if(!inside([x-4,y-4,x+4,y+4],14))return;
+  if(D&&!TUBE)D.stations.forEach(st=>{const [x,y]=P(st.lon,st.lat); if(!inside([x-4,y-4,x+4,y+4],14))return;
     const nearStop=stops.some(s=>Math.hypot(x-s.x,y-s.y)<16);
     const nm=st.name.replace(/ \((Essex|Suffolk|Norfolk|Kent|Herts|Cambs|Colchester)\)$/,"");
     const words=nm.split(" "); stations.push({x,y,lines:nearStop?[]:(words.length===1?[nm]:[words.slice(0,-1).join(" "),words[words.length-1]]),label:null});
@@ -2495,7 +2505,7 @@ function mapLayout(cfg){
   /* place names: towns and villages, multi-word names on two lines */
   const zk=typeof kmPt!=="undefined"?kmPt:0, SZ={city:9,town:8.2,village:7.4,...(zk>18?{suburb:6.8}:{}),...(zk>22?{hamlet:6.4}:{})}, stopTowns=new Set(stops.map(s=>s.town));
   const places=[];
-  if(D)D.places.slice().sort((a,b)=>(SZ[b.kind]||0)-(SZ[a.kind]||0)).forEach(p=>{
+  if(D&&!TUBE)D.places.slice().sort((a,b)=>(SZ[b.kind]||0)-(SZ[a.kind]||0)).forEach(p=>{
     if(!SZ[p.kind]||stopTowns.has(p.name)||p.name.includes("("))return;
     const [x,y]=P(p.lon,p.lat), fs=SZ[p.kind], wt=fs>=8?"normal":"light"; const words=p.name.split(" ");
     const ls=words.length>1&&p.name.length>9?[words.slice(0,-1).join(" "),words[words.length-1]]:[p.name];
