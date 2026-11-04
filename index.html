@@ -2256,7 +2256,7 @@ function mapLayout(cfg){
   seqs.forEach((E,ri)=>{
     // runs of edges with the same routes on them, travelled the same way
     const runs=[]; let run=null;
-    // a road the route takes there and back (off its way to a village, then back): each way is drawn on its own side, a clean loop
+    // a road the route takes there and back (off its way to a village, then back): both ways on the same line, so it reads as a branch
     const seen=new Map(); E.forEach(e=>seen.set(e.key,(seen.get(e.key)||0)+1));
     E.forEach(e=>{const B0=edgeRoutes.get(e.key), B=slotsOf(B0), core=coreOf(B0,ri), rp=seen.get(e.key)>1, bk=B.join(",")+(core?"":"|v"+ri)+(rp?"|loop":"");
       if(run&&run.bk===bk&&run.sign===e.sign){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
@@ -2265,7 +2265,7 @@ function mapLayout(cfg){
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
       let C=cleanMemo.get(ck); if(!C){const cp=R.sign>0?R.pts:R.pts.slice().reverse(); C=mapCleanLine(proj(cp,0.2),stopPts); cleanMemo.set(ck,C); centre.push(C)}
-      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*(bw+GAP)+(R.rp?(R.B.length*(bw+GAP)/2+1.2)*R.sign:0);   // touching, or with a small gap between; there-and-back roads as a loop   // a wide band gets thinner lines
+      const bw=Math.min(LW,13/R.B.length), slot=R.B.indexOf(mine(ri)), off=(slot-(R.B.length-1)/2)*(bw+GAP);   // touching, or with a small gap between; a road taken there and back is one line (a short branch to the stop)   // a wide band gets thinner lines
       let xy=off?mapOffset(C,off):C; if(R.sign<0)xy=xy.slice().reverse();
       const bk=backKeys[ri], two=bk===null?true:R.keys.filter(k=>bk.has(k)).length>=R.keys.length/2;
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
