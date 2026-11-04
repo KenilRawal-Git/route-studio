@@ -2366,6 +2366,14 @@ function mapLayout(cfg){
       const t=Math.max(0,Math.min(1,((s.x-ax)*dx+(s.y-ay)*dy)/l2)), d=Math.hypot(ax+t*dx-s.x,ay+t*dy-s.y);
       if(d<2.5&&(!best||G.B.length>best.n||(G.B.length===best.n&&d<best.d))){const L=Math.sqrt(l2); best={n:G.B.length,d,nx:-dy/L,ny:dx/L,bw:Math.min(LW,13/G.B.length)}}}});
     if(!best)return null; const h=(best.n-1)*(best.bw+GAP)/2+0.6; return [s.x-best.nx*h,s.y-best.ny*h,s.x+best.nx*h,s.y+best.ny*h]};
+  /* stop markers never sit on top of each other: ones closer than a marker's width are eased apart, just enough to show both */
+  { const MIN=INS?9:12.5;
+    for(let it=0;it<8;it++){let moved=false;
+      for(let i=0;i<stops.length;i++)for(let j=i+1;j<stops.length;j++){const a=stops[i], b=stops[j]; if(a.dest||b.dest)continue;
+        let dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy); if(d>=MIN)continue;
+        if(d<0.01){dx=1;dy=0;d=1}   // the same spot: side by side
+        const push=(MIN-d)/2+0.05, ux=dx/d*push, uy=dy/d*push; a.x-=ux; a.y-=uy; b.x+=ux; b.y+=uy; moved=true}
+      if(!moved)break} }
   stops.forEach(s=>{s.joint=joint(s); const j=s.joint; boxes.push(j?[Math.min(j[0],j[2])-5.5,Math.min(j[1],j[3])-5.5,Math.max(j[0],j[2])+5.5,Math.max(j[1],j[3])+5.5]:[s.x-5,s.y-5,s.x+5,s.y+5])});
 
   const stations=[];
