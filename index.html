@@ -2260,7 +2260,7 @@ function mapLayout(cfg){
 
   /* ----- route lines: routes sharing a road are drawn side by side as one band, touching, instead of on top of each other ----- */
   const keyLate=[];
-  const LW=TUBE?4.2:3.2, GAP=cfg.bandGap?1.4:0, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
+  const LW=TUBE?4.2:3.2, GAP=cfg.bandGap?(TUBE?2.4:1.6):0, lines=routes.map(r=>({r,segs:[]})), centre=[], runsAll=new Map(), stopPts=[]; routes.forEach(r=>r.stops.forEach(s=>stopPts.push(P(s.lon,s.lat))));
   const edgeRoutes=new Map(), canon=new Map(), f5=p=>p[0].toFixed(5)+","+p[1].toFixed(5);
   const seqs=routed.map((rr,ri)=>{const E=[];
     rr.legs.forEach(l=>{
@@ -2295,6 +2295,9 @@ function mapLayout(cfg){
       const plen=C.reduce((a,p,i)=>i?a+Math.hypot(p[0]-C[i-1][0],p[1]-C[i-1][1]):0,0);   // a few metres apart (the other side of a junction) isn't a branch
       (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):{c:routes[ri].color})});
   });
+  // school maps: every route runs right into the school (under its box), however near the roads end
+  if(SCH)lines.forEach(L=>{const st=L.r.stops[L.r.stops.length-1]; if(!st||!st.dest||!isFinite(st.lat)||!L.segs.length)return;
+    const [dx,dy]=P(st.lon,st.lat), seg=L.segs[L.segs.length-1], e=seg[seg.length-1]; if(Math.hypot(e[0]-dx,e[1]-dy)>0.5)seg.push([dx,dy])});
   const FAMVAR=new Set(); lines.forEach((L,ri)=>(L.st||[]).forEach(x=>{if(x.dash)FAMVAR.add(ri)}));
   // solid lines first, then the dashed variations on top
   [false,true].forEach(dsh=>lines.forEach(L=>L.segs.forEach((s,i)=>{const st=(L.st&&L.st[i])||{c:L.r.color}; if(!!st.dash!==dsh)return;
