@@ -2493,7 +2493,7 @@ function mapLayout(cfg){
 
   /* road numbers set along the road */
   const tags=[]; const byRef={};
-  if(!TUBE)roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
+  roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(!TUBE&&typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
   Object.keys(byRef).sort().forEach(ref=>{const segs=byRef[ref].map(s=>[s,s.reduce((a,p,i)=>i?a+Math.hypot(p[0]-s[i-1][0],p[1]-s[i-1][1]):0,0)]).sort((a,b)=>b[1]-a[1]).map(a=>a[0]);
     const placed=[], wdt=width(ref,5.8,"normal")+3, max=segs.length>60?2:1;
     for(const s of segs.slice(0,40)){if(placed.length>=max)break; const m=s.length>>1, a=s[Math.max(0,m-1)], b=s[Math.min(s.length-1,m+1)];
@@ -2528,7 +2528,7 @@ function mapLayout(cfg){
   /* ----- draw labels and symbols ----- */
   places.forEach(p=>p.ls.forEach((l,i)=>T(l,p.x,p.y+i*p.fs*1.15,p.fs,p.wt,C.place,"center")));
   if(vale)vale.txt.forEach((l,i)=>T(l,vale.x,vale.y+i*vale.fs*1.15,vale.fs,"light",C.vale,"center"));
-  tags.forEach(t=>T(t.ref,t.x,t.y+2,5.8,"normal",C.roadTxt,"center",t.ang));
+  tags.forEach(t=>T(t.ref,t.x,t.y+2,5.8,"normal",TUBE?"#A9AEB8":C.roadTxt,"center",t.ang));   // tube style: the main road numbers, softly
   dirTags.forEach(t=>{const U=(u,v)=>[t.x+u*t.ca-v*t.sa, t.y+u*t.sa+v*t.ca], u0=-t.tot/2, ink="#1E2B4A";
     const [qx,qy]=U(u0+t.tw/2,2); T(t.ids,qx,qy,t.fs,"semibold",ink,"center",t.ang*180/Math.PI);
     const a0=u0+t.tw+3, a1=a0+11, seg=(...ps)=>ops.push({k:"pl",p:ps.flatMap(([u,v])=>U(u,v)),c:ink,w:0.8,cap:"round"});
