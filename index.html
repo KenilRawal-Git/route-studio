@@ -787,6 +787,7 @@ span.gbt{cursor:default}
           <p class="hint">Each route is drawn one way, from one day's timetable, so the map stays clean.</p></div>
         <label class="check"><input type="checkbox" id="mapInsets" checked> Enlarge crowded areas <span class="opt">Close-together stops get a zoomed-in box</span></label>
         <label>Routes on the same road <select id="mapBand"><option value="0">Side by side, touching</option><option value="1">Side by side, with a gap</option></select></label>
+        <label class="check"><input type="checkbox" id="mapFade" checked> Fade the map's edges <span class="opt">The map softens to white at the sides</span></label>
         <label class="check"><input type="checkbox" id="mapCredits" checked> Show the map credits <span class="opt">The small OpenStreetMap and NaPTAN line at the bottom</span></label>
         <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option></select></label>
       </fieldset>
@@ -2232,7 +2233,7 @@ function mapLayout(cfg){
     D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,0.75,"butt")});
   } else var roads=[];
   /* soft fade to white at the map edges */
-  const F=MAPX.fade, N=INS?0:70, A=0.085;
+  const F=MAPX.fade, N=INS||cfg.fade===false?0:70, A=0.085;   // the fade can be turned off (Page › Fade the map's edges)
   for(const side of N?["left","right","bottom","top"]:[]){const wd=F[side];
     for(let i=1;i<=N;i++){const dep=wd*Math.pow(i/N,1.35);
       const r=side==="left"?{x:MX0,y:MY0,w:dep,h:MY1-MY0}:side==="right"?{x:MX1-dep,y:MY0,w:dep,h:MY1-MY0}:side==="bottom"?{x:MX0,y:MY1-dep,w:MX1-MX0,h:dep}:{x:MX0,y:MY0,w:MX1-MX0,h:dep};
@@ -3332,7 +3333,7 @@ function mapCfg(){
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3459,7 +3460,7 @@ const scSaveFile=async()=>{const msg=$("scMsg");
   if(!SCHOOL.routes.some(r=>scLines(r).length)){msg.className="hint err"; msg.textContent="Add a route's towns first."; return}
   SCHOOL.routes.forEach((r,i)=>{if(!r.color)r.color=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||""}},W:{routes:[],nets:[]},guide:{}};
+    tools:{school:{...structuredClone(SCHOOL),notes:mapState.notes||"",orient:mapState.orient||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}},W:{routes:[],nets:[]},guide:{}};
   const nm=`School map - ${SCHOOL.name||SCHOOL.town||"routes"}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","School map file")};
 document.querySelectorAll("[data-scsave]").forEach(b=>b.addEventListener("click",scSaveFile));
@@ -3487,6 +3488,7 @@ $("mapValidText").addEventListener("input",()=>{mapState.validText=$("mapValidTe
 function mapKeySizeUi(){const v=Math.round((mapState.keyScale||1)*100); $("mapKeySize").value=v; $("mapKeySizeV").textContent=v+"%"}
 $("mapKeySize").addEventListener("input",()=>{mapState.keyScale=$("mapKeySize").value/100; mapKeySizeUi(); render()});
 $("mapBand").addEventListener("change",()=>{mapState.bandGap=$("mapBand").value==="1"; render()});
+$("mapFade").addEventListener("change",()=>{mapState.fade=$("mapFade").checked; render()});
 $("mapCredits").addEventListener("change",()=>{mapState.credits=$("mapCredits").checked; render()});
 $("scSize").addEventListener("input",()=>{SCHOOL.size=$("scSize").value/100; $("scSizeV").textContent=$("scSize").value+"%"; render()});
 $("mapStyle").addEventListener("change",()=>{mapState.style=$("mapStyle").value; guideState.blocks.forEach(b=>b._memo=null); render()});
@@ -5158,10 +5160,10 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||""}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
   mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient;
-  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
+  mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
 }
@@ -5402,7 +5404,7 @@ async function wOpenProject(f){
     $("gNotes").value=guideState.notes||""; $("gPageNums").checked=guideState.pageNums!==false; ["feedback","address","phone","email"].forEach(k=>$("g_"+k).value=guideState[k]||"");
     guideRenderRows();
     if(d.tools&&d.tools.fare)fareRestoreW(d.tools.fare);   // the Fare chart tab as it was saved
-    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient; delete SCHOOL.bandGap; delete SCHOOL.credits; delete SCHOOL.headMode; delete SCHOOL.headText; delete SCHOOL.keyScale; delete SCHOOL.validText; if("validText" in sc){mapState.validText=sc.validText||""; $("mapValidText").value=mapState.validText} if(sc.keyScale){mapState.keyScale=sc.keyScale; mapKeySizeUi()}
+    if(d.tools&&d.tools.school){const sc=d.tools.school; Object.assign(SCHOOL,sc); delete SCHOOL.notes; delete SCHOOL.orient; delete SCHOOL.bandGap; delete SCHOOL.credits; delete SCHOOL.headMode; delete SCHOOL.headText; delete SCHOOL.keyScale; delete SCHOOL.validText; delete SCHOOL.fade; if("fade" in sc){mapState.fade=sc.fade!==false; $("mapFade").checked=mapState.fade} if("validText" in sc){mapState.validText=sc.validText||""; $("mapValidText").value=mapState.validText} if(sc.keyScale){mapState.keyScale=sc.keyScale; mapKeySizeUi()}
       if(sc.headMode){mapState.headMode=sc.headMode; mapState.headText=sc.headText||""; mapHeadUi()}
       if("bandGap" in sc){mapState.bandGap=!!sc.bandGap; $("mapBand").value=sc.bandGap?"1":"0"} if("credits" in sc){mapState.credits=sc.credits!==false; $("mapCredits").checked=mapState.credits}   // and the school map (Route map tab › School map)
       SCHOOL.routes.forEach(r=>{if(r.color)state.routeColors[r.id]=r.color}); scRender()}
