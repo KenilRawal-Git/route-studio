@@ -2240,15 +2240,16 @@ function mapLayout(cfg){
   const D=cfg.data;
   if(D){
     poly(D.areas.filter(a=>a.kind==="sea").flatMap(a=>a.rings),C.water,{soften:0.8});   // the sea, cut along the coastline (one piece per map square)
-    if(!TUBE){poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
-    D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green))}   // tube style: a plain map, only the sea and water under the lines
+    poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
+    D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green));
     poly(D.areas.filter(a=>a.kind==="water").flatMap(a=>a.rings),C.water,{minArea:25});
-    if(!TUBE)D.rivers.forEach(r=>{const xy=proj(r.pts);if(visible(xy))pline(xy,C.water,0.9)});
+    D.rivers.forEach(r=>{const xy=proj(r.pts);if(visible(xy))pline(xy,C.water,0.9)});
     var kmPt=scale/111, local=kmPt>40; // points per km: more local roads and places the further in the map is
-    var roads=[]; D.roads.forEach(r=>{if(TUBE)return; if((r.cls===4&&kmPt<=14)||(r.cls===5&&!local))return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
+    var roads=[]; D.roads.forEach(r=>{if(TUBE&&r.cls>3)return; if((r.cls===4&&kmPt<=14)||(r.cls===5&&!local))return;const xy=proj(r.pts);if(visible(xy))roads.push({cls:r.cls,ref:r.ref,xy})});
     [5,4].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,C.roadMinor,c===5?0.4:(local?0.5:0.4))}));
     [3,2,1,0].forEach(c=>roads.forEach(r=>{if(r.cls===c)pline(r.xy,TUBE?C.roadMinor:c===3?C.roadMinor:C.road,TUBE?0.6:MAPX.roadW[c]*(local?1.35:1))}));   // tube style: just the main roads, faint
-    if(!TUBE)D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,0.75,"butt")});
+    D.rails.forEach(g=>{const xy=proj(g);if(visible(xy))pline(xy,C.railLine,0.75,"butt")});
+    if(TUBE)ops.push({k:"r",x:MX0,y:MY0,w:MX1-MX0,h:MY1-MY0,c:"#FFFFFF",a:0.6});   // tube style: the map stays, washed out, under the lines
   } else var roads=[];
   /* soft fade to white at the map edges */
   const F=MAPX.fade, N=INS||cfg.fade===false?0:70, A=0.085;   // the fade can be turned off (Page › Fade the map's edges)
@@ -2492,7 +2493,7 @@ function mapLayout(cfg){
 
   /* road numbers set along the road */
   const tags=[]; const byRef={};
-  roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
+  if(!TUBE)roads.forEach(r=>{if((r.cls<=1&&/^[AM]\d/.test(r.ref))||(typeof kmPt!=="undefined"&&kmPt>12&&r.cls<=3&&/^[AB]\d/.test(r.ref)))(byRef[r.ref]=byRef[r.ref]||[]).push(r.xy)});
   Object.keys(byRef).sort().forEach(ref=>{const segs=byRef[ref].map(s=>[s,s.reduce((a,p,i)=>i?a+Math.hypot(p[0]-s[i-1][0],p[1]-s[i-1][1]):0,0)]).sort((a,b)=>b[1]-a[1]).map(a=>a[0]);
     const placed=[], wdt=width(ref,5.8,"normal")+3, max=segs.length>60?2:1;
     for(const s of segs.slice(0,40)){if(placed.length>=max)break; const m=s.length>>1, a=s[Math.max(0,m-1)], b=s[Math.min(s.length-1,m+1)];
