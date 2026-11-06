@@ -1366,7 +1366,7 @@ function layout(){
     const cw=per<=G.maxCols?G.colW:avW/per;
     const ranges=[]; for(let k=0,c0=0;k<chunks;k++){const c1=Math.min(nc,c0+Math.ceil((nc-c0)/(chunks-k)));ranges.push([c0,c1]);c0=c1}
     const last=sec===state.sections.filter(s=>s.stops.length).pop();
-    const avH=bottom-G.firstBar-G.barH-2-(last&&state.endNote?16:0);
+    const avH=bottom-G.firstBar-G.barH-2-(last&&state.endNote?16+15*Math.max(0,Math.ceil(width(state.endNote.toUpperCase(),12,"semibold")/540)-1):0);
     const pagesNeeded=Math.max(1,Math.ceil(n/Math.floor(avH/MINRH)));
     const rowsPer=Math.ceil(n/pagesNeeded);
     let rh=Math.max(MINRH,Math.min(G.rowH,avH/rowsPer));
@@ -1487,8 +1487,11 @@ function layout(){
   });
   if(state.endNote&&pages.length){
     // the note sits under the last table; it only moves to a new page when there's truly no room for it
-    if(y+14>bottom){page();y=G.bannerY}
-    T(fit(state.endNote.toUpperCase(),12,"semibold",552),22.68,Math.min(y+25,bottom-2),12,"semibold",C.dir);
+    // a long note goes on as many lines as it needs, never cut off
+    const lines=[]; state.endNote.toUpperCase().split(/\s+/).filter(Boolean).forEach(w=>{const l=lines.length?lines[lines.length-1]+" "+w:w; if(lines.length&&width(l,12,"semibold")<=552)lines[lines.length-1]=l; else lines.push(w)});
+    const LH=15, hgt=(lines.length-1)*LH;
+    if(y+14+hgt>bottom){page();y=G.bannerY}
+    const y0=Math.min(y+25,bottom-2-hgt); lines.forEach((l,i)=>T(l,22.68,y0+i*LH,12,"semibold",C.dir));
   }
   return pages;
 }
@@ -4295,10 +4298,13 @@ function gTT(e){
   if(row)y=row.bottom;
   if(e.endNote&&pages.length){ const note=String(e.endNote).toUpperCase(), nw=width(note,7,"semibold");
     const under=row&&row.page===pages.length?row.cols.filter(c=>c.bottom+11<=LB&&c.w>=nw).sort((a,b)=>a.bottom-b.bottom)[0]:null;
-    if(y+11<=LB)O.T(fit(note,7,"semibold",XE-XB),XB,Math.min(y+14,LB),7,"semibold",GC.ink);
-    else if(under)O.T(note,under.x,Math.min(under.bottom+14,LB),7,"semibold",GC.ink); // under the shortest table in the last row
-    else if(row&&row.page===pages.length&&row.x+GAP+nw<=XE)O.T(note,row.x+GAP,row.bottom-2,7,"semibold",GC.ink); // beside the last table
-    else{newPage();y=14;O.T(fit(note,7,"semibold",XE-XB),XB,y+14,7,"semibold",GC.ink)} }
+    // a long note goes on as many lines as it needs, never cut off
+    const lines=[]; note.split(/\s+/).filter(Boolean).forEach(w=>{const l=lines.length?lines[lines.length-1]+" "+w:w; if(lines.length&&width(l,7,"semibold")<=XE-XB)lines[lines.length-1]=l; else lines.push(w)});
+    const LH=9, put=(x,y0)=>lines.forEach((l,i)=>O.T(l,x,y0+i*LH,7,"semibold",GC.ink)), hgt=(lines.length-1)*LH;
+    if(lines.length===1&&!(y+11<=LB)&&under)O.T(note,under.x,Math.min(under.bottom+14,LB),7,"semibold",GC.ink); // under the shortest table in the last row
+    else if(lines.length===1&&!(y+11<=LB)&&row&&row.page===pages.length&&row.x+GAP+nw<=XE)O.T(note,row.x+GAP,row.bottom-2,7,"semibold",GC.ink); // beside the last table
+    else if(y+14+hgt<=LB)put(XB,y+14);
+    else{newPage();y=14;put(XB,y+14)} }
   return pages;
 }
 
