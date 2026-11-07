@@ -2,6 +2,9 @@
 
 Central Connect's builder for timetables, route maps, fare charts and bus guides. Everything runs in the browser: open `index.html` (or the GitHub Pages site) and nothing needs installing.
 
+## Document Builder
+`document-builder/index.html` is the TMS Document Builder (staff notices, letters, diversion and bus posters, documents and presentations). It also runs in the browser with nothing to install, at `…/route-studio/document-builder/` on GitHub Pages.
+
 ## Where the data comes from
 - **Roads and places for maps:** OpenStreetMap, in 0.25° squares. `mapdata/` has every square around a stop on a Central Connect route, rebuilt weekly from Geofabrik's England extract. Anywhere else (a stops file for a new area), the browser downloads the missing squares live from the Overpass API and keeps them for 60 days.
 - **Stop positions:** NaPTAN, split by area in `naptan/` (found by NaPTAN code, town and stop name).
