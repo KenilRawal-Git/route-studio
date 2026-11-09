@@ -781,6 +781,10 @@ span.gbt{cursor:default}
           </div>
         </div>
         <p class="hint">Auto picks landscape for routes that run east to west or are small.</p>
+        <div class="field">Download size (mm)
+          <div class="row"><label>Width <input type="number" id="mapPageW" min="50" max="3000" step="1" inputmode="numeric" placeholder="210"></label>
+            <label>Height <input type="number" id="mapPageH" min="50" max="3000" step="1" inputmode="numeric" placeholder="297"></label></div>
+          <p class="hint">Leave both empty for A4. A bigger page is filled out with more of the map around the route, and the orientation above turns it landscape or portrait.</p></div>
         <div class="field">Journeys on the map
           <div class="row"><label>Days <select id="mapDays"><option value="mf">Monday to Friday</option><option value="all">Any day (the most stops)</option></select></label>
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
@@ -2834,8 +2838,22 @@ function mapStopsExtent(){
   if(!pts.length)return null;
   let s=90,n=-90,w=180,e=-180; pts.forEach(p=>{if(p.lat<s)s=p.lat;if(p.lat>n)n=p.lat;if(p.lon<w)w=p.lon;if(p.lon>e)e=p.lon});
   const py=Math.max((n-s)*0.35,0.04), px=Math.max((e-w)*0.6,0.06); // the page shows more than the stops, mostly sideways
-  return {s:s-py,n:n+py,w:w-px,e:e+px};
+  const ext={s:s-py,n:n+py,w:w-px,e:e+px};
+  // a custom download size: the map data also covers everything the bigger page shows around the route
+  if(mapPageMM()){const L=mapLayout({...mapCfg(),data:null,graph:null,cache:null});
+    if(L&&L.extent){const X=L.extent; ext.s=Math.min(ext.s,X.s); ext.n=Math.max(ext.n,X.n); ext.w=Math.min(ext.w,X.w); ext.e=Math.max(ext.e,X.e)}}
+  return ext;
 }
+function mapPageMM(){const p=mapState.pageMM; return p&&p.w>=50&&p.h>=50?p:null}
+// the size fields show the saved size, but never overwrite what is being typed
+function mapPageUi(){const pm=mapPageMM(); [["mapPageW",pm&&pm.w],["mapPageH",pm&&pm.h]].forEach(([id,v])=>{const el=$(id); if(document.activeElement!==el)el.value=v||""})}
+let mapPageT=0;
+function mapPageChanged(){
+  const w=parseFloat($("mapPageW").value), h=parseFloat($("mapPageH").value);
+  mapState.pageMM=(w>=50&&h>=50&&w<=3000&&h<=3000)?{w,h}:null;
+  clearTimeout(mapPageT); mapPageT=setTimeout(()=>{mapAutoData(); render()},350);
+}
+["mapPageW","mapPageH"].forEach(id=>$(id).addEventListener("input",mapPageChanged));
 async function mapAutoData(){
   const ext=mapStopsExtent(); if(!ext)return;
   if(await mapCellData(ext))return;   // 0.25° squares: pre-built for the operator's areas, downloaded live anywhere else (website)
@@ -3311,11 +3329,13 @@ function mapRenderRoutes(){
   if(!mapState.routes.length){box.innerHTML='<p class="hint">Add your stops to set up the routes.</p>';return}
   box.innerHTML=mapState.routes.map((r,i)=>{const c=mapColour(r.id,i); const ends=[...r.termini].sort((a,b)=>a-b).map(k=>r.stops[k]).filter(Boolean).map(s=>s.stop||s.town);
     return `<div class="sec" data-i="${i}">
-      <div class="rt"><input class="rid" value="${esc(r.id)}" maxlength="6" aria-label="Route number"${locked?" readonly title=\"Set on the Timetable tab\"":""} style="background:${c};color:${readableOn(c)};border-color:${c}"><span class="colorline"></span></div>
+      <div class="rt"><input class="rid" value="${esc(r.id)}" maxlength="6" aria-label="Route number"${locked?" readonly title=\"Set on the Timetable tab\"":""} style="background:${c};color:${readableOn(c)};border-color:${c}"><span class="colorline"></span>${mapState.routes.length>1?`<button type="button" class="ib" data-rm aria-label="Remove route ${esc(r.id)} from the map" title="Remove this route from the map">✕</button>`:""}</div>
       <p class="hint">${r.stops.length} stops · ${esc(r.stops[0].town)} to ${esc(r.stops[r.stops.length-1].town)}. ${esc(r.id)} badge at: ${esc([...new Set(ends)].join(", "))}.</p>
     </div>`}).join("")+(locked?'<p class="hint">Colours are shared with the timetable.</p>':"");
   box.querySelectorAll(".sec").forEach(el=>{const i=+el.dataset.i, r=mapState.routes[i];
     swatchRow(el.querySelector(".colorline"),mapColour(r.id,i),c=>mapSetColour(r.id,c),"map:"+r.id);
+    const rm=el.querySelector("[data-rm]");
+    if(rm)rm.addEventListener("click",()=>{mapState.routes.splice(i,1); mapSetRoutes(mapState.routes,mapState.source,mapState.ttRoutes)});
     const inp=el.querySelector(".rid");
     if(!locked)inp.addEventListener("change",()=>{const v=inp.value.trim(); if(!v||mapState.routes.some(o=>o!==r&&o.id===v)){inp.value=r.id;return}
       if(state.routeColors[r.id])state.routeColors[v]=state.routeColors[r.id]; r.id=v; mapRenderRoutes(); render()});
@@ -3362,6 +3382,7 @@ function mapRenderData(){
 function mapEnsure(){
   if(!mapState.builtin){try{const d=mapDecode(JSON.parse(document.getElementById("mapBuiltin").textContent));mapState.builtin={data:d,graph:mapGraph(d)}}catch(e){mapState.builtin=null}}
   $("mapValid").value=state.valid||"";
+  mapPageUi();
   if(mapFromTT())mapSyncFromTT();
   else if(!mapState.routes.length||(state.mode==="map"&&mapState.source==="Stops from your timetable"))mapLoadExample();
   mapRenderStops(); mapRenderRoutes(); mapRenderData();
@@ -3373,7 +3394,9 @@ function mapCfg(){
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
-  return {routes,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
+  if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
+  return {routes,...page,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -5212,9 +5235,9 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
-  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient;
+  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi();
   mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
