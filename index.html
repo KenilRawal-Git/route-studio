@@ -2147,12 +2147,7 @@ const mapIsTruthy=v=>/^(y|yes|true|1|x|✓)$/i.test(String(v||"").trim());
 
 /* ---------- layout ---------- */
 /* cfg: {routes:[{id,color,stops:[{town,stop,lon,lat,code}],termini:Set<index>}], data, graph, valid, notes, showKey} */
-/* text size slider: every label on the map is scaled after it is laid out (enlargements included) */
 function mapLayout(cfg){
-  const r=mapLayoutRaw(cfg), TS=cfg.textScale||1;
-  if(TS!==1&&!cfg.inset)r.ops.forEach(o=>{if(o.k==="t"||o.k==="tr")o.size*=TS});
-  return r}
-function mapLayoutRaw(cfg){
   const C=MAPX.col, INS=cfg.inset||null, GH_K=!INS&&cfg.guideHead?cfg.guideHead:0, HEAD=INS?0:GH_K?31*GH_K:MAPX.HEAD;   // in the bus guide: the guide's own header
   const ops=[], warn=[];
   const T=(text,x,y,size,w,color,align,angle)=>ops.push({k:"t",text:String(text),x,y,size,w,color,align,angle});
@@ -2413,7 +2408,8 @@ function mapLayoutRaw(cfg){
     const words=nm.split(" "); stations.push({x,y,lines:nearStop?[]:(words.length===1?[nm]:[words.slice(0,-1).join(" "),words[words.length-1]]),label:null});
     boxes.push([x-4,y-4,x+4,y+4])});
 
-  const crowdK=stops.length>45?0.9:stops.length>28?0.95:1, TF=(INS?9:10.2)*crowdK, SF=(INS?6.8:7.6)*crowdK, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
+  const TXS=cfg.textScale||1;   // the text size slider: labels are placed at this size, so they still fit and don't collide
+  const crowdK=(stops.length>45?0.9:stops.length>28?0.95:1)*TXS, TF=(INS?9:10.2)*crowdK, SF=(INS?6.8:7.6)*crowdK, BADGE_H=10.5, bw=r=>width(r.id,6.6,"semibold")+6;
   /* ----- enlargements: a tight cluster of stops (3 or more close together) is drawn again, bigger, in a box of its own;
      on the main map the cluster gets one label instead of a label per stop ----- */
   const insets=[];
@@ -2481,7 +2477,7 @@ function mapLayoutRaw(cfg){
     const split=k=>{let bestS=null; for(let i=1;i<W2.length;i++){const a=W2.slice(0,i).join(" "), b=W2.slice(i).join(" "), m=Math.max(width(a,TF*k,"medium"),width(b,TF*k,"medium")); if(!bestS||m<bestS.m)bestS={a,b,m}} return bestS};
     const build=(k,two)=>{const tf=TF*k, sf=SF*k, sp=two?split(k):null;
       const tw=sp?sp.m:width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0), nw=hasStop?width(s.stop,sf,"light"):0, wdt=Math.max(tw,nw);
-      const th=(sp?24:hasStop?22:13)*k, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
+      const th=(sp?24:hasStop?22:13)*k*TXS, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
       const anchors=[[x+9,y+th*0.55],[x-9-wdt,y+th*0.55],[x+8,y+th+9],[x-8-wdt,y+th+9],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+th+10]];
       for(const dist of [14,18,24,30,37,44,52,60,70,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:15){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
         anchors.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
@@ -2588,7 +2584,7 @@ function mapLayoutRaw(cfg){
   stations.forEach(st=>{roundel(st.x,st.y); if(st.label){const [mode,tx,ty]=st.label; st.lines.forEach((l,i)=>T(l,mode==="c"?st.x:tx,ty+i*6.2,5.6,"light",C.rail,mode==="c"?"center":undefined))}});
   const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",(r.tcol||badgeText(r.color)),"center"); return w};
   labels.forEach(({s,b,lay,k,hasStop,two})=>{
-    const tf=TF*k, sf=SF*k, th=(two?24:hasStop?22:13)*k;
+    const tf=TF*k, sf=SF*k, th=(two?24:hasStop?22:13)*k*TXS;
     const B=b[3]-1, lx=Math.min(Math.max(s.x,b[0]),b[2]-1), ly=Math.min(Math.max(s.y,B-th),B-1);
     if(Math.hypot(lx-s.x,ly-s.y)>9&&!s.cluster)ops.push({k:"l",x1:s.x,y1:s.y,x2:lx,y2:ly,c:"#6B6B6B",w:0.7});
     const tx=b[0]+2, ty=hasStop?B-13*k:B-3*k;
