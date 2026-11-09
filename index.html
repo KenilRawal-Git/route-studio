@@ -2218,7 +2218,7 @@ function mapLayout(cfg){
   let LAY=mk(PTOP,PBOT,PADX);
   /* use the page: the route is drawn as big as it fits with small margins, and the key and notes go in a corner the route
      leaves empty; only when no corner is free is a strip kept for them along the bottom */
-  if(!INS&&zoom===1){const t=mk(40,26,56), bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH);
+  if(!INS&&zoom===1){const t=mk(Math.max(40,H*0.05),Math.max(26,H*0.04),Math.max(56,W*0.09)), bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH);
     if(!bwK||!bhK)LAY=t;
     else{const mx=(lo0+lo1)/2, my=(la0+la1)/2, pts=all.map(([x,y])=>[(MX0+MX1)/2+(x-mx)*k*t.fit, MY0+t.pt+(MY1-MY0-t.pt-t.pb)/2-(y-my)*t.fit]);
       const free=([,x,y])=>!pts.some(([px,py])=>px>x-24&&px<x+bwK+24&&py>y-24&&py<y+bhK+24);
