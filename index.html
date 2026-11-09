@@ -4983,7 +4983,7 @@ function btMergeOrder(seqs){const master=[];
   [...seqs].sort((a,b)=>b.length-a.length).forEach(s=>{let last=-1; s.forEach(a=>{let i=master.indexOf(a,last+1); if(i<0){master.splice(last+1,0,a);i=last+1} last=i})});
   return master}
 async function btTimetable(svc,prog){
-  if(BTT.csv.has(svc.id))return BTT.csv.get(svc.id);
+  const ck=svc.id+"|"+svc.line_name; if(BTT.csv.has(ck))return BTT.csv.get(ck);
   const dates=btDates(); let done=0;
   const lists=await btPool(dates,4,async x=>{const d=await btGet(`trips/?service=${svc.id}&date=${x.date}`); prog&&prog(`reading the days it runs (${++done} of ${dates.length})`); return d.results||[]});
   const on=new Map(); lists.forEach((L,i)=>L.forEach(t=>{if(!on.has(t.id))on.set(t.id,[]); on.get(t.id).push(dates[i])}));
@@ -4994,7 +4994,11 @@ async function btTimetable(svc,prog){
   const det=await btPool(ids,4,async id=>{const d=await btGet(`trips/${id}/`); prog&&prog(`reading the journeys (${++done} of ${ids.length})`); return d});
   const hm=s=>{const [h,m]=String(s).split(":").map(Number); return h*60+m};
   const J=new Map(), paths=BTT.paths;
-  det.forEach((d,ix)=>{const tt=(d.times||[]).filter(x=>x.stop&&x.stop.atco_code&&(x.aimed_departure_time||x.aimed_arrival_time)); if(tt.length<2)return;
+  /* Bus Times sometimes files several routes under one (its 83A also holds the 84): keep only the journeys of the route picked */
+  const want=String(svc.line_name).trim().toLowerCase(), lineOf=d=>String((d.service&&d.service.line_name)||svc.line_name).trim().toLowerCase();
+  const mine=det.map((d,ix)=>[d,ix]).filter(([d])=>lineOf(d)===want), keep=mine.length?mine:det.map((d,ix)=>[d,ix]);
+  BTT.others=BTT.others||new Map(); BTT.others.set(svc.id,[...new Set(det.map(d=>String((d.service&&d.service.line_name)||"").trim()).filter(l=>l&&l.toLowerCase()!==want))]);
+  keep.forEach(([d,ix])=>{const tt=(d.times||[]).filter(x=>x.stop&&x.stop.atco_code&&(x.aimed_departure_time||x.aimed_arrival_time)); if(tt.length<2)return;
     tt.forEach(x=>{const a=x.stop.atco_code; if(!S.has(a)){const nm=btSplitName(x.stop.name); S.set(a,{...nm,lon:x.stop.location?x.stop.location[0]:NaN,lat:x.stop.location?x.stop.location[1]:NaN})}
       else if(!isFinite(S.get(a).lat)&&x.stop.location){S.get(a).lon=x.stop.location[0];S.get(a).lat=x.stop.location[1]}});
     let prev=-1; const all=tt.map(x=>{let m=hm(x.aimed_departure_time||x.aimed_arrival_time); while(prev>=0&&m<prev-180)m+=1440; prev=m; return [x.stop.atco_code,m]});
@@ -5059,7 +5063,11 @@ async function btTimetable(svc,prog){
   if(!nJ)throw new Error(`Route ${svc.line_name} doesn't run on a normal week in the next three weeks.`);
   const q=v=>{v=String(v); return /[",\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v};
   const out={text:lines.map(r=>r.map(q).join(",")).join("\r\n")+"\r\n", name:summary, journeys:nJ};
-  BTT.csv.set(svc.id,out);
+  BTT.csv.set(ck,out);
+  // the other routes Bus Times files under this one become choices of their own in the list
+  const oth=BTT.others.get(svc.id)||[], L=svc.noc&&BTT.svcs.get(svc.noc);
+  if(L)oth.forEach(l=>{if(!L.some(x=>x.line_name.toLowerCase()===l.toLowerCase()))L.push({...svc,line_name:l,description:`${svc.description} (listed under ${svc.line_name} on Bus Times)`})});
+  if(L)L.sort((a,b)=>btNat(a.line_name,b.line_name)||btNat(a.description,b.description));
   // the map's lines can now follow this route's roads
   if(typeof mapState!=="undefined"){mapState.cache=new Map(); guideState.blocks.forEach(b=>{if(b.cache)b.cache=new Map(); b._memo=null})}
   return out}
@@ -5117,7 +5125,8 @@ document.querySelectorAll(".srcpick").forEach(box=>box.querySelectorAll(".srct")
 (function btWire(){
   const single=(det,boxId,load)=>$(det).addEventListener("toggle",ev=>{if(!ev.target.open)return;
     btRender($(boxId),false,async s=>{const st=$("status"); st.className="status"; const what=`route ${s.line_name}`; st.textContent=`Loading ${what} from Bus Times…`;
-      try{await load(await btFile(s,m=>st.textContent=`Loading ${what} from Bus Times: ${m}…`)); if(!st.classList.contains("err"))st.textContent=`Loaded ${what} from Bus Times.`; $(det).open=false}
+      try{await load(await btFile(s,m=>st.textContent=`Loading ${what} from Bus Times: ${m}…`)); if(!st.classList.contains("err")){const o=(BTT.others.get(s.id)||[]).filter(l=>l.toLowerCase()!==String(s.line_name).toLowerCase());
+        st.textContent=`Loaded ${what} from Bus Times.`+(o.length?` Bus Times also files route${o.length>1?"s":""} ${o.join(", ")} under it; ${o.length>1?"they were":"it was"} left out, and ${o.length>1?"are":"is"} now in the list to pick on ${o.length>1?"their":"its"} own.`:"")} $(det).open=false}
       catch(e){st.className="status err";st.textContent=e.message}})});
   single("btTT","btTTPick",f=>handleFile(f)); single("btMap","btMapPick",f=>mapHandleFile(f));
   const upd=()=>{const box=$("gBtPick"), n=btChosen(box).length, have=new Set(gShown().flatMap(gEntryRoutes));
