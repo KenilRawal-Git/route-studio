@@ -2407,6 +2407,13 @@ function mapLayout(cfg){
   /* ----- enlargements: a tight cluster of stops (3 or more close together) is drawn again, bigger, in a box of its own;
      on the main map the cluster gets one label instead of a label per stop ----- */
   const insets=[];
+  /* would the enlarged map's labels fit inside a box this size? (so a box can be made smaller when they don't) */
+  const insetLabelsFit=(b,bbox,TB)=>{const iw=b[2]-b[0]-2, ih=b[3]-b[1]-TB-2;
+    const inner=mapLayout({...cfg,inset:{bbox},W:iw,H:ih,showKey:false,notes:"",zoom:1,insets:false});
+    return !inner.ops.some(o=>{if(o.k!=="t"&&o.k!=="tr")return false;
+      const txt=o.k==="t"?o.text:o.runs.map(r=>r[0]).join(""), wt=o.k==="t"?o.w:((o.runs[0]||[])[1]||"normal"), tw=width(txt,o.size,wt);
+      const left=o.k==="t"&&o.align==="right"?o.x-tw:o.k==="t"&&o.align==="center"?o.x-tw/2:o.x;
+      return left<0||left+tw>iw||o.y-o.size*0.8<0||o.y>ih})};
   /* the destination box: a label (Lexend SemiBold) or a picture, centred on the destination; the routes end under it */
   let DEST=null;
   if(SCH){const d=stops.find(s=>s.dest);
@@ -2432,16 +2439,20 @@ function mapLayout(cfg){
       const ov=(a,c)=>Math.max(0,Math.min(a[2],c[2])-Math.max(a[0],c[0]))*Math.max(0,Math.min(a[3],c[3])-Math.max(a[1],c[1]));
       // where the box goes: a corner or edge of the map that covers no stop, the key, the notes or another box, and as little route as
       // possible; a cluster with many stops gets a bigger box when there's room for one
+      // the box shrinks step by step until the enlarged map's labels fit inside it
       let best=null;
-      for(const big of g.length>=8?[1.4,1.15,1]:g.length>=5?[1.15,1]:[1]){const IW=(W>H?215:190)*big, IH=(W>H?165:150)*big;
+      for(const big of g.length>=8?[1.4,1.15,1,0.85,0.72]:g.length>=5?[1.15,1,0.85,0.72]:[1,0.85,0.72]){const IW=(W>H?215:190)*big, IH=(W>H?165:150)*big;
         if(Math.min((IW-2*34)/Math.max(gw,6),(IH-TB-2*16)/Math.max(gh,6))<2.2)continue;
+        let cur=null;
         const M=14, cand=[[MX1-IW-M,MY0+M],[MX0+M,MY0+M],[MX1-IW-M,MY1-IH-M-12],[MX1-IW-M,(MY0+MY1-IH)/2],[MX0+M,(MY0+MY1-IH)/2],[(MX0+MX1-IW)/2,MY0+M],[(MX0+MX1-IW)/2,MY1-IH-M-12]];
         if(KEY)cand.push([KEY[0],KEY[1]-IH-10],[KEY[2]+10,MY1-IH-M-12]); if(NOTE)cand.push([NOTE[0],NOTE[1]-IH-10]);
         cand.forEach(([ix,iy])=>{const b=[ix,iy,ix+IW,iy+IH]; if(b[0]<MX0||b[2]>MX1||b[1]<MY0||b[3]>MY1)return;
           if(stops.some(s=>s.x>b[0]-10&&s.x<b[2]+10&&s.y>b[1]-10&&s.y<b[3]+10)||ov(b,near)||(KEY&&ov(b,KEY))||(NOTE&&ov(b,NOTE))||insets.some(o=>ov(b,o.b)))return;
           const v=rpts.filter(([x,y])=>x>b[0]-4&&x<b[2]+4&&y>b[1]-4&&y<b[3]+4).length;
-          if(!best||v<best.v)best={v,b}});
-        if(best)break}
+          if(!cur||v<cur.v)cur={v,b}});
+        if(!cur)continue;
+        best=cur;
+        if(insetLabelsFit(cur.b,bbox,TB))break}
       if(!best)return;
       g.forEach(s=>s.inset=true); boxes.push(best.b);
       insets.push({b:best.b,bbox,town,g,TB,near,n:insets.length})});
