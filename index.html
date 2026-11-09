@@ -2506,10 +2506,21 @@ function mapLayout(cfg){
     // first only spots clear of every route line (names never sit on a route); only if there's none anywhere, the least covered
     // a name must read as its own stop's: no other stop may be as close to it as its own (so it isn't taken for the stop beside it)
     const nearOther=c=>{const d=rd(c.b,x,y); return stops.some(o=>!(o===s||o===s._s||(o.x===x&&o.y===y))&&rd(c.b,o.x,o.y)<d+5)};
+    // routes that run along the road at this point (whether or not they stop here)
+    const passIds=(px,py)=>{const ids=new Set(); runsAll.forEach(G=>{const C=G.C; for(let i=0;i+1<C.length;i++){const [ax,ay]=C[i],[bx2,by2]=C[i+1], dx=bx2-ax, dy=by2-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); if(Math.hypot(ax+t*dx-px,ay+t*dy-py)<9){G.members.forEach(m=>ids.add(routes[m.ri].id)); return}}}); return ids};
+    // a small "(83 only)" note when a stop is served by fewer of the routes that run along its road
+    const placeTag=(st,b)=>{const txt=`(${[...st.rs].join(" & ")} only)`, fs=6.2, tw=width(txt,fs,"semibold");
+      for(const [tx,ty] of [[b[0],b[3]+1],[b[2]-tw,b[3]+1],[b[0],b[1]-fs-2],[b[2]+2,b[3]-fs]]){const bx=[tx-1,ty-fs,tx+tw+1,ty+2];
+        if(!inside(bx,2)||hit(bx,1)||onRoute(bx,1))continue; boxes.push(bx); T(txt,tx,ty,fs,"semibold","#333333"); return}};
+    // a name must not sit across the pointer line of a stop already placed
+    const leaderInBox=c=>{const r=c.b; return leaders.some(L=>{const n=Math.max(2,Math.ceil(Math.hypot(L[2]-L[0],L[3]-L[1])/2)); for(let i=0;i<=n;i++){const qx=L[0]+(L[2]-L[0])*i/n, qy=L[1]+(L[3]-L[1])*i/n; if(qx>r[0]-1&&qx<r[2]+1&&qy>r[1]-1&&qy<r[3]+1)return true} return false})};
+    // a pointer line must not run through another name
+    const leaderThroughLabel=c=>{const b=c.b, px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]); if(Math.hypot(px-x,py-y)<=9)return false;
+      return labels.some(l=>{const r=l.b, n=Math.max(2,Math.ceil(Math.hypot(px-x,py-y)/2)); for(let i=1;i<n;i++){const qx=x+(px-x)*i/n, qy=y+(py-y)*i/n; if(qx>r[0]&&qx<r[2]&&qy>r[1]&&qy<r[3])return true} return false})};
     // a smaller name is used where the full size has no clear spot (so names never sit on the lines)
     for(const strict of [true,false]){
       for(const k of [1,0.9,0.8,0.7,0.6]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); if(strict)tried.push(all);
-        all.filter(c=>!onRoute(c.b,2)&&(!strict||!nearOther(c))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
+        all.filter(c=>!onRoute(c.b,2)&&(!strict||(!nearOther(c)&&!leaderThroughLabel(c)&&!leaderInBox(c)))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
       if(best)break}
     if(!best)tried.forEach(cs=>cs.forEach(c=>{c.cost=cost(c)+under(c.b)*25; if(!best||c.cost<best.cost)best=c}));
     if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
@@ -2517,6 +2528,7 @@ function mapLayout(cfg){
       cs.forEach(c=>{const ov=boxes.reduce((a,o)=>a+ovl(c.b,o),0)+Math.hypot(c.b[0]-x,c.b[3]-y)*0.05; if(ov<lo){lo=ov;best=c}})}
     if(!best)best={b:[x+7,y-12,x+60,y+1],lay:"above",k:1,hasStop};
     boxes.push(best.b); labels.push({s,...best});
+    if(!INS&&s.rs){const ids=passIds(x,y); if([...ids].some(id=>!s.rs.has(id)))placeTag(s,best.b)}
     {const b=best.b, px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]); if(Math.hypot(px-x,py-y)>9)leaders.push([x,y,px,py])}
   });
 
