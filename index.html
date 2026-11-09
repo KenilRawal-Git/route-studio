@@ -2524,7 +2524,7 @@ function mapLayout(cfg){
     // a smaller name is used where the full size has no clear spot (so names never sit on the lines)
     for(const strict of [true,false]){
       for(const k of [1,0.9,0.8,0.7,0.6]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); if(strict)tried.push(all);
-        all.filter(c=>!onRoute(c.b,2)&&(!strict||(!nearOther(c)&&!leaderThroughLabel(c)&&!leaderInBox(c)))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
+        all.filter(c=>!onRoute(c.b,2)&&!avoid.some(a=>a.s===s&&segHitsBox(a.seg,c.b))&&(!strict||(!nearOther(c)&&!leaderThroughLabel(c)&&!leaderInBox(c)))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
       if(best)break}
     if(!best)tried.forEach(cs=>cs.forEach(c=>{c.cost=cost(c)+under(c.b)*25; if(!best||c.cost<best.cost)best=c}));
     if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
@@ -2537,9 +2537,12 @@ function mapLayout(cfg){
   const leadOf=e=>{const b=e.b, x=e.s.x, y=e.s.y, px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]); return Math.hypot(px-x,py-y)>9?[x,y,px,py]:null};
   const segHitsBox=(L,r)=>{const n=Math.max(2,Math.ceil(Math.hypot(L[2]-L[0],L[3]-L[1])/2)); for(let i=1;i<n;i++){const qx=L[0]+(L[2]-L[0])*i/n, qy=L[1]+(L[3]-L[1])*i/n; if(qx>r[0]&&qx<r[2]&&qy>r[1]&&qy<r[3])return true} return false};
   const setLabel=e=>{e.lead=leadOf(e); boxes.push(e.b); labels.push(e); if(e.lead)leaders.push(e.lead)};
-  order.forEach(s=>setLabel(placeOne(s)));
-  // repair: a pointer line that runs through another name is re-placed (its own name, then the one it crosses)
   const crossedBy=(L,self)=>L&&labels.find(o=>o!==self&&segHitsBox(L,o.b))||null;
+  const boxBase=boxes.length; let ord=order.slice(); const avoid=[];   // on a retry: a name keeps off the pointer line it was crossing
+  for(let attempt=0;attempt<4;attempt++){
+  boxes.length=boxBase; labels.length=0; leaders.length=0;
+  ord.forEach(s=>setLabel(placeOne(s)));
+  // repair: a pointer line that runs through another name is re-placed (its own name, then the one it crosses)
   const tryReplace=e=>{const i=labels.indexOf(e), bi=boxes.indexOf(e.b), li=e.lead?leaders.indexOf(e.lead):-1;
     labels.splice(i,1); boxes.splice(bi,1); if(li>=0)leaders.splice(li,1);
     const ne=placeOne(e.s), nl=leadOf(ne);
@@ -2550,6 +2553,11 @@ function mapLayout(cfg){
     for(const A of labels.slice()){const B=crossedBy(A.lead,A); if(!B)continue;
       if(tryReplace(A)||tryReplace(B)){changed=true; break}}
     if(!changed)break}
+  // still a pointer line through a name: that name's stop is placed first next time, so it can take its own spot
+  const bad=labels.find(e=>crossedBy(e.lead,e));
+  if(!bad)break;
+  const B=crossedBy(bad.lead,bad); avoid.push({s:B.s,seg:bad.lead}); ord=[B.s,...ord.filter(s=>s!==B.s)];
+  }
   // the "(83 only)" notes go in last, once the names are settled
   labels.forEach(e=>{const s=e.s; if(!INS&&s.rs){const ids=passIds(s.x,s.y); if([...ids].some(id=>!s.rs.has(id)))placeTag(s,e.b)}});
 
