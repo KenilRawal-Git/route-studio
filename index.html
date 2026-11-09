@@ -2502,8 +2502,9 @@ function mapLayout(cfg){
       return v*(c.k===1?1:c.k>0.8?1.15:1.3)};
     const under=b=>{let n=0; for(const [rx,ry] of rpts)if(rx>b[0]&&rx<b[2]&&ry>b[1]&&ry<b[3])n++; return n};
     // first only spots clear of every route line (names never sit on a route); only if there's none anywhere, the least covered
-    for(const k of [1,0.9]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); tried.push(all);
-      all.filter(c=>!onRoute(c.b,2)).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best&&best.cost<25)break}
+    // a smaller name is used where the full size has no clear spot (so names never sit on the lines)
+    for(const k of [1,0.9,0.8,0.7,0.6]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); tried.push(all);
+      all.filter(c=>!onRoute(c.b,2)).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
     if(!best)tried.forEach(cs=>cs.forEach(c=>{c.cost=cost(c)+under(c.b)*25; if(!best||c.cost<best.cost)best=c}));
     if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
     if(!best){const cs=build(0.9); let lo=Infinity;   // nowhere free: the spot where it overlaps least
