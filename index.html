@@ -785,6 +785,8 @@ span.gbt{cursor:default}
           <div class="row"><label>Width <input type="number" id="mapPageW" min="50" max="3000" step="1" inputmode="numeric" placeholder="210"></label>
             <label>Height <input type="number" id="mapPageH" min="50" max="3000" step="1" inputmode="numeric" placeholder="297"></label></div>
           <p class="hint">Leave both empty for A4. A bigger page is filled out with more of the map around the route, and the orientation above turns it landscape or portrait.</p></div>
+        <div class="field">Space around the route <span class="opt" id="mapMarginV">100%</span>
+          <input type="range" id="mapMargin" min="0" max="200" step="5" value="100" aria-label="Space around the route"></div>
         <div class="field">Journeys on the map
           <div class="row"><label>Days <select id="mapDays"><option value="mf">Monday to Friday</option><option value="all">Any day (the most stops)</option></select></label>
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
@@ -2218,13 +2220,14 @@ function mapLayout(cfg){
   let LAY=mk(PTOP,PBOT,PADX);
   /* use the page: the route is drawn as big as it fits with small margins, and the key and notes go in a corner the route
      leaves empty; only when no corner is free is a strip kept for them along the bottom */
-  if(!INS&&zoom===1){const t=mk(Math.max(40,H*0.05),Math.max(26,H*0.04),Math.max(56,W*0.09)), bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH);
+  const MG=cfg.margin==null?1:cfg.margin;   // the "space around the route" slider
+  if(!INS&&zoom===1){const t=mk(Math.max(56,H*0.09)*MG,Math.max(48,H*0.08)*MG,Math.max(90,W*0.16)*MG), bwK=(keyH?KEYW:0)+(keyH&&noteH?10:0)+(noteH?NOTEW:0), bhK=Math.max(keyH,noteH);
     if(!bwK||!bhK)LAY=t;
     else{const mx=(lo0+lo1)/2, my=(la0+la1)/2, pts=all.map(([x,y])=>[(MX0+MX1)/2+(x-mx)*k*t.fit, MY0+t.pt+(MY1-MY0-t.pt-t.pb)/2-(y-my)*t.fit]);
       const free=([,x,y])=>!pts.some(([px,py])=>px>x-24&&px<x+bwK+24&&py>y-24&&py<y+bhK+24);
       const c=[["b",16,H-16-bhK],["b",W-16-bwK,H-16-bhK],["t",16,MY0+16],["t",W-16-bwK,MY0+16]].find(free);
       if(c){LAY=t;keyAt=c}
-      else{const m=mk(48,Math.min(PBOT,H*0.3),80); LAY=m.fit>LAY.fit?m:LAY}}}
+      else{const m=mk(Math.max(64,H*0.09)*MG,Math.min(PBOT,H*0.3),Math.max(100,W*0.16)*MG); LAY=m.fit>LAY.fit?m:LAY}}}
   PTOP=LAY.pt; PBOT=LAY.pb; PADX=LAY.px; const fit=LAY.fit;
   const scale=fit*zoom;
   let cx=(lo0+lo1)/2, cy=(la0+la1)/2;
@@ -2854,6 +2857,8 @@ function mapPageChanged(){
   clearTimeout(mapPageT); mapPageT=setTimeout(()=>{mapAutoData(); render()},350);
 }
 ["mapPageW","mapPageH"].forEach(id=>$(id).addEventListener("input",mapPageChanged));
+function mapMarginUi(){const v=Math.round((mapState.margin==null?1:mapState.margin)*100); $("mapMargin").value=v; $("mapMarginV").textContent=v+"%"}
+$("mapMargin").addEventListener("input",()=>{mapState.margin=$("mapMargin").value/100; mapMarginUi(); render()});
 async function mapAutoData(){
   const ext=mapStopsExtent(); if(!ext)return;
   if(await mapCellData(ext))return;   // 0.25° squares: pre-built for the operator's areas, downloaded live anywhere else (website)
@@ -3386,7 +3391,7 @@ function mapRenderData(){
 function mapEnsure(){
   if(!mapState.builtin){try{const d=mapDecode(JSON.parse(document.getElementById("mapBuiltin").textContent));mapState.builtin={data:d,graph:mapGraph(d)}}catch(e){mapState.builtin=null}}
   $("mapValid").value=state.valid||"";
-  mapPageUi();
+  mapPageUi(); mapMarginUi();
   if(mapFromTT())mapSyncFromTT();
   else if(!mapState.routes.length||(state.mode==="map"&&mapState.source==="Stops from your timetable"))mapLoadExample();
   mapRenderStops(); mapRenderRoutes(); mapRenderData();
@@ -3400,7 +3405,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -5239,9 +5244,9 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
-  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi();
+  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi();
   mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
