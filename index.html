@@ -1,4 +1,8 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.schoolhide{display:none!important}
+fieldset.collapsible>legend{cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none}
+fieldset.collapsible>legend::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s;opacity:.6}
+fieldset.collapsible.collapsed>legend::after{transform:rotate(-45deg)}
+fieldset.collapsible.collapsed>:not(legend){display:none}
 </style></head><body>
 <title>Central Connect Route Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -2473,7 +2477,13 @@ function mapLayout(cfg){
   const order=stops.filter(s=>!s.inset&&!s.quiet).map(s=>s.townOnly?{...s,stop:"",_s:s}:s).sort((a,b)=>crowd(b)-crowd(a));
   insets.forEach(I=>{const bd=[]; I.g.forEach(s=>s.badges.forEach(r=>{if(!bd.includes(r))bd.push(r)})); if(bd.length>3)bd.length=0;   // lots of termini: their badges are in the enlargement
     order.unshift({town:I.town,stop:"see the enlarged map",x:(I.near[0]+I.near[2])/2,y:(I.near[1]+I.near[3])/2,badges:bd,cluster:I})});
-  order.forEach(s=>{const {x,y}=s, hasStop=!!s.stop;
+  // routes that run along the road at this point (whether or not they stop here)
+    const passIds=(px,py)=>{const ids=new Set(); runsAll.forEach(G=>{const C=G.C; for(let i=0;i+1<C.length;i++){const [ax,ay]=C[i],[bx2,by2]=C[i+1], dx=bx2-ax, dy=by2-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); if(Math.hypot(ax+t*dx-px,ay+t*dy-py)<9){G.members.forEach(m=>ids.add(routes[m.ri].id)); return}}}); return ids};
+  // a small "(83 only)" note when a stop is served by fewer of the routes that run along its road
+    const placeTag=(st,b)=>{const txt=`(${[...st.rs].join(" & ")} only)`, fs=6.2, tw=width(txt,fs,"semibold");
+      for(const [tx,ty] of [[b[0],b[3]+1],[b[2]-tw,b[3]+1],[b[0],b[1]-fs-2],[b[2]+2,b[3]-fs]]){const bx=[tx-1,ty-fs,tx+tw+1,ty+2];
+        if(!inside(bx,2)||hit(bx,1)||onRoute(bx,1))continue; boxes.push(bx); T(txt,tx,ty,fs,"semibold","#333333"); return}};
+  const placeOne=s=>{const {x,y}=s, hasStop=!!s.stop;
     // a name of two or more words can also go on two lines beside its stop ("East / Bergholt")
     const W2=String(s.town||"").split(/\s+/).filter(Boolean), canTwo=!hasStop&&W2.length>1&&!s.badges.length&&!s.cluster;
     const split=k=>{let bestS=null; for(let i=1;i<W2.length;i++){const a=W2.slice(0,i).join(" "), b=W2.slice(i).join(" "), m=Math.max(width(a,TF*k,"medium"),width(b,TF*k,"medium")); if(!bestS||m<bestS.m)bestS={a,b,m}} return bestS};
@@ -2506,12 +2516,6 @@ function mapLayout(cfg){
     // first only spots clear of every route line (names never sit on a route); only if there's none anywhere, the least covered
     // a name must read as its own stop's: no other stop may be as close to it as its own (so it isn't taken for the stop beside it)
     const nearOther=c=>{const d=rd(c.b,x,y); return stops.some(o=>!(o===s||o===s._s||(o.x===x&&o.y===y))&&rd(c.b,o.x,o.y)<d+5)};
-    // routes that run along the road at this point (whether or not they stop here)
-    const passIds=(px,py)=>{const ids=new Set(); runsAll.forEach(G=>{const C=G.C; for(let i=0;i+1<C.length;i++){const [ax,ay]=C[i],[bx2,by2]=C[i+1], dx=bx2-ax, dy=by2-ay, l2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/l2)); if(Math.hypot(ax+t*dx-px,ay+t*dy-py)<9){G.members.forEach(m=>ids.add(routes[m.ri].id)); return}}}); return ids};
-    // a small "(83 only)" note when a stop is served by fewer of the routes that run along its road
-    const placeTag=(st,b)=>{const txt=`(${[...st.rs].join(" & ")} only)`, fs=6.2, tw=width(txt,fs,"semibold");
-      for(const [tx,ty] of [[b[0],b[3]+1],[b[2]-tw,b[3]+1],[b[0],b[1]-fs-2],[b[2]+2,b[3]-fs]]){const bx=[tx-1,ty-fs,tx+tw+1,ty+2];
-        if(!inside(bx,2)||hit(bx,1)||onRoute(bx,1))continue; boxes.push(bx); T(txt,tx,ty,fs,"semibold","#333333"); return}};
     // a name must not sit across the pointer line of a stop already placed
     const leaderInBox=c=>{const r=c.b; return leaders.some(L=>{const n=Math.max(2,Math.ceil(Math.hypot(L[2]-L[0],L[3]-L[1])/2)); for(let i=0;i<=n;i++){const qx=L[0]+(L[2]-L[0])*i/n, qy=L[1]+(L[3]-L[1])*i/n; if(qx>r[0]-1&&qx<r[2]+1&&qy>r[1]-1&&qy<r[3]+1)return true} return false})};
     // a pointer line must not run through another name
@@ -2527,10 +2531,27 @@ function mapLayout(cfg){
     if(!best){const cs=build(0.9); let lo=Infinity;   // nowhere free: the spot where it overlaps least
       cs.forEach(c=>{const ov=boxes.reduce((a,o)=>a+ovl(c.b,o),0)+Math.hypot(c.b[0]-x,c.b[3]-y)*0.05; if(ov<lo){lo=ov;best=c}})}
     if(!best)best={b:[x+7,y-12,x+60,y+1],lay:"above",k:1,hasStop};
-    boxes.push(best.b); labels.push({s,...best});
-    if(!INS&&s.rs){const ids=passIds(x,y); if([...ids].some(id=>!s.rs.has(id)))placeTag(s,best.b)}
-    {const b=best.b, px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]); if(Math.hypot(px-x,py-y)>9)leaders.push([x,y,px,py])}
-  });
+    return {s,...best}
+  };
+  // a name is kept with its box, and its pointer line when it has one
+  const leadOf=e=>{const b=e.b, x=e.s.x, y=e.s.y, px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]); return Math.hypot(px-x,py-y)>9?[x,y,px,py]:null};
+  const segHitsBox=(L,r)=>{const n=Math.max(2,Math.ceil(Math.hypot(L[2]-L[0],L[3]-L[1])/2)); for(let i=1;i<n;i++){const qx=L[0]+(L[2]-L[0])*i/n, qy=L[1]+(L[3]-L[1])*i/n; if(qx>r[0]&&qx<r[2]&&qy>r[1]&&qy<r[3])return true} return false};
+  const setLabel=e=>{e.lead=leadOf(e); boxes.push(e.b); labels.push(e); if(e.lead)leaders.push(e.lead)};
+  order.forEach(s=>setLabel(placeOne(s)));
+  // repair: a pointer line that runs through another name is re-placed (its own name, then the one it crosses)
+  const crossedBy=(L,self)=>L&&labels.find(o=>o!==self&&segHitsBox(L,o.b))||null;
+  const tryReplace=e=>{const i=labels.indexOf(e), bi=boxes.indexOf(e.b), li=e.lead?leaders.indexOf(e.lead):-1;
+    labels.splice(i,1); boxes.splice(bi,1); if(li>=0)leaders.splice(li,1);
+    const ne=placeOne(e.s), nl=leadOf(ne);
+    const bad=crossedBy(nl,null)||labels.some(o=>o.lead&&segHitsBox(o.lead,ne.b));
+    if(ne&&!bad){ne.lead=nl; labels.splice(i,0,ne); boxes.push(ne.b); if(nl)leaders.push(nl); return true}
+    labels.splice(i,0,e); boxes.push(e.b); if(e.lead)leaders.push(e.lead); return false};
+  for(let pass=0;pass<4;pass++){let changed=false;
+    for(const A of labels.slice()){const B=crossedBy(A.lead,A); if(!B)continue;
+      if(tryReplace(A)||tryReplace(B)){changed=true; break}}
+    if(!changed)break}
+  // the "(83 only)" notes go in last, once the names are settled
+  labels.forEach(e=>{const s=e.s; if(!INS&&s.rs){const ids=passIds(s.x,s.y); if([...ids].some(id=>!s.rs.has(id)))placeTag(s,e.b)}});
 
   /* station names: below, right or left of the roundel, else left off */
   stations.forEach(st=>{if(!st.lines.length)return; const nw=Math.max(...st.lines.map(l=>width(l,5.6,"light"))), nh=6.2*st.lines.length, {x,y}=st;
@@ -3472,6 +3493,13 @@ async function mapDownload(){
   catch(err){st.className="status err";st.textContent="Something went wrong creating the PDF: "+(err&&err.message||err)}
   finally{btn.disabled=false}
 }
+
+/* the map tool's sections fold away under their titles; open one to change its settings */
+["mapStopsSet","mapRoutesSet","mapViewSet","mapTextSet","mapDataSet"].forEach(id=>{const fs=$(id); if(!fs)return;
+  fs.classList.add("collapsible","collapsed"); const lg=fs.querySelector(":scope>legend"); if(!lg)return;
+  lg.tabIndex=0; lg.setAttribute("role","button"); const sync=()=>lg.setAttribute("aria-expanded",String(!fs.classList.contains("collapsed")));
+  const flip=()=>{fs.classList.toggle("collapsed"); sync()}; sync();
+  lg.addEventListener("click",flip); lg.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}})});
 
 /* ---------- wiring ---------- */
 function mapDropZone(zone,input,handler){
