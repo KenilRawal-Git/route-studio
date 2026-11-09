@@ -515,7 +515,7 @@ span.gbt{cursor:default}
   <button type="button" id="segHome" class="home" aria-label="All tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
   <span class="tdiv" aria-hidden="true"></span>
   <button type="button" data-tab="tt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg><span>Timetable</span></button><button type="button" data-tab="map" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>Route map</span></button><button type="button" data-tab="fare" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V5h18v4a3 3 0 0 0 0 6v4H3v-4a3 3 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 2"/></svg><span>Fare chart</span></button><button type="button" data-tab="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5z"/><path d="M12 6v14"/></svg><span>Bus guide</span></button>
-<button type="button" class="tabopen" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save school map</span></button><label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
+<button type="button" class="tabopen" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save school map</span></button><button type="button" class="tabopen" id="goMapSave" data-mapsave hidden title="Save this map to a project file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save map</span></button><label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
 </div></nav>
 <div class="wrap">
   <section class="choose" id="choose">
@@ -2562,7 +2562,7 @@ function mapLayout(cfg){
     if(t.two||!t.fwd)seg([a0+2.6,-2],[a0,0.2],[a0+2.6,2.4])});
   const roundel=(x,y,r=3.7)=>ops.push({k:"rail",x,y,r});
   stations.forEach(st=>{roundel(st.x,st.y); if(st.label){const [mode,tx,ty]=st.label; st.lines.forEach((l,i)=>T(l,mode==="c"?st.x:tx,ty+i*6.2,5.6,"light",C.rail,mode==="c"?"center":undefined))}});
-  const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",badgeText(r.color),"center"); return w};
+  const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",(r.tcol||badgeText(r.color)),"center"); return w};
   labels.forEach(({s,b,lay,k,hasStop,two})=>{
     const tf=TF*k, sf=SF*k, th=(two?24:hasStop?22:13)*k;
     const B=b[3]-1, lx=Math.min(Math.max(s.x,b[0]),b[2]-1), ly=Math.min(Math.max(s.y,B-th),B-1);
@@ -2612,14 +2612,14 @@ function mapLayout(cfg){
   /* ----- header ----- */
   if(GH_K){const k=GH_K; // the bus guide's header, like its timetable pages: the route numbers, then the title (no logo or date)
     ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
-    let gx=17.7*k; routes.forEach(r=>{const w=Math.max(21*k,width(r.id,12.5*k,"medium")+9*k); ops.push({k:"r",x:gx,y:5*k,w,h:21*k,c:r.color,rx:3.5*k}); T(r.id,gx+w/2,20*k,12.5*k,"medium",badgeText(r.color),"center"); gx+=w+2.3*k});
+    let gx=17.7*k; routes.forEach(r=>{const w=Math.max(21*k,width(r.id,12.5*k,"medium")+9*k); ops.push({k:"r",x:gx,y:5*k,w,h:21*k,c:r.color,rx:3.5*k}); T(r.id,gx+w/2,20*k,12.5*k,"medium",(r.tcol||badgeText(r.color)),"center"); gx+=w+2.3*k});
     T(cfg.title||"Route Map",gx+16*k,18.4*k,7*k,"light","#FFFFFF");
     if(cfg.credits!==false)T("© OpenStreetMap contributors. Stop data: NaPTAN (DfT), Open Government Licence.",W-5,H-5,4.8,"light",C.credit,"right");
     return {ops,warn,extent,coverage,W,H}}
   ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
   if(cfg.headMode==="text"&&String(cfg.headText||"").trim()){   // a heading in words instead of the route numbers
     let t=String(cfg.headText).trim(), fs=22; while(fs>12&&width(t,fs,"semibold")>W-200)fs-=1; T(t,22.68,39,fs,"semibold","#FFFFFF")}
-  else{let bx=22.68; routes.forEach(r=>{const w=Math.max(29,width(r.id,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:r.color,rx:5}); T(r.id,bx+w/2,36.9,18,"medium",badgeText(r.color),"center"); bx+=w+4})}
+  else{let bx=22.68; routes.forEach(r=>{const w=Math.max(29,width(r.id,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:r.color,rx:5}); T(r.id,bx+w/2,36.9,18,"medium",(r.tcol||badgeText(r.color)),"center"); bx+=w+4})}
   T(cfg.title||"Route Map",22.68,58.14,9,"light","#FFFFFF");
   ops.push({k:"img",x:W-119.25,y:8.95,w:106.76,h:42.41});
   { const vt=String(cfg.validText||"").trim(); if(vt||cfg.valid)T(vt||`Valid from ${longDate(cfg.valid)}`,W-22.68,58.28,9,"light","#FFFFFF","right") }   // the date, or any text of your own
@@ -3191,7 +3191,7 @@ function mapSyncFromTT(){
 }
 function mapSetRoutes(routes,source,fromTimetable){
   mapState.routes=routes; mapState.ttRoutes=!!fromTimetable; mapState.source=source; mapState.cache=new Map(); mapState.lastMatch=null;
-  mapCountMissing(); mapRenderStops(); mapShowMatch(); mapShowMissing(); mapRenderRoutes(); mapRenderData(); render();
+  mapCountMissing(); mapRenderStops(); mapShowMatch(); mapShowMissing(); mapRenderRoutes(); mapRenderData(); scUi(); render();
   mapState.resolveP=mapResolve();
 }
 function mapRenderStops(){
@@ -3330,10 +3330,14 @@ function mapRenderRoutes(){
   box.innerHTML=mapState.routes.map((r,i)=>{const c=mapColour(r.id,i); const ends=[...r.termini].sort((a,b)=>a-b).map(k=>r.stops[k]).filter(Boolean).map(s=>s.stop||s.town);
     return `<div class="sec" data-i="${i}">
       <div class="rt"><input class="rid" value="${esc(r.id)}" maxlength="6" aria-label="Route number"${locked?" readonly title=\"Set on the Timetable tab\"":""} style="background:${c};color:${readableOn(c)};border-color:${c}"><span class="colorline"></span>${mapState.routes.length>1?`<button type="button" class="ib" data-rm aria-label="Remove route ${esc(r.id)} from the map" title="Remove this route from the map">✕</button>`:""}</div>
+      <div class="rt" style="margin-top:6px"><span class="hint" style="margin:0">Text on the badge</span><span class="colorline txtsw"></span>${(mapState.routeText||{})[r.id]?'<button type="button" class="linkbtn" data-tauto>Automatic</button>':""}</div>
       <p class="hint">${r.stops.length} stops · ${esc(r.stops[0].town)} to ${esc(r.stops[r.stops.length-1].town)}. ${esc(r.id)} badge at: ${esc([...new Set(ends)].join(", "))}.</p>
     </div>`}).join("")+(locked?'<p class="hint">Colours are shared with the timetable.</p>':"");
   box.querySelectorAll(".sec").forEach(el=>{const i=+el.dataset.i, r=mapState.routes[i];
     swatchRow(el.querySelector(".colorline"),mapColour(r.id,i),c=>mapSetColour(r.id,c),"map:"+r.id);
+    const setText=t=>{mapState.routeText=mapState.routeText||{}; if(t)mapState.routeText[r.id]=t; else delete mapState.routeText[r.id]; render(); mapRenderRoutes()};
+    swatchRow(el.querySelector(".txtsw"),(mapState.routeText||{})[r.id]||badgeText(mapColour(r.id,i)),setText,"maptxt:"+r.id);
+    const ta=el.querySelector("[data-tauto]"); if(ta)ta.addEventListener("click",()=>setText(null));
     const rm=el.querySelector("[data-rm]");
     if(rm)rm.addEventListener("click",()=>{mapState.routes.splice(i,1); mapSetRoutes(mapState.routes,mapState.source,mapState.ttRoutes)});
     const inp=el.querySelector(".rid");
@@ -3389,7 +3393,7 @@ function mapEnsure(){
 }
 function mapCfg(){
   const D=mapData();
-  const routes=mapState.routes.map((r,i)=>({id:r.id,color:mapColour(r.id,i),termini:r.termini,stops:r.stops})).map(r=>{
+  const routes=mapState.routes.map((r,i)=>({id:r.id,color:mapColour(r.id,i),tcol:(mapState.routeText||{})[r.id]||null,termini:r.termini,stops:r.stops})).map(r=>{
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
@@ -3529,7 +3533,7 @@ const scSaveFile=async()=>{const msg=$("scMsg");
 document.querySelectorAll("[data-scsave]").forEach(b=>b.addEventListener("click",scSaveFile));
 // school maps: their routes and colours are set in the route rows above, so the map's own list is hidden, and saving sits by the download button
 function scUi(){const sch=mapState.kind==="school", map=state.stage==="map";
-  $("mapRoutesSet").classList.toggle("schoolhide",sch); $("goSchoolSave").hidden=!(sch&&map)}
+  $("mapRoutesSet").classList.toggle("schoolhide",sch); $("goSchoolSave").hidden=!(sch&&map); $("goMapSave").hidden=!(!sch&&map&&mapState.routes.length)}
 $("scCsv").addEventListener("change",async ev=>{const f=ev.target.files[0]; ev.target.value=""; if(!f)return; const msg=$("scMsg");
   try{let rows; if(/\.xlsx$/i.test(f.name)){const sh=await parseXLSX(await f.arrayBuffer()); rows=sh[0]?sh[0].rows:[]} else rows=parseCSV(await f.text());
     const rs=mapParseStops(rows);
@@ -5483,6 +5487,9 @@ async function wOpenProject(f){
       if(sc.headMode){mapState.headMode=sc.headMode; mapState.headText=sc.headText||""; mapHeadUi()}
       if("bandGap" in sc){mapState.bandGap=!!sc.bandGap; $("mapBand").value=sc.bandGap?"1":"0"} if("credits" in sc){mapState.credits=sc.credits!==false; $("mapCredits").checked=mapState.credits}   // and the school map (Route map tab › School map)
       SCHOOL.routes.forEach(r=>{if(r.color)state.routeColors[r.id]=r.color}); scRender()}
+    if(!(d.W.routes||[]).some(r=>wIds(r).length)&&d.tools&&d.tools.map&&!d.tools.school&&!d.tools.fare){   // a route map on its own: open the map tool, ready to change
+      W.on=false; wRender(); pick("map"); mapOpenFile(d.tools.map);
+      msg.className="hint"; msg.textContent=`Opened ${f.name}.`; return}
     if(!(d.W.routes||[]).some(r=>wIds(r).length)&&d.tools&&(d.tools.school||d.tools.fare)){   // a school map or fare chart file on its own: open that tool, ready to change
       W.on=false; wRender();
       if(d.tools.school){const sc=d.tools.school; pick("map"); if(sc.notes!=null){mapState.notes=sc.notes;$("mapNotes").value=sc.notes}
@@ -5493,6 +5500,24 @@ async function wOpenProject(f){
     W.on=false; wStart(false);
   }catch(e){const t=e instanceof SyntaxError?"That file couldn't be read as a Route Studio project.":(e.message||"That file couldn't be opened.");
     msg.className="hint err"; msg.textContent=t; if(!$("builder").hidden)wNote(t,true)}
+}
+// a route map on its own, as a project file: open it again to make changes
+const mapSaveFile=async()=>{const msg=$("status");
+  const R=mapState.routes; if(!R.some(r=>r.stops.some(s=>isFinite(s.lat)&&isFinite(s.lon)))){msg.className="status err"; msg.textContent="Add your stops first."; return}
+  const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
+  const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
+  const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:mapState.routeText||{},snap:mapSnapW()}},W:{routes:[],nets:[]},guide:{}};
+  const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
+  await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
+document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
+function mapOpenFile(m){
+  mapSetKind("route");
+  Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.routeText=m.routeText||{};
+  mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
+  const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
+  mapSetRoutes(routes,m.source||"Map file",false);
 }
 (function wWire2(){
   $("wSaveFile").addEventListener("click",wSaveProject);
