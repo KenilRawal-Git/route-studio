@@ -791,6 +791,8 @@ span.gbt{cursor:default}
           <input type="range" id="mapShift" min="-100" max="100" step="5" value="0" aria-label="Move the route left or right"></div>
         <div class="field">Text size <span class="opt" id="mapTextV">100%</span>
           <input type="range" id="mapText" min="60" max="150" step="5" value="100" aria-label="Text size on the map"></div>
+        <div class="field">Enlarged areas size <span class="opt" id="mapInsetV">100%</span>
+          <input type="range" id="mapInset" min="60" max="150" step="5" value="100" aria-label="Size of the enlarged areas"></div>
         <div class="field">Journeys on the map
           <div class="row"><label>Days <select id="mapDays"><option value="mf">Monday to Friday</option><option value="all">Any day (the most stops)</option></select></label>
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
@@ -2447,7 +2449,7 @@ function mapLayout(cfg){
       // possible; a cluster with many stops gets a bigger box when there's room for one
       // the box shrinks step by step until the enlarged map's labels fit inside it
       let best=null;
-      for(const big of g.length>=8?[1.4,1.15,1,0.85,0.72]:g.length>=5?[1.15,1,0.85,0.72]:[1,0.85,0.72]){const IW=(W>H?215:190)*big, IH=(W>H?165:150)*big;
+      for(const big of g.length>=8?[1.4,1.15,1,0.85,0.72]:g.length>=5?[1.15,1,0.85,0.72]:[1,0.85,0.72]){const IW=(W>H?215:190)*big*(cfg.insetPct||100)/100, IH=(W>H?165:150)*big*(cfg.insetPct||100)/100;   // the enlargement size slider
         if(Math.min((IW-2*34)/Math.max(gw,6),(IH-TB-2*16)/Math.max(gh,6))<2.2)continue;
         let cur=null;
         const M=14, cand=[[MX1-IW-M,MY0+M],[MX0+M,MY0+M],[MX1-IW-M,MY1-IH-M-12],[MX1-IW-M,(MY0+MY1-IH)/2],[MX0+M,(MY0+MY1-IH)/2],[(MX0+MX1-IW)/2,MY0+M],[(MX0+MX1-IW)/2,MY1-IH-M-12]];
@@ -2885,6 +2887,8 @@ function mapShiftUi(){const v=+(mapState.shiftX||0); $("mapShift").value=v; $("m
 $("mapShift").addEventListener("input",()=>{mapState.shiftX=+$("mapShift").value; mapShiftUi(); render()});
 function mapTextUi(){const v=mapState.textPct||100; $("mapText").value=v; $("mapTextV").textContent=v+"%"}
 $("mapText").addEventListener("input",()=>{mapState.textPct=+$("mapText").value; mapTextUi(); render()});
+function mapInsetUi(){const v=mapState.insetPct||100; $("mapInset").value=v; $("mapInsetV").textContent=v+"%"}
+$("mapInset").addEventListener("input",()=>{mapState.insetPct=+$("mapInset").value; mapInsetUi(); render()});
 async function mapAutoData(){
   const ext=mapStopsExtent(); if(!ext)return;
   if(await mapCellData(ext))return;   // 0.25° squares: pre-built for the operator's areas, downloaded live anywhere else (website)
@@ -3417,7 +3421,7 @@ function mapRenderData(){
 function mapEnsure(){
   if(!mapState.builtin){try{const d=mapDecode(JSON.parse(document.getElementById("mapBuiltin").textContent));mapState.builtin={data:d,graph:mapGraph(d)}}catch(e){mapState.builtin=null}}
   $("mapValid").value=state.valid||"";
-  mapPageUi(); mapMarginUi(); mapShiftUi(); mapTextUi();
+  mapPageUi(); mapMarginUi(); mapShiftUi(); mapTextUi(); mapInsetUi();
   if(mapFromTT())mapSyncFromTT();
   else if(!mapState.routes.length||(state.mode==="map"&&mapState.source==="Stops from your timetable"))mapLoadExample();
   mapRenderStops(); mapRenderRoutes(); mapRenderData();
@@ -3431,7 +3435,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -5270,9 +5274,9 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textPct:mapState.textPct||100,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textPct:mapState.textPct||100,insetPct:mapState.insetPct||100,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
-  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi(); mapState.shiftX=m.shiftX||0; mapShiftUi(); mapState.textPct=m.textPct||100; mapTextUi();
+  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi(); mapState.shiftX=m.shiftX||0; mapShiftUi(); mapState.textPct=m.textPct||100; mapTextUi(); mapState.insetPct=m.insetPct||100; mapInsetUi();
   mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
