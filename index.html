@@ -789,6 +789,8 @@ span.gbt{cursor:default}
           <input type="range" id="mapMargin" min="0" max="200" step="5" value="100" aria-label="Space around the route"></div>
         <div class="field">Move the route <span class="opt" id="mapShiftV">Centred</span>
           <input type="range" id="mapShift" min="-100" max="100" step="5" value="0" aria-label="Move the route left or right"></div>
+        <div class="field">Text size <span class="opt" id="mapTextV">100%</span>
+          <input type="range" id="mapText" min="60" max="150" step="5" value="100" aria-label="Text size on the map"></div>
         <div class="field">Journeys on the map
           <div class="row"><label>Days <select id="mapDays"><option value="mf">Monday to Friday</option><option value="all">Any day (the most stops)</option></select></label>
             <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
@@ -2145,7 +2147,12 @@ const mapIsTruthy=v=>/^(y|yes|true|1|x|✓)$/i.test(String(v||"").trim());
 
 /* ---------- layout ---------- */
 /* cfg: {routes:[{id,color,stops:[{town,stop,lon,lat,code}],termini:Set<index>}], data, graph, valid, notes, showKey} */
+/* text size slider: every label on the map is scaled after it is laid out (enlargements included) */
 function mapLayout(cfg){
+  const r=mapLayoutRaw(cfg), TS=cfg.textScale||1;
+  if(TS!==1&&!cfg.inset)r.ops.forEach(o=>{if(o.k==="t"||o.k==="tr")o.size*=TS});
+  return r}
+function mapLayoutRaw(cfg){
   const C=MAPX.col, INS=cfg.inset||null, GH_K=!INS&&cfg.guideHead?cfg.guideHead:0, HEAD=INS?0:GH_K?31*GH_K:MAPX.HEAD;   // in the bus guide: the guide's own header
   const ops=[], warn=[];
   const T=(text,x,y,size,w,color,align,angle)=>ops.push({k:"t",text:String(text),x,y,size,w,color,align,angle});
@@ -2875,6 +2882,8 @@ function mapMarginUi(){const v=Math.round((mapState.margin==null?1:mapState.marg
 $("mapMargin").addEventListener("input",()=>{mapState.margin=$("mapMargin").value/100; mapMarginUi(); render()});
 function mapShiftUi(){const v=+(mapState.shiftX||0); $("mapShift").value=v; $("mapShiftV").textContent=v===0?"Centred":(v<0?"Left ":"Right ")+Math.abs(v)+"%"}
 $("mapShift").addEventListener("input",()=>{mapState.shiftX=+$("mapShift").value; mapShiftUi(); render()});
+function mapTextUi(){const v=mapState.textPct||100; $("mapText").value=v; $("mapTextV").textContent=v+"%"}
+$("mapText").addEventListener("input",()=>{mapState.textPct=+$("mapText").value; mapTextUi(); render()});
 async function mapAutoData(){
   const ext=mapStopsExtent(); if(!ext)return;
   if(await mapCellData(ext))return;   // 0.25° squares: pre-built for the operator's areas, downloaded live anywhere else (website)
@@ -3407,7 +3416,7 @@ function mapRenderData(){
 function mapEnsure(){
   if(!mapState.builtin){try{const d=mapDecode(JSON.parse(document.getElementById("mapBuiltin").textContent));mapState.builtin={data:d,graph:mapGraph(d)}}catch(e){mapState.builtin=null}}
   $("mapValid").value=state.valid||"";
-  mapPageUi(); mapMarginUi(); mapShiftUi();
+  mapPageUi(); mapMarginUi(); mapShiftUi(); mapTextUi();
   if(mapFromTT())mapSyncFromTT();
   else if(!mapState.routes.length||(state.mode==="map"&&mapState.source==="Stops from your timetable"))mapLoadExample();
   mapRenderStops(); mapRenderRoutes(); mapRenderData();
@@ -3421,7 +3430,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -5260,9 +5269,9 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textPct:mapState.textPct||100,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
-  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi(); mapState.shiftX=m.shiftX||0; mapShiftUi();
+  mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi(); mapState.shiftX=m.shiftX||0; mapShiftUi(); mapState.textPct=m.textPct||100; mapTextUi();
   mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
