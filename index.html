@@ -1,8 +1,4 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.schoolhide{display:none!important}
-fieldset.collapsible>legend{cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none}
-fieldset.collapsible>legend::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s;opacity:.6}
-fieldset.collapsible.collapsed>legend::after{transform:rotate(-45deg)}
-fieldset.collapsible.collapsed>:not(legend){display:none}
 </style></head><body>
 <title>Central Connect Route Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -806,6 +802,7 @@ span.gbt{cursor:default}
         <label class="check"><input type="checkbox" id="mapFade" checked> Fade the map's edges <span class="opt">The map softens to white at the sides</span></label>
         <label class="check"><input type="checkbox" id="mapCredits" checked> Show the map credits <span class="opt">The small OpenStreetMap and NaPTAN line at the bottom</span></label>
         <label>Map style <select id="mapStyle"><option value="auto">Auto (summary for busy networks)</option><option value="detailed">Every stop named</option><option value="summary">Summary: towns and villages only</option><option value="tube">Tube style: straight lines on a plain map</option></select></label>
+        <label class="check"><input type="checkbox" id="mapRepeat"> Show repeated town names once <span class="opt">Stops of one town that are close together share one town name in the background; their labels show just the stop</span></label>
       </fieldset>
       <fieldset id="mapTextSet" hidden>
         <legend><span class="num">3</span>Map details</legend>
@@ -2474,7 +2471,18 @@ function mapLayout(cfg){
   const labels=[], leaders=[];
   const ovl=(a,b)=>Math.max(0,Math.min(a[2],b[2])-Math.max(a[0],b[0]))*Math.max(0,Math.min(a[3],b[3])-Math.max(a[1],b[1]));
   const crowd=s=>stops.filter(o=>o!==s&&Math.hypot(o.x-s.x,o.y-s.y)<70).length;
-  const order=stops.filter(s=>!s.inset&&!s.quiet).map(s=>s.townOnly?{...s,stop:"",_s:s}:s).sort((a,b)=>crowd(b)-crowd(a));
+  // repeated town names: close stops of one town share a town name drawn once in the background
+  if(cfg.repeatTown&&!SUM&&!SCH){
+    const done=new Set();
+    stops.forEach(a=>{if(done.has(a)||!a.stop||a.inset||a.hidden)return;
+      const grp=[a]; done.add(a);
+      for(let i=0;i<grp.length;i++)stops.forEach(b=>{if(!done.has(b)&&b.stop&&!b.inset&&!b.hidden&&b.town===grp[i].town&&Math.hypot(b.x-grp[i].x,b.y-grp[i].y)<110){done.add(b);grp.push(b)}});
+      if(grp.length<2)return;
+      grp.forEach(p=>p.hideTown=true);
+      const cx=grp.reduce((t,p)=>t+p.x,0)/grp.length, cy=grp.reduce((t,p)=>t+p.y,0)/grp.length, fs=9*TXS, w=a.town.length*fs*0.55, bx=[cx-w/2-3,cy-fs*0.8,cx+w/2+3,cy+fs*0.3];
+      if(inside(bx,2)&&!hit(bx,1)){boxes.push(bx); T(a.town,cx,cy,fs,"semibold","#9A9A9A","center")}});
+  }
+  const order=stops.filter(s=>!s.inset&&!s.quiet).map(s=>s.townOnly?{...s,stop:"",_s:s}:s.hideTown?{...s,town:s.stop,stop:"",_s:s}:s).sort((a,b)=>crowd(b)-crowd(a));
   insets.forEach(I=>{const bd=[]; I.g.forEach(s=>s.badges.forEach(r=>{if(!bd.includes(r))bd.push(r)})); if(bd.length>3)bd.length=0;   // lots of termini: their badges are in the enlargement
     order.unshift({town:I.town,stop:"see the enlarged map",x:(I.near[0]+I.near[2])/2,y:(I.near[1]+I.near[3])/2,badges:bd,cluster:I})});
   // routes that run along the road at this point (whether or not they stop here)
@@ -2484,17 +2492,23 @@ function mapLayout(cfg){
       for(const [tx,ty] of [[b[0],b[3]+1],[b[2]-tw,b[3]+1],[b[0],b[1]-fs-2],[b[2]+2,b[3]-fs]]){const bx=[tx-1,ty-fs,tx+tw+1,ty+2];
         if(!inside(bx,2)||hit(bx,1)||onRoute(bx,1))continue; boxes.push(bx); T(txt,tx,ty,fs,"semibold","#333333"); return}};
   const placeOne=s=>{const {x,y}=s, hasStop=!!s.stop;
+    // a long stop name can break onto two or three lines (the text is still the stop's own words, in order)
+    const wrapLines=(sf,n)=>{const Wd=String(s.stop||"").split(/\s+/).filter(Boolean); if(Wd.length<n)return null; let bst=null;
+      const j=(a,b)=>Wd.slice(a,b).join(" "), wdt=t=>width(t,sf,"light");
+      if(n===2){for(let i=1;i<Wd.length;i++){const L=[j(0,i),j(i)], m=Math.max(wdt(L[0]),wdt(L[1])); if(!bst||m<bst.m)bst={L,m}}}
+      else{for(let i=1;i<Wd.length-1;i++)for(let q=i+1;q<Wd.length;q++){const L=[j(0,i),j(i,q),j(q)], m=Math.max(...L.map(wdt)); if(!bst||m<bst.m)bst={L,m}}}
+      return bst?bst.L:null};
     // a name of two or more words can also go on two lines beside its stop ("East / Bergholt")
     const W2=String(s.town||"").split(/\s+/).filter(Boolean), canTwo=!hasStop&&W2.length>1&&!s.badges.length&&!s.cluster;
     const split=k=>{let bestS=null; for(let i=1;i<W2.length;i++){const a=W2.slice(0,i).join(" "), b=W2.slice(i).join(" "), m=Math.max(width(a,TF*k,"medium"),width(b,TF*k,"medium")); if(!bestS||m<bestS.m)bestS={a,b,m}} return bestS};
-    const build=(k,two)=>{const tf=TF*k, sf=SF*k, sp=two?split(k):null;
-      const tw=sp?sp.m:width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0), nw=hasStop?width(s.stop,sf,"light"):0, wdt=Math.max(tw,nw);
-      const th=(sp?24:hasStop?22:13)*k*TXS, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
+    const build=(k,two,nWrap)=>{const tf=TF*k, sf=SF*k, sp=two?split(k):null, wrl=nWrap?wrapLines(sf,nWrap):null; if(nWrap&&!wrl)return [];
+      const tw=sp?sp.m:width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0), nw=hasStop?width(s.stop,sf,"light"):0, wdt=wrl?Math.max(tw,...wrl.map(l=>width(l,sf,"light"))):Math.max(tw,nw);
+      const exL=wrl?(wrl.length-1)*sf*1.15:0, th=(sp?24:hasStop?22:13)*k*TXS+exL, hasB=s.badges.length>0, h=th+(hasB?BADGE_H+3:0), bwsum=s.badges.reduce((a,r)=>a+bw(r)+2.5,0);
       const anchors=[[x+9,y+th*0.55],[x-9-wdt,y+th*0.55],[x+8,y+th+9],[x-8-wdt,y+th+9],[x+8,y-4],[x-8-wdt,y-4],[x-wdt/2,y-8],[x-wdt/2,y+th+10]];
       for(const dist of [14,18,24,30,37,44,52,60,70,80,105,135])for(let ang=0;ang<360;ang+=dist>60?20:15){const c=Math.cos(ang*Math.PI/180),sn=Math.sin(ang*Math.PI/180),ax=x+dist*c,ay=y+dist*sn;
         anchors.push([c>0.2?ax:c<-0.2?ax-wdt:ax-wdt/2, sn>0.2?ay+h:sn<-0.2?ay:ay+h/2])}
       const lays=[{lay:"above",w:Math.max(wdt,bwsum),h}]; if(hasB)lays.push({lay:"inline",w:Math.max(tw+4+bwsum,nw),h:th});
-      const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop,two:sp?[sp.a,sp.b]:null})}));
+      const out=[]; anchors.forEach(([bx,B])=>lays.forEach(L=>{const bx2=bx+wdt<x?bx-(L.w-wdt):bx, B2=B>y?B-(h-L.h):B, b=[bx2-2,B2-L.h,bx2+L.w+2,B2+1]; if(inside(b))out.push({b,lay:L.lay,k,hasStop,two:sp?[sp.a,sp.b]:null,wrap:wrl,w:wdt})}));
       return out};
     let best=null; const tried=[];
     /* of the free spots, the one that reads clearest: close to its own stop, nearer it than to any other stop (so it's plain which
@@ -2523,8 +2537,8 @@ function mapLayout(cfg){
       return labels.some(l=>{const r=l.b, n=Math.max(2,Math.ceil(Math.hypot(px-x,py-y)/2)); for(let i=1;i<n;i++){const qx=x+(px-x)*i/n, qy=y+(py-y)*i/n; if(qx>r[0]&&qx<r[2]&&qy>r[1]&&qy<r[3])return true} return false})};
     // a smaller name is used where the full size has no clear spot (so names never sit on the lines)
     for(const strict of [true,false]){
-      for(const k of [1,0.9,0.8,0.7,0.6]){const all=build(k).concat(canTwo?build(k,true):[]).filter(c=>!hit(c.b,1)); if(strict)tried.push(all);
-        all.filter(c=>!onRoute(c.b,2)&&!avoid.some(a=>a.s===s&&segHitsBox(a.seg,c.b))&&(!strict||(!nearOther(c)&&!leaderThroughLabel(c)&&!leaderInBox(c)))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0); if(!best||c.cost<best.cost)best=c}); if(best)break}
+      for(const k of [1,0.9,0.8,0.7,0.6]){const all=build(k).concat(canTwo?build(k,true):[]).concat(hasStop?build(k,false,2).concat(build(k,false,3)):[]).filter(c=>!hit(c.b,1)); if(strict)tried.push(all);
+        all.filter(c=>!onRoute(c.b,2)&&!avoid.some(a=>a.s===s&&segHitsBox(a.seg,c.b))&&(!strict||(!nearOther(c)&&!leaderThroughLabel(c)&&!leaderInBox(c)))).forEach(c=>{c.cost=cost(c)+(k===1?0:6)+(c.two?3:0)+(c.wrap?(c.wrap.length-1)*5:(c.w>60?(c.w-60)*1.5:0)); if(!best||c.cost<best.cost)best=c}); if(best)break}
       if(best)break}
     if(!best)tried.forEach(cs=>cs.forEach(c=>{c.cost=cost(c)+under(c.b)*25; if(!best||c.cost<best.cost)best=c}));
     if(!best)for(const cs of tried){best=cs.find(c=>!hit(c.b,1)); if(best)break}                                                         // else clear of labels
@@ -2631,15 +2645,15 @@ function mapLayout(cfg){
   const roundel=(x,y,r=3.7)=>ops.push({k:"rail",x,y,r});
   stations.forEach(st=>{roundel(st.x,st.y); if(st.label){const [mode,tx,ty]=st.label; st.lines.forEach((l,i)=>T(l,mode==="c"?st.x:tx,ty+i*6.2,5.6,"light",C.rail,mode==="c"?"center":undefined))}});
   const badge=(x,y,r)=>{const w=bw(r); ops.push({k:"r",x,y,w,h:BADGE_H,c:r.color,rx:2}); T(r.id,x+w/2,y+7.5,6.6,"semibold",(r.tcol||badgeText(r.color)),"center"); return w};
-  labels.forEach(({s,b,lay,k,hasStop,two})=>{
-    const tf=TF*k, sf=SF*k, th=(two?24:hasStop?22:13)*k*TXS;
+  labels.forEach(({s,b,lay,k,hasStop,two,wrap})=>{
+    const tf=TF*k, sf=SF*k, exL=wrap?(wrap.length-1)*sf*1.15:0, th=(two?24:hasStop?22:13)*k*TXS+exL;
     const B=b[3]-1, lx=Math.min(Math.max(s.x,b[0]),b[2]-1), ly=Math.min(Math.max(s.y,B-th),B-1);
     if(Math.hypot(lx-s.x,ly-s.y)>9&&!s.cluster)ops.push({k:"l",x1:s.x,y1:s.y,x2:lx,y2:ly,c:"#6B6B6B",w:0.7});
-    const tx=b[0]+2, ty=hasStop?B-13*k:B-3*k;
+    const tx=b[0]+2, ty=hasStop?B-13*k-exL:B-3*k;
     if(two){const right=b[2]<s.x;   // on the left of its stop: the two lines line up on the right, next to the stop
       two.forEach((l,i)=>{T(l,right?b[2]-2:tx,B-(i?3:14)*k,tf,"medium","#000000",right?"right":undefined); ops[ops.length-1].halo=1}); return}
     ops.push({k:"tr",x:tx,y:ty,size:tf,color:"#000000",halo:1,runs:hasStop?[[s.town,"medium"],[",","light"]]:[[s.town,"medium"]]});
-    if(hasStop){T(s.stop,tx,B-3.5*k,sf,"light","#000000"); ops[ops.length-1].halo=1}
+    if(hasStop){(wrap||[s.stop]).forEach((l,i,A)=>{T(l,tx,B-3.5*k-(A.length-1-i)*sf*1.15,sf,"light","#000000"); ops[ops.length-1].halo=1})}
     if(lay==="above"){let bx=tx;s.badges.forEach(r=>{bx+=badge(bx,ty-11*k-BADGE_H-1,r)+2.5})}
     else{let bx=tx+width(s.town,tf,"medium")+(hasStop?width(",",tf,"light"):0)+4;s.badges.forEach(r=>{bx+=badge(bx,ty-8.4*k,r)+2.5})}
   });
@@ -3476,7 +3490,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3501,13 +3515,6 @@ async function mapDownload(){
   catch(err){st.className="status err";st.textContent="Something went wrong creating the PDF: "+(err&&err.message||err)}
   finally{btn.disabled=false}
 }
-
-/* the map tool's sections fold away under their titles; open one to change its settings */
-["mapStopsSet","mapRoutesSet","mapViewSet","mapTextSet","mapDataSet"].forEach(id=>{const fs=$(id); if(!fs)return;
-  fs.classList.add("collapsible","collapsed"); const lg=fs.querySelector(":scope>legend"); if(!lg)return;
-  lg.tabIndex=0; lg.setAttribute("role","button"); const sync=()=>lg.setAttribute("aria-expanded",String(!fs.classList.contains("collapsed")));
-  const flip=()=>{fs.classList.toggle("collapsed"); sync()}; sync();
-  lg.addEventListener("click",flip); lg.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}})});
 
 /* ---------- wiring ---------- */
 function mapDropZone(zone,input,handler){
@@ -3640,6 +3647,7 @@ $("mapKeySize").addEventListener("input",()=>{mapState.keyScale=$("mapKeySize").
 $("mapBand").addEventListener("change",()=>{mapState.bandGap=$("mapBand").value==="1"; render()});
 $("mapFade").addEventListener("change",()=>{mapState.fade=$("mapFade").checked; render()});
 $("mapCredits").addEventListener("change",()=>{mapState.credits=$("mapCredits").checked; render()});
+$("mapRepeat").addEventListener("change",()=>{mapState.repeatTown=$("mapRepeat").checked; render()});
 $("scSize").addEventListener("input",()=>{SCHOOL.size=$("scSize").value/100; $("scSizeV").textContent=$("scSize").value+"%"; render()});
 $("mapStyle").addEventListener("change",()=>{mapState.style=$("mapStyle").value; guideState.blocks.forEach(b=>b._memo=null); render()});
 document.querySelectorAll('input[name=mapOrient]').forEach(r=>r.addEventListener("change",()=>{if(r.checked){mapState.orient=r.value;render()}}));
@@ -5322,9 +5330,10 @@ function ttRestore(snap,quiet){
   syncKey();
   if(!quiet){renderSectionsUI();renderRouteUI();renderKeyUI();render()}
 }
-function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textPct:mapState.textPct||100,insetPct:mapState.insetPct||100,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
+function mapSnapW(){return {notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,pageMM:mapPageMM(),margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textPct:mapState.textPct||100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,days:mapState.days||"mf",dir:mapState.dir||"in",insets:mapState.insets!==false,style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false}}
 function mapRestoreW(m){m=m||{notes:"",showKey:true,orient:"auto"};
   mapState.notes=m.notes; mapState.showKey=m.showKey; mapState.orient=m.orient; mapState.pageMM=m.pageMM||null; mapPageUi(); mapState.margin=m.margin==null?1:m.margin; mapMarginUi(); mapState.shiftX=m.shiftX||0; mapShiftUi(); mapState.textPct=m.textPct||100; mapTextUi(); mapState.insetPct=m.insetPct||100; mapInsetUi();
+  mapState.repeatTown=!!m.repeatTown; $("mapRepeat").checked=mapState.repeatTown;
   mapState.days=m.days||"mf"; mapState.dir=m.dir||"in"; mapState.insets=m.insets!==false; $("mapDays").value=mapState.days; $("mapDir").value=mapState.dir; $("mapInsets").checked=mapState.insets; mapState.bandGap=!!m.bandGap; $("mapBand").value=m.bandGap?"1":"0"; mapState.credits=m.credits!==false; $("mapCredits").checked=mapState.credits; mapState.headMode=m.headMode||"routes"; mapState.headText=m.headText||""; mapHeadUi(); mapState.keyScale=m.keyScale||1; mapKeySizeUi(); mapState.validText=m.validText||""; $("mapValidText").value=mapState.validText; mapState.fade=m.fade!==false; $("mapFade").checked=mapState.fade; mapState.style=m.style||"auto"; $("mapStyle").value=mapState.style;
   $("mapNotes").value=m.notes; $("mapKey").checked=m.showKey; document.querySelectorAll("input[name=mapOrient]").forEach(r=>r.checked=r.value===m.orient);
   mapState.own=false; mapState.guideBlock=null; mapState.ttSections=null; mapState.example=false; mapState.title=m.title||"";
