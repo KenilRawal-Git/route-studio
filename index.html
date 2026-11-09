@@ -2489,7 +2489,7 @@ function mapLayout(cfg){
        stop it names), and a leader line that crosses no other leader, stop or route */
     const rd=(b,px,py)=>Math.hypot(Math.max(b[0]-px,0,px-b[2]),Math.max(b[1]-py,0,py-b[3]));
     const cross=(a,b,c,d)=>{const o=(p,q,r)=>Math.sign((q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0])); return o(a,b,c)!==o(a,b,d)&&o(c,d,a)!==o(c,d,b)};
-    const cost=c=>{const b=c.b, d=rd(b,x,y); let v=d+d*d/50;   // far-off names cost more and more
+    const cost=c=>{const b=c.b, d=rd(b,x,y); let v=d*2.5+d*d/25;   // far-off names cost more and more: keep each name as close to its stop as possible
       stops.forEach(o=>{if(o===s||o===s._s||(o.x===x&&o.y===y))return; const e=rd(b,o.x,o.y); if(e<d+6)v+=70+(d+6-e)*3});   // closer to another stop: confusing
       if(d>9&&!s.cluster){const px=Math.min(Math.max(x,b[0]),b[2]), py=Math.min(Math.max(y,b[1]),b[3]), A=[x,y], Bp=[px,py];
         leaders.forEach(L=>{if(cross(A,Bp,[L[0],L[1]],[L[2],L[3]]))v+=120});
