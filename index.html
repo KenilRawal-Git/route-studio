@@ -1938,7 +1938,12 @@ function depBlock(route,sec){return {route,sec:depSecKey(sec),stop:depStopKey(se
 function depDefault(){depState.boards=[]; const routes=depRoutes(); if(!routes.length)return;
   const r=routes[0], secs=depSecsFor(r), seen=new Set();
   secs.forEach(x=>{const d=depDest(x); if(seen.has(d))return; seen.add(d); depState.boards.push({title:"Buses towards "+d,blocks:[depBlock(r,x)]})})}
-function depEnsure(){ if(!depState.init&&depSecs().length){depDefault(); depState.init=true} depRenderBoards(); }
+/* the boards follow the timetable loaded in the Timetable source: a new timetable (new routes, new stops) starts the boards again */
+function depSync(){
+  if(depState.src!==state.sections){depState.src=state.sections; if(depSecs().length){depDefault(); depState.init=true} else {depState.boards=[]; depState.init=false}; depRenderBoards(); return}
+  if(!depState.init&&depSecs().length){depDefault(); depState.init=true; depRenderBoards()}
+}
+function depEnsure(){ depSync(); depRenderBoards(); }
 /* the board shapes in design units (points at 100%); the page scales them to fit */
 function depBuild(){
   const {M,GAP,BW,RH,HGAP,NAVY,TEAL}=DEP, HS=15, HL=18, shapes=[];
@@ -1974,6 +1979,7 @@ function depRenderOps(B,tr){const X=v=>tr.ox+v*tr.s, Y=v=>tr.oy+v*tr.s, out=[];
     else out.push({k:"t",text:o.text,x:X(o.x),y:Y(o.y),size:o.size*tr.s,w:o.w,color:o.color,...(o.align?{align:o.align}:{})})});
   return out}
 function depDraw(){
+  depSync();
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
   const B=depBuild(), cW=B.cW, cH=B.cH; depState.ratio=cH/cW;
   if(depState.w==null){depState.w=Math.round(cW/DEP.PT); depState.h=Math.round(cH/DEP.PT)}
