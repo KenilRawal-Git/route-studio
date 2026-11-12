@@ -1931,7 +1931,8 @@ function depSecsFor(route){return depSecs().filter(x=>depRouteIs(x,route))}
 /* the day group of a timetable section, as a column: Mon-Fri, Saturday, Sunday, school days, anything else */
 /* the day as the timetable banner writes it: "MONDAY TO FRIDAY | EXCEPT BANK HOLIDAYS" */
 function depDayLabel(sec){const d=String(expandDay(sec.day||dayLabels(sec.name||"").day)||"").toUpperCase();
-  let sub=String(sec.sub==null?"":sec.sub).trim();
+  /* the note the sections list shows: the stored one, or the default for the day (Monday to Friday: except bank holidays) */
+  let sub=String(sec.sub!=null?sec.sub:(dayLabels(sec.name||"").sub||"")).trim();
   /* no separate note: a note written into the section name ("Monday to Friday except bank holidays") is used too */
   if(!sub){const rest=String(sec.name||"").replace(/\(\s*\d+\s*\)/g," ").replace(/monday\s+to\s+friday|mon(day)?\s*-\s*fri(day)?|saturdays?|sundays?|school\s*days?|\bmf\b|\bsa\b|\bsu\b/ig," ").replace(/[|:,\-–]+/g," ").replace(/\s+/g," ").trim();
     if(/except|only|bank|holiday|term|not\s/i.test(rest))sub=rest}
