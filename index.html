@@ -850,6 +850,7 @@ span.gbt{cursor:default}
         <div class="row"><label>Width (mm) <input id="depW" type="number" min="40" max="1200" step="1"></label><label>Height (mm) <input id="depH" type="number" min="40" max="1200" step="1"></label></div>
         <label class="check"><input type="checkbox" id="depLock" checked> Keep the proportions</label>
         <p class="hint">With the proportions kept, changing the width changes the height too, and the other way round. The boards grow or shrink to fill the page.</p>
+        <button type="button" class="linkbtn" id="depPngBtn">Download as PNG, no background</button>
       </fieldset>
       <fieldset id="fareDataSet" hidden>
         <legend><span class="num">1</span>Fares</legend>
@@ -2084,6 +2085,30 @@ $("depAdd").addEventListener("click",()=>{const r=depRoutes()[0]; const x=r&&dep
 $("depW").addEventListener("input",e=>{const v=+e.target.value; if(!(v>0))return; depState.w=v; if(depState.lock)depState.h=Math.round(v*depState.ratio); render()});
 $("depH").addEventListener("input",e=>{const v=+e.target.value; if(!(v>0))return; if(depState.lock){depState.w=Math.round(v/depState.ratio); depState.h=v} else depState.h=v; render()});
 $("depLock").addEventListener("change",e=>{depState.lock=e.target.checked; if(depState.lock)depState.h=Math.round(depState.w*depState.ratio); render()});
+/* the departures as a PNG with a transparent background, for putting on other material */
+const depFontFaces={};
+async function depFontsReady(){
+  if(depState.fontsOK)return;
+  for(const k of Object.keys(FONTS)){ if(depFontFaces[k])continue;
+    const bin=atob(FONTS[k]), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    const f=new FontFace("DepLexend-"+k,u.buffer); await f.load(); document.fonts.add(f); depFontFaces[k]=f }
+  depState.fontsOK=true }
+function depCanvasRR(ctx,x,y,w,h,rx){ rx=Math.min(rx||0,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rx,y); ctx.arcTo(x+w,y,x+w,y+h,rx); ctx.arcTo(x+w,y+h,x,y+h,rx); ctx.arcTo(x,y+h,x,y,rx); ctx.arcTo(x,y,x+w,y,rx); ctx.closePath() }
+async function depPng(){
+  const r=depState.last; if(!r){const st=$("status"); st.className="status err"; st.textContent="Add a stop to a board first."; return}
+  await depFontsReady();
+  const S=4, cv=document.createElement("canvas"); cv.width=Math.round(r.W*S); cv.height=Math.round(r.H*S);
+  const ctx=cv.getContext("2d"); ctx.scale(S,S);   /* nothing is drawn behind the boards, so the background stays transparent */
+  for(const o of r.pages[0]){
+    if(o.k==="r"){ depCanvasRR(ctx,o.x,o.y,o.w,o.h,o.rx); if(o.c){ctx.fillStyle=o.c; ctx.fill()} if(o.stroke){ctx.strokeStyle=o.stroke; ctx.lineWidth=o.sw; ctx.stroke()} }
+    else if(o.k==="l"){ctx.beginPath(); ctx.moveTo(o.x1,o.y1); ctx.lineTo(o.x2,o.y2); ctx.strokeStyle=o.c; ctx.lineWidth=o.w; ctx.stroke()}
+    else if(o.k==="t"){ctx.font=`${o.size}px "DepLexend-${o.w||"normal"}"`; ctx.fillStyle=o.color; ctx.textAlign=o.align==="center"?"center":o.align==="right"?"right":"left"; ctx.textBaseline="alphabetic"; ctx.fillText(o.text,o.x,o.y); ctx.textAlign="left"}
+    else if(o.k==="tr"){let x=o.x; o.runs.forEach(([t,w,c])=>{ctx.font=`${o.size}px "DepLexend-${w||"normal"}"`; ctx.fillStyle=c||o.color; ctx.textAlign="left"; ctx.fillText(t,x,o.y); x+=ctx.measureText(t).width})}
+  }
+  const blob=await new Promise(res=>cv.toBlob(res,"image/png"));
+  await offer(blob,`Departures${state.route?" "+String(state.route).replace(/[\\/:*?"<>|]/g,""):""}.png`,"Departures PNG");
+}
+$("depPngBtn").addEventListener("click",()=>depPng().catch(err=>{const st=$("status"); st.className="status err"; st.textContent="Something went wrong creating the PNG: "+(err&&err.message||err)}));
 async function depDownload(){
   const st=$("status"); st.className="status";
   if(!depState.last){st.className="status err";st.textContent="Add a stop to a board first.";return}
