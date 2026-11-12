@@ -1419,7 +1419,7 @@ function layout(){
       else if(j===n-1){R(x,barY,CW,G.barH,col,5);R(x,barY,CW/2,G.barH,col)}
       else R(x,barY,CW,G.barH,col);
       if(j>0)Lc(x,barY,x,barY+G.barH,"#ffffff",.4);
-      {const rt=c.route||state.route, fs=shrink(rt,FS.head,7,"semibold",CW-4); T(fit(rt,fs,"semibold",CW-4),x+CW/2,barY+11.95+.35*fs,fs,"semibold",cellText(col),"center")}
+      {const rt=c.route||state.route, fs=shrink(rt,FS.head,7,"semibold",CW-4); T(fit(rt,fs,"semibold",CW-4),x+CW/2,barY+11.95+.35*fs,fs,"semibold",txtOn(rt,col,cellText),"center")}
     });
     y=barY+G.barH+.05;
     Lc(G.stopX,y,CX,y,C.line,.1);
