@@ -1930,11 +1930,11 @@ function depRoutes(){const seen=[]; depSecs().forEach(x=>x.cols.forEach((c,i)=>{
 function depSecsFor(route){return depSecs().filter(x=>depRouteIs(x,route))}
 /* the day group of a timetable section, as a column: Mon-Fri, Saturday, Sunday, school days, anything else */
 function depDayOf(sec){const d=String(ttDayOf(sec)||"");
-  if(/school/i.test(d))return {o:3,label:"School days"};
-  if(/sat/i.test(d))return {o:1,label:"Saturday"};
-  if(/sun/i.test(d))return {o:2,label:"Sunday"};
-  if(/mon|fri|week|^mf$/i.test(d))return {o:0,label:"Mon–Fri"};
-  return {o:4,label:d||"Other"}}
+  if(/school/i.test(d))return {o:3,label:"SCH"};
+  if(/sat/i.test(d))return {o:1,label:"SA"};
+  if(/sun/i.test(d))return {o:2,label:"SU"};
+  if(/mon|fri|week|^mf$/i.test(d))return {o:0,label:"MF"};
+  return {o:4,label:String(d||"Other").toUpperCase()}}
 /* times in HH:MM for one stop in one timetable section */
 function depTimes(sec,stopKey){const out=[];
   sec.stops.forEach((x,i)=>{ if(depStopKey(x)!==stopKey)return;
@@ -1999,8 +1999,10 @@ function depBuild(){
         else {
           const cw=BW/bl.cols.length;
           bl.cols.forEach((c,ci)=>{const cx=bx+ci*cw;
-            shapes.push({k:"t",x:cx+cw/2,y:by+12,text:c.label,size:9.5,w:"semibold",color:INK,align:"center"});
-            shapes.push({k:"l",x1:cx,y1:by+18,x2:cx+cw,y2:by+18,c:LINE,w:0.8});
+            /* the day code in the timetable's own style: a navy label, white semibold capitals */
+            const pw=width(c.label,8,"semibold")+12;
+            shapes.push({k:"r",x:cx+cw/2-pw/2,y:by+3,w:pw,h:14,c:NAVY,rx:2.5});
+            shapes.push({k:"t",x:cx+cw/2,y:by+12.8,text:c.label,size:8,w:"semibold",color:"#FFFFFF",align:"center"});
             let cy=by+20;
             c.cells.forEach((cell,ri)=>{
               if(cell.every){const lines=depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10); const ph=lines.length*11+10;
