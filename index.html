@@ -1935,10 +1935,10 @@ function depDayLabel(sec){const d=String(expandDay(sec.day||dayLabels(sec.name||
   /* no separate note: a note written into the section name ("Monday to Friday except bank holidays") is used too */
   if(!sub){const rest=String(sec.name||"").replace(/\(\s*\d+\s*\)/g," ").replace(/monday\s+to\s+friday|mon(day)?\s*-\s*fri(day)?|saturdays?|sundays?|school\s*days?|\bmf\b|\bsa\b|\bsu\b/ig," ").replace(/[|:,\-–]+/g," ").replace(/\s+/g," ").trim();
     if(/except|only|bank|holiday|term|not\s/i.test(rest))sub=rest}
-  return sub?`${d} | ${sub.toUpperCase()}`:d}
+  return {d,sub,label:sub?`${d} | ${sub}`:d}}
 function depDayOf(sec){const d=String(ttDayOf(sec)||""); let o=4;
   if(/school/i.test(d))o=3; else if(/sat/i.test(d))o=1; else if(/sun/i.test(d))o=2; else if(/mon|fri|week|^mf$/i.test(d))o=0;
-  return {o,label:depDayLabel(sec)}}
+  return {o,...depDayLabel(sec)}}
 /* times in HH:MM for one stop in one timetable section */
 function depTimes(sec,stopKey){const out=[];
   sec.stops.forEach((x,i)=>{ if(depStopKey(x)!==stopKey)return;
@@ -1954,6 +1954,15 @@ function depCells(times){const out=[], n=times.length; let i=0;
   return out}
 function depWrap(t,size,wt,maxW){const words=String(t).split(/\s+/).filter(Boolean), L=[]; let cur="";
   words.forEach(w=>{const tr=cur?cur+" "+w:w; if(cur&&width(tr,size,wt)>maxW){L.push(cur);cur=w} else cur=tr}); if(cur)L.push(cur); return L.length?L:[""]}
+/* the day band: the day in semibold white capitals, then a light blue "|" and the note in light white, as the timetable banner */
+function depRunsW(runs){return runs.reduce((a,[t,w])=>a+width(t,6.5,w),0)}
+function depBandLines(c,maxW){const W="#FFFFFF", PIPE="#47B7D9", dayL=depWrap(c.d,6.5,"semibold",maxW);
+  if(!c.sub)return dayL.map(t=>[[t,"semibold",W]]);
+  const full=[[c.d,"semibold",W],["  |  ","light",PIPE],[c.sub,"light",W]];
+  if(dayL.length===1&&depRunsW(full)<=maxW)return [full];
+  const out=dayL.map(t=>[[t,"semibold",W]]);
+  depWrap(c.sub,6.5,"light",maxW-width("| ",6.5,"light")).forEach((t,i)=>out.push(i===0?[["| ","light",PIPE],[t,"light",W]]:[[t,"light",W]]));
+  return out}
 function depBlock(route,x){return {route,sec:"ALL:"+dnorm(depDest(x)),stop:depStopKey(x.stops[0])}}
 /* the timetable sections a block reads: every section running the route towards the block's destination that calls at the stop */
 function depBlockSecs(k){ const d=String(k.sec).replace(/^ALL:/,"");
@@ -1978,10 +1987,10 @@ function depBuild(){
       const rc=colourFor(k.route), tc=txtOn(k.route,rc);
       const band=depWrap(st?"From "+depStopLabel(st):"Stop not in this timetable",11.5,"semibold",BW-16);
       const bandH=band.length*15+12;
-      const days={}; secs.forEach(x=>{const d=depDayOf(x), key=d.o+"|"+d.label; (days[key]=days[key]||{o:d.o,label:d.label,times:[]}).times.push(...depTimes(x,k.stop))});
-      const cols=Object.values(days).sort((a,b)=>a.o-b.o||a.label.localeCompare(b.label)).map(g=>({label:g.label,cells:depCells([...new Set(g.times)].sort((a,b)=>depMins(a)-depMins(b)))}));
+      const days={}; secs.forEach(x=>{const d=depDayOf(x), key=d.o+"|"+d.label; (days[key]=days[key]||{o:d.o,label:d.label,d:d.d,sub:d.sub,times:[]}).times.push(...depTimes(x,k.stop))});
+      const cols=Object.values(days).sort((a,b)=>a.o-b.o||a.label.localeCompare(b.label)).map(g=>({label:g.label,d:g.d,sub:g.sub,cells:depCells([...new Set(g.times)].sort((a,b)=>depMins(a)-depMins(b)))}));
       const cwid=cols.length?BW/cols.length:BW;
-      cols.forEach(c=>{c.lines=depWrap(c.label,6.5,"semibold",cwid-12)});
+      cols.forEach(c=>{c.lines=depBandLines(c,cwid-12)});
       const headH=cols.length?Math.max(...cols.map(c=>c.lines.length*10+6)):0;
       const colH=cols.map(c=>c.cells.reduce((a,cell)=>a+(cell.every?cellH(cell,cwid):RH),0));
       const bodyH=cols.length?Math.max(...colH):RH, dayH=cols.length?headH+6:0;
@@ -2009,7 +2018,7 @@ function depBuild(){
             const hh=c.lines.length*10+6;
             shapes.push({k:"r",x:cx+3,y:by+3,w:cw-6,h:hh,c:NAVY,rx:2.5});
             /* centred vertically in the band: the lines sit symmetrically around its middle */
-            c.lines.forEach((t,li)=>shapes.push({k:"t",x:cx+cw/2,y:by+3+hh/2+2.4+(li-(c.lines.length-1)/2)*8.5,text:t,size:6.5,w:"semibold",color:"#FFFFFF",align:"center"}));
+            c.lines.forEach((runs,li)=>shapes.push({k:"tr",x:cx+cw/2-depRunsW(runs)/2,y:by+3+hh/2+2.4+(li-(c.lines.length-1)/2)*8.5,size:6.5,runs}));
             let cy=by+bl.dayH;
             c.cells.forEach((cell,ri)=>{
               if(cell.every){const lines=depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10); const ph=lines.length*11+10;
@@ -2033,6 +2042,7 @@ function depRenderOps(B,tr){const X=v=>tr.ox+v*tr.s, Y=v=>tr.oy+v*tr.s, out=[];
   B.shapes.forEach(o=>{
     if(o.k==="r")out.push({k:"r",x:X(o.x),y:Y(o.y),w:o.w*tr.s,h:o.h*tr.s,c:o.c,...(o.rx?{rx:o.rx*tr.s}:{}),...(o.stroke?{stroke:o.stroke,sw:o.sw*tr.s}:{})});
     else if(o.k==="l")out.push({k:"l",x1:X(o.x1),y1:Y(o.y1),x2:X(o.x2),y2:Y(o.y2),c:o.c,w:o.w*tr.s});
+    else if(o.k==="tr")out.push({k:"tr",x:X(o.x),y:Y(o.y),size:o.size*tr.s,runs:o.runs,color:"#000000"});
     else out.push({k:"t",text:o.text,x:X(o.x),y:Y(o.y),size:o.size*tr.s,w:o.w,color:o.color,...(o.align?{align:o.align}:{})})});
   return out}
 function depDraw(){
@@ -4082,7 +4092,7 @@ function fareSvg(ops,W,H){
     if(o.k==="r")s+=`<rect x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}"${o.rx?` rx="${o.rx}"`:""} fill="${o.c}"${o.a!=null?` fill-opacity="${o.a}"`:""}${o.stroke?` stroke="${o.stroke}" stroke-width="${o.sw}"`:""}/>`;
     else if(o.k==="l")s+=`<line x1="${f(o.x1)}" y1="${f(o.y1)}" x2="${f(o.x2)}" y2="${f(o.y2)}" stroke="${o.c}" stroke-width="${o.w}"/>`;
     else if(o.k==="img")s+=`<image href="${o.url||"data:image/png;base64,"+fareSrc(o.src)}" x="${f(o.x)}" y="${f(o.y)}" width="${f(o.w)}" height="${f(o.h)}" preserveAspectRatio="none"/>`;
-    else if(o.k==="tr")s+=`<text x="${f(o.x)}" y="${f(o.y)}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" fill="${o.color}" xml:space="preserve">${o.runs.map(([t,w])=>`<tspan font-weight="${FW[w]||400}">${esc(t)}</tspan>`).join("")}</text>`;
+    else if(o.k==="tr")s+=`<text x="${f(o.x)}" y="${f(o.y)}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" fill="${o.color}" xml:space="preserve">${o.runs.map(([t,w,c])=>`<tspan font-weight="${FW[w]||400}"${c?` fill="${c}"`:""}>${esc(t)}</tspan>`).join("")}</text>`;
     else if(o.k==="t")s+=`<text x="${f(o.x)}" y="${f(o.y)}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" font-weight="${FW[o.w]||400}" fill="${o.color}"${o.align==="center"?' text-anchor="middle"':o.align==="right"?' text-anchor="end"':""} xml:space="preserve">${esc(o.text)}</text>`;
   }
   return s+"</svg>";
@@ -4102,7 +4112,7 @@ function farePdfDraw(doc,ops){
       if(o.rx)doc.roundedRect(o.x,o.y,o.w,o.h,o.rx,o.rx,st); else doc.rect(o.x,o.y,o.w,o.h,st); if(o.a!=null)alpha(1)}
     else if(o.k==="l"){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.w);doc.line(o.x1,o.y1,o.x2,o.y2)}
     else if(o.k==="img")doc.addImage(o.url||"data:image/png;base64,"+fareSrc(o.src),o.url?o.fmt||"PNG":"PNG",o.x,o.y,o.w,o.h,"fare_"+o.src);
-    else if(o.k==="tr"){let x=o.x;doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));o.runs.forEach(([t,w])=>{doc.setFont("Lexend",w);doc.text(t,x,o.y);x+=doc.getTextWidth(t)})}
+    else if(o.k==="tr"){let x=o.x;doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));o.runs.forEach(([t,w,c])=>{doc.setFont("Lexend",w);doc.setTextColor(...hexRgb(c||o.color));doc.text(t,x,o.y);x+=doc.getTextWidth(t)})}
     else if(o.k==="t"){doc.setFont("Lexend",o.w||"normal");doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));doc.text(o.text,o.x,o.y,o.align?{align:o.align}:undefined)}
   }
 }
