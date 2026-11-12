@@ -1931,7 +1931,10 @@ function depSecsFor(route){return depSecs().filter(x=>depRouteIs(x,route))}
 /* the day group of a timetable section, as a column: Mon-Fri, Saturday, Sunday, school days, anything else */
 /* the day as the timetable banner writes it: "MONDAY TO FRIDAY | EXCEPT BANK HOLIDAYS" */
 function depDayLabel(sec){const d=String(expandDay(sec.day||dayLabels(sec.name||"").day)||"").toUpperCase();
-  let sub=String(sec.sub==null?"":sec.sub).trim(); if(/^\d+$/.test(sub))sub="";
+  let sub=String(sec.sub==null?"":sec.sub).trim();
+  /* no separate note: a note written into the section name ("Monday to Friday except bank holidays") is used too */
+  if(!sub){const rest=String(sec.name||"").replace(/\(\s*\d+\s*\)/g," ").replace(/monday\s+to\s+friday|mon(day)?\s*-\s*fri(day)?|saturdays?|sundays?|school\s*days?|\bmf\b|\bsa\b|\bsu\b/ig," ").replace(/[|:,\-–]+/g," ").replace(/\s+/g," ").trim();
+    if(/except|only|bank|holiday|term|not\s/i.test(rest))sub=rest}
   return sub?`${d} | ${sub.toUpperCase()}`:d}
 function depDayOf(sec){const d=String(ttDayOf(sec)||""); let o=4;
   if(/school/i.test(d))o=3; else if(/sat/i.test(d))o=1; else if(/sun/i.test(d))o=2; else if(/mon|fri|week|^mf$/i.test(d))o=0;
@@ -1978,7 +1981,7 @@ function depBuild(){
       const days={}; secs.forEach(x=>{const d=depDayOf(x), key=d.o+"|"+d.label; (days[key]=days[key]||{o:d.o,label:d.label,times:[]}).times.push(...depTimes(x,k.stop))});
       const cols=Object.values(days).sort((a,b)=>a.o-b.o||a.label.localeCompare(b.label)).map(g=>({label:g.label,cells:depCells([...new Set(g.times)].sort((a,b)=>depMins(a)-depMins(b)))}));
       const cwid=cols.length?BW/cols.length:BW;
-      cols.forEach(c=>{c.lines=depWrap(c.label,7.5,"semibold",cwid-12)});
+      cols.forEach(c=>{c.lines=depWrap(c.label,6.5,"semibold",cwid-12)});
       const headH=cols.length?Math.max(...cols.map(c=>c.lines.length*10+6)):0;
       const colH=cols.map(c=>c.cells.reduce((a,cell)=>a+(cell.every?cellH(cell,cwid):RH),0));
       const bodyH=cols.length?Math.max(...colH):RH, dayH=cols.length?headH+6:0;
@@ -2005,7 +2008,8 @@ function depBuild(){
             /* the day in the timetable's own banner style: a navy label, white semibold capitals */
             const hh=c.lines.length*10+6;
             shapes.push({k:"r",x:cx+3,y:by+3,w:cw-6,h:hh,c:NAVY,rx:2.5});
-            c.lines.forEach((t,li)=>shapes.push({k:"t",x:cx+cw/2,y:by+3+7.5+li*10,text:t,size:7.5,w:"semibold",color:"#FFFFFF",align:"center"}));
+            /* centred vertically in the band: the lines sit symmetrically around its middle */
+            c.lines.forEach((t,li)=>shapes.push({k:"t",x:cx+cw/2,y:by+3+hh/2+2.4+(li-(c.lines.length-1)/2)*8.5,text:t,size:6.5,w:"semibold",color:"#FFFFFF",align:"center"}));
             let cy=by+bl.dayH;
             c.cells.forEach((cell,ri)=>{
               if(cell.every){const lines=depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10); const ph=lines.length*11+10;
