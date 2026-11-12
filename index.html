@@ -1991,7 +1991,7 @@ function depBuild(){
       b.head.forEach((t,i)=>shapes.push({k:"t",x:bx+(b.r0?b.bw+10:0),y:by+15+i*18,text:t,size:15,w:"semibold",color:NAVY}));
       by+=b.headH+6;
       b.blocks.forEach(bl=>{
-        shapes.push({k:"r",x:bx,y:by,w:BW,h:bl.bandH,c:bl.rc});
+        shapes.push({k:"r",x:bx,y:by,w:BW,h:bl.bandH,c:bl.rc,rx:4});
         bl.band.forEach((t,i)=>shapes.push({k:"t",x:bx+BW/2,y:by+6+11+i*15,text:t,size:11.5,w:"semibold",color:bl.tc,align:"center"}));
         by+=bl.bandH;
         if(!bl.cols.length){shapes.push({k:"r",x:bx,y:by,w:BW,h:RH,c:"#FFFFFF",stroke:LINE,sw:0.7});
@@ -2002,12 +2002,12 @@ function depBuild(){
             shapes.push({k:"t",x:cx+cw/2,y:by+12,text:c.label,size:9.5,w:"semibold",color:INK,align:"center"});
             shapes.push({k:"l",x1:cx,y1:by+18,x2:cx+cw,y2:by+18,c:LINE,w:0.8});
             let cy=by+20;
-            c.cells.forEach(cell=>{
+            c.cells.forEach((cell,ri)=>{
               if(cell.every){const lines=depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10); const ph=lines.length*11+10;
-                shapes.push({k:"r",x:cx,y:cy,w:cw,h:ph,c:"#EEF5F8",stroke:LINE,sw:0.6});
+                shapes.push({k:"r",x:cx+1,y:cy+1,w:cw-2,h:ph-2,c:"#EEF5F8",rx:3,stroke:LINE,sw:0.6});
                 lines.forEach((t,i)=>shapes.push({k:"t",x:cx+cw/2,y:cy+12+i*11,text:t,size:9,w:"normal",color:INK,align:"center"}));
                 cy+=ph}
-              else {shapes.push({k:"r",x:cx,y:cy,w:cw,h:RH,c:"#FFFFFF",stroke:LINE,sw:0.6});
+              else {shapes.push({k:"r",x:cx+1,y:cy+1,w:cw-2,h:RH-2,c:ri%2?"#E8E8EA":"#FFFFFF",rx:3,stroke:LINE,sw:0.6});
                 shapes.push({k:"t",x:cx+cw/2,y:cy+RH/2+4,text:cell.t,size:11.5,w:"normal",color:"#000000",align:"center"}); cy+=RH}
             });
           });
