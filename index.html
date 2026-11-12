@@ -659,6 +659,7 @@ span.gbt{cursor:default}
         </div>
         <div class="field">Colour
           <div class="colorline" id="mainColour"></div>
+          <div class="txtline" id="mainTxt"></div>
         </div>
         <div class="field" id="routesField" hidden>Other routes in this timetable
           <div class="routes" id="routes"></div>
@@ -1014,6 +1015,8 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;","
 function hexRgb(h){h=h.replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16))}
 function lum(hex){const [r,g,b]=hexRgb(hex).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b}
 function badgeText(hex){return lum(hex)>.6?"#002169":"#ffffff"}
+/* the text colour on a route badge: one choice per route, used by the timetable, map, guide, fare chart and network */
+function txtOn(id,bg,fn){return (state.routeText&&state.routeText[id])||(fn||badgeText)(bg)}
 function cellText(hex){return lum(hex)<.25?"#ffffff":"#002169"}
 function readableOn(hex){const [r,g,b]=hexRgb(hex).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});const L=.2126*r+.7152*g+.0722*b;return L>.32?"#002169":"#ffffff"}
 
@@ -1277,7 +1280,7 @@ function dayLabels(name){
 function expandDay(v){const k=String(v).trim().toUpperCase();return ({MF:"Monday to Friday","M-F":"Monday to Friday",SA:"Saturday",SAT:"Saturday",SU:"Sunday",SUN:"Sunday",SCH:"Schooldays"})[k]||v}
 
 /* ===================== State ===================== */
-const state={route:"44",color:"#E30F13",label:"Summary Timetable",valid:"",routeColors:{"44A":"#FF7190"},sections:[],endNote:"No service on a Sunday",key:[]};
+const state={route:"44",color:"#E30F13",label:"Summary Timetable",valid:"",routeColors:{"44A":"#FF7190"},routeText:{},sections:[],endNote:"No service on a Sunday",key:[]};
 let fileMeta=null;
 
 /* route numbers in natural order: 9, 10, 82, 82A, 82B, 83, X1 */
@@ -1319,7 +1322,7 @@ function layout(){
     let bx=22.68;
     routesInUse().forEach(r=>{
       const w=Math.max(29,width(r,18,"medium")+14), col=colourFor(r);
-      R(bx,16.06,w,29,col,5); T(r,bx+w/2,36.9,18,"medium",badgeText(col),"center"); bx+=w+6;
+      R(bx,16.06,w,29,col,5); T(r,bx+w/2,36.9,18,"medium",txtOn(r,col),"center"); bx+=w+6;
     });
     T(state.label||"",22.68,58.14,9,"light","#ffffff");
     ops.push({k:"img",x:476.03,y:8.95,w:106.76,h:42.41});
@@ -1557,11 +1560,21 @@ function swatchRow(el,current,onPick,key){
   hx.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();hx.blur()}});
 }
 document.addEventListener("click",e=>{document.querySelectorAll("details.pal[open]").forEach(d=>{if(!d.contains(e.target))d.open=false})});
+/* a row to pick the text colour on a route's badge, with Automatic to go back to the readable default */
+function txtRow(host,id,bg,onChange){
+  const cur=(state.routeText||{})[id];
+  host.innerHTML=`<span class="hint" style="margin:0">Text on the badge</span><span class="colorline txtsw"></span>${cur?'<button type="button" class="linkbtn" data-tauto>Automatic</button>':""}`;
+  const setT=t=>{state.routeText=state.routeText||{}; if(t)state.routeText[id]=t; else delete state.routeText[id]; onChange()};
+  swatchRow(host.querySelector(".txtsw"),cur||badgeText(bg),setT,"txt:"+id+":"+(host.id||"row"));
+  const b=host.querySelector("[data-tauto]"); if(b)b.addEventListener("click",()=>setT(null));
+}
 function renderRouteUI(){
   swatchRow($("mainColour"),state.color,c=>{state.color=c;delete state.routeColors[state.route];renderRouteUI();render()},"main");
   const rs=routesInUse().filter(r=>r!==state.route);
   $("routesField").hidden=!rs.length;
-  $("routes").innerHTML=rs.map(r=>`<div class="rt" data-r="${esc(r)}"><span class="chip" style="background:${colourFor(r)};color:${readableOn(colourFor(r))}">${esc(r)}</span><span class="colorline"></span></div>`).join("");
+  txtRow($("mainTxt"),state.route,colourFor(state.route),()=>{renderRouteUI();render()});
+  $("routes").innerHTML=rs.map(r=>`<div class="rt" data-r="${esc(r)}"><span class="chip" style="background:${colourFor(r)};color:${txtOn(r,colourFor(r),readableOn)}">${esc(r)}</span><span class="colorline"></span></div><div class="txtline" data-txt="${esc(r)}"></div>`).join("");
+  $("routes").querySelectorAll("[data-txt]").forEach(h=>txtRow(h,h.dataset.txt,colourFor(h.dataset.txt),()=>{renderRouteUI();render()}));
   $("routes").querySelectorAll(".rt").forEach(row=>{const r=row.dataset.r; swatchRow(row.querySelector(".colorline"),colourFor(r),c=>{state.routeColors[r]=c;renderRouteUI();render()},"r:"+r)});
 }
 const DAYS=["Monday to Friday","Saturday","Sunday","Monday to Saturday","Schooldays","School holidays"];
@@ -1816,7 +1829,7 @@ function applyTemplate(T){
 }
 function showFound(T){
   const box=$("pdfFound"); box.hidden=false;
-  const chips=T.routes.map(r=>`<span class="chip" style="background:${T.colors[r]||state.color};color:${badgeText(T.colors[r]||state.color)}">${esc(r)}</span>`).join("");
+  const chips=T.routes.map(r=>`<span class="chip" style="background:${T.colors[r]||state.color};color:${txtOn(r,T.colors[r]||state.color)}">${esc(r)}</span>`).join("");
   const row=(k,v)=>`<div class="fr"><span>${k}</span><span>${v}</span></div>`, miss=`<span class="miss">Not found, set it below</span>`;
   box.innerHTML=row("Routes",T.routes.length?`<span class="chips">${chips}</span>`:miss)
     +row("Tables",T.sections.length?T.sections.map(s=>esc(s.day+(s.sub?" | "+s.sub:""))).join("<br>"):miss)
@@ -3419,14 +3432,14 @@ function mapRenderRoutes(){
   if(!mapState.routes.length){box.innerHTML='<p class="hint">Add your stops to set up the routes.</p>';return}
   box.innerHTML=mapState.routes.map((r,i)=>{const c=mapColour(r.id,i); const ends=[...r.termini].sort((a,b)=>a-b).map(k=>r.stops[k]).filter(Boolean).map(s=>s.stop||s.town);
     return `<div class="sec" data-i="${i}">
-      <div class="rt"><input class="rid" value="${esc(r.id)}" maxlength="6" aria-label="Route number"${locked?" readonly title=\"Set on the Timetable tab\"":""} style="background:${c};color:${readableOn(c)};border-color:${c}"><span class="colorline"></span>${mapState.routes.length>1?`<button type="button" class="ib" data-rm aria-label="Remove route ${esc(r.id)} from the map" title="Remove this route from the map">✕</button>`:""}</div>
-      <div class="rt" style="margin-top:6px"><span class="hint" style="margin:0">Text on the badge</span><span class="colorline txtsw"></span>${(mapState.routeText||{})[r.id]?'<button type="button" class="linkbtn" data-tauto>Automatic</button>':""}</div>
+      <div class="rt"><input class="rid" value="${esc(r.id)}" maxlength="6" aria-label="Route number"${locked?" readonly title=\"Set on the Timetable tab\"":""} style="background:${c};color:${txtOn(r.id,c,readableOn)};border-color:${c}"><span class="colorline"></span>${mapState.routes.length>1?`<button type="button" class="ib" data-rm aria-label="Remove route ${esc(r.id)} from the map" title="Remove this route from the map">✕</button>`:""}</div>
+      <div class="rt" style="margin-top:6px"><span class="hint" style="margin:0">Text on the badge</span><span class="colorline txtsw"></span>${(state.routeText||{})[r.id]?'<button type="button" class="linkbtn" data-tauto>Automatic</button>':""}</div>
       <p class="hint">${r.stops.length} stops · ${esc(r.stops[0].town)} to ${esc(r.stops[r.stops.length-1].town)}. ${esc(r.id)} badge at: ${esc([...new Set(ends)].join(", "))}.</p>
     </div>`}).join("")+(locked?'<p class="hint">Colours are shared with the timetable.</p>':"");
   box.querySelectorAll(".sec").forEach(el=>{const i=+el.dataset.i, r=mapState.routes[i];
     swatchRow(el.querySelector(".colorline"),mapColour(r.id,i),c=>mapSetColour(r.id,c),"map:"+r.id);
-    const setText=t=>{mapState.routeText=mapState.routeText||{}; if(t)mapState.routeText[r.id]=t; else delete mapState.routeText[r.id]; render(); mapRenderRoutes()};
-    swatchRow(el.querySelector(".txtsw"),(mapState.routeText||{})[r.id]||badgeText(mapColour(r.id,i)),setText,"maptxt:"+r.id);
+    const setText=t=>{state.routeText=state.routeText||{}; if(t)state.routeText[r.id]=t; else delete state.routeText[r.id]; render(); mapRenderRoutes()};
+    swatchRow(el.querySelector(".txtsw"),(state.routeText||{})[r.id]||badgeText(mapColour(r.id,i)),setText,"maptxt:"+r.id);
     const ta=el.querySelector("[data-tauto]"); if(ta)ta.addEventListener("click",()=>setText(null));
     const rm=el.querySelector("[data-rm]");
     if(rm)rm.addEventListener("click",()=>{mapState.routes.splice(i,1); mapSetRoutes(mapState.routes,mapState.source,mapState.ttRoutes)});
@@ -3483,7 +3496,7 @@ function mapEnsure(){
 }
 function mapCfg(){
   const D=mapData();
-  const routes=mapState.routes.map((r,i)=>({id:r.id,color:mapColour(r.id,i),tcol:(mapState.routeText||{})[r.id]||null,termini:r.termini,stops:r.stops})).map(r=>{
+  const routes=mapState.routes.map((r,i)=>({id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:r.termini,stops:r.stops})).map(r=>{
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
@@ -3564,10 +3577,11 @@ function scRender(){
   const sz=Math.round((+S.size||0.8)*100); $("scSize").value=sz; $("scSizeV").textContent=sz+"%";
   const box=$("scRoutes");
   box.innerHTML=S.routes.map((r,i)=>`<div class="scr" data-i="${i}"><div class="scrh"><input value="${esc(r.id)}" maxlength="6" aria-label="Route number" placeholder="Route"><div class="colorline sccol"></div>${S.routes.length>1?`<button type="button" class="ib" data-del aria-label="Remove this route">✕</button>`:""}</div>
-    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea><div class="sckey"><label>Key label <input data-sckey value="${esc(r.key||"")}" placeholder="Route ${esc(r.id)}" maxlength="60"></label><span class="scn">${scLines(r).length} places</span></div></div>`).join("");
+    <textarea rows="${Math.max(3,scLines(r).length+1)}" placeholder="Haverhill&#10;Stradishall&#10;Horringer" aria-label="Towns on route ${esc(r.id)}">${esc(r.towns||"")}</textarea><div class="txtline" data-scid="${i}"></div><div class="sckey"><label>Key label <input data-sckey value="${esc(r.key||"")}" placeholder="Route ${esc(r.id)}" maxlength="60"></label><span class="scn">${scLines(r).length} places</span></div></div>`).join("");
   box.querySelectorAll(".scr").forEach(el=>{const r=S.routes[+el.dataset.i];
     el.querySelector(".scrh input").addEventListener("input",ev=>{r.id=ev.target.value.trim().toUpperCase(); if(r.color)state.routeColors[r.id]=r.color; scLater()});
     const i=+el.dataset.i; swatchRow(el.querySelector(".sccol"),r.color||mapColour(r.id,i),c=>{r.color=c; state.routeColors[r.id]=c; mapRenderRoutes(); render(); scRender()},"sc"+i);
+    txtRow(el.querySelector("[data-scid]"),r.id,r.color||mapColour(r.id,i),()=>{render();scRender()});
     el.querySelector("[data-sckey]").addEventListener("input",ev=>{r.key=ev.target.value; render()});
     el.querySelector("textarea").addEventListener("input",ev=>{r.towns=ev.target.value; el.querySelector(".scn").textContent=`${scLines(r).length} places`; scLater()});
     const d=el.querySelector("[data-del]"); if(d)d.addEventListener("click",()=>{S.routes.splice(+el.dataset.i,1); scRender(); scLater()})});
@@ -3755,7 +3769,7 @@ function fareLayout(cfg){
   R(0,0,W,70.95,"#223160");
   if(cfg.headMode==="text"&&String(cfg.headText||"").trim()){const t=String(cfg.headText).trim(), z=fitS(t,24,"semibold",W-190,10); T(t,22.68,40.5,z,"semibold","#FFFFFF")}
   else{let bx=22.68; (cfg.routes||[]).forEach(({id:r,color:c})=>{const w=Math.max(29,width(r,18,"medium")+14);
-    R(bx,16.06,w,29,c,5); T(r,bx+w/2,36.9,18,"medium",badgeText(c),"center"); bx+=w+6})}
+    R(bx,16.06,w,29,c,5); T(r,bx+w/2,36.9,18,"medium",txtOn(r,c),"center"); bx+=w+6})}
   T(cfg.title||"",22.68,58.14,9,"light","#FFFFFF");
   ops.push({k:"img",src:"logo",x:W-119.25,y:8.95,w:106.76,h:42.41});
   if(cfg.valid)T(`Valid from ${longDate(cfg.valid)}`,W-22.68,58.28,9,"light","#FFFFFF","right");
@@ -4098,7 +4112,8 @@ function fareRenderColour(){
   $("fareHeadRoutes").hidden=mode!=="routes"; $("fareHeadTextWrap").hidden=mode!=="text"; $("fareHeadText").value=fareState.headText||"";
   let list=fareState.routes&&fareState.routes.length?fareState.routes.map(r=>({...r})):fareRoutesOf(fareState); if(!list.length)list=[{id:"",color:fareState.color||"#1E7AD6"}];
   const box=$("fareRouteRows");
-  box.innerHTML=list.map((r,i)=>`<div class="frow" data-i="${i}"><input class="frid" value="${esc(r.id)}" maxlength="6" placeholder="e.g. 44" aria-label="Route number ${i+1}"><div class="colorline"></div>${list.length>1?`<button type="button" class="ib" data-rdel aria-label="Remove this route number">✕</button>`:"<span></span>"}</div>`).join("");
+  box.innerHTML=list.map((r,i)=>`<div class="frow" data-i="${i}"><input class="frid" value="${esc(r.id)}" maxlength="6" placeholder="e.g. 44" aria-label="Route number ${i+1}"><div class="colorline"></div>${list.length>1?`<button type="button" class="ib" data-rdel aria-label="Remove this route number">✕</button>`:"<span></span>"}</div><div class="txtline" data-ti="${i}"></div>`).join("");
+  box.querySelectorAll("[data-ti]").forEach(h=>{const q=list[+h.dataset.ti]; txtRow(h,q.id,q.color,()=>{fareRenderColour();render()})});
   box.querySelectorAll(".frow").forEach(row=>{const i=+row.dataset.i;
     row.querySelector(".frid").addEventListener("input",ev=>{list[i].id=ev.target.value.trim().toUpperCase(); fareSetRoutes(list); render()});
     swatchRow(row.querySelector(".colorline"),list[i].color,c=>{list[i].color=c; fareSetRoutes(list); fareRenderColour(); render()},"fare"+i);
@@ -4198,7 +4213,7 @@ function gCover(c){
   rs.forEach(r=>{ const tw=c.coverNums?width(r,11,"semibold")+10:0, w=Math.max(29,tw);
     if(x>11.3&&x+w>maxR){x=11.3;y+=37.1}
     const col=gColour(r); O.R(x,y,w,29,col,3.6);
-    if(c.coverNums){const s=gFitSize(r,11,"semibold",w-6,6);O.T(r,x+w/2,y+14.5+.36*s,s,"semibold",badgeText(col),"center")}
+    if(c.coverNums){const s=gFitSize(r,11,"semibold",w-6,6);O.T(r,x+w/2,y+14.5+.36*s,s,"semibold",txtOn(r,col),"center")}
     x+=w+4.6; bottom=y+29 });
   O.L(11.3,Math.max(250.6,bottom+20),242.8,Math.max(250.6,bottom+20),"#FFFFFF",.44,.45);
   if(c.cover&&guideState.uploads[c.cover]){const u=guideState.uploads[c.cover], bw=243, bh=150, sc=Math.min(bw/u.w,bh/u.h), w=u.w*sc, h=u.h*sc;
@@ -4231,7 +4246,7 @@ function gContents(c,rows){
     if(i%2===0)O.R(13,y,254.6,h,"#FFFFFF",8);
     const mid=y+h/2;
     if(B){const top=mid-leftH/2; B.out.forEach(q=>{const col=gColour(q.rt), by=top+q.line*(BH+BG);
-        O.R(NX+q.x,by,q.w,BH,col,2.5); O.T(q.rt,NX+q.x+q.w/2,by+BH/2+2.25,6.3,"semibold",badgeText(col),"center")})}
+        O.R(NX+q.x,by,q.w,BH,col,2.5); O.T(q.rt,NX+q.x+q.w/2,by+BH/2+2.25,6.3,"semibold",txtOn(q.rt,col),"center")})}
     else{const top=mid-numLines.length*LH/2+6.6; numLines.forEach((l,k)=>O.TR(l,NX,top+k*LH,7))}
     const dt=mid-desc.length*LH/2+6.6; desc.forEach((l,k)=>O.TR(l,DX,dt+k*LH,7));
     if(c.pageNums&&r.page)O.T(String(r.page),right,mid+2.45,7,"semibold",GC.ink,"right");
@@ -4297,7 +4312,7 @@ function gTT(e){
   const newPage=()=>{ops=[];O=gOps(ops);pages.push(ops);X0=XB;XR=XE};
   const header=(sec,cont)=>{
     O.R(0,0,LW,31,GC.navy);
-    let bx=X0; routes.forEach(r=>{const w=Math.max(21,width(r,12.5,"medium")+9), col=gColour(r); O.R(bx,5,w,21,col,3.5); O.T(r,bx+w/2,20,gFitSize(r,12.5,"medium",w-4,7),"medium",badgeText(col),"center"); bx+=w+2.3});
+    let bx=X0; routes.forEach(r=>{const w=Math.max(21,width(r,12.5,"medium")+9), col=gColour(r); O.R(bx,5,w,21,col,3.5); O.T(r,bx+w/2,20,gFitSize(r,12.5,"medium",w-4,7),"medium",txtOn(r,col),"center"); bx+=w+2.3});
     if(e.label)O.T(fit(e.label,7,"light",200),bx+16,18.4,7,"light","#FFFFFF");
     const [d,s]=dayText(sec), sub=s+(cont?(s?" (continued)":"(continued)"):"");
     const runs=[[d,"semibold",GC.banner]]; if(sub){runs.push(["  |  ","light",GC.pipe]);runs.push([sub,"light",GC.banner])}
@@ -4333,7 +4348,7 @@ function gTT(e){
     cells.forEach((c,j)=>{const x=CX+j*CW, col=gColour(c.route||mainR);
       if(n===1)O.R(x,by,CW,BAR,col,3); else if(j===0){O.R(x,by,CW,BAR,col,3);O.R(x+CW/2,by,CW/2,BAR,col)} else if(j===n-1){O.R(x,by,CW,BAR,col,3);O.R(x,by,CW/2,BAR,col)} else O.R(x,by,CW,BAR,col);
       if(j>0)O.L(x,by,x,by+BAR,"#FFFFFF",.4);
-      const rt=c.route||mainR, z=gFitSize(rt,6.3,"semibold",CW-3,4); O.T(fit(rt,z,"semibold",CW-3),x+CW/2,by+BAR/2+.36*z,z,"semibold",badgeText(col),"center")});
+      const rt=c.route||mainR, z=gFitSize(rt,6.3,"semibold",CW-3,4); O.T(fit(rt,z,"semibold",CW-3),x+CW/2,by+BAR/2+.36*z,z,"semibold",txtOn(rt,col),"center")});
     y=by+BAR; const tableR=CX+n*CW, fs=5.5-(RHMAX-RH)*.18;
     for(let i=r0;i<r1;i++){const ry=y+(i-r0)*RH;
       if((i-r0)%2===1)O.R(X0,ry,tableR-X0,RH,GC.grey);
@@ -4720,7 +4735,7 @@ const GB_FIXED=new Set(["cover","back"]);
 function gIcKey(b){return b.type==="advert"&&b.img==="promise"?"promise":b.type==="advert"&&b.img==="app"?"app":b.type}
 function gBlockTitle(b){
   if(b.type==="route"){const e=gEntry(b.eid), rs=e?gEntryRoutes(e):[];
-    return `<span class="chips">${rs.map(r=>`<span class="chip" style="background:${gColour(r)};color:${readableOn(gColour(r))}">${esc(r)}</span>`).join("")}</span> ${rs.length?"":"Route timetable"}`}
+    return `<span class="chips">${rs.map(r=>`<span class="chip" style="background:${gColour(r)};color:${txtOn(r,gColour(r),readableOn)}">${esc(r)}</span>`).join("")}</span> ${rs.length?"":"Route timetable"}`}
   if(b.type==="advert"){if(b.img==="app")return "App page"; const u=b.img&&guideState.uploads[b.img]; return u&&u.builtin?esc(u.name):b.img?"Advert":"Blank page"}
   return GB_NAME[b.type];
 }
@@ -4747,7 +4762,7 @@ function gEditorHtml(b){
   const c=guideState;
   if(b.type==="cover"||b.type==="contents"||b.type==="back")return `<div data-slot="${b.type}"></div>`;
   if(b.type==="route"){const e=gEntry(b.eid); if(!e)return `<p class="hint">This timetable has gone. Remove the block.</p>`; const rs=gEntryRoutes(e), codes=gCodes(e.sections);
-    return `<div class="field">Route colour${rs.length>1?"s":""} <span class="opt">Used on the cover, contents, timetables and map</span><div class="routes">${rs.map(r=>`<div class="rt" data-r="${esc(r)}"><span class="chip" style="background:${gColour(r)};color:${readableOn(gColour(r))}">${esc(r)}</span><span class="colorline"></span></div>`).join("")}</div></div>
+    return `<div class="field">Route colour${rs.length>1?"s":""} <span class="opt">Used on the cover, contents, timetables and map</span><div class="routes">${rs.map(r=>`<div class="rt" data-r="${esc(r)}"><span class="chip" style="background:${gColour(r)};color:${txtOn(r,gColour(r),readableOn)}">${esc(r)}</span><span class="colorline"></span></div><div class="txtline" data-txt="${esc(r)}"></div>`).join("")}</div></div>
     <div class="row"><label>Contents number <input data-k="num" value="${esc(e.num||"")}" placeholder="${esc(rs.join(" / "))}"></label>
       <label>Label in the header <input data-k="label" value="${esc(e.label||"")}" placeholder="Summary Timetable"></label></div>
     <label>Contents description <textarea class="short" rows="2" data-k="desc" placeholder="${esc(gDefaultDesc(e))}">${esc(e.desc!=null?e.desc:"")}</textarea></label>
@@ -4798,8 +4813,9 @@ function gWireEditor(li,b){
   const c=guideState;
   if(b.type==="route"){const e=gEntry(b.eid); if(!e)return;
     li.querySelectorAll(".rt").forEach(row=>{const r=row.dataset.r, line=row.querySelector(".colorline"), chip=row.querySelector(".chip");
-      const pickC=col=>{c.colors[r]=col; chip.style.background=col; chip.style.color=readableOn(col); swatchRow(line,col,pickC,"g:"+r); state.routeColors[r]=col; render()};
+      const pickC=col=>{c.colors[r]=col; chip.style.background=col; chip.style.color=txtOn(r,col,readableOn); swatchRow(line,col,pickC,"g:"+r); state.routeColors[r]=col; render()};
       swatchRow(line,gColour(r),pickC,"g:"+r)});
+    li.querySelectorAll("[data-txt]").forEach(h=>txtRow(h,h.dataset.txt,gColour(h.dataset.txt),()=>{render()}));
     li.querySelector("details").addEventListener("toggle",ev=>{if(ev.target.open)c.open.add(e.id);else c.open.delete(e.id)});
     const cmb=li.querySelector("[data-combine]"); if(cmb)cmb.addEventListener("change",()=>{const o=gEntry(cmb.value); if(o)gCombineEntries(e,o)});
     li.querySelectorAll("[data-k]").forEach(inp=>inp.addEventListener(inp.type==="checkbox"?"change":"input",()=>{const k=inp.dataset.k; e[k]=inp.value;
@@ -5034,7 +5050,7 @@ async function bodsFile(g){const r=await fetch("bods/"+g.file,{cache:"no-cache"}
 function bodsInfo(I){if(!I.groups.length)return "The BODS timetables aren't available right now.";
   const v=String(I.feed_version||"").slice(0,8), d=v?`${+v.slice(6)} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+v.slice(4,6)-1]} ${v.slice(0,4)}`:"";
   return `${I.groups.length} timetables from the Bus Open Data Service${d?`, data of ${d}`:""}. Times are for a normal school-term week; timing points only.`}
-function bodsItem(g,multi){const chips=g.routes.map(r=>`<span class="chip" style="background:${colourFor(r)};color:${readableOn(colourFor(r))}">${esc(r)}</span>`).join("");
+function bodsItem(g,multi){const chips=g.routes.map(r=>`<span class="chip" style="background:${colourFor(r)};color:${txtOn(r,colourFor(r),readableOn)}">${esc(r)}</span>`).join("");
   return `<${multi?"label":"button type=\"button\""} class="bodsr" data-g="${esc(g.id)}" data-q="${esc((g.routes.join(" ")+" "+g.name).toLowerCase())}">${multi?`<input type="checkbox" value="${esc(g.id)}">`:""}<span class="chips">${chips}</span><span class="bn">${esc(g.name)}<small>${g.journeys} journeys · ${g.days.join(", ")}</small></span></${multi?"label":"button"}>`}
 /* the list of routes, grouped by region, with a search box */
 function bodsRender(box,I,multi){
@@ -5208,7 +5224,7 @@ function btRender(box,multi,onPick,onChange){
     if(my!==run)return; const seen=new Set(); svcs=svcs.filter(s=>!seen.has(s.id)&&seen.add(s.id)).sort((a,b)=>btNat(a.line_name,b.line_name));
     const groups=chosen.length>1?chosen.map(o=>({h:o.name,s:svcs.filter(s=>s.noc===o.noc)})).filter(g=>g.s.length):[{h:"",s:svcs}];
     const item=s=>{const c=colourFor(s.line_name);
-      return `<${multi?"label":"button type=\"button\""} class="bodsr" data-s="${s.id}" data-r="${esc(s.line_name)}" data-q="${esc((s.line_name+" "+s.description).toLowerCase())}">${multi?`<input type="checkbox" value="${s.id}">`:""}<span class="chips"><span class="chip" style="background:${c};color:${readableOn(c)}">${esc(s.line_name)}</span></span><span class="bn">${esc(s.description||"Route "+s.line_name)}<small>${esc([s.op,s.region].filter(Boolean).join(" · "))}</small></span></${multi?"label":"button"}>`};
+      return `<${multi?"label":"button type=\"button\""} class="bodsr" data-s="${s.id}" data-r="${esc(s.line_name)}" data-q="${esc((s.line_name+" "+s.description).toLowerCase())}">${multi?`<input type="checkbox" value="${s.id}">`:""}<span class="chips"><span class="chip" style="background:${c};color:${txtOn(s.line_name,c,readableOn)}">${esc(s.line_name)}</span></span><span class="bn">${esc(s.description||"Route "+s.line_name)}<small>${esc([s.op,s.region].filter(Boolean).join(" · "))}</small></span></${multi?"label":"button"}>`};
     list.innerHTML=`<input type="search" class="bodsq" placeholder="Find a route number or place" aria-label="Find a route">`
       +groups.map(g=>`<div class="bodsgrp">${g.h?`<p class="bodsreg">${esc(g.h)}</p>`:""}${g.s.map(item).join("")}</div>`).join("");
     info.textContent=svcs.length?`${svcs.length} routes on Bus Times. Picking one reads its journeys for the next three weeks, which takes a few seconds.`:"Bus Times has no routes for this operator.";
@@ -5308,7 +5324,7 @@ document.querySelectorAll(".srcpick").forEach(box=>box.querySelectorAll(".srct")
    on is loaded into it, and saved back when you move on, so routes and colours carry through every step. */
 const W={on:false,step:"tt",routes:[],cur:0,nextUid:1,colors:{},guideBuilt:false,nets:[],curNet:null,sel:new Set(),selMode:false};
 const WSTEPS=[["tt","Timetables"],["map","Route maps"],["fare","Fares"],["guide","Bus guide"]];
-const TT_KEYS=["route","color","label","routeColors","sections","endNote","key","keyMeanings"];
+const TT_KEYS=["route","color","label","routeColors","routeText","sections","endNote","key","keyMeanings"];
 const FARE_KEYS=["route","color","routes","headMode","headText","zones","title","valid","sections","foot","panels","expiry","app","small","file","example"];
 function wIds(r){const live=W.on&&W.step==="tt"&&r&&r===W.routes[W.cur], st=live?state:r&&r.tt&&r.tt.state; if(!st||!st.sections.some(s=>s.stops.length))return [];
   const ids=[]; st.sections.forEach(s=>s.cols.forEach(c=>{const x=String(c.route||st.route||"").trim(); if(x&&!ids.includes(x))ids.push(x)})); if(!ids.length&&st.route)ids.push(st.route); return ids.sort(routeOrder)}
@@ -5458,14 +5474,14 @@ function wRender(){
   const list=W.step==="tt"?W.routes:ready, strip=$("wRoutes");
   strip.hidden=W.step==="guide";
   strip.innerHTML=`<span class="wlab">${W.step==="tt"?"Your routes":W.step==="map"?"Choose a route to check its map":"Choose a route"}</span>`+list.map(r=>{const k=W.routes.indexOf(r), ids=wIds(r), st=wSt(r);
-      const chips=ids.length?ids.map(id=>`<span class="chip" style="background:${wColour(st,id)};color:${readableOn(wColour(st,id))}">${esc(id)}</span>`).join(""):`<span class="wnew">New route</span>`;
+      const chips=ids.length?ids.map(id=>`<span class="chip" style="background:${wColour(st,id)};color:${txtOn(id,wColour(st,id),readableOn)}">${esc(id)}</span>`).join(""):`<span class="wnew">New route</span>`;
       const tag=W.step==="fare"?`<small>${r.fare?"Fares added":"No fares"}</small>`:W.step==="map"?`<small>${r.map?"Done":""}</small>`:"";
       return `<span class="wr${k===W.cur?" cur":""}"><button type="button" class="wrb" data-k="${k}" aria-pressed="${k===W.cur}">${chips}${tag}</button>${W.step!=="guide"&&W.routes.length>1?`<button type="button" class="ib xs" data-del="${k}" aria-label="Remove ${esc(wName(r))}" title="Remove this route">✕</button>`:""}</span>`}).join("")
 ;
   if(wStepNet()){
     strip.querySelectorAll(".wr").forEach(sp=>{const b=sp.querySelector("[data-k]"); if(b&&W.sel.has(+b.dataset.k))sp.classList.add("sel"); if(W.curNet!=null)sp.classList.remove("cur")});
     strip.insertAdjacentHTML("beforeend",W.nets.map((n,i)=>{const rs=wNetRoutes(n); if(rs.length<2||wNetKind(n)!==(W.step==="fare"?"fare":"map"))return "";
-      const chips=rs.flatMap(r=>wIds(r).map(id=>`<span class="chip sm" style="background:${wColour(r.tt.state,id)};color:${readableOn(wColour(r.tt.state,id))}">${esc(id)}</span>`)).join("");
+      const chips=rs.flatMap(r=>wIds(r).map(id=>`<span class="chip sm" style="background:${wColour(r.tt.state,id)};color:${txtOn(id,wColour(r.tt.state,id),readableOn)}">${esc(id)}</span>`)).join("");
       return `<span class="wr net${W.curNet===i?" cur":""}"><button type="button" class="wrb" data-net="${i}" aria-pressed="${W.curNet===i}"><b class="wnl">Network</b>${chips}<small>${W.step==="fare"?(n.fare?"Fares added":""):n.map?"Done":""}</small></button><button type="button" class="ib xs" data-netdel="${i}" aria-label="Remove this network ${wNetWord()}">✕</button></span>`}).join("")
       +(ready.length>1?`<button type="button" class="linkbtn wnetpick" id="wNetPick">${W.selMode?"Cancel":"+ Network "+wNetWord()}</button>`:""));
     strip.querySelectorAll("[data-net]").forEach(b=>b.addEventListener("click",()=>{wSave(); W.curNet=+b.dataset.net; W.sel=new Set(); W.selMode=false; $("status").textContent=""; wLoad()}));
@@ -5478,7 +5494,7 @@ function wRender(){
     W.sel=new Set(); W.selMode=false; wGo(W.step,k)}));
   const nb=$("wNetBar"), net=wStepNet()&&!W.selMode&&W.curNet!=null?W.nets[W.curNet]:null; nb.hidden=!(wStepNet()&&(W.selMode||net));
   if(net){nb.innerHTML=`<span>Routes on this network ${wNetWord()}:</span>`+ready.map(r=>{const k=W.routes.indexOf(r), on=net.members.includes(r.uid);
-      return `<button type="button" class="wnt${on?" on":""}" data-nt="${k}" aria-pressed="${on}" title="${on?"Take off":"Put on"} this map">${wIds(r).map(id=>`<span class="chip" style="background:${wColour(r.tt.state,id)};color:${readableOn(wColour(r.tt.state,id))}">${esc(id)}</span>`).join("")}</button>`}).join("")
+      return `<button type="button" class="wnt${on?" on":""}" data-nt="${k}" aria-pressed="${on}" title="${on?"Take off":"Put on"} this map">${wIds(r).map(id=>`<span class="chip" style="background:${wColour(r.tt.state,id)};color:${txtOn(id,wColour(r.tt.state,id),readableOn)}">${esc(id)}</span>`).join("")}</button>`}).join("")
       +`<span class="hint" style="margin:0">Click a route to take it off the ${wNetWord()} or put it back.</span>`;
     nb.querySelectorAll("[data-nt]").forEach(b=>b.addEventListener("click",()=>{const r=W.routes[+b.dataset.nt], i=net.members.indexOf(r.uid);
       if(i>=0){if(net.members.length<=2){wNote(`A network ${wNetWord()} needs at least two routes.`,true);return} net.members.splice(i,1)} else net.members.push(r.uid);
@@ -5599,14 +5615,14 @@ const mapSaveFile=async()=>{const msg=$("status");
   const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
   const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:mapState.routeText||{},snap:mapSnapW()}},W:{routes:[],nets:[]},guide:{}};
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW()}},W:{routes:[],nets:[]},guide:{}};
   const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
 document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
 function mapOpenFile(m){
   mapSetKind("route");
   Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
-  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.routeText=m.routeText||{};
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; state.routeText=m.routeText||{};
   mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
   const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
   mapSetRoutes(routes,m.source||"Map file",false);
