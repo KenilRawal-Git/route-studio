@@ -514,7 +514,7 @@ span.gbt{cursor:default}
 <nav class="tabs" id="seg" hidden aria-label="What you're making"><div class="in">
   <button type="button" id="segHome" class="home" aria-label="All tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
   <span class="tdiv" aria-hidden="true"></span>
-  <button type="button" data-tab="tt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg><span>Timetable</span></button><button type="button" data-tab="map" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>Route map</span></button><button type="button" data-tab="fare" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V5h18v4a3 3 0 0 0 0 6v4H3v-4a3 3 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 2"/></svg><span>Fare chart</span></button><button type="button" data-tab="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5z"/><path d="M12 6v14"/></svg><span>Bus guide</span></button>
+  <button type="button" data-tab="tt" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg><span>Timetable</span></button><button type="button" data-tab="map" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>Route map</span></button><button type="button" data-tab="dep" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Departures</span></button><button type="button" data-tab="fare" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V5h18v4a3 3 0 0 0 0 6v4H3v-4a3 3 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 2"/></svg><span>Fare chart</span></button><button type="button" data-tab="guide" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-1.5v14c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-14c-3-.5-6 0-8 1.5z"/><path d="M12 6v14"/></svg><span>Bus guide</span></button>
 <button type="button" class="tabopen" id="goSchoolSave" data-scsave hidden title="Save this school map to a file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save school map</span></button><button type="button" class="tabopen" id="goMapSave" data-mapsave hidden title="Save this map to a project file you can open again to make changes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save map</span></button><label class="tabopen upl" title="Open a Route Studio project file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg><span>Open project</span><input type="file" class="rsopen" accept=".json,application/json" aria-label="Open a Route Studio project file"></label>
 </div></nav>
 <div class="wrap">
@@ -838,6 +838,18 @@ span.gbt{cursor:default}
             <div class="btnrow"><button type="button" class="btn ghost" id="mapCopy">Copy query</button></div>
           </div>
         </details>
+      </fieldset>
+      <fieldset id="depSet" hidden>
+        <legend><span class="num">1</span>Departure boards</legend>
+        <p class="hint">Each board is a heading with the stops it shows. Pick the timetable direction and the stop; the times come from your timetable.</p>
+        <div id="depBoards"></div>
+        <button type="button" class="linkbtn" id="depAdd">+ Add a board</button>
+      </fieldset>
+      <fieldset id="depSizeSet" hidden>
+        <legend><span class="num">2</span>Size</legend>
+        <div class="row"><label>Width (mm) <input id="depW" type="number" min="40" max="1200" step="1"></label><label>Height (mm) <input id="depH" type="number" min="40" max="1200" step="1"></label></div>
+        <label class="check"><input type="checkbox" id="depLock" checked> Keep the proportions</label>
+        <p class="hint">With the proportions kept, changing the width changes the height too, and the other way round. The boards grow or shrink to fill the page.</p>
       </fieldset>
       <fieldset id="fareDataSet" hidden>
         <legend><span class="num">1</span>Fares</legend>
@@ -1617,6 +1629,7 @@ function renderKeyUI(){
 
 let raf=0; function render(){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}
 function draw(){
+  if(state.stage==="dep"){$("nextMap").hidden=true;depDraw();return}
   if(state.stage==="fare"){$("nextMap").hidden=true;fareDraw();return}
   if(state.stage==="guide"){$("nextMap").hidden=true;guideDraw();return}
   $("nextMap").hidden=state.stage==="map"||state.mode==="map"||!state.sections.some(s=>s.stops.some(x=>isFinite(x.lat)||x.code));
@@ -1870,9 +1883,10 @@ document.querySelectorAll('input[name=times]').forEach(r=>r.addEventListener("ch
   if(r.value==="new"&&r.checked){ $("dataSet").hidden=false; numberSteps(); $("dataSet").scrollIntoView({behavior:"smooth",block:"start"}) } else useTimesChoice() }));
 function numberSteps(){let n=0; document.querySelectorAll("#f fieldset").forEach(fs=>{if(!fs.hidden){const s=fs.querySelector("legend .num");if(s)s.textContent=++n}})}
 function setMode(m){
-  state.mode=m; if(m==="new"||m==="upd")state.ttMode=m; $("ttModes").hidden=!(m==="new"||m==="upd"); const upd=m==="upd", only=m==="map", fare=m==="fare", guide=m==="guide";
+  state.mode=m; if(m==="new"||m==="upd")state.ttMode=m; $("ttModes").hidden=!(m==="new"||m==="upd"); const upd=m==="upd", only=m==="map", fare=m==="fare", guide=m==="guide", dep=m==="dep";
   $("modeNew").setAttribute("aria-selected",String(m==="new")); $("modeUpd").setAttribute("aria-selected",String(upd)); $("modeMap").setAttribute("aria-selected",String(only)); $("modeFare").setAttribute("aria-selected",String(fare));
-  $("stages").hidden=only||fare||guide;
+  $("stages").hidden=only||fare||guide||dep;
+  if(dep){setStage("dep");return}
   if(fare){setStage("fare");return}
   if(guide){setStage("guide");return}
   if(!only){
@@ -1884,20 +1898,118 @@ function setMode(m){
 }
 /* two stages: the timetable, then the route map made from it */
 function setStage(st){
-  state.stage=st; const map=st==="map", fare=st==="fare", guide=st==="guide", upd=state.mode==="upd";
+  state.stage=st; const map=st==="map", fare=st==="fare", guide=st==="guide", dep=st==="dep", upd=state.mode==="upd";
   $("stageTT").setAttribute("aria-selected",String(st==="tt")); $("stageMap").setAttribute("aria-selected",String(map));
-  [$("route").closest("fieldset"),$("sections").closest("fieldset"),$("keySet"),document.querySelector("details.more")].forEach(el=>{if(el)el.hidden=map||fare||guide});
+  [$("route").closest("fieldset"),$("sections").closest("fieldset"),$("keySet"),document.querySelector("details.more")].forEach(el=>{if(el)el.hidden=map||fare||guide||dep});
+  $("depSet").hidden=!dep; $("depSizeSet").hidden=!dep;
   ["mapStopsSet","mapRoutesSet","mapViewSet","mapTextSet","mapDataSet"].forEach(id=>$(id).hidden=!map);
   ["fareDataSet","fareHeadSet","fareSecSet","farePanelSet"].forEach(id=>$(id).hidden=!fare);
   $("gPagesSet").hidden=!guide;
-  $("pdfSet").hidden=map||fare||guide||!upd;
-  if(map||fare||guide)$("dataSet").hidden=true; else if(upd&&state.template)useTimesChoice(); else $("dataSet").hidden=false;
+  $("pdfSet").hidden=map||fare||guide||dep||!upd;
+  if(map||fare||guide||dep)$("dataSet").hidden=true; else if(upd&&state.template)useTimesChoice(); else $("dataSet").hidden=false;
   $("goPrint").hidden=!guide; if(typeof scUi==="function")scUi();
-  $("goLabel").textContent=guide?"Download bus guide PDF":fare?"Download fare chart PDF":map?"Download map PDF":"Download timetable PDF";
+  $("goLabel").textContent=guide?"Download bus guide PDF":fare?"Download fare chart PDF":map?"Download map PDF":dep?"Download departures PDF":"Download timetable PDF";
   $("sheets").setAttribute("aria-label",guide?"Bus guide preview":fare?"Fare chart preview":map?"Route map preview":"Timetable preview");
   $("status").textContent="";
-  if(map)mapEnsure(); if(fare)fareEnsure(); if(guide)guideEnsure();
+  if(map)mapEnsure(); if(fare)fareEnsure(); if(guide)guideEnsure(); if(dep)depEnsure();
   numberSteps(); render();
+}
+
+/* ---------- departures: boards that show the times buses leave a stop, taken from the timetable ---------- */
+const DEP={M:22,GAP:20,BW:230,RH:24,HGAP:12,TEAL:"#52AAC1",NAVY:"#002169",PT:2.8346};
+const depState={boards:[],w:null,h:null,lock:true,ratio:1,init:false,last:null};
+function depSecKey(x){return x.name+" | "+(x.direction||"")}
+function depStopKey(x){return x.town+" | "+(x.stop||"")}
+function depDest(sec){const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); if(d.length)return d[d.length-1]; const l=sec.stops[sec.stops.length-1]; return l?(l.stop?l.town+", "+l.stop:l.town):""}
+function depStopLabel(x){return x.stop?`${x.town}, ${x.stop}`:x.town}
+function depSecs(){return state.sections.filter(x=>x.stops.length)}
+function depFind(key){return depSecs().find(x=>depSecKey(x)===key)||null}
+function depTimes(sec,stopKey){const i=sec.stops.findIndex(x=>depStopKey(x)===stopKey); if(i<0)return null; const out=[];
+  (sec.times[i]||[]).forEach(t=>{const v=String(t==null?"":t).trim().replace(".",":"); if(/^\d{1,2}:\d{2}$/.test(v))out.push(v.padStart(5,"0"))}); return out.sort()}
+function depWrap(t,size,wt,maxW){const words=String(t).split(/\s+/).filter(Boolean), L=[]; let cur="";
+  words.forEach(w=>{const tr=cur?cur+" "+w:w; if(cur&&width(tr,size,wt)>maxW){L.push(cur);cur=w} else cur=tr}); if(cur)L.push(cur); return L.length?L:[""]}
+function depDefault(){depState.boards=[]; const seen=new Set();
+  depSecs().forEach(x=>{const d=depDest(x); if(seen.has(d))return; seen.add(d); depState.boards.push({title:"Buses towards "+d,blocks:[{sec:depSecKey(x),stop:depStopKey(x.stops[0])}]})})}
+function depEnsure(){ if(!depState.init&&depSecs().length){depDefault(); depState.init=true} depRenderBoards(); }
+/* the board shapes in design units (points at 100%); the page scales them to fit */
+function depBuild(){
+  const {M,GAP,BW,RH,HGAP,NAVY,TEAL}=DEP, HS=15, HL=18, shapes=[];
+  const boards=depState.boards.map(b=>{
+    const head=depWrap(b.title||"",HS,"semibold",BW);
+    const blocks=b.blocks.map(k=>{const sec=depFind(k.sec); const st=sec?sec.stops.find(x=>depStopKey(x)===k.stop):null;
+      const head2=depWrap(sec&&st?"From "+depStopLabel(st):"Stop not in this timetable",12,"semibold",BW-16);
+      const times=sec&&st?depTimes(sec,k.stop):[];
+      const rows=times.length?times:[null];
+      return {head:head2, hh:head2.length*15+12, rows}});
+    const h=head.length*HL+8+blocks.reduce((a,bl)=>a+bl.hh+bl.rows.length*RH+HGAP,0);
+    return {head,blocks,h}});
+  const perRow=2, rows=[]; for(let i=0;i<boards.length;i+=perRow)rows.push(boards.slice(i,i+perRow));
+  let y=M, maxCols=Math.min(perRow,Math.max(1,boards.length));
+  rows.forEach(row=>{ const rh=Math.max(...row.map(b=>b.h));
+    row.forEach((b,j)=>{const bx=M+j*(BW+GAP); let by=y;
+      b.head.forEach((t,i)=>shapes.push({k:"t",x:bx,y:by+HS+i*HL,text:t,size:HS,w:"semibold",color:NAVY})); by+=b.head.length*HL+8;
+      b.blocks.forEach(bl=>{shapes.push({k:"r",x:bx,y:by,w:BW,h:bl.hh,c:TEAL});
+        bl.head.forEach((t,i)=>shapes.push({k:"t",x:bx+BW/2,y:by+6+11+i*15,text:t,size:12,w:"semibold",color:"#FFFFFF",align:"center"}));
+        by+=bl.hh;
+        bl.rows.forEach(t=>{shapes.push({k:"r",x:bx,y:by,w:BW,h:RH,c:"#FFFFFF",stroke:"#B8C2CC",sw:0.7});
+          shapes.push({k:"t",x:bx+BW/2,y:by+RH/2+4.3,text:t||"No times",size:12.5,w:"normal",color:t?"#000000":"#888888",align:"center"}); by+=RH});
+        by+=HGAP});
+    });
+    y+=rh+GAP;
+  });
+  const cW=maxCols*BW+(maxCols-1)*GAP+2*M, cH=Math.max(y-GAP,M+60)+M;
+  return {shapes,cW:boards.length?cW:BW+2*M,cH:boards.length?cH:110};
+}
+function depRenderOps(B,tr){const f=v=>Math.round(v*100)/100, X=v=>tr.ox+v*tr.s, Y=v=>tr.oy+v*tr.s, out=[];
+  B.shapes.forEach(o=>{
+    if(o.k==="r")out.push({k:"r",x:X(o.x),y:Y(o.y),w:o.w*tr.s,h:o.h*tr.s,c:o.c,...(o.stroke?{stroke:o.stroke,sw:o.sw*tr.s}:{})});
+    else out.push({k:"t",text:o.text,x:X(o.x),y:Y(o.y),size:o.size*tr.s,w:o.w,color:o.color,...(o.align?{align:o.align}:{})})});
+  return out}
+function depDraw(){
+  if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
+  const B=depBuild(), cW=B.cW, cH=B.cH; depState.ratio=cH/cW;
+  if(depState.w==null){depState.w=Math.round(cW/DEP.PT); depState.h=Math.round(cH/DEP.PT)}
+  if(depState.lock)depState.h=Math.round(depState.w*depState.ratio);
+  const W=depState.w*DEP.PT, H=depState.h*DEP.PT, s=Math.min(W/cW,H/cH), ox=(W-cW*s)/2, oy=(H-cH*s)/2;
+  const ops=depRenderOps(B,{s,ox,oy});
+  depState.last={pages:[ops],W,H};
+  const wi=$("depW"), hi=$("depH"); if(wi&&document.activeElement!==wi)wi.value=depState.w; if(hi&&document.activeElement!==hi)hi.value=depState.h;
+  $("pages").textContent=`${depState.w} × ${depState.h} mm`;
+  $("sheets").innerHTML=`<div class="page">${fareSvg(ops,W,H)}</div>`;
+}
+function depRenderBoards(){
+  const box=$("depBoards"), secs=depSecs();
+  if(!secs.length){box.innerHTML='<p class="hint">Load a timetable on the Timetable tab first. The boards take their times from it.</p>';return}
+  const secOpts=cur=>secs.map(x=>`<option value="${esc(depSecKey(x))}"${depSecKey(x)===cur?" selected":""}>${esc(x.name)} · towards ${esc(depDest(x))}</option>`).join("");
+  const stopOpts=(sec,cur)=>sec.stops.map(x=>`<option value="${esc(depStopKey(x))}"${depStopKey(x)===cur?" selected":""}>${esc(depStopLabel(x))}</option>`).join("");
+  box.innerHTML=depState.boards.map((b,bi)=>`<div class="depb" data-b="${bi}">
+    <label>Heading <input data-bt value="${esc(b.title)}"></label>
+    ${b.blocks.map((k,ki)=>{const sec=depFind(k.sec)||secs[0]; return `<div class="depk" data-k="${ki}"><label>Timetable <select data-bsec>${secOpts(k.sec)}</select></label><label>Stop <select data-bstop>${stopOpts(sec,k.stop)}</select></label><button type="button" class="ib" data-bdel aria-label="Remove this stop">✕</button></div>`}).join("")}
+    <div class="deprow"><button type="button" class="linkbtn" data-badd>+ Add a stop</button>${depState.boards.length>1?'<button type="button" class="linkbtn" data-bboard>Remove this board</button>':""}</div></div>`).join("");
+}
+$("depBoards").addEventListener("input",e=>{ if(!e.target.matches("[data-bt]"))return; depState.boards[+e.target.closest(".depb").dataset.b].title=e.target.value; render()});
+$("depBoards").addEventListener("change",e=>{ const bi=+e.target.closest(".depb").dataset.b, b=depState.boards[bi];
+  if(e.target.matches("[data-bsec]")){const k=b.blocks[+e.target.closest(".depk").dataset.k], sec=depFind(e.target.value); if(!sec)return; k.sec=e.target.value; k.stop=depStopKey(sec.stops[0]); depRenderBoards(); render(); return}
+  if(e.target.matches("[data-bstop]")){b.blocks[+e.target.closest(".depk").dataset.k].stop=e.target.value; render()} });
+$("depBoards").addEventListener("click",e=>{ const el=e.target.closest("button"); if(!el)return; const bi=+el.closest(".depb").dataset.b, b=depState.boards[bi];
+  if(el.matches("[data-badd]")){const last=b.blocks[b.blocks.length-1]; const sec=depFind(last?last.sec:"")||depSecs()[0]; b.blocks.push({sec:depSecKey(sec),stop:depStopKey(sec.stops[0])})}
+  else if(el.matches("[data-bdel]")){b.blocks.splice(+el.closest(".depk").dataset.k,1)}
+  else if(el.matches("[data-bboard]")){depState.boards.splice(bi,1)}
+  else return;
+  depRenderBoards(); render()});
+$("depAdd").addEventListener("click",()=>{const x=depSecs()[0]; if(!x)return; depState.boards.push({title:"Buses towards "+depDest(x),blocks:[{sec:depSecKey(x),stop:depStopKey(x.stops[0])}]}); depRenderBoards(); render()});
+$("depW").addEventListener("input",e=>{const v=+e.target.value; if(!(v>0))return; depState.w=v; if(depState.lock)depState.h=Math.round(v*depState.ratio); render()});
+$("depH").addEventListener("input",e=>{const v=+e.target.value; if(!(v>0))return; if(depState.lock){depState.w=Math.round(v/depState.ratio); depState.h=v} else depState.h=v; render()});
+$("depLock").addEventListener("change",e=>{depState.lock=e.target.checked; if(depState.lock)depState.h=Math.round(depState.w*depState.ratio); render()});
+async function depDownload(){
+  const st=$("status"); st.className="status";
+  if(!depState.last){st.className="status err";st.textContent="Add a stop to a board first.";return}
+  if(!window.jspdf){st.className="status err";st.textContent="The PDF tool did not load. Check your connection and reload the page.";return}
+  const btn=$("go"); btn.disabled=true; st.textContent="Creating PDF…";
+  try{const r=depState.last, name=`Departures${state.route?" "+String(state.route).replace(/[\\/:*?"<>|]/g,""):""}.pdf`;
+    await offer(farePdf(r.pages,r.W,r.H,"Departures").output("blob"),name,"Departures PDF")}
+  catch(err){st.className="status err";st.textContent="Something went wrong creating the PDF: "+(err&&err.message||err)}
+  finally{btn.disabled=false}
 }
 $("modeNew").addEventListener("click",()=>setMode("new"));
 $("modeUpd").addEventListener("click",()=>setMode("upd"));
@@ -1971,6 +2083,7 @@ $("sampleCsv").addEventListener("click",()=>{
 $("f").addEventListener("submit",async e=>{
   e.preventDefault(); const st=$("status"); st.className="status";
   if(state.stage==="map"){await mapDownload();return}
+  if(state.stage==="dep"){await depDownload();return}
   if(state.stage==="fare"){await fareDownload();return}
   if(state.stage==="guide"){await guideDownload();return}
   if(!state.sections.some(s=>s.stops.length)){st.className="status err";st.textContent="Upload a timetable file first.";return}
