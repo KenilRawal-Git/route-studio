@@ -1916,38 +1916,47 @@ function setStage(st){
 }
 
 /* ---------- departures: boards that show the times buses leave a stop, taken from the timetable ---------- */
-const DEP={M:22,GAP:20,BW:230,RH:24,HGAP:12,TEAL:"#52AAC1",NAVY:"#002169",PT:2.8346};
-const depState={boards:[],w:null,h:null,lock:true,ratio:1,init:false,last:null};
-function depSecKey(x){return x.name+" | "+(x.direction||"")}
+const DEP={M:22,GAP:20,BW:236,RH:20,HGAP:14,PT:2.8346,NAVY:"#002169",LINE:"#C9D1DB",INK:"#37506B"};
+const depState={boards:[],w:null,h:null,lock:true,ratio:1,init:false,last:null,src:null};
 /* names are compared loosely: capitals, spacing and punctuation do not stop a journey being found */
 function dnorm(t){return String(t==null?"":t).toLowerCase().replace(/[^a-z0-9]+/g,"")}
 function depStopKey(x){return dnorm(x.town)+"|"+dnorm(x.stop)}
-function depDest(sec){const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); if(d.length)return d[d.length-1]; const l=sec.stops[sec.stops.length-1]; return l?(l.stop?l.town+", "+l.stop:l.town):""}
 function depStopLabel(x){return x.stop?`${x.town}, ${x.stop}`:x.town}
+function depDest(sec){const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); if(d.length)return d[d.length-1]; const l=sec.stops[sec.stops.length-1]; return l?depStopLabel(l):""}
 function depSecs(){return state.sections.filter(x=>x.stops.length)}
-function depFind(key){return depSecs().find(x=>depSecKey(x)===key)||null}
-function depColRoute(sec,c){return sec.cols[c]&&(sec.cols[c].route||state.route)||""}
-function depRouteIs(sec,route){return sec.cols.some((c,i)=>dnorm(depColRoute(sec,i))===dnorm(route))}
+function depRouteIs(sec,route){return sec.cols.some((c,i)=>dnorm(sec.cols[i].route||state.route)===dnorm(route))}
 /* the routes in the timetable, in the order they appear */
-function depRoutes(){const seen=[]; depSecs().forEach(x=>x.cols.forEach((c,i)=>{const r=depColRoute(x,i); if(r&&!seen.includes(r))seen.push(r)})); return seen}
-/* the sections that run the route */
+function depRoutes(){const seen=[]; depSecs().forEach(x=>x.cols.forEach((c,i)=>{const r=c.route||state.route; if(r&&!seen.includes(r))seen.push(r)})); return seen}
 function depSecsFor(route){return depSecs().filter(x=>depRouteIs(x,route))}
-/* the stops a route calls at: every stop of the sections that run it */
-function depTimes(sec,stopKey,route){const out=[];
+/* the day group of a timetable section, as a column: Mon-Fri, Saturday, Sunday, school days, anything else */
+function depDayOf(sec){const d=String(ttDayOf(sec)||"");
+  if(/school/i.test(d))return {o:3,label:"School days"};
+  if(/sat/i.test(d))return {o:1,label:"Saturday"};
+  if(/sun/i.test(d))return {o:2,label:"Sunday"};
+  if(/mon|fri|week|^mf$/i.test(d))return {o:0,label:"Mon–Fri"};
+  return {o:4,label:d||"Other"}}
+/* times in HH:MM for one stop in one timetable section */
+function depTimes(sec,stopKey){const out=[];
   sec.stops.forEach((x,i)=>{ if(depStopKey(x)!==stopKey)return;
-    (sec.times[i]||[]).forEach((t)=>{ /* every journey in the chosen timetable that calls here: the route picks the timetable, not individual journeys */
-      const m=String(t==null?"":t).trim().match(/^(\d{1,2})[:.h]?(\d{2})(?!\d)/); if(m)out.push(m[1].padStart(2,"0")+":"+m[2])})});
-  return out.sort()}
+    (sec.times[i]||[]).forEach(t=>{const m=String(t==null?"":t).trim().match(/^(\d{1,2})[:.h]?(\d{2})(?!\d)/); if(m)out.push(m[1].padStart(2,"0")+":"+m[2])})});
+  return out}
+const depMins=t=>{const [h,m]=t.split(":").map(Number); return h*60+m};
+/* repeats: three or more times exactly the same gap apart become one cell "then every N minutes until ..." */
+function depCells(times){const out=[], n=times.length; let i=0;
+  while(i<n){ const g=i+1<n?depMins(times[i+1])-depMins(times[i]):0; let j=i+1;
+    if(g>0){while(j+1<n&&depMins(times[j+1])-depMins(times[j])===g)j++}
+    if(g>0&&j-i>=2){out.push({t:times[i]}); out.push({every:g,until:times[j]}); i=j+1}
+    else {out.push({t:times[i]}); i++} }
+  return out}
 function depWrap(t,size,wt,maxW){const words=String(t).split(/\s+/).filter(Boolean), L=[]; let cur="";
   words.forEach(w=>{const tr=cur?cur+" "+w:w; if(cur&&width(tr,size,wt)>maxW){L.push(cur);cur=w} else cur=tr}); if(cur)L.push(cur); return L.length?L:[""]}
-/* a block's timetable: every timetable running the route towards the same place ("ALL:dest"), or one day group */
 function depBlock(route,x){return {route,sec:"ALL:"+dnorm(depDest(x)),stop:depStopKey(x.stops[0])}}
-function depBlockSecs(k){ if(String(k.sec).startsWith("ALL:")){const d=k.sec.slice(4);
-    return depSecs().filter(x=>dnorm(depDest(x))===d&&depRouteIs(x,k.route)&&x.stops.some(y=>depStopKey(y)===k.stop))}
-  const x=depFind(k.sec); return x?[x]:[] }
+/* the timetable sections a block reads: every section running the route towards the block's destination that calls at the stop */
+function depBlockSecs(k){ const d=String(k.sec).replace(/^ALL:/,"");
+  return depSecs().filter(x=>dnorm(depDest(x))===d&&depRouteIs(x,k.route)&&x.stops.some(y=>depStopKey(y)===k.stop))}
 function depDefault(){depState.boards=[]; const routes=depRoutes(); if(!routes.length)return;
-  const r=routes[0], secs=depSecsFor(r), seen=new Set();
-  secs.forEach(x=>{const d=depDest(x); if(seen.has(d))return; seen.add(d); depState.boards.push({title:"Buses towards "+d,blocks:[depBlock(r,x)]})})}
+  const r=routes[0], seen=new Set();
+  depSecsFor(r).forEach(x=>{const d=depDest(x); if(seen.has(dnorm(d)))return; seen.add(dnorm(d)); depState.boards.push({title:"Buses towards "+d,blocks:[depBlock(r,x)]})})}
 /* the boards follow the timetable loaded in the Timetable source: a new timetable (new routes, new stops) starts the boards again */
 function depSync(){
   if(depState.src!==state.sections){depState.src=state.sections; if(depSecs().length){depDefault(); depState.init=true} else {depState.boards=[]; depState.init=false}; depRenderBoards(); return}
@@ -1956,26 +1965,54 @@ function depSync(){
 function depEnsure(){ depSync(); depRenderBoards(); }
 /* the board shapes in design units (points at 100%); the page scales them to fit */
 function depBuild(){
-  const {M,GAP,BW,RH,HGAP,NAVY,TEAL}=DEP, HS=15, HL=18, shapes=[];
+  const {M,GAP,BW,RH,HGAP,NAVY,LINE,INK}=DEP, shapes=[];
   const boards=depState.boards.map(b=>{
-    const head=depWrap(b.title||"",HS,"semibold",BW);
+    const r0=b.blocks[0]?b.blocks[0].route:"", col=r0?colourFor(r0):"#05ACD7", txt=r0?txtOn(r0,col):"#FFFFFF";
+    const bw=r0?Math.max(30,width(r0,12.5,"medium")+14):0, tw=BW-bw-(r0?10:0);
+    const head=depWrap(b.title||"",15,"semibold",tw), headH=Math.max(r0?26:0,head.length*18+8);
     const blocks=b.blocks.map(k=>{const secs=depBlockSecs(k); const st=secs.map(x=>x.stops.find(y=>depStopKey(y)===k.stop)).find(Boolean);
-      const head2=depWrap(st?"From "+depStopLabel(st):"Stop not in this timetable",12,"semibold",BW-16);
-      const times=st?secs.flatMap(x=>depTimes(x,k.stop,k.route)).sort():[];
-      const rows=times.length?times:[null];
-      return {head:head2, hh:head2.length*15+12, rows}});
-    const h=head.length*HL+8+blocks.reduce((a,bl)=>a+bl.hh+bl.rows.length*RH+HGAP,0);
-    return {head,blocks,h}});
+      const rc=colourFor(k.route), tc=txtOn(k.route,rc);
+      const band=depWrap(st?"From "+depStopLabel(st):"Stop not in this timetable",11.5,"semibold",BW-16);
+      const bandH=band.length*15+12;
+      const days={}; secs.forEach(x=>{const d=depDayOf(x); (days[d.o]=days[d.o]||{label:d.label,times:[]}).times.push(...depTimes(x,k.stop))});
+      const cols=Object.keys(days).map(Number).sort((a,b)=>a-b).map(o=>({label:days[o].label,cells:depCells([...new Set(days[o].times)].sort((a,b)=>depMins(a)-depMins(b)))}));
+      const cwid=cols.length?BW/cols.length:BW;
+      const colH=cols.map(c=>c.cells.reduce((a,cell)=>a+(cell.every?cellH(cell,cwid):RH),0));
+      const bodyH=cols.length?Math.max(...colH):RH, dayH=cols.length?20:0;
+      return {rc,tc,band,bandH,cols,dayH,bodyH,h:bandH+dayH+bodyH}});
+    function cellH(cell,cw){return depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10).length*11+10}
+    const h=headH+blocks.reduce((a,bl)=>a+bl.h+HGAP,0);
+    return {head,headH,blocks,h,r0,col,txt,bw}});
   const perRow=2, rows=[]; for(let i=0;i<boards.length;i+=perRow)rows.push(boards.slice(i,i+perRow));
   let y=M, maxCols=Math.min(perRow,Math.max(1,boards.length));
   rows.forEach(row=>{ const rh=Math.max(...row.map(b=>b.h));
     row.forEach((b,j)=>{const bx=M+j*(BW+GAP); let by=y;
-      b.head.forEach((t,i)=>shapes.push({k:"t",x:bx,y:by+HS+i*HL,text:t,size:HS,w:"semibold",color:NAVY})); by+=b.head.length*HL+8;
-      b.blocks.forEach(bl=>{shapes.push({k:"r",x:bx,y:by,w:BW,h:bl.hh,c:TEAL});
-        bl.head.forEach((t,i)=>shapes.push({k:"t",x:bx+BW/2,y:by+6+11+i*15,text:t,size:12,w:"semibold",color:"#FFFFFF",align:"center"}));
-        by+=bl.hh;
-        bl.rows.forEach(t=>{shapes.push({k:"r",x:bx,y:by,w:BW,h:RH,c:"#FFFFFF",stroke:"#B8C2CC",sw:0.7});
-          shapes.push({k:"t",x:bx+BW/2,y:by+RH/2+4.3,text:t||"No times",size:12.5,w:"normal",color:t?"#000000":"#888888",align:"center"}); by+=RH});
+      if(b.r0){shapes.push({k:"r",x:bx,y:by,w:b.bw,h:24,c:b.col,rx:5}); shapes.push({k:"t",x:bx+b.bw/2,y:by+16.5,text:b.r0,size:12.5,w:"medium",color:b.txt,align:"center"})}
+      b.head.forEach((t,i)=>shapes.push({k:"t",x:bx+(b.r0?b.bw+10:0),y:by+15+i*18,text:t,size:15,w:"semibold",color:NAVY}));
+      by+=b.headH+6;
+      b.blocks.forEach(bl=>{
+        shapes.push({k:"r",x:bx,y:by,w:BW,h:bl.bandH,c:bl.rc});
+        bl.band.forEach((t,i)=>shapes.push({k:"t",x:bx+BW/2,y:by+6+11+i*15,text:t,size:11.5,w:"semibold",color:bl.tc,align:"center"}));
+        by+=bl.bandH;
+        if(!bl.cols.length){shapes.push({k:"r",x:bx,y:by,w:BW,h:RH,c:"#FFFFFF",stroke:LINE,sw:0.7});
+          shapes.push({k:"t",x:bx+BW/2,y:by+RH/2+4,text:"No times",size:11,w:"normal",color:"#888888",align:"center"}); by+=RH}
+        else {
+          const cw=BW/bl.cols.length;
+          bl.cols.forEach((c,ci)=>{const cx=bx+ci*cw;
+            shapes.push({k:"t",x:cx+cw/2,y:by+12,text:c.label,size:9.5,w:"semibold",color:INK,align:"center"});
+            shapes.push({k:"l",x1:cx,y1:by+18,x2:cx+cw,y2:by+18,c:LINE,w:0.8});
+            let cy=by+20;
+            c.cells.forEach(cell=>{
+              if(cell.every){const lines=depWrap(`then every ${cell.every} minutes until ${cell.until}`,9,"normal",cw-10); const ph=lines.length*11+10;
+                shapes.push({k:"r",x:cx,y:cy,w:cw,h:ph,c:"#EEF5F8",stroke:LINE,sw:0.6});
+                lines.forEach((t,i)=>shapes.push({k:"t",x:cx+cw/2,y:cy+12+i*11,text:t,size:9,w:"normal",color:INK,align:"center"}));
+                cy+=ph}
+              else {shapes.push({k:"r",x:cx,y:cy,w:cw,h:RH,c:"#FFFFFF",stroke:LINE,sw:0.6});
+                shapes.push({k:"t",x:cx+cw/2,y:cy+RH/2+4,text:cell.t,size:11.5,w:"normal",color:"#000000",align:"center"}); cy+=RH}
+            });
+          });
+          by+=bl.dayH+bl.bodyH;
+        }
         by+=HGAP});
     });
     y+=rh+GAP;
@@ -1985,7 +2022,8 @@ function depBuild(){
 }
 function depRenderOps(B,tr){const X=v=>tr.ox+v*tr.s, Y=v=>tr.oy+v*tr.s, out=[];
   B.shapes.forEach(o=>{
-    if(o.k==="r")out.push({k:"r",x:X(o.x),y:Y(o.y),w:o.w*tr.s,h:o.h*tr.s,c:o.c,...(o.stroke?{stroke:o.stroke,sw:o.sw*tr.s}:{})});
+    if(o.k==="r")out.push({k:"r",x:X(o.x),y:Y(o.y),w:o.w*tr.s,h:o.h*tr.s,c:o.c,...(o.rx?{rx:o.rx*tr.s}:{}),...(o.stroke?{stroke:o.stroke,sw:o.sw*tr.s}:{})});
+    else if(o.k==="l")out.push({k:"l",x1:X(o.x1),y1:Y(o.y1),x2:X(o.x2),y2:Y(o.y2),c:o.c,w:o.w*tr.s});
     else out.push({k:"t",text:o.text,x:X(o.x),y:Y(o.y),size:o.size*tr.s,w:o.w,color:o.color,...(o.align?{align:o.align}:{})})});
   return out}
 function depDraw(){
@@ -2001,23 +2039,20 @@ function depDraw(){
   $("pages").textContent=`${depState.w} × ${depState.h} mm`;
   $("sheets").innerHTML=`<div class="page">${fareSvg(ops,W,H)}</div>`;
 }
-/* each block: first the route, then its timetable direction and stop, both taken from that route */
+/* each block: its route, then its stop (both from the timetable); the day columns and times follow */
 function depRenderBoards(){
   const box=$("depBoards"), routes=depRoutes();
   if(!routes.length){box.innerHTML='<p class="hint">Load a timetable on the Timetable tab first. The boards take their route and times from it.</p>';return}
   const routeOpts=cur=>routes.map(r=>`<option value="${esc(r)}"${r===cur?" selected":""}>${esc(r)}</option>`).join("");
-  const secOpts=(route,cur)=>{const secs=depSecsFor(route), dests=[...new Map(secs.map(x=>[dnorm(depDest(x)),depDest(x)])).entries()];
-    return dests.map(([d,label])=>`<option value="${esc("ALL:"+d)}"${cur==="ALL:"+d?" selected":""}>All departures · towards ${esc(label)}</option>`).join("")+secs.map(x=>`<option value="${esc(depSecKey(x))}"${depSecKey(x)===cur?" selected":""}>${esc(x.name)} · towards ${esc(depDest(x))}</option>`).join("")};
   const stopOpts=(sec,cur)=>sec?sec.stops.map(x=>`<option value="${esc(depStopKey(x))}"${depStopKey(x)===cur?" selected":""}>${esc(depStopLabel(x))}</option>`).join(""):"";
   box.innerHTML=depState.boards.map((b,bi)=>`<div class="depb" data-b="${bi}">
     <label>Heading <input data-bt value="${esc(b.title)}"></label>
-    ${b.blocks.map((k,ki)=>{const sec=depBlockSecs(k)[0]||depSecs()[0]; return `<div class="depk" data-k="${ki}"><label>Route <select data-broute>${routeOpts(k.route)}</select></label><label>Timetable <select data-bsec>${secOpts(k.route,k.sec)}</select></label><label>Stop <select data-bstop>${stopOpts(sec,k.stop)}</select></label><button type="button" class="ib" data-bdel aria-label="Remove this stop">✕</button></div>`}).join("")}
+    ${b.blocks.map((k,ki)=>{const sec=depBlockSecs(k)[0]||depSecsFor(k.route)[0]; return `<div class="depk" data-k="${ki}"><label>Route <select data-broute>${routeOpts(k.route)}</select></label><label>Stop <select data-bstop>${stopOpts(sec,k.stop)}</select></label><button type="button" class="ib" data-bdel aria-label="Remove this stop">✕</button></div>`}).join("")}
     <div class="deprow"><button type="button" class="linkbtn" data-badd>+ Add a stop</button>${depState.boards.length>1?'<button type="button" class="linkbtn" data-bboard>Remove this board</button>':""}</div></div>`).join("");
 }
 $("depBoards").addEventListener("input",e=>{ if(!e.target.matches("[data-bt]"))return; depState.boards[+e.target.closest(".depb").dataset.b].title=e.target.value; render()});
 $("depBoards").addEventListener("change",e=>{ const bi=+e.target.closest(".depb").dataset.b, b=depState.boards[bi], k=e.target.closest(".depk")?b.blocks[+e.target.closest(".depk").dataset.k]:null;
   if(e.target.matches("[data-broute]")){const sec=depSecsFor(e.target.value)[0]; if(!sec)return; Object.assign(k,depBlock(e.target.value,sec)); depRenderBoards(); render(); return}
-  if(e.target.matches("[data-bsec]")){const sec=String(e.target.value).startsWith("ALL:")?depSecsFor(k.route).find(x=>"ALL:"+dnorm(depDest(x))===e.target.value):depFind(e.target.value); if(!sec)return; k.sec=e.target.value; k.stop=depStopKey(sec.stops[0]); depRenderBoards(); render(); return}
   if(e.target.matches("[data-bstop]")){k.stop=e.target.value; render()} });
 $("depBoards").addEventListener("click",e=>{ const el=e.target.closest("button"); if(!el)return; const bi=+el.closest(".depb").dataset.b, b=depState.boards[bi];
   if(el.matches("[data-badd]")){const last=b.blocks[b.blocks.length-1]; const r=last?last.route:depRoutes()[0]; const sec=depSecsFor(r)[0]; if(sec)b.blocks.push(depBlock(r,sec))}
