@@ -1919,25 +1919,31 @@ function setStage(st){
 const DEP={M:22,GAP:20,BW:230,RH:24,HGAP:12,TEAL:"#52AAC1",NAVY:"#002169",PT:2.8346};
 const depState={boards:[],w:null,h:null,lock:true,ratio:1,init:false,last:null};
 function depSecKey(x){return x.name+" | "+(x.direction||"")}
-function depStopKey(x){return x.town+" | "+(x.stop||"")}
+/* names are compared loosely: capitals, spacing and punctuation do not stop a journey being found */
+function dnorm(t){return String(t==null?"":t).toLowerCase().replace(/[^a-z0-9]+/g,"")}
+function depStopKey(x){return dnorm(x.town)+"|"+dnorm(x.stop)}
 function depDest(sec){const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); if(d.length)return d[d.length-1]; const l=sec.stops[sec.stops.length-1]; return l?(l.stop?l.town+", "+l.stop:l.town):""}
 function depStopLabel(x){return x.stop?`${x.town}, ${x.stop}`:x.town}
 function depSecs(){return state.sections.filter(x=>x.stops.length)}
 function depFind(key){return depSecs().find(x=>depSecKey(x)===key)||null}
 function depColRoute(sec,c){return sec.cols[c]&&(sec.cols[c].route||state.route)||""}
+function depRouteIs(sec,route){return sec.cols.some((c,i)=>dnorm(depColRoute(sec,i))===dnorm(route))}
 /* the routes in the timetable, in the order they appear */
 function depRoutes(){const seen=[]; depSecs().forEach(x=>x.cols.forEach((c,i)=>{const r=depColRoute(x,i); if(r&&!seen.includes(r))seen.push(r)})); return seen}
 /* the sections that run the route */
-function depSecsFor(route){return depSecs().filter(x=>x.cols.some((c,i)=>depColRoute(x,i)===route))}
+function depSecsFor(route){return depSecs().filter(x=>depRouteIs(x,route))}
 /* the stops a route calls at: every stop of the sections that run it */
-function depTimes(sec,stopKey,route){const i=sec.stops.findIndex(x=>depStopKey(x)===stopKey); if(i<0)return null; const out=[];
-  (sec.times[i]||[]).forEach((t,c)=>{if(route&&depColRoute(sec,c)!==route)return; const v=String(t==null?"":t).trim().replace(".",":"); if(/^\d{1,2}:\d{2}$/.test(v))out.push(v.padStart(5,"0"))}); return out.sort()}
+function depTimes(sec,stopKey,route){const out=[];
+  sec.stops.forEach((x,i)=>{ if(depStopKey(x)!==stopKey)return;
+    (sec.times[i]||[]).forEach((t)=>{ /* every journey in the chosen timetable that calls here: the route picks the timetable, not individual journeys */
+      const m=String(t==null?"":t).trim().match(/^(\d{1,2})[:.h]?(\d{2})(?!\d)/); if(m)out.push(m[1].padStart(2,"0")+":"+m[2])})});
+  return out.sort()}
 function depWrap(t,size,wt,maxW){const words=String(t).split(/\s+/).filter(Boolean), L=[]; let cur="";
   words.forEach(w=>{const tr=cur?cur+" "+w:w; if(cur&&width(tr,size,wt)>maxW){L.push(cur);cur=w} else cur=tr}); if(cur)L.push(cur); return L.length?L:[""]}
 /* a block's timetable: every timetable running the route towards the same place ("ALL:dest"), or one day group */
-function depBlock(route,x){return {route,sec:"ALL:"+depDest(x),stop:depStopKey(x.stops[0])}}
+function depBlock(route,x){return {route,sec:"ALL:"+dnorm(depDest(x)),stop:depStopKey(x.stops[0])}}
 function depBlockSecs(k){ if(String(k.sec).startsWith("ALL:")){const d=k.sec.slice(4);
-    return depSecs().filter(x=>depDest(x)===d&&x.cols.some((c,i)=>depColRoute(x,i)===k.route)&&x.stops.some(y=>depStopKey(y)===k.stop))}
+    return depSecs().filter(x=>dnorm(depDest(x))===d&&depRouteIs(x,k.route)&&x.stops.some(y=>depStopKey(y)===k.stop))}
   const x=depFind(k.sec); return x?[x]:[] }
 function depDefault(){depState.boards=[]; const routes=depRoutes(); if(!routes.length)return;
   const r=routes[0], secs=depSecsFor(r), seen=new Set();
@@ -2000,8 +2006,8 @@ function depRenderBoards(){
   const box=$("depBoards"), routes=depRoutes();
   if(!routes.length){box.innerHTML='<p class="hint">Load a timetable on the Timetable tab first. The boards take their route and times from it.</p>';return}
   const routeOpts=cur=>routes.map(r=>`<option value="${esc(r)}"${r===cur?" selected":""}>${esc(r)}</option>`).join("");
-  const secOpts=(route,cur)=>{const secs=depSecsFor(route), dests=[...new Set(secs.map(depDest))];
-    return dests.map(d=>`<option value="${esc("ALL:"+d)}"${cur==="ALL:"+d?" selected":""}>All days · towards ${esc(d)}</option>`).join("")+secs.map(x=>`<option value="${esc(depSecKey(x))}"${depSecKey(x)===cur?" selected":""}>${esc(x.name)} · towards ${esc(depDest(x))}</option>`).join("")};
+  const secOpts=(route,cur)=>{const secs=depSecsFor(route), dests=[...new Map(secs.map(x=>[dnorm(depDest(x)),depDest(x)])).entries()];
+    return dests.map(([d,label])=>`<option value="${esc("ALL:"+d)}"${cur==="ALL:"+d?" selected":""}>All departures · towards ${esc(label)}</option>`).join("")+secs.map(x=>`<option value="${esc(depSecKey(x))}"${depSecKey(x)===cur?" selected":""}>${esc(x.name)} · towards ${esc(depDest(x))}</option>`).join("")};
   const stopOpts=(sec,cur)=>sec?sec.stops.map(x=>`<option value="${esc(depStopKey(x))}"${depStopKey(x)===cur?" selected":""}>${esc(depStopLabel(x))}</option>`).join(""):"";
   box.innerHTML=depState.boards.map((b,bi)=>`<div class="depb" data-b="${bi}">
     <label>Heading <input data-bt value="${esc(b.title)}"></label>
@@ -2011,7 +2017,7 @@ function depRenderBoards(){
 $("depBoards").addEventListener("input",e=>{ if(!e.target.matches("[data-bt]"))return; depState.boards[+e.target.closest(".depb").dataset.b].title=e.target.value; render()});
 $("depBoards").addEventListener("change",e=>{ const bi=+e.target.closest(".depb").dataset.b, b=depState.boards[bi], k=e.target.closest(".depk")?b.blocks[+e.target.closest(".depk").dataset.k]:null;
   if(e.target.matches("[data-broute]")){const sec=depSecsFor(e.target.value)[0]; if(!sec)return; Object.assign(k,depBlock(e.target.value,sec)); depRenderBoards(); render(); return}
-  if(e.target.matches("[data-bsec]")){const sec=String(e.target.value).startsWith("ALL:")?depSecsFor(k.route).find(x=>"ALL:"+depDest(x)===e.target.value):depFind(e.target.value); if(!sec)return; k.sec=e.target.value; k.stop=depStopKey(sec.stops[0]); depRenderBoards(); render(); return}
+  if(e.target.matches("[data-bsec]")){const sec=String(e.target.value).startsWith("ALL:")?depSecsFor(k.route).find(x=>"ALL:"+dnorm(depDest(x))===e.target.value):depFind(e.target.value); if(!sec)return; k.sec=e.target.value; k.stop=depStopKey(sec.stops[0]); depRenderBoards(); render(); return}
   if(e.target.matches("[data-bstop]")){k.stop=e.target.value; render()} });
 $("depBoards").addEventListener("click",e=>{ const el=e.target.closest("button"); if(!el)return; const bi=+el.closest(".depb").dataset.b, b=depState.boards[bi];
   if(el.matches("[data-badd]")){const last=b.blocks[b.blocks.length-1]; const r=last?last.route:depRoutes()[0]; const sec=depSecsFor(r)[0]; if(sec)b.blocks.push(depBlock(r,sec))}
