@@ -1906,7 +1906,7 @@ function setStage(st){
   ["fareDataSet","fareHeadSet","fareSecSet","farePanelSet"].forEach(id=>$(id).hidden=!fare);
   $("gPagesSet").hidden=!guide;
   $("pdfSet").hidden=map||fare||guide||dep||!upd;
-  if(map||fare||guide||dep)$("dataSet").hidden=true; else if(upd&&state.template)useTimesChoice(); else $("dataSet").hidden=false;
+  if(map||fare||guide)$("dataSet").hidden=true; else if(dep)$("dataSet").hidden=false; else if(upd&&state.template)useTimesChoice(); else $("dataSet").hidden=false;
   $("goPrint").hidden=!guide; if(typeof scUi==="function")scUi();
   $("goLabel").textContent=guide?"Download bus guide PDF":fare?"Download fare chart PDF":map?"Download map PDF":dep?"Download departures PDF":"Download timetable PDF";
   $("sheets").setAttribute("aria-label",guide?"Bus guide preview":fare?"Fare chart preview":map?"Route map preview":"Timetable preview");
