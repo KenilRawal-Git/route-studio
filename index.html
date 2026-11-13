@@ -1923,7 +1923,8 @@ const depState={boards:[],w:null,h:null,lock:true,ratio:1,init:false,last:null,s
 function dnorm(t){return String(t==null?"":t).toLowerCase().replace(/[^a-z0-9]+/g,"")}
 function depStopKey(x){return dnorm(x.town)+"|"+dnorm(x.stop)}
 function depStopLabel(x){return x.stop?`${x.town}, ${x.stop}`:x.town}
-function depDest(sec){const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); if(d.length)return d[d.length-1]; const l=sec.stops[sec.stops.length-1]; return l?depStopLabel(l):""}
+/* the destination is the town of the last stop the journey calls at (the terminus), not a town in between */
+function depDest(sec){const l=sec.stops[sec.stops.length-1]; if(l&&l.town)return String(l.town).trim(); const d=String(sec.direction||"").replace(/\s*\[[^\]]*\]\s*$/,"").split(">").map(t=>t.trim()).filter(Boolean); return d.length?d[d.length-1]:(l?depStopLabel(l):"")}
 function depSecs(){return state.sections.filter(x=>x.stops.length)}
 function depRouteIs(sec,route){return sec.cols.some((c,i)=>dnorm(sec.cols[i].route||state.route)===dnorm(route))}
 /* the routes in the timetable, in the order they appear */
