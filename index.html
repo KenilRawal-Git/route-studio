@@ -816,6 +816,7 @@ span.gbt{cursor:default}
           <textarea id="mapNotes" rows="5" placeholder="e.g. **44A extends towards Norman Way Schools**, with drop off at 08:20 Monday-Friday."></textarea></label>
         <label class="check"><input type="checkbox" id="mapKey" checked> Show the key</label>
         <label class="check" id="mapSchDashRow" hidden><input type="checkbox" id="mapSchDash" checked> Dash the school-day-only journeys <span class="opt">Shows only when the map has a school stop</span></label>
+        <div id="mapAmend" class="stack" hidden></div>
         <label>Key size <span class="scsize"><input type="range" id="mapKeySize" min="60" max="150" step="5" value="100" aria-label="Key size"><output id="mapKeySizeV">100%</output></span></label>
       </fieldset>
       <fieldset id="mapDataSet" hidden>
@@ -3737,7 +3738,12 @@ function mapEnsure(){
 }
 function mapCfg(){
   const D=mapData();
-  const routes=mapState.routes.map((r,i)=>({id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:r.termini,stops:r.stops})).map(r=>{
+  // the route editor's ticks override the timetable: a terminus badge, or a school-days-only stretch (dashed)
+  const am=mapState.amend||{};
+  const routes=mapState.routes.map((r,i)=>{const o=am[r.id]||{}, term=new Set(), stops=r.stops.map((s,j)=>{const k=mapKeyOf(s);
+      const sch=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, auto=(r.termini||new Set()).has(j), t=o.term&&k in o.term?!!o.term[k]:auto;
+      if(t)term.add(j); return sch===!!s.schOnly?s:{...s,schOnly:sch}});
+    return {id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:term,stops}}).map(r=>{
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
@@ -3749,7 +3755,7 @@ function mapCfg(){
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
   if(mapFromTT()&&mapState.ttSections!==state.sections){mapSyncFromTT();return}
-  const cfg=mapCfg(); $("mapSchDashRow").hidden=!cfg.routes.some(r=>r.stops.some(s=>s.schOnly));
+  const cfg=mapCfg(); $("mapSchDashRow").hidden=!cfg.routes.some(r=>r.stops.some(s=>s.schOnly)); mapAmendUi();
   if(!cfg.routes.some(r=>r.stops.length)){mapState.last=null;
     $("sheets").innerHTML=`<p class="empty">${mapState.missing.length?"Finding your stops…":"Add your stops to see the map."}</p>`;return}
   const res=mapLayout(cfg); mapState.last=res;
@@ -3790,6 +3796,22 @@ $("mapValid").addEventListener("input",()=>{state.valid=$("mapValid").value;$("v
 $("mapNotes").addEventListener("input",()=>{mapState.notes=$("mapNotes").value;render()});
 $("mapKey").addEventListener("change",()=>{mapState.showKey=$("mapKey").checked;render()});
 $("mapSchDash").addEventListener("change",()=>{mapState.schoolDash=$("mapSchDash").checked;render()});
+/* ---------- route editor: any route's stops can be made a terminus or a school-days-only stretch ---------- */
+function mapKeyOf(s){return dnorm(s.town)+"|"+dnorm(s.stop)}
+function mapAmendUi(){const box=$("mapAmend"); if(!box)return;
+  const rs=mapState.kind==="school"?[]:(mapState.routes||[]); box.hidden=!rs.length; if(!rs.length){box.dataset.sig="";return}
+  const am=mapState.amend||{};
+  const sig=JSON.stringify([rs.map(r=>[r.id,r.stops.map(mapKeyOf).join(";")]),am]); if(sig===box.dataset.sig)return; box.dataset.sig=sig;
+  box.innerHTML=`<p class="hint" style="margin:0">Edit any route. Tick a stop to make it a terminus (its badge), or a school-days-only stretch (dashed, with a key line). Your ticks override the timetable.</p>`+
+    rs.map(r=>{const o=am[r.id]||{}; return `<details class="scr" open><summary><b>Route ${esc(r.id)}</b></summary>`+
+      r.stops.map((s,j)=>{const k=mapKeyOf(s), t=o.term&&k in o.term?!!o.term[k]:(r.termini||new Set()).has(j), d=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly;
+        return `<div class="amrow"><span>${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span><label class="check"><input type="checkbox" data-am="term" data-r="${esc(r.id)}" data-k="${esc(k)}"${t?" checked":""}> Terminus</label><label class="check"><input type="checkbox" data-am="sch" data-r="${esc(r.id)}" data-k="${esc(k)}"${d?" checked":""}> School days only</label></div>`}).join("")+
+      `<button type="button" class="linkbtn" data-amreset="${esc(r.id)}">Reset route ${esc(r.id)}</button></details>`}).join("")}
+$("mapAmend").addEventListener("change",e=>{const el=e.target.closest("[data-am]"); if(!el)return;
+  mapState.amend=mapState.amend||{}; const o=mapState.amend[el.dataset.r]||(mapState.amend[el.dataset.r]={}), k=el.dataset.k;
+  if(el.dataset.am==="term"){o.term=o.term||{}; o.term[k]=el.checked} else {o.sch=o.sch||{}; o.sch[k]=el.checked}
+  render()});
+$("mapAmend").addEventListener("click",e=>{const b=e.target.closest("[data-amreset]"); if(!b)return; delete (mapState.amend||{})[b.dataset.amreset]; $("mapAmend").dataset.sig=""; render()});
 /* map view: page orientation */
 /* ---------- school maps: several routes, one destination ---------- */
 const SCHOOL={name:"",town:"",stop:"",pos:"",show:"label",label:"",img:null,title:"",routes:[{id:"1",towns:"",fixed:{}}]};
@@ -5857,14 +5879,14 @@ const mapSaveFile=async()=>{const msg=$("status");
   const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
   const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW()}},W:{routes:[],nets:[]},guide:{}};
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{}}},W:{routes:[],nets:[]},guide:{}};
   const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
 document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
 function mapOpenFile(m){
   mapSetKind("route");
   Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
-  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; state.routeText=m.routeText||{};
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; state.routeText=m.routeText||{};
   mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
   const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
   mapSetRoutes(routes,m.source||"Map file",false);
