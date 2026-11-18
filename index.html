@@ -1398,31 +1398,33 @@ function layout(){
       TFL.forEach((l,i)=>T(l,19.84+TFLW+11,top+i*11,TFSZ,"light",TF.textCol||"#1E3A73")); }
   };
   const banner=(sec,cont,noDay)=>{
+    const hide=sec.showBanner===false; // ticked off: no day banner, and the gap above the table closes
     const lab=dayLabels(sec.name), day=expandDay(sec.day??lab.day).toUpperCase(), sub=sec.sub??lab.sub;
     // day in SemiBold, then a light-blue bar and the detail in Light, spaced as in the template
     const parts=[[day,"semibold","#ffffff",0]]; const tail=(sub||"")+(cont?(sub?" (continued)":"(continued)"):"");
     if(tail){parts.push(["|","light",C.pipe,2.8]);parts.push([tail,"light","#ffffff",5.89])}
     // gaps are measured from the previous item's start for the bar, as in the template
     let x=22.68; const xs=[]; parts.forEach(([t,wt,c,gap],i)=>{ if(i===2)x=xs[1]+gap; else x+=gap; xs.push(x); x+=width(t,10,wt)});
-    if(!noDay){R(19.86,G.bannerY,x-22.68+2.82*2,G.bannerH,C.banner);
+    if(!noDay&&!hide){R(19.86,G.bannerY,x-22.68+2.82*2,G.bannerH,C.banner);
       parts.forEach(([t,wt,c],i)=>T(t,xs[i],G.bannerY+14.84,10,wt,c))}
     const dir=(sec.direction||"").toUpperCase();
+    const dirY=hide?G.bannerY+14:G.dirBase-3, shiftUp=(G.dirBase-3)-dirY;
     // direction: full size if it fits, slightly smaller if needed, otherwise two lines split at a ">"
     let dirExtra=0;
     if(dir){ const MAXW=colMaxW||552; let fs=12; while(fs>10.5&&width(dir,fs,"semibold")>MAXW)fs-=.25;
-      if(width(dir,fs,"semibold")<=MAXW)T(dir,22.68,G.dirBase-3,fs,"semibold",C.dir);
+      if(width(dir,fs,"semibold")<=MAXW)T(dir,22.68,dirY,fs,"semibold",C.dir);
       else{ fs=12; const parts=dir.split(/\s*>\s*/); let best=null;
         for(let k=1;k<parts.length;k++){const a=parts.slice(0,k).join(" > ")+" >", b=parts.slice(k).join(" > "); const w=Math.max(width(a,fs,"semibold"),width(b,fs,"semibold")); if(!best||w<best.w)best={a,b,w}}
         if(!best){const ws=dir.split(" "),h=Math.ceil(ws.length/2);best={a:ws.slice(0,h).join(" "),b:ws.slice(h).join(" ")}}
         while(fs>10&&Math.max(width(best.a,fs,"semibold"),width(best.b,fs,"semibold"))>MAXW)fs-=.25;
         dirExtra=fs*1.25;
-        T(fit(best.a,fs,"semibold",MAXW),22.68,G.dirBase-3,fs,"semibold",C.dir);
-        T(fit(best.b,fs,"semibold",MAXW),22.68,G.dirBase-3+dirExtra,fs,"semibold",C.dir) } }
-    const base0=(dir?G.firstBar:G.bannerY+G.bannerH+18)+dirExtra; let yNext=base0; tight=dir?14:6;
+        T(fit(best.a,fs,"semibold",MAXW),22.68,dirY,fs,"semibold",C.dir);
+        T(fit(best.b,fs,"semibold",MAXW),22.68,dirY+dirExtra,fs,"semibold",C.dir) } }
+    const base0=(dir?G.firstBar-shiftUp:hide?G.bannerY+4:G.bannerY+G.bannerH+18)+dirExtra; let yNext=base0; tight=dir?14:6;
     // the note: any text, wrapped under the title (first page of the section only)
     const noteTxt=!cont&&!noDay&&sec.note?String(sec.note).trim():"";
     if(noteTxt){ const lines=[]; noteTxt.split(/\s+/).forEach(w=>{const l=lines.length?lines[lines.length-1]+" "+w:w; if(lines.length&&width(l,9,"light")<=552)lines[lines.length-1]=l; else lines.push(w)});
-      const nb=(dir?G.dirBase-3+dirExtra:G.bannerY+G.bannerH+6)+15;
+      const nb=(dir?dirY+dirExtra:hide?G.bannerY+4:G.bannerY+G.bannerH+6)+15;
       lines.forEach((l,k)=>T(l,22.68,nb+k*11,9,"light",C.dir));
       yNext=Math.max(base0,nb+(lines.length-1)*11+12); tight=6 }
     y=yNext;
@@ -1666,6 +1668,7 @@ function renderSectionsUI(){
       <label>Extra detail <input data-k="sub" list="detailList" value="${esc(s.sub??lab.sub)}" placeholder="None"></label>
     </div>
     ${custom?`<label>Days wording <input data-k="day" value="${esc(day)}" placeholder="e.g. Tuesdays and Thursdays"></label>`:""}
+    <label class="check"><input type="checkbox" data-k="showBanner"${s.showBanner===false?"":" checked"}> Show the day banner (untick to hide it and close the gap; use when another table already says the days)</label>
     <label>Direction <input data-k="direction" value="${esc(s.direction||"")}" placeholder="e.g. Loughborough > Shepshed > Coalville"></label>
     <label>Note under the title <input data-k="note" value="${esc(s.note||"")}" placeholder="Anything you like, e.g. Services do not run on bank holidays" style="width:100%"></label>
     <details class="jrn"><summary>Journeys (${s.cols.length}) · tick school days only, or not school days</summary>${s.cols.map((c,j)=>`<div class="jrnrow" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><label class="check"><input type="checkbox" data-colsch="${j}"${c.sch?" checked":""}> ${esc(c.route||state.route)} · ${esc(jrnTime(s,j))}</label><label class="check"><input type="checkbox" data-colnsch="${j}"${c.nsch?" checked":""}> Not school days</label></div>`).join("")}</details>
