@@ -3363,10 +3363,10 @@ function liveCell(i,j){
   const k=i+","+j; if(LIVE_MAP.cells.has(k))return Promise.resolve(LIVE_MAP.cells.get(k));
   if(LIVE_MAP.pending.has(k))return LIVE_MAP.pending.get(k);
   const p=(async()=>{
-    const hit=await liveGet(k); if(hit&&Date.now()-hit.t<LIVE_MAP.TTL){LIVE_MAP.cells.set(k,hit.d);return hit.d}
+    const hit=await liveGet("g2:"+k); if(hit&&Date.now()-hit.t<LIVE_MAP.TTL){LIVE_MAP.cells.set(k,hit.d);return hit.d}
     const c=LIVE_MAP.CELL, q=mapQuery({s:i*c,w:j*c,n:(i+1)*c,e:(j+1)*c});
     try{const d=mapFromOverpass(await liveFetch(q)); d.name="OpenStreetMap"; d.bbox=[i*c,j*c,(i+1)*c,(j+1)*c];
-      LIVE_MAP.cells.set(k,d); livePut(k,{t:Date.now(),d}); return d}
+      LIVE_MAP.cells.set(k,d); livePut("g2:"+k,{t:Date.now(),d}); return d}
     catch(e){if(hit){LIVE_MAP.cells.set(k,hit.d);return hit.d} throw e}   // offline: an old copy is better than none
   })();
   LIVE_MAP.pending.set(k,p); p.finally(()=>LIVE_MAP.pending.delete(k)).catch(()=>{}); return p;
