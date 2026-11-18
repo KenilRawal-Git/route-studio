@@ -3798,15 +3798,26 @@ $("mapKey").addEventListener("change",()=>{mapState.showKey=$("mapKey").checked;
 $("mapSchDash").addEventListener("change",()=>{mapState.schoolDash=$("mapSchDash").checked;render()});
 /* ---------- route editor: any route's stops can be made a terminus or a school-days-only stretch ---------- */
 function mapKeyOf(s){return dnorm(s.town)+"|"+dnorm(s.stop)}
-function mapAmendUi(){const box=$("mapAmend"); if(!box)return;
+const amOpen=new Map();   // which route and stop rows are open, kept when the panel redraws
+function amCss(){if(document.getElementById("amcss"))return; const st=document.createElement("style"); st.id="amcss";
+  st.textContent=".amstop{border:1px solid #D6DCE6;border-radius:10px;margin:6px 0;padding:0 12px;background:#fff}.amstop>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:10px 0;font-weight:600}.amstop>summary::-webkit-details-marker{display:none}.amchev{display:inline-block;transition:transform .15s;color:#5B6B82}.amstop[open] .amchev{transform:rotate(90deg)}.amname{flex:1;min-width:0}.ampill{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:#E8EEF7;color:#002169;white-space:nowrap}.amopts{padding:0 0 12px 22px;display:flex;flex-direction:column;gap:4px}";
+  document.head.appendChild(st)}
+function mapAmendUi(){const box=$("mapAmend"); if(!box)return; amCss();
   const rs=mapState.kind==="school"?[]:(mapState.routes||[]); box.hidden=!rs.length; if(!rs.length){box.dataset.sig="";return}
   const am=mapState.amend||{};
-  const sig=JSON.stringify([rs.map(r=>[r.id,r.stops.map(mapKeyOf).join(";")]),am]); if(sig===box.dataset.sig)return; box.dataset.sig=sig;
-  box.innerHTML=`<p class="hint" style="margin:0">Edit any route. Tick a stop to make it a terminus (its badge), or a school-days-only stretch (dashed, with a key line). Your ticks override the timetable.</p>`+
-    rs.map(r=>{const o=am[r.id]||{}; return `<details class="scr" open><summary><b>Route ${esc(r.id)}</b></summary>`+
-      r.stops.map((s,j)=>{const k=mapKeyOf(s), t=o.term&&k in o.term?!!o.term[k]:(r.termini||new Set()).has(j), d=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly;
-        return `<div class="amrow"><span>${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span><label class="check"><input type="checkbox" data-am="term" data-r="${esc(r.id)}" data-k="${esc(k)}"${t?" checked":""}> Terminus</label><label class="check"><input type="checkbox" data-am="sch" data-r="${esc(r.id)}" data-k="${esc(k)}"${d?" checked":""}> School days only</label>${t?`<label class="check">Badge <input type="text" data-am="lab" data-r="${esc(r.id)}" data-k="${esc(k)}" value="${esc((o.lab&&o.lab[k])||"")}" placeholder="${esc(r.id)}" size="6"></label>`:""}</div>`}).join("")+
-      `<button type="button" class="linkbtn" data-amreset="${esc(r.id)}">Reset route ${esc(r.id)}</button></details>`}).join("")}
+  const sig=JSON.stringify([rs.map(r=>[r.id,r.stops.map(mapKeyOf).join(";")]),am,[...amOpen]]); if(sig===box.dataset.sig)return; box.dataset.sig=sig;
+  if(!box.dataset.tog){box.dataset.tog="1"; box.addEventListener("toggle",e=>{const d=e.target; if(d.dataset&&d.dataset.amkey)amOpen.set(d.dataset.amkey,d.open)},true)}
+  box.innerHTML=`<p class="hint" style="margin:0">Edit any route. Open a stop to make it a terminus (its badge), or a school-days-only stretch (dashed, with a key line). Your choices override the timetable.</p>`+
+    rs.map(r=>{const o=am[r.id]||{}, rk="R:"+r.id, ro=amOpen.has(rk)?amOpen.get(rk):true;
+      return `<details class="scr" data-amkey="${esc(rk)}"${ro?" open":""} style="margin-top:10px"><summary><b>Route ${esc(r.id)}</b></summary>`+
+      r.stops.map((s,j)=>{const k=mapKeyOf(s), t=o.term&&k in o.term?!!o.term[k]:(r.termini||new Set()).has(j), d=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, lab=(o.lab&&o.lab[k])||"", sk="S:"+r.id+"|"+k, so=amOpen.has(sk)?amOpen.get(sk):false;
+        const pills=(t?`<span class="ampill">${lab?esc(lab):"Terminus"}</span>`:"")+(d?`<span class="ampill">School days only</span>`:"");
+        return `<details class="amstop" data-amkey="${esc(sk)}"${so?" open":""}><summary><span class="amchev">▸</span><span class="amname">${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span>${pills}</summary><div class="amopts">`+
+          `<label class="check"><input type="checkbox" data-am="term" data-r="${esc(r.id)}" data-k="${esc(k)}"${t?" checked":""}> Terminus</label>`+
+          `<label class="check"><input type="checkbox" data-am="sch" data-r="${esc(r.id)}" data-k="${esc(k)}"${d?" checked":""}> School days only</label>`+
+          (t?`<label class="check">Badge text <input type="text" data-am="lab" data-r="${esc(r.id)}" data-k="${esc(k)}" value="${esc(lab)}" placeholder="${esc(r.id)}" size="6"></label>`:"")+
+          `</div></details>`}).join("")+
+      `<button type="button" class="linkbtn" data-amreset="${esc(r.id)}" style="margin-top:6px">Reset route ${esc(r.id)}</button></details>`}).join("")}
 $("mapAmend").addEventListener("change",e=>{const el=e.target.closest("[data-am]"); if(!el)return;
   mapState.amend=mapState.amend||{}; const o=mapState.amend[el.dataset.r]||(mapState.amend[el.dataset.r]={}), k=el.dataset.k;
   if(el.dataset.am==="term"){o.term=o.term||{}; o.term[k]=el.checked}
