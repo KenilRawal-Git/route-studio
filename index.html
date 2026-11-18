@@ -809,7 +809,8 @@ span.gbt{cursor:default}
         <legend><span class="num">3</span>Map details</legend>
         <div class="field">Heading
           <div class="seg" role="radiogroup" aria-label="Heading"><label><input type="radio" name="mapHead" value="routes" checked><span>Route numbers</span></label><label><input type="radio" name="mapHead" value="text"><span>Text</span></label></div>
-          <label id="mapHeadTextWrap" hidden>Heading text <span class="opt">Lexend SemiBold, in place of the route numbers</span><input id="mapHeadText" maxlength="60" placeholder="e.g. One Sixth Form College"></label></div>
+          <label id="mapHeadTextWrap" hidden>Heading text <span class="opt">Lexend SemiBold, in place of the route numbers</span><input id="mapHeadText" maxlength="60" placeholder="e.g. One Sixth Form College"></label>
+          <label id="mapHeadBlocksWrap">Route blocks <span class="opt">Comma-separated, e.g. 41, 41A, 41B. Blank shows each route's number</span><input id="mapHeadBlocks" placeholder="41"></label></div>
         <label>Valid from <input id="mapValid" type="date"></label>
         <label>Text under the logo <span class="opt">Leave blank for "Valid from" and the date above</span><input id="mapValidText" maxlength="60" placeholder="e.g. Academic year 2026/27"></label>
         <label>Notes box <span class="opt">Wrap words in **double stars** for bold. Leave blank for none.</span>
@@ -1594,6 +1595,7 @@ function renderRouteUI(){
 }
 const DAYS=["Monday to Friday","Saturday","Sunday","Monday to Saturday","Schooldays","School holidays"];
 const DETAILS=["Except Bank Holidays","Including Bank Holidays","Schooldays only","School holidays only"];
+function jrnTime(s,j){const v=s.times.map(r=>r[j]).find(x=>x!==undefined&&x!==null&&x!==""&&x!=="-"); return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
 function renderSectionsUI(){
   const box=$("sections");
   if(!state.sections.length){box.innerHTML=`<p class="hint">Upload a file to set up the days.</p>`;return}
@@ -1607,8 +1609,10 @@ function renderSectionsUI(){
     </div>
     ${custom?`<label>Days wording <input data-k="day" value="${esc(day)}" placeholder="e.g. Tuesdays and Thursdays"></label>`:""}
     <label>Direction <input data-k="direction" value="${esc(s.direction||"")}" placeholder="e.g. Loughborough > Shepshed > Coalville"></label>
+    <details class="jrn"><summary>Journeys (${s.cols.length}) · tick any that only run on school days</summary>${s.cols.map((c,j)=>`<label class="check"><input type="checkbox" data-colsch="${j}"${c.sch?" checked":""}> ${esc(c.route||state.route)} · ${esc(jrnTime(s,j))}</label>`).join("")}</details>
     ${i>0?`<label class="check"><input type="checkbox" data-k="newPage" ${s.newPage!==false?"checked":""}> Start on a new page</label>`:""}
   </div>`}).join("")+`<datalist id="detailList">${DETAILS.map(d=>`<option value="${d}">`).join("")}</datalist>`;
+  box.querySelectorAll("[data-colsch]").forEach(inp=>inp.addEventListener("change",()=>{const el=inp.closest(".sec"), s=state.sections[+el.dataset.i]; s.cols[+inp.dataset.colsch].sch=inp.checked; render()}));
   box.querySelectorAll(".sec").forEach(el=>{const s=state.sections[+el.dataset.i];
     el.querySelectorAll("[data-k]").forEach(inp=>{
       if(inp.dataset.k==="daySel"){inp.addEventListener("change",()=>{
@@ -2952,7 +2956,9 @@ function mapLayout(cfg){
   ops.push({k:"r",x:0,y:0,w:W,h:HEAD,c:C.header});
   if(cfg.headMode==="text"&&String(cfg.headText||"").trim()){   // a heading in words instead of the route numbers
     let t=String(cfg.headText).trim(), fs=22; while(fs>12&&width(t,fs,"semibold")>W-200)fs-=1; T(t,22.68,39,fs,"semibold","#FFFFFF")}
-  else{let bx=22.68; routes.forEach(r=>{const w=Math.max(29,width(r.id,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:r.color,rx:5}); T(r.id,bx+w/2,36.9,18,"medium",(r.tcol||badgeText(r.color)),"center"); bx+=w+4})}
+  else{let bx=22.68; const hb=cfg.headBlocks&&cfg.headBlocks.length?cfg.headBlocks:routes.map(r=>r.id);   // the heading blocks: the route numbers, or the list typed in the options
+    hb.forEach(t=>{const rt=routes.find(r=>r.id===t)||routes[0]; if(!rt)return; const col=rt.color, tc=routes.find(r=>r.id===t)?(rt.tcol||badgeText(col)):badgeText(col);
+      const w=Math.max(29,width(t,18,"medium")+14); ops.push({k:"r",x:bx,y:16.06,w,h:29,c:col,rx:5}); T(t,bx+w/2,36.9,18,"medium",tc,"center"); bx+=w+4})}
   T(cfg.title||"Route Map",22.68,58.14,9,"light","#FFFFFF");
   ops.push({k:"img",x:W-119.25,y:8.95,w:106.76,h:42.41});
   { const vt=String(cfg.validText||"").trim(); if(vt||cfg.valid)T(vt||`Valid from ${longDate(cfg.valid)}`,W-22.68,58.28,9,"light","#FFFFFF","right") }   // the date, or any text of your own
@@ -3501,7 +3507,8 @@ function mapTimetableStops(sections=state.sections){
   /* a stop is school-day only when every journey that calls there runs on schooldays */
   const isSch=sec=>/school/i.test(String(sec.day||dayLabels(sec.name||"").day||"")), kOf=s=>dnorm(s.town)+"|"+dnorm(s.stop);
   const schOnlyOf=id=>{const sch=new Set(), oth=new Set(); sections.forEach(sec=>{const cols=sec.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0); if(!cols.length)return;
-    sec.stops.forEach((s,i)=>{if(cols.some(j=>timed(sec.times[i][j])))(isSch(sec)?sch:oth).add(kOf(s))})}); return s=>sch.has(kOf(s))&&!oth.has(kOf(s))};
+    const isS=j=>isSch(sec)||!!sec.cols[j].sch;
+    sec.stops.forEach((s,i)=>{if(cols.some(j=>timed(sec.times[i][j])&&isS(j)))sch.add(kOf(s)); if(cols.some(j=>timed(sec.times[i][j])&&!isS(j)))oth.add(kOf(s))})}); return s=>sch.has(kOf(s))&&!oth.has(kOf(s))};
   return ids.map(id=>{
     let best=null;
     (pick[id]||sections).forEach(sec=>{const cols=sec.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0); if(!cols.length)return;
@@ -3750,7 +3757,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3928,10 +3935,11 @@ function mapRederive(){mapState.cache=new Map();
 $("mapDays").addEventListener("change",()=>{mapState.days=$("mapDays").value; mapRederive()});
 $("mapDir").addEventListener("change",()=>{mapState.dir=$("mapDir").value; mapRederive()});
 $("mapInsets").addEventListener("change",()=>{mapState.insets=$("mapInsets").checked; render()});
-function mapHeadUi(){const t=mapState.headMode==="text"; document.querySelectorAll("input[name=mapHead]").forEach(r=>r.checked=r.value===(t?"text":"routes")); $("mapHeadTextWrap").hidden=!t; if(document.activeElement!==$("mapHeadText"))$("mapHeadText").value=mapState.headText||""}
+function mapHeadUi(){const t=mapState.headMode==="text"; document.querySelectorAll("input[name=mapHead]").forEach(r=>r.checked=r.value===(t?"text":"routes")); $("mapHeadTextWrap").hidden=!t; $("mapHeadBlocksWrap").hidden=t; if(document.activeElement!==$("mapHeadBlocks"))$("mapHeadBlocks").value=(mapState.headBlocks||[]).join(", "); if(document.activeElement!==$("mapHeadText"))$("mapHeadText").value=mapState.headText||""}
 document.querySelectorAll("input[name=mapHead]").forEach(r=>r.addEventListener("change",()=>{if(!r.checked)return; mapState.headMode=r.value;
   if(r.value==="text"&&!mapState.headText&&mapState.kind==="school")mapState.headText=SCHOOL.name||""; mapHeadUi(); render()}));
 $("mapHeadText").addEventListener("input",()=>{mapState.headText=$("mapHeadText").value; render()});
+$("mapHeadBlocks").addEventListener("input",()=>{mapState.headBlocks=$("mapHeadBlocks").value.split(",").map(x=>x.trim()).filter(Boolean); render()});
 $("mapValidText").addEventListener("input",()=>{mapState.validText=$("mapValidText").value; render()});
 function mapKeySizeUi(){const v=Math.round((mapState.keyScale||1)*100); $("mapKeySize").value=v; $("mapKeySizeV").textContent=v+"%"}
 $("mapKeySize").addEventListener("input",()=>{mapState.keyScale=$("mapKeySize").value/100; mapKeySizeUi(); render()});
@@ -4778,7 +4786,7 @@ function gMapPages(b){
   const cfg=gMapCfg(b);
   if(!cfg){const st=gMapStatus(b);
     return [{ops:[{k:"ph",text:"Route map",sub:!gShown().length?"Add a route timetable first":st.total?"Finding where the stops are…":"Finding the stops…"}],label:"Route map",kind:"map"}]}
-  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.notes,cfg.showKey,cfg.valid,cfg.W,
+  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.notes,cfg.showKey,cfg.valid,cfg.headBlocks,cfg.title,cfg.validText,cfg.headMode,cfg.headText,cfg.W,
     (mapState.osm?"o":"")+(mapState.tileKey||"")+(mapState.builtin?"b":"")+(BODS.paths?"p":"")]);
   if(!b._memo||b._memo.key!==key)b._memo={key,res:mapLayout(cfg)};
   return [{ops:[{k:"emb",kind:"map",ops:b._memo.res.ops,W:cfg.W,H:cfg.H,s:GMAP_S}],rot:cfg.land,label:"Route map",kind:"map"}];
@@ -5892,14 +5900,14 @@ const mapSaveFile=async()=>{const msg=$("status");
   const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
   const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{}}},W:{routes:[],nets:[]},guide:{}};
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{},headBlocks:mapState.headBlocks||null}},W:{routes:[],nets:[]},guide:{}};
   const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
 document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
 function mapOpenFile(m){
   mapSetKind("route");
   Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
-  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; state.routeText=m.routeText||{};
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; mapState.headBlocks=m.headBlocks||null; state.routeText=m.routeText||{};
   mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
   const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
   mapSetRoutes(routes,m.source||"Map file",false);
