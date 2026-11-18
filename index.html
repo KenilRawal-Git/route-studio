@@ -2620,7 +2620,7 @@ function mapLayout(cfg){
   routes.forEach(r=>r.stops.forEach((s,i)=>{const kk=stopKey(s), nk=nameKey(s); let o=stops.find(x=>x.key===kk)||stops.find(x=>x.nk===nk&&close(x,s));
     if(!o){let [x,y]=P(s.lon,s.lat); if(x<MX0+8||x>MX1-8||y<MY0+8||y>MY1-8)return; if(!s.dest)[x,y]=onLine(x,y); o={key:kk,nk,dest:!!s.dest,town:s.town,stop:s.stop,x,y,lon:s.lon,lat:s.lat,badges:[]}; stops.push(o)}
     (o.rs||(o.rs=new Set())).add(r.id);
-    if(r.termini.has(i)&&!o.badges.includes(r)&&!o.dest&&!SCH)o.badges.push(r)}));   // school maps: no terminus badges
+    if(r.termini.has(i)&&!o.dest&&!SCH){const b=s.badgeId?(r.alt||(r.alt=new Map())).get(s.badgeId)||(r.alt.set(s.badgeId,{...r,id:s.badgeId,src:r}),r.alt.get(s.badgeId)):r; if(!o.badges.includes(b))o.badges.push(b)}}));   // school maps: no terminus badges
   /* a network map (or any map with lots of routes and stops) names places, not every stop: the ends of the routes get their
      full name, each other town is named once (at its busiest stop), and the remaining stops are small marks without a label */
   const NET=!INS&&!SCH&&cfg.netLabels!==false&&cfg.style!=="detailed"&&(cfg.style==="summary"||cfg.title==="Network Map"||(routes.length>=4&&stops.length>24));
@@ -3741,8 +3741,8 @@ function mapCfg(){
   // the route editor's ticks override the timetable: a terminus badge, or a school-days-only stretch (dashed)
   const am=mapState.amend||{};
   const routes=mapState.routes.map((r,i)=>{const o=am[r.id]||{}, term=new Set(), stops=r.stops.map((s,j)=>{const k=mapKeyOf(s);
-      const sch=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, auto=(r.termini||new Set()).has(j), t=o.term&&k in o.term?!!o.term[k]:auto;
-      if(t)term.add(j); return sch===!!s.schOnly?s:{...s,schOnly:sch}});
+      const sch=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, auto=(r.termini||new Set()).has(j), t=o.term&&k in o.term?!!o.term[k]:auto, lab=o.lab&&o.lab[k]||"";
+      if(t)term.add(j); return sch===!!s.schOnly&&!lab?s:{...s,schOnly:sch,badgeId:lab||undefined}});
     return {id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:term,stops}}).map(r=>{
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
@@ -3805,11 +3805,13 @@ function mapAmendUi(){const box=$("mapAmend"); if(!box)return;
   box.innerHTML=`<p class="hint" style="margin:0">Edit any route. Tick a stop to make it a terminus (its badge), or a school-days-only stretch (dashed, with a key line). Your ticks override the timetable.</p>`+
     rs.map(r=>{const o=am[r.id]||{}; return `<details class="scr" open><summary><b>Route ${esc(r.id)}</b></summary>`+
       r.stops.map((s,j)=>{const k=mapKeyOf(s), t=o.term&&k in o.term?!!o.term[k]:(r.termini||new Set()).has(j), d=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly;
-        return `<div class="amrow"><span>${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span><label class="check"><input type="checkbox" data-am="term" data-r="${esc(r.id)}" data-k="${esc(k)}"${t?" checked":""}> Terminus</label><label class="check"><input type="checkbox" data-am="sch" data-r="${esc(r.id)}" data-k="${esc(k)}"${d?" checked":""}> School days only</label></div>`}).join("")+
+        return `<div class="amrow"><span>${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span><label class="check"><input type="checkbox" data-am="term" data-r="${esc(r.id)}" data-k="${esc(k)}"${t?" checked":""}> Terminus</label><label class="check"><input type="checkbox" data-am="sch" data-r="${esc(r.id)}" data-k="${esc(k)}"${d?" checked":""}> School days only</label>${t?`<label class="check">Badge <input type="text" data-am="lab" data-r="${esc(r.id)}" data-k="${esc(k)}" value="${esc((o.lab&&o.lab[k])||"")}" placeholder="${esc(r.id)}" size="6"></label>`:""}</div>`}).join("")+
       `<button type="button" class="linkbtn" data-amreset="${esc(r.id)}">Reset route ${esc(r.id)}</button></details>`}).join("")}
 $("mapAmend").addEventListener("change",e=>{const el=e.target.closest("[data-am]"); if(!el)return;
   mapState.amend=mapState.amend||{}; const o=mapState.amend[el.dataset.r]||(mapState.amend[el.dataset.r]={}), k=el.dataset.k;
-  if(el.dataset.am==="term"){o.term=o.term||{}; o.term[k]=el.checked} else {o.sch=o.sch||{}; o.sch[k]=el.checked}
+  if(el.dataset.am==="term"){o.term=o.term||{}; o.term[k]=el.checked}
+  else if(el.dataset.am==="lab"){o.lab=o.lab||{}; const v=el.value.trim(); if(v)o.lab[k]=v; else delete o.lab[k]}
+  else {o.sch=o.sch||{}; o.sch[k]=el.checked}
   render()});
 $("mapAmend").addEventListener("click",e=>{const b=e.target.closest("[data-amreset]"); if(!b)return; delete (mapState.amend||{})[b.dataset.amreset]; $("mapAmend").dataset.sig=""; render()});
 /* map view: page orientation */
