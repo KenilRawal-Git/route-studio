@@ -802,8 +802,8 @@ span.gbt{cursor:default}
           <input type="range" id="mapInset" min="60" max="150" step="5" value="100" aria-label="Size of the enlarged areas"></div>
         <div class="field">Journeys on the map
           <div class="row"><label>Days <select id="mapDays"><option value="mf">Monday to Friday</option><option value="all">Any day (the most stops)</option></select></label>
-            <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option></select></label></div>
-          <p class="hint">Each route is drawn one way, from one day's timetable, so the map stays clean.</p></div>
+            <label>Direction <select id="mapDir"><option value="in">Inbound</option><option value="out">Outbound</option><option value="both">Both directions</option></select></label></div>
+          <p class="hint">Inbound or Outbound draws each route one way. Both directions draws the inbound line with the outbound run beside it as a loop.</p></div>
         <label class="check"><input type="checkbox" id="mapInsets" checked> Enlarge crowded areas <span class="opt">Close-together stops get a zoomed-in box</span></label>
         <label>Routes on the same road <select id="mapBand"><option value="0">Side by side, touching</option><option value="1">Side by side, with a gap</option></select></label>
         <label class="check"><input type="checkbox" id="mapFade" checked> Fade the map's edges <span class="opt">The map softens to white at the sides</span></label>
@@ -3581,7 +3581,7 @@ function mapPickSections(sections,ids,timed){
   // the town where the routes meet: most often at an end of their tables
   const cnt={}; Object.values(per).forEach(L=>{const seen=new Set(); L.forEach(sec=>ends(sec).forEach(t=>{if(t&&!seen.has(t)){seen.add(t);cnt[t]=(cnt[t]||0)+1}}))});
   const hubN=Math.max(0,...Object.values(cnt)), hub=hubN>1?Object.keys(cnt).find(t=>cnt[t]===hubN):null;
-  ids.forEach(id=>{const L=per[id]; if(L.length<2||mapState.dir==="both"){out[id]=L; if(L.length===1)out.oneWay.add(id); return}
+  ids.forEach(id=>{const L=per[id]; if(L.length<2){out[id]=L; if(L.length===1)out.oneWay.add(id); return}
     const score=(sec,k)=>{const d=String(sec.direction||"")+" "+sec.name; let v=0;
       if(/\binbound\b/i.test(d))v+=100; if(/\boutbound\b/i.test(d))v-=100;
       const [a,b]=ends(sec); if(hub&&b===hub&&a!==hub)v+=10; if(hub&&a===hub&&b!==hub)v-=10;
@@ -3853,7 +3853,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,keyOv:mapState.keyOv||null,loop:mapState.loop!==false,merge:!!mapState.merge,funding:mapState.funding||null,schLabel:mapState.schLabel||"",headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,keyOv:mapState.keyOv||null,loop:mapState.dir==="both"||mapState.loop!==false,merge:!!mapState.merge,funding:mapState.funding||null,schLabel:mapState.schLabel||"",headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
