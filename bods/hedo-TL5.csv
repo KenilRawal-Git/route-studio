@@ -1,0 +1,88 @@
+MF
+Thorpe-le-Soken > Frinton-on-Sea > Walton-on-the-Naze
+Route,NaPTAN,Latitude,Longitude,TL5
+Codes,,,,
+"Thorpe-le-Soken, Railway Station",1500IM86,51.848744,1.16293,07:46
+"Thorpe-le-Soken, Playing Field",150032009014,51.855125,1.164482,07:47
+"Thorpe-le-Soken, Byng Crescent",150032009010,51.854371,1.174073,07:48
+"Thorpe-le-Soken, Council Houses",150032009009,51.854465,1.178262,07:49
+"Thorpe-le-Soken, Damant's Farm Lane",150032009007,51.85196,1.186088,07:50
+"Kirby Cross, Farm Close",150032009006,51.845319,1.201752,07:52
+"Kirby Cross, Chapel Lane",150032009004,51.844237,1.208762,07:53
+"Kirby Cross, Kirby Cross Railway Station",150032009002,51.842287,1.215288,07:53
+"Kirby Cross, Kirby Cross",150032010026,51.84214,1.220984,07:54
+"Kirby Cross, Chestnut Ave",150032010028,51.841855,1.226467,07:54
+"Frinton-on-Sea, Village Way",150032010030,51.841552,1.232253,07:55
+"Frinton-on-Sea, Frinton Road Nurseries",150032010032,51.841148,1.236798,07:55
+"Frinton-on-Sea, Laburnum Crescent",150032010034,51.839669,1.238565,07:56
+"Frinton-on-Sea, Frinton Rail Gates",150032010036,51.83793,1.243885,07:56
+"Frinton-on-Sea, Walden Way",150032011021,51.838773,1.248534,07:56
+"Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,07:57
+"Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,07:57
+"Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,07:58
+"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,07:58
+"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,07:59
+"Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,07:59
+"Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,08:02
+"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,08:03
+"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,08:03
+"Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,08:04
+"Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,08:05
+"Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,08:06
+"Frinton-on-Sea, Walden Way",150032011020,51.838163,1.247503,08:07
+"Frinton-on-Sea, Frinton Rail Gates",1500IM1176,51.837857,1.24327,08:08
+"Frinton-on-Sea, Charlotte Drive",1500FRINTFRD,51.839831,1.240537,08:09
+"Frinton-on-Sea, Skyrmans Fee",1500HNR650,51.841761,1.240661,08:11
+"Frinton-on-Sea, Edenside",1500HNR651,51.844309,1.247742,08:12
+"Walton-on-the-Naze, Ashes Corner",1500IM1762AB,51.84868,1.248086,08:13
+"Kirby-le-Soken, Devereux Farm",150032010016,51.851356,1.23682,08:15
+"Kirby-le-Soken, Post Office",150032010017,51.851569,1.231999,08:16
+"Kirby-le-Soken, Red Lion",150014713011,51.85354,1.222147,08:17
+"Thorpe-le-Soken, Landermere",150014713012,51.864217,1.183817,08:23
+"Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,08:30
+
+Thorpe-le-Soken > Walton-on-the-Naze > Frinton-on-Sea
+Route,NaPTAN,Latitude,Longitude,TL5
+Codes,,,,
+"Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,15:20
+"Thorpe-le-Soken, Landermere",150014712013,51.86425,1.183921,15:26
+"Kirby-le-Soken, Red Lion",150014713010,51.853591,1.222267,15:31
+"Kirby-le-Soken, Post Office",150032010018,51.851683,1.23115,15:32
+"Kirby-le-Soken, Devereux Farm",150032010015,51.85123,1.238466,15:33
+"Walton-on-the-Naze, Ashes Corner",1500IM1762AC,51.848718,1.247987,15:35
+"Frinton-on-Sea, Edenside",1500HNR651A,51.843446,1.242176,15:36
+"Frinton-on-Sea, Skyrmans Fee",1500HNR650A,51.841723,1.240731,15:37
+"Frinton-on-Sea, Charlotte Drive",1500FRINTFAA,51.839827,1.240682,15:39
+"Frinton-on-Sea, Frinton Rail Gates",150032010036,51.83793,1.243885,15:40
+"Frinton-on-Sea, Walden Way",150032011021,51.838773,1.248534,15:41
+"Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,15:42
+"Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,15:43
+"Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,15:44
+"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,15:45
+"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,15:45
+"Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,15:47
+"Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,15:50
+"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,15:51
+"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,15:51
+"Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,15:52
+"Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,15:52
+"Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,15:53
+"Frinton-on-Sea, Walden Way",150032011020,51.838163,1.247503,15:53
+"Frinton-on-Sea, Frinton Rail Gates",1500IM1176,51.837857,1.24327,15:54
+"Frinton-on-Sea, Laburnum Crescent",150032010033,51.84002,1.237893,15:54
+"Frinton-on-Sea, Frinton Road Nurseries",150032010031,51.841381,1.235508,15:55
+"Frinton-on-Sea, Village Way",1500320100Y0,51.841387,1.23169,15:55
+"Kirby Cross, Elm Grove",150032010029,51.841406,1.227756,15:56
+"Kirby Cross, Coronation Garage",150032010027,51.841896,1.222999,15:56
+"Kirby Cross, Claire Road",150032009001,51.841847,1.217217,15:57
+"Kirby Cross, Kirby Cross Railway Station",150032009003,51.842713,1.214171,15:57
+"Kirby Cross, Chapel Lane",150032009005,51.844295,1.207953,15:58
+"Kirby Cross, Farm Close",150032009Y06,51.845257,1.201704,15:58
+"Thorpe-le-Soken, Damant's Farm Lane",150032009008,51.851966,1.185842,16:00
+"Thorpe-le-Soken, Council Houses",150032009Y09,51.854376,1.178227,16:01
+"Thorpe-le-Soken, Byng Crescent",150032009011,51.854298,1.173806,16:02
+"Thorpe-le-Soken, Thorpe Memorial",1500IM104,51.855602,1.167449,16:03
+"Thorpe-le-Soken, Playing Field",150032009015,51.854938,1.164381,16:04
+"Thorpe-le-Soken, Railway Station",1500IM86B,51.848478,1.163129,16:05
+
+

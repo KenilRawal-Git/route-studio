@@ -1,0 +1,65 @@
+MF
+Bottisham > Stetchworth > Kentford > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B5
+Codes,,,,
+"Bottisham, Bottisham Village College",0500EBOTT006,52.226312,0.254608,07:29
+"Bottisham, Bell Road",0500EBOTT014,52.222814,0.258853,07:30
+"Bottisham, Stocks Close",0500EBOTT017,52.22085,0.260437,07:32
+"Bottisham, Beechwood Avenue",0500EBOTT010,52.219549,0.264075,07:32
+"Bottisham, High Street",0500EBOTT022,52.218224,0.26796,07:33
+"Bottisham, High Street",0500EBOTT002,52.217027,0.268968,07:33
+"Stetchworth, July Lodge",0500ESTET007,52.226799,0.367999,07:40
+"Newmarket, Drinkwater Close",390020351,52.24767,0.38936,07:46
+"Newmarket, Primary School",390020269,52.24948,0.39157,07:47
+"Newmarket, Halifax Way",390020271,52.25128,0.38828,07:48
+"Newmarket, Fielden Way",390020350,52.25328,0.38922,07:49
+"Newmarket, Depot Road",390020219,52.25426,0.39254,07:52
+"Newmarket, Newmarket Academy",390020218,52.25099,0.3976,07:53
+"Newmarket, Hospital",390020425,52.24978,0.39941,07:55
+"Newmarket, Tannersfield Way",390020190,52.24782,0.40094,07:56
+"Newmarket, New Astley Club",390020187,52.24535,0.40491,07:57
+"Newmarket, The Guineas Bus Station",390020334,52.24589,0.40623,08:00
+"Newmarket, St Agnes Church",390020213,52.24968,0.41537,08:03
+"Newmarket, Abington Place",390020216,52.254,0.42163,08:10
+"Kentford, Business Park",390020342,52.27155,0.49143,08:14
+"Kentford, The Bell",390020133,52.27206,0.4945,08:14
+"Kentford, Orchard Place",390020468,52.27264,0.49884,08:14
+"Kentford, The Cock",390020132,52.2726,0.50334,08:15
+"Kentford, Flint Cottages",390020392,52.27222,0.51273,08:15
+"Bury St Edmunds, Cavendish Road",390050854,52.25153,0.68617,08:27
+"Bury St Edmunds, Hutton Close",390059006,52.24971,0.69055,08:29
+"Bury St Edmunds, Westley Road",390050874,52.24796,0.69842,08:31
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,08:40
+
+Bury St Edmunds > Kentford > Stetchworth > Bottisham
+Route,NaPTAN,Latitude,Longitude,B5
+Codes,,,,
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,16:30
+"Bury St Edmunds, Denham Close",390051150,52.24832,0.69506,16:32
+"Bury St Edmunds, Hutton Close",390059007,52.24941,0.69077,16:33
+"Bury St Edmunds, Cavendish Road",390050853,52.25146,0.6861,16:34
+"Kentford, Flint Cottages",390020393,52.27212,0.51269,16:53
+"Kentford, The Cock",390020131,52.27256,0.50345,16:55
+"Kentford, Orchard Place",390020469,52.2725,0.49911,16:55
+"Kentford, The Bell",390020134,52.27198,0.49448,16:56
+"Kentford, Business Park",390020341,52.27142,0.49112,16:56
+"Newmarket, Abington Place",390020215,52.2539,0.42168,17:00
+"Newmarket, St Agnes Church",390020214,52.24968,0.41546,17:02
+"Newmarket, The Guineas Bus Station",390020334,52.24589,0.40623,17:10
+"Newmarket, New Astley Club",390020188,52.24518,0.40489,17:11
+"Newmarket, Tannersfield Way",390020189,52.2481,0.40052,17:13
+"Newmarket, Hospital",390020451,52.24962,0.39915,17:15
+"Newmarket, Newmarket Academy",390020217,52.2509,0.39747,17:16
+"Newmarket, Fielden Way",390020466,52.2534,0.38976,17:19
+"Newmarket, Halifax Way",390020270,52.25162,0.38809,17:20
+"Newmarket, Primary School",390020268,52.24956,0.39167,17:22
+"Newmarket, Drinkwater Close",390020352,52.2476,0.3894,17:23
+"Stetchworth, July Lodge",0500ESTET008,52.22692,0.368664,17:28
+"Bottisham, High Street",0500EBOTT003,52.216925,0.268641,17:36
+"Bottisham, High Street",0500EBOTT015,52.218207,0.267901,17:37
+"Bottisham, Beechwood Avenue",0500EBOTT001,52.219366,0.26471,17:37
+"Bottisham, Stocks Close",0500EBOTT007,52.220808,0.260318,17:38
+"Bottisham, Bell Road",0500EBOTT009,52.222762,0.258748,17:39
+"Bottisham, Bottisham Village College",0500EBOTT013,52.226269,0.254518,17:41
+
+

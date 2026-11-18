@@ -1,0 +1,103 @@
+MF
+Bury St Edmunds > Hoggards Green > Long Melford > Great Cornard
+Route,NaPTAN,Latitude,Longitude,48,48
+Codes,,,,,
+"Bury St Edmunds, King Edward VI School",390051024,52.25165,0.70575,15:45,–
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,–,16:40
+"Bury St Edmunds, Springfield Road",390050871,52.24766,0.70524,–,16:42
+"Bury St Edmunds, Bus Station",390050791,52.24788,0.71031,15:50,16:50
+"Bury St Edmunds, Arc Shopping Centre",390050877,52.24561,0.71118,15:51,16:51
+"Bury St Edmunds, Old Convent Orchard",390051021,52.24328,0.71133,15:52,16:52
+"Bury St Edmunds, Corsbie Close",390050903,52.24015,0.71199,15:55,16:55
+"Bury St Edmunds, Laundry Lane Footpath",390050901,52.23553,0.72103,15:57,16:57
+"Bury St Edmunds, Old Gaol",390050985,52.23417,0.72749,15:58,16:58
+"Nowton Estate, The Curlews Footpath",390018663,52.22919,0.73143,15:59,16:59
+"Sicklesmere, Rushbrooke Arms",390050762,52.21178,0.7468,16:00,17:00
+"Sicklesmere, Post Office",390050764,52.20981,0.74829,16:06,17:06
+"Great Whelnetham, Raynsford Road",390051009,52.20807,0.74845,16:07,17:07
+"Great Whelnetham, Tutelina Road",390051011,52.2055,0.74902,16:08,17:08
+"Great Whelnetham, Primary School",390050767,52.19992,0.74855,16:09,17:09
+"Great Whelnetham, Grove Cottages",390050769,52.19179,0.74542,16:10,17:10
+"Hoggards Green, Shelter",390050771,52.17532,0.75345,16:13,17:13
+"Cockfield, A1141",390050772,52.16979,0.76433,16:15,17:15
+"Cockfield, Thorn Court Corner",390010434,52.1446,0.75838,16:17,17:17
+"Alpheton, Old Bury Road",390010198,52.12739,0.7503,16:18,17:18
+"Alpheton, Tye Green",390010200,52.12356,0.74751,16:21,17:21
+"Bridge Street, Rose and Crown",390010202,52.10875,0.7419,16:23,17:23
+"Long Melford, High Street Farm",390010789,52.09404,0.72823,16:27,17:27
+"High Street, Harefield",390010648,52.08945,0.72505,16:28,17:28
+"Long Melford, Bull",390010151,52.07971,0.71939,16:29,17:29
+"Long Melford, Post Office",390010148,52.07783,0.71758,16:30,17:30
+"Long Melford, George & Dragon Hotel",390010150,52.07517,0.71662,16:31,17:31
+"Long Melford, Chapel Green",390010153,52.07206,0.71586,16:31,17:31
+"Long Melford, Long Melford Inn",390010281,52.06668,0.71279,16:32,17:32
+"Long Melford, Ropers Lane",390010285,52.06292,0.71085,16:32,17:32
+"Long Melford, Barleycombe",390010734,52.05871,0.71247,16:33,17:33
+"Sudbury, Acton Lane",390010302,52.04959,0.74027,16:37,17:37
+"Sudbury, Second Avenue",390010307,52.04816,0.74313,16:37,17:37
+"Sudbury, Homebase",390010308,52.04751,0.74522,16:38,17:38
+"Sudbury, The Firs",390010311,52.04469,0.74044,16:39,17:39
+"Sudbury, Banham Drive",390010854,52.04301,0.73807,16:40,17:40
+"Sudbury, Cavendish Way",390010238,52.04033,0.73342,16:42,17:42
+"Sudbury, Bus Station",390011863,52.03768,0.73209,16:45,17:45
+"Sudbury, Lucas Road",390010239,52.03656,0.73758,16:47,17:47
+"Sudbury, Sainsbury's",390010897,52.03597,0.73964,16:48,17:48
+"Sudbury, Cats Lane",390010690,52.03524,0.74152,16:48,17:48
+"Great Cornard, Stannards Way",390010241,52.03247,0.74352,16:49,17:49
+"Great Cornard, Glenside",390010703,52.03122,0.74555,16:50,17:50
+"Great Cornard, Highbury Way",390010271,52.03167,0.74954,16:51,17:51
+"Great Cornard, Beech Road",390010700,52.03113,0.75123,16:52,17:52
+"Great Cornard, Queensway",390010257,52.02881,0.7538,16:53,17:53
+
+Great Cornard > Long Melford > Hoggards Green > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,48
+Codes,,,,
+"Great Cornard, Queensway",390010256,52.02907,0.75326,07:30
+"Great Cornard, Beech Road",390010699,52.03034,0.75189,07:31
+"Great Cornard, Pot Kiln Lane",390010701,52.03174,0.75052,07:31
+"Great Cornard, St Andrews Road",390010269,52.03094,0.74772,07:32
+"Great Cornard, Glenside",390010702,52.03118,0.74541,07:32
+"Great Cornard, Stannards Way",390010242,52.03243,0.74342,07:33
+"Great Cornard, Kings Meadow",390010691,52.03401,0.74247,07:33
+"Sudbury, Lucas Road",390010240,52.03643,0.73766,07:34
+"Sudbury, Bus Station",390011863,52.03768,0.73209,07:35
+"Sudbury, Cavendish Way",390010237,52.04038,0.73322,07:36
+"Sudbury, Horse And Groom",390010681,52.04149,0.7347,07:37
+"Sudbury, Banham Drive",390010853,52.04312,0.73789,07:37
+"Sudbury, The Firs",390010310,52.04478,0.7403,07:38
+"Sudbury, Homebase",390010308,52.04751,0.74522,07:40
+"Sudbury, Second Avenue",390010306,52.04808,0.74304,07:41
+"Sudbury, Acton Lane",390010303,52.04953,0.74013,07:42
+"Long Melford, Barleycombe",390010735,52.0587,0.71235,07:47
+"Long Melford, Ropers Lane",390010286,52.06224,0.71083,07:48
+"Long Melford, Long Melford Inn",390010283,52.06536,0.71142,07:48
+"Long Melford, Chapel Green",390010154,52.07224,0.71581,07:49
+"Long Melford, George & Dragon Hotel",390010149,52.07519,0.71637,07:49
+"Long Melford, Post Office",390010147,52.0779,0.71742,07:50
+"Long Melford, Bull",390010152,52.07949,0.71902,07:51
+"High Street, Harefield",390010649,52.08947,0.72481,07:52
+"Long Melford, High Street Farm",390010790,52.09408,0.72785,07:54
+"Bridge Street, Rose and Crown",390010201,52.10878,0.74178,07:56
+"Alpheton, Tye Green",390010200,52.12356,0.74751,07:59
+"Alpheton, Old Bury Road",390010199,52.12747,0.75018,08:00
+"Cockfield, Thorn Court Corner",390010433,52.14462,0.75822,08:02
+"Cockfield, A1141",390050773,52.16983,0.76409,08:05
+"Hoggards Green, Shelter",390050770,52.17533,0.75333,08:08
+"Great Whelnetham, Grove Cottages",390050768,52.19182,0.74524,08:11
+"Great Whelnetham, Primary School",390050766,52.19999,0.74833,08:12
+"Great Whelnetham, Tutelina Road",390051012,52.20556,0.74875,08:13
+"Great Whelnetham, Raynsford Road",390051010,52.20808,0.74819,08:15
+"Sicklesmere, Post Office",390050765,52.20979,0.74807,08:16
+"Sicklesmere, Rushbrooke Arms",390050763,52.21176,0.74658,08:17
+"Nowton Estate, The Curlews Footpath",390018664,52.22942,0.73111,08:18
+"Bury St Edmunds, Old Gaol",390050986,52.23494,0.72622,08:19
+"Bury St Edmunds, Laundry Lane Footpath",390050901,52.23553,0.72103,08:20
+"Bury St Edmunds, Corsbie Close",390050902,52.23984,0.71191,08:22
+"Bury St Edmunds, Old Convent Orchard",390051022,52.24293,0.71117,08:24
+"Bury St Edmunds, Arc Shopping Centre",390050876,52.24585,0.71098,08:25
+"Bury St Edmunds, Bus Station",390050795,52.24783,0.71006,08:30
+"Bury St Edmunds, King Edward VI School",390051024,52.25165,0.70575,08:35
+"Bury St Edmunds, Springfield Road",390050872,52.24754,0.70528,08:39
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,08:42
+
+

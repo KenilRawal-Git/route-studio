@@ -1,0 +1,107 @@
+MF
+Hadleigh > Cross Green > Lower Green > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,53A,53
+Codes,,,,WO,WO
+"Whatfield, Telephone Box",390010739,52.07969,0.95299,09:20,–
+"Whatfield, Elmsett Corner",390010458,52.08129,0.9566,09:20,–
+"Elmsett, Mill Lane",390010795,52.08,0.98826,09:23,–
+"Elmsett, Bus Shelter",390010455,52.07972,0.99825,09:28,–
+"Hadleigh, Allen Road",390010402,52.05193,0.95312,09:35,–
+"Hadleigh, Morrisons",390010401,52.04863,0.95356,09:38,–
+"Hadleigh, Meadows Way",390010398,52.04735,0.95274,09:38,–
+"Hadleigh, High Street Mews",390010417,52.04634,0.952,09:39,–
+"Hadleigh, Bus Station",390010387,52.04481,0.95462,09:41,09:42
+"Hadleigh, Bourchier Close",390010834,52.04512,0.96261,–,09:45
+"Hadleigh, Meriton Rise",390010421,52.03911,0.96879,–,09:48
+"Hadleigh, Bus Station",390010891,52.04467,0.95447,–,09:55
+"Hadleigh, High Street Mews",390010416,52.04628,0.95183,–,09:56
+"Hadleigh, Meadows Way",390010399,52.04743,0.95265,–,09:56
+"Hadleigh, Morrisons",390010400,52.04859,0.95346,–,09:57
+"Hadleigh, Allen Road",390010403,52.05196,0.95295,–,09:57
+"Semer, Semer Lodge",390010718,52.07122,0.92898,–,10:01
+"Semer, Semer Bridge",390010463,52.08265,0.92015,–,10:04
+"Bildeston, Clock Tower",390010497,52.10767,0.90832,–,10:09
+"Hitcham, White Horse",390010487,52.124,0.89404,–,10:12
+"Hitcham, Squirrels Depot",390010496,52.1256,0.89875,–,10:13
+"Hitcham Causeway, Causeway Estate",390010494,52.13063,0.90235,–,10:14
+"Cross Green, Telephone Box",390040921,52.13919,0.90464,–,10:16
+"Brettenham, Church",390010526,52.15035,0.87335,–,10:20
+"Brettenham, Park Gates",390010528,52.14173,0.85379,–,10:22
+"Thorpe Morieux, Church Corner",390010531,52.14495,0.83677,–,10:25
+"Thorpe Morieux, Greatfields",390040904,52.14754,0.8362,–,10:25
+"Thorpe Morieux, Bull",390040903,52.15705,0.83594,–,10:28
+"Great Green, Chapel Road",390010449,52.16749,0.80015,–,10:33
+"Great Green, Dukes Meadow",390010452,52.16897,0.80408,–,10:34
+"Felsham, Lime Walk",390041007,52.17735,0.8413,–,10:36
+"Felsham, Bury Road",390040910,52.17768,0.84359,–,10:38
+"Felsham, Six Bells",390040667,52.1774,0.84616,–,10:38
+"Lower Green, Playing Fields",390040908,52.17902,0.84891,–,10:38
+"Gedding, Shelter",390040712,52.18545,0.8526,–,10:41
+"Bradfield St George, Village Sign",390050776,52.19961,0.79691,–,10:48
+"Bradfield St George, The Green",390050778,52.20651,0.80036,–,10:51
+"Sicklesmere, Rushbrooke Arms",390050763,52.21176,0.74658,–,10:54
+"Nowton Estate, The Curlews Footpath",390018664,52.22942,0.73111,–,10:59
+"Bury St Edmunds, Old Gaol",390050986,52.23494,0.72622,–,11:00
+"Bury St Edmunds, Laundry Lane Footpath",390050901,52.23553,0.72103,–,11:02
+"Bury St Edmunds, Corsbie Close",390050902,52.23984,0.71191,–,11:03
+"Bury St Edmunds, Old Convent Orchard",390051022,52.24293,0.71117,–,11:05
+"Bury St Edmunds, Arc Shopping Centre",390050876,52.24585,0.71098,–,11:06
+"Bury St Edmunds, Bus Station",390050790,52.24785,0.71035,–,11:07
+
+Bury St Edmunds > Gedding > Cross Green > Hadleigh
+Route,NaPTAN,Latitude,Longitude,53,53A
+Codes,,,,WO,WO
+"Bury St Edmunds, Bus Station",390050790,52.24785,0.71035,12:55,–
+"Bury St Edmunds, Arc Shopping Centre",390050877,52.24561,0.71118,12:57,–
+"Bury St Edmunds, Old Convent Orchard",390051021,52.24328,0.71133,12:59,–
+"Bury St Edmunds, Corsbie Close",390050903,52.24015,0.71199,13:00,–
+"Bury St Edmunds, Laundry Lane Footpath",390050900,52.23558,0.72115,13:02,–
+"Bury St Edmunds, Old Gaol",390050985,52.23417,0.72749,13:03,–
+"Nowton Estate, The Curlews Footpath",390018663,52.22919,0.73143,13:05,–
+"Sicklesmere, Rushbrooke Arms",390050762,52.21178,0.7468,13:07,–
+"Little Whelnetham, Post Box",390050781,52.2064,0.76484,13:07,–
+"Bradfield St George, The Green",390050779,52.20658,0.80031,13:09,–
+"Bradfield St George, Village Sign",390050777,52.1995,0.79717,13:12,–
+"Gedding, Gedding Corner",390040916,52.18451,0.84155,13:14,–
+"Gedding, Shelter",390040711,52.18556,0.85255,13:19,–
+"Lower Green, Playing Fields",390040909,52.17901,0.84901,13:20,–
+"Felsham, Six Bells",390040668,52.17726,0.84628,13:21,–
+"Felsham, Bury Road",390040911,52.17753,0.84368,13:22,–
+"Felsham, Lime Walk",390041141,52.17736,0.84203,13:22,–
+"Great Green, Chapel Road",390010449,52.16749,0.80015,13:24,–
+"Great Green, Dukes Meadow",390010452,52.16897,0.80408,13:28,–
+"Thorpe Morieux, Bull",390040902,52.15713,0.83605,13:34,–
+"Thorpe Morieux, Greatfields",390040905,52.14751,0.83646,13:34,–
+"Thorpe Morieux, Church Corner",390010530,52.14509,0.83672,13:35,–
+"Brettenham, Park Gates",390010529,52.14183,0.85367,13:36,–
+"Brettenham, Church",390010527,52.15079,0.87339,13:41,–
+"Cross Green, Telephone Box",390040920,52.13925,0.90462,13:44,–
+"Hitcham Causeway, Causeway Estate",390010493,52.13043,0.90251,13:46,–
+"Hitcham, Squirrels Depot",390010495,52.12566,0.89906,13:46,–
+"Hitcham, White Horse",390010488,52.12398,0.89421,13:47,–
+"Bildeston, Clock Tower",390010497,52.10767,0.90832,13:51,–
+"Semer, Semer Bridge",390010464,52.08263,0.92026,13:56,–
+"Semer, Semer Lodge",390010717,52.07123,0.92909,13:57,–
+"Hadleigh, Allen Road",390010402,52.05193,0.95312,14:01,–
+"Hadleigh, Morrisons",390010401,52.04863,0.95356,14:04,–
+"Hadleigh, Meadows Way",390010398,52.04735,0.95274,14:04,–
+"Hadleigh, High Street Mews",390010417,52.04634,0.952,14:05,–
+"Hadleigh, Bus Station",390010387,52.04481,0.95462,14:07,–
+"Hadleigh, Sydney Brown Court",390010411,52.04225,0.95657,14:07,–
+"Hadleigh, Bourchier Close",390010834,52.04512,0.96261,14:09,–
+"Hadleigh, High School",390010426,52.04205,0.96435,14:10,–
+"Hadleigh, Meriton Rise",390010421,52.03911,0.96879,14:11,–
+"Hadleigh, Woodthorpe Close",390010423,52.03928,0.96587,14:11,–
+"Hadleigh, Woodthorpe Road",390010424,52.04042,0.96316,14:12,–
+"Hadleigh, Clopton Gardens",390010429,52.04131,0.95934,14:12,–
+"Hadleigh, Sydney Brown Court",390010410,52.0422,0.95645,14:13,–
+"Hadleigh, Bus Station",390010891,52.04467,0.95447,14:14,14:15
+"Hadleigh, High Street Mews",390010416,52.04628,0.95183,–,14:16
+"Hadleigh, Meadows Way",390010399,52.04743,0.95265,–,14:16
+"Hadleigh, Morrisons",390010400,52.04859,0.95346,–,14:17
+"Hadleigh, Allen Road",390010403,52.05196,0.95295,–,14:17
+"Elmsett, Bus Shelter",390010456,52.07965,0.99819,–,14:25
+"Whatfield, Elmsett Corner",390010457,52.08126,0.95668,–,14:28
+"Whatfield, Telephone Box",390010740,52.07957,0.95313,–,14:33
+
+

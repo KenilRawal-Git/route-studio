@@ -1,0 +1,126 @@
+MF
+Haverhill > Sowley Green > Chevington > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B1A,B1
+Codes,,,,,
+"Linton, The Crown PH",0500SLINT015,52.09615,0.274639,07:39,–
+"Linton, Hillway",0500SLINT004,52.097836,0.278127,07:40,–
+"Linton, Cemetery",0500SLINT016,52.09887,0.281845,07:41,–
+"Linton, Parsonage Way",0500SLINT002,52.097554,0.284815,07:41,–
+"Linton, Bakers Lane",0500SLINT001,52.096464,0.289519,07:42,–
+"Linton, The Ridgeway",0500SLINT008,52.094719,0.294642,07:44,–
+"Horseheath, West Wickham Road",0500SHORS001,52.099848,0.350626,07:48,–
+"Horseheath, Cricket Ground",0500SHORS007,52.099305,0.35305,07:49,–
+"Horseheath, The Old Nursery",0500SHORS008,52.098156,0.357428,07:49,–
+"Cardinals Green, Horseheath Green",0500SHORS003,52.094532,0.369531,07:51,–
+"Haverhill, Research Park",390051254,52.09318,0.40644,07:54,–
+"Haverhill, Sainsburys",390051210,52.09249,0.41227,07:54,–
+"Haverhill, Park Road",390050302,52.09256,0.41792,07:55,–
+"Haverhill, The Links",390050304,52.09116,0.42499,07:55,–
+"Haverhill, Howe Road",390050305,52.09033,0.42686,07:55,–
+"Haverhill, Air Cadets",390050308,52.08945,0.42946,07:56,–
+"Haverhill, Cemetery",390050310,52.0871,0.43357,07:56,–
+"Haverhill, Broad Street",390050311,52.0854,0.43568,07:56,–
+"Haverhill, Broad Street",390050312,52.08541,0.43545,–,07:36
+"Haverhill, Cemetery",390050309,52.08698,0.43343,–,07:36
+"Haverhill, Air Cadets",390050307,52.08915,0.42984,–,07:36
+"Haverhill, Howe Road",390050306,52.0903,0.42672,–,07:37
+"Haverhill, The Links",390050303,52.09108,0.42476,–,07:37
+"Haverhill, Baines Coney",390051057,52.09095,0.41706,–,07:38
+"Haverhill, Vetch Walk",390050262,52.08875,0.41696,–,07:39
+"Haverhill, Betony Walk",390050260,52.08628,0.41315,–,07:41
+"Haverhill, Victoria Road",390050264,52.08323,0.41525,–,07:42
+"Haverhill, Strawberry Fields",390050252,52.08096,0.41677,–,07:43
+"Haverhill, Cleves Road",390050250,52.0804,0.41897,–,07:44
+"Haverhill, York Road",390050242,52.08117,0.42684,–,07:46
+"Haverhill, Headland Avenue",390050266,52.07912,0.42471,–,07:46
+"Haverhill, Nayland Road",390050268,52.07802,0.42401,–,07:47
+"Haverhill, Gloucester Road",390050270,52.07677,0.42879,–,07:48
+"Haverhill, Cornwallis Road",390050273,52.07764,0.43215,–,07:49
+"Haverhill, Mill Hill",390050275,52.0785,0.43586,–,07:50
+"Haverhill, Helions Walk",390050277,52.07984,0.44088,–,07:51
+"Haverhill, Manor Farm Close",390050279,52.07783,0.44515,–,07:52
+"Haverhill, Stour Valley Road",390059028,52.07803,0.44704,–,07:53
+"Haverhill, Bus Station",390050231,52.08196,0.44141,07:58,08:00
+"Haverhill, Millfields Way",390050286,52.08737,0.44024,08:00,08:02
+"Haverhill, Ann Suckling Road",390050169,52.09149,0.44558,08:01,08:03
+"Little Wratting, Suffolk Regiment Way",390050172,52.09405,0.44932,08:02,08:04
+"Great Wratting, Blunts Corner",390050173,52.10007,0.47518,08:04,08:06
+"Barnardiston, Greys Lane",390050153,52.11168,0.49339,08:06,08:08
+"Sowley Green, Sowley Green Farm",390050157,52.12986,0.49119,08:08,08:10
+"Stradishall, Highpoint",390050151,52.13925,0.51315,08:11,08:13
+"Stradishall, Post Office",390050373,52.14156,0.52015,08:15,08:17
+"Stradishall, Shelter",390050146,52.14793,0.55209,08:16,08:18
+"Wickham Street, Plumbers Arms",390050100,52.15757,0.56888,08:17,08:19
+"Depden, Church End",390050097,52.18245,0.60676,08:21,08:23
+"Chevington, Brookes Corner",390051005,52.19803,0.64679,08:25,08:27
+"Horringer, Godfreys Close",390050670,52.21683,0.67088,08:27,08:29
+"Horringer, Sharpes Lane",390050672,52.21804,0.67141,08:27,08:29
+"Horringer, Meadow Drive",390051007,52.22342,0.67056,08:28,08:30
+"Horringer, Park Gates",390050668,52.22565,0.67219,08:29,08:31
+"Westley, Hill Road",390050676,52.24505,0.67156,08:32,08:34
+"Westley Estate, Flemyng Road",390050865,52.24611,0.68439,08:33,08:35
+"Westley Estate, Gainsborough Road north end",390050867,52.24666,0.68981,08:33,08:35
+"Westley Estate, Hepworth Avenue",390050869,52.24623,0.69311,08:34,08:36
+"Bury St Edmunds, Westley Road",390050874,52.24796,0.69842,08:35,08:37
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,08:38,08:40
+
+Bury St Edmunds > Depden > Sowley Green > Haverhill
+Route,NaPTAN,Latitude,Longitude,B1A,B1
+Codes,,,,,
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,16:20,16:20
+"Bury St Edmunds, Springfield Road",390050871,52.24766,0.70524,16:21,16:21
+"Bury St Edmunds, Parkway Bus Layby",390050904,52.24188,0.71022,16:23,16:23
+"Bury St Edmunds, Albert Buildings",390050906,52.24043,0.71037,16:24,16:24
+"Bury St Edmunds, Kevor House",390050908,52.23994,0.70778,16:25,16:25
+"Bury St Edmunds, Spread Eagle",390050910,52.23847,0.70369,16:26,16:26
+"Horringer Court, Bristol Road",390050938,52.23609,0.69771,16:27,16:27
+"Horringer, Park Gates",390050669,52.22556,0.67224,16:31,16:31
+"Horringer, Meadow Drive",390051008,52.22383,0.67107,16:32,16:32
+"Horringer, Sharpes Lane",390050673,52.21804,0.67161,16:33,16:33
+"Horringer, Godfreys Close",390050671,52.21687,0.67104,16:34,16:34
+"Chevington, Brookes Corner",390051006,52.19793,0.64693,16:37,16:37
+"Depden, Church End",390050099,52.18309,0.60823,16:41,16:41
+"Clopton Green, Hill Cottages",390051155,52.16198,0.57367,16:44,16:44
+"Wickham Street, Plumbers Arms",390050101,52.15747,0.56894,16:46,16:46
+"Stradishall, Shelter",390050147,52.14784,0.55222,16:48,16:48
+"Stradishall, Post Office",390050372,52.14125,0.51984,16:50,16:50
+"Stradishall, Highpoint",390050150,52.13917,0.51315,16:51,16:51
+"Sowley Green, Sowley Green Farm",390050156,52.12977,0.49135,16:54,16:54
+"Barnardiston, Greys Lane",390050152,52.11176,0.49367,16:56,16:56
+"Great Wratting, Blunts Corner",390050174,52.09992,0.47523,16:58,16:58
+"Little Wratting, Suffolk Regiment Way",390050171,52.09397,0.44955,17:00,17:00
+"Haverhill, Ann Suckling Road",390050170,52.09131,0.44587,17:01,17:01
+"Haverhill, Millfields Way",390050287,52.08697,0.44009,17:02,17:02
+"Haverhill, Bus Station",390050231,52.08196,0.44141,17:13,17:13
+"Haverhill, Broad Street",390050312,52.08541,0.43545,17:15,17:17
+"Haverhill, Cemetery",390050309,52.08698,0.43343,17:15,17:17
+"Haverhill, Air Cadets",390050307,52.08915,0.42984,17:15,17:17
+"Haverhill, Howe Road",390050306,52.0903,0.42672,17:16,17:18
+"Haverhill, The Links",390050303,52.09108,0.42476,17:16,17:18
+"Haverhill, Sainsburys",390050220,52.09234,0.41315,17:17,–
+"Haverhill, Research Park",390051253,52.09287,0.40676,17:17,–
+"Cardinals Green, Horseheath Green",0500SHORS002,52.094416,0.36951,17:21,–
+"Horseheath, The Old Nursery",0500SHORS006,52.098098,0.357206,17:22,–
+"Horseheath, Cricket Ground",0500SHORS004,52.099218,0.352914,17:22,–
+"Horseheath, West Wickham Road",0500SHORS005,52.099749,0.35062,17:23,–
+"Linton, The Ridgeway",0500SLINT005,52.094716,0.294349,17:27,–
+"Linton, Bakers Lane",0500SLINT003,52.09623,0.290018,17:28,–
+"Linton, Parsonage Way",0500SLINT012,52.09748,0.284928,17:30,–
+"Linton, Hillway",0500SLINT011,52.097748,0.27805,17:31,–
+"Linton, The Crown PH",0500SLINT014,52.096157,0.274757,17:32,–
+"Haverhill, Baines Coney",390051057,52.09095,0.41706,–,17:19
+"Haverhill, Vetch Walk",390050262,52.08875,0.41696,–,17:20
+"Haverhill, Betony Walk",390050260,52.08628,0.41315,–,17:22
+"Haverhill, Victoria Road",390050264,52.08323,0.41525,–,17:23
+"Haverhill, Strawberry Fields",390050252,52.08096,0.41677,–,17:24
+"Haverhill, Cleves Road",390050250,52.0804,0.41897,–,17:24
+"Haverhill, York Road",390050242,52.08117,0.42684,–,17:28
+"Haverhill, Headland Avenue",390050266,52.07912,0.42471,–,17:28
+"Haverhill, Nayland Road",390050268,52.07802,0.42401,–,17:29
+"Haverhill, Gloucester Road",390050270,52.07677,0.42879,–,17:30
+"Haverhill, Cornwallis Road",390050273,52.07764,0.43215,–,17:31
+"Haverhill, Mill Hill",390050275,52.0785,0.43586,–,17:32
+"Haverhill, Helions Walk",390050277,52.07984,0.44088,–,17:33
+"Haverhill, Manor Farm Close",390050279,52.07783,0.44515,–,17:34
+
+

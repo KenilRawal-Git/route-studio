@@ -1,0 +1,117 @@
+MF
+Parkeston > Dovercourt > Bradfield Heath > Manningtree
+Route,NaPTAN,Latitude,Longitude,M1
+Codes,,,,
+"Parkeston, Morrisons Store",1500IM1933,51.940691,1.259463,07:16
+"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,07:17
+"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,07:17
+"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,07:18
+"Dovercourt, Ashley Road",150029020005,51.935151,1.268854,07:18
+"Dovercourt, Mayflower School",150029020003,51.935566,1.272376,07:19
+"Dovercourt, Brooklyn Road",150029020002,51.936088,1.275921,07:19
+"Dovercourt, High Street",1500IM53,51.937444,1.281477,07:20
+"Harwich, Barrack Lane",150029021004,51.939569,1.28591,07:21
+"Harwich, Mayflower Avenue",1500IM117Y,51.941859,1.286994,07:22
+"Harwich, Lighthouse",1500IM116Y,51.944034,1.288027,07:22
+"Harwich, Railway Station",1500IM52,51.944176,1.286786,07:23
+"Harwich, Mayflower Avenue",1500IM117,51.941821,1.287079,07:24
+"Harwich, Barrack Lane",150029021005,51.939406,1.285942,07:25
+"Dovercourt, High Street",1500IM82,51.937229,1.281112,07:26
+"Dovercourt, Brooklyn Road",150029020001,51.936056,1.276079,07:27
+"Dovercourt, Mayflower School",1500IM118,51.935483,1.272428,07:28
+"Dovercourt, Highfield Avenue",150029020006,51.934943,1.266947,07:29
+"Upper Dovercourt, Dovercourt Hospital",1500IM54,51.934647,1.261745,07:30
+"Upper Dovercourt, Dovercourt Church",1500IM1119,51.933191,1.255194,07:31
+"Upper Dovercourt, Bird in Hand",150029020013,51.931679,1.251331,07:32
+"Upper Dovercourt, Ainger Road",150029020015,51.930957,1.247525,07:32
+"Upper Dovercourt, Tollgate Post Office",1500IM56,51.930632,1.24465,07:33
+"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,07:34
+"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,07:35
+"Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,07:36
+"Ramsey, Church",150029020025,51.927848,1.224532,07:36
+"Ramsey, Church Hill",1500RMSYCHHL,51.927265,1.220519,07:37
+"Wrabness, Rectory Road",1500IM558A,51.933364,1.174832,07:41
+"Wrabness, Wheatsheaf Lane",1500IM58,51.931498,1.154594,07:43
+"Wrabness, Spinnel's Lane",150010120Y8,51.929818,1.145805,07:45
+"Bradfield, Lonbarn Hill",150014703054,51.932596,1.131348,07:50
+"Bradfield, Strangers Home Inn",150029007002,51.933947,1.117387,07:53
+"Bradfield, The Village Maid",1500IM62,51.928594,1.114397,07:55
+"Bradfield Heath, Cansey Lane",150029104001,51.925746,1.109181,07:56
+"Bradfield Heath, Sparkes Stores",150029007006,51.925345,1.104949,07:57
+"Mistley Heath, Straight Road",150014703055,51.931503,1.097241,07:58
+"Mistley Heath, The Blacksmiths Arms",150029007007,51.934,1.093951,07:59
+"Mistley, Heath Road",150010120Y4,51.940254,1.093144,08:01
+"Mistley, Harwich Road",1500HNR606,51.940307,1.092842,08:01
+"Mistley, Rigby Avenue",1500IM63,51.940583,1.090519,08:02
+"Mistley, Shrubland Road",1500HNR605,51.940852,1.087816,08:03
+"Mistley, Chapel Cut",150029007010,51.942523,1.086199,08:04
+"Mistley, Post Office",150029007011,51.944834,1.079008,08:05
+"Mistley, Church Hall",1500MANN4,51.945523,1.076712,08:06
+"Mistley, Mistley Place Park",1500IM4362B,51.944495,1.074066,08:07
+"Mistley, Erskine Rd",1500IM43621A,51.943791,1.068983,08:08
+"Mistley, Oxford Rd",1500MANN3,51.942036,1.065588,08:09
+"Mistley, Trinity Rd",1500290079Y0,51.939515,1.061546,08:10
+"Lawford, Waldegrave Way",1500IM1186,51.93862,1.050644,08:12
+"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,08:13
+"Manningtree, School",1500IM2497,51.941437,1.051956,08:20
+
+Manningtree > Bradfield Heath > Dovercourt > Parkeston
+Route,NaPTAN,Latitude,Longitude,M1
+Codes,,,,
+"Manningtree, School",1500IM2497,51.941437,1.051956,15:10
+"Lawford, Edgefield Avenue",150029007016,51.939768,1.050766,15:11
+"Lawford, Waldegrave Way",150029007014,51.938393,1.050731,15:11
+"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,15:13
+"Mistley, Trinity Rd",150029007900,51.939596,1.061537,15:13
+"Mistley, Oxford Rd",1500MANN3AA,51.942066,1.065489,15:14
+"Mistley, Erskine Rd",1500IM43621,51.943866,1.068886,15:15
+"Mistley, Mistley Place Park",1500IM4362,51.944685,1.074356,15:16
+"Mistley, Church Hall",1500MANN4AA,51.94552,1.076508,15:17
+"Mistley, Post Office",150029007Y11,51.944737,1.079263,15:18
+"Mistley, Chapel Cut",150029007009,51.942204,1.086337,15:19
+"Mistley, Shrubland Road",1500HNR605A,51.940905,1.087863,15:19
+"Mistley, Rigby Avenue",1500IM63B,51.940592,1.090883,15:20
+"Mistley, Harwich Road",1500HNR606A,51.940035,1.095283,15:21
+"Mistley, Heath Road",15001012004,51.940269,1.093582,15:21
+"Mistley Heath, The Blacksmiths Arms",1500290070Y7,51.933979,1.094051,15:23
+"Mistley Heath, Straight Road",150014703056,51.931445,1.097368,15:24
+"Bradfield Heath, Sparkes Stores",150029007005,51.925401,1.105578,15:25
+"Bradfield Heath, Cansey Lane",150029104004,51.926033,1.109564,15:26
+"Bradfield, The Village Maid",1500IM62AA,51.928882,1.114417,15:28
+"Bradfield, Strangers Home Inn",150029007001,51.934374,1.117256,15:29
+"Bradfield, Lonbarn Hill",150014703053,51.932667,1.131396,15:32
+"Wrabness, Spinnel's Lane",15001012008,51.92989,1.14581,15:37
+"Wrabness, Wheatsheaf Lane",1500IM58AA,51.931303,1.153169,15:39
+"Wrabness, Rectory Road",1500IM558,51.933405,1.174995,15:41
+"Ramsey, Ramsey Castle",1500IM57,51.928312,1.217437,15:45
+"Ramsey, Church Hill",150029020027,51.92738,1.219945,15:47
+"Ramsey, Church",150029020024,51.928163,1.225195,15:47
+"Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,15:47
+"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,15:48
+"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,15:49
+"Upper Dovercourt, Tollgate Post Office",150029020017,51.930627,1.244155,15:50
+"Upper Dovercourt, Ainger Road",150029020014,51.931332,1.24924,15:51
+"Upper Dovercourt, Bird in Hand",150029020012,51.932376,1.253127,15:51
+"Upper Dovercourt, Dovercourt Church",150029020010,51.93338,1.255542,15:52
+"Upper Dovercourt, War Memorial",150029020009,51.933832,1.258383,15:53
+"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,15:54
+"Dovercourt, Ashley Road",150029020005,51.935151,1.268854,15:55
+"Dovercourt, Mayflower School",150029020003,51.935566,1.272376,15:55
+"Dovercourt, Brooklyn Road",150029020002,51.936088,1.275921,15:56
+"Dovercourt, High Street",1500IM53,51.937444,1.281477,15:57
+"Harwich, Barrack Lane",150029021004,51.939569,1.28591,15:58
+"Harwich, Mayflower Avenue",1500IM117Y,51.941859,1.286994,15:59
+"Harwich, Lighthouse",1500IM116Y,51.944034,1.288027,15:59
+"Harwich, Railway Station",1500IM52,51.944176,1.286786,16:00
+"Harwich, Mayflower Avenue",1500IM117,51.941821,1.287079,16:01
+"Harwich, Barrack Lane",150029021005,51.939406,1.285942,16:02
+"Dovercourt, High Street",1500IM82,51.937229,1.281112,16:03
+"Dovercourt, Brooklyn Road",150029020001,51.936056,1.276079,16:03
+"Dovercourt, Mayflower School",1500IM118,51.935483,1.272428,16:04
+"Dovercourt, Highfield Avenue",150029020006,51.934943,1.266947,16:04
+"Upper Dovercourt, Dovercourt Hospital",1500IM54,51.934647,1.261745,16:05
+"Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,16:05
+"Upper Dovercourt, Churchill Court",150029019006,51.937833,1.257451,16:05
+"Parkeston, Morrisons Store",1500IM1933B,51.940691,1.259143,16:06
+
+

@@ -1,0 +1,20 @@
+MF
+Cressing > Silver End > Witham
+Route,NaPTAN,Latitude,Longitude,819,819
+Codes,,,,,
+"Cressing, Polecat Road",15000100701,51.853432,0.593882,08:00,–
+"Silver End, Co-op Store",1500IM2254,51.846583,0.622121,08:10,08:10
+"Witham, Hemingway Road",15003900301,51.81652,0.631722,08:23,08:23
+"Witham, Virgil Road",15003900303,51.817615,0.635007,08:24,08:24
+"Witham, Rickstones School",1500IM9,51.81717,0.638435,08:25,08:25
+
+Witham > Silver End > Cressing
+Route,NaPTAN,Latitude,Longitude,819,819
+Codes,,,,,
+"Witham, Rickstones School",1500IM891,51.817382,0.637809,15:25,15:25
+"Witham, Virgil Road",15003900304,51.817566,0.635208,15:26,15:26
+"Witham, Hemingway Road",15003900302,51.816674,0.632079,15:27,15:27
+"Silver End, Co-op Store",1500IM2254B,51.846195,0.622171,15:35,15:35
+"Cressing, Polecat Road",15000100701,51.853432,0.593882,–,15:42
+
+

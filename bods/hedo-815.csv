@@ -1,0 +1,39 @@
+MF
+Braintree > Bradwell > Coggeshall
+Route,NaPTAN,Latitude,Longitude,815
+Codes,,,,
+"Braintree, Albert Road",1500BE4,51.88042,0.56107,08:15
+"Braintree, Kings Head",15003802101,51.880661,0.564469,08:15
+"Braintree, Dallwood Way",15003802009,51.881004,0.568121,08:16
+"Braintree, Wheatley Avenue",1500IM1799,51.881454,0.573015,08:17
+"Braintree, Bartram Avenue North",1500BE5AA,51.881515,0.576404,08:17
+"Braintree, Kings Park Village",1500AA208,51.881476,0.578582,08:18
+"Braintree, Tesco East Store",15003802002,51.88147,0.582548,08:19
+"Bradwell, Cherry Lane",150014002111,51.880195,0.60122,08:20
+"Bradwell, The Dolphin",1500BAYTREE,51.879735,0.607805,08:21
+"Bradwell, Bridge Hall Road",150014002003,51.878776,0.615756,08:22
+"Bradwell, The Swan",150014002004,51.877778,0.621786,08:23
+"Bradwell, Mill View",150014002006,51.876813,0.627164,08:24
+"Coggeshall, Colne Road",150014003Y09,51.879921,0.692153,08:34
+"Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,08:35
+
+Coggeshall > Bradwell > Braintree
+Route,NaPTAN,Latitude,Longitude,815
+Codes,,,,
+"Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,15:40
+"Coggeshall, Gurton Road",1500AA207,51.878242,0.69201,15:41
+"Coggeshall, Colne Road",150014003009,51.879924,0.691994,15:41
+"Bradwell, Mill View",150014002007,51.876741,0.627174,15:48
+"Bradwell, The Swan",1500IM1238,51.877662,0.621765,15:49
+"Bradwell, Bridge Hall Road",150014002002,51.878756,0.614636,15:50
+"Bradwell, The Dolphin",1500BAYTRAA,51.879636,0.607814,15:51
+"Bradwell, Cherry Lane",1500140021Y1,51.880101,0.601404,15:52
+"Braintree, Tesco East Store",15003802001,51.881393,0.582791,15:53
+"Braintree, Kings Park Village",1500AA208B,51.88141,0.579159,15:55
+"Braintree, Bartram Avenue North",1500BE5,51.881443,0.5764,15:56
+"Braintree, Hay Lane",15003802008,51.881263,0.571914,15:57
+"Braintree, Dallwood Way",15003802Y09,51.880923,0.568102,15:58
+"Braintree, Kings Head",15003802102,51.880606,0.564902,15:59
+"Braintree, Albert Road",15003802104,51.880275,0.560291,16:00
+
+

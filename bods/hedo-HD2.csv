@@ -1,0 +1,68 @@
+MF
+Finchingfield > Blackmore End > Whiteash Green > Sible Hedingham
+Route,NaPTAN,Latitude,Longitude,HD2
+Codes,,,,
+"Finchingfield, The Fox",1500FINCHFD1,51.968354,0.450336,07:19
+"Finchingfield, Kempe Road",150024004007,51.968646,0.456205,07:25
+"Finchingfield, Sampford Road",150024004008,51.969038,0.462822,07:26
+"Finchingfield, Justice's Farm",150024004009,51.964095,0.473396,07:29
+"Wethersfield, Fire Station",150024004010,51.953987,0.483639,07:34
+"Wethersfield, Saffron Gardens",150024004011,51.953406,0.485645,07:34
+"Wethersfield, High St",150014703089,51.953617,0.489251,07:35
+"Blackmore End, The Bull Inn",1500IM1772B,51.950045,0.52775,07:40
+"Blackmore End, Blackmore End Road",1500240060Y4,51.946668,0.531708,07:41
+"Gosfield, Church Road",150024012030,51.937154,0.59158,07:51
+"Gosfield, Gosfield Corner",1500IM854B,51.939925,0.592366,07:51
+"Gosfield, Halstead Road",150024012015,51.942481,0.596369,07:52
+"Gosfield, School",150024012014,51.943987,0.599818,07:53
+"Gosfield, Russell's Road",150024012Y12,51.945358,0.605325,07:54
+"Whiteash Green, Whiteash Green",150024012011,51.947605,0.609865,07:55
+"Whiteash Green, Tumblewoods",150024012010,51.947726,0.615751,07:56
+"Halstead, Fosters Ley",150024012008,51.947425,0.622792,07:57
+"Halstead, Bird in Hand",150024012005,51.944059,0.627339,07:58
+"Halstead, Halstead Park",150027001005,51.943444,0.63113,07:59
+"Halstead, High Street",1500IM101,51.943989,0.635731,08:00
+"Halstead, Hospital",150024013020,51.948919,0.637228,08:02
+"Sible Hedingham, Foxborough",150024013Y18,51.962294,0.610893,08:07
+"Sible Hedingham, Wash Farm",150024012Y29,51.966563,0.598824,08:09
+"Sible Hedingham, Lamb Lane",150024012027,51.970287,0.595967,08:09
+"Sible Hedingham, The Swan",1500IM1453,51.973188,0.594068,08:10
+"Sible Hedingham, Post Office",1500240120Y5,51.976846,0.592939,08:11
+"Sible Hedingham, Rectory Rd",1500IM2632,51.980737,0.589814,08:12
+"Sible Hedingham, Station Road",150024014006,51.983299,0.59069,08:13
+"Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:15
+
+Sible Hedingham > Whiteash Green > Blackmore End > Finchingfield
+Route,NaPTAN,Latitude,Longitude,HD2
+Codes,,,,
+"Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:35
+"Sible Hedingham, Station Road",150024014005,51.983287,0.590806,15:38
+"Sible Hedingham, Rectory Rd",1500IM2632B,51.980306,0.591027,15:39
+"Sible Hedingham, Post Office",150024012025,51.976871,0.593043,15:39
+"Sible Hedingham, The Swan",1500IM1453B,51.9735,0.594188,15:40
+"Sible Hedingham, Lamb Lane",150024012028,51.96853,0.597715,15:41
+"Sible Hedingham, Wash Farm",150024012029,51.966634,0.598901,15:41
+"Sible Hedingham, Foxborough",150024013018,51.962281,0.611096,15:43
+"Halstead, Hospital",150024013019,51.948962,0.637333,15:48
+"Halstead, High Street",1500IM101B,51.943889,0.635769,15:50
+"Halstead, Halstead Park",150027001004,51.943443,0.631566,15:51
+"Halstead, Bird in Hand",150024012006,51.944395,0.626806,15:52
+"Halstead, Fosters Ley",150024012007,51.947354,0.622758,15:52
+"Whiteash Green, Tumblewoods",150024012009,51.947563,0.616193,15:53
+"Whiteash Green, Whiteash Green",150024012Y11,51.947559,0.60992,15:53
+"Gosfield, Russell's Road",150024012012,51.945304,0.605351,15:54
+"Gosfield, School",150024012013,51.944042,0.600985,15:55
+"Gosfield, Halstead Road",150024012016,51.941455,0.595175,15:56
+"Gosfield, Gosfield Corner",1500IM854,51.939731,0.59218,15:57
+"Gosfield, Church Road",150024012031,51.937142,0.591725,15:57
+"Blackmore End, Blackmore End Road",150024006004,51.946625,0.531618,16:07
+"Blackmore End, The Bull Inn",1500IM1772,51.94982,0.528145,16:08
+"Wethersfield, High St",150014703090,51.953546,0.489218,16:12
+"Wethersfield, Saffron Gardens",1500240040Y1,51.953351,0.485671,16:13
+"Wethersfield, Fire Station",1500240040Y0,51.953944,0.483549,16:13
+"Finchingfield, Justice's Farm",15002400409Y,51.964052,0.473336,16:15
+"Finchingfield, Sampford Road",1500240040Y8,51.968985,0.462775,16:16
+"Finchingfield, Kempe Road",150024004015,51.968635,0.457151,16:17
+"Finchingfield, The Fox",1500FINCHFD2,51.968334,0.450437,16:20
+
+

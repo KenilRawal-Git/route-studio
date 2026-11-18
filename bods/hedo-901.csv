@@ -1,0 +1,56 @@
+MF
+Mount Bures > Chappel > Marks Tey > Stanway
+Route,NaPTAN,Latitude,Longitude,901
+Codes,,,,
+"Mount Bures, Hall Road",150027011011,51.963676,0.779499,07:53
+"Mount Bures, Craig's Lane",1500IM2610B,51.959735,0.773097,07:53
+"Mount Bures, The Thatchers Arms",1500270100Y4,51.951125,0.770586,07:54
+"Wakes Colne, Wakes Colne Green",1500IM2611B,51.937243,0.751631,07:55
+"Wakes Colne, Railway Station",1500270100Y1,51.925511,0.756833,08:00
+"Chappel, School",1500IM13767,51.921497,0.753896,08:05
+"Great Tey, Village Hall",1500IM1708B,51.899864,0.749069,08:10
+"Marks Tey, Poplars Nurseries",150014002020,51.877241,0.756944,08:13
+"Marks Tey, Domsey Bank",1500IM1236,51.876728,0.763872,08:17
+"Marks Tey, Wellside",1500MTNEW1,51.87615,0.766263,08:17
+"Marks Tey, Norbury Close",1500MTNEW3,51.876823,0.769792,08:18
+"Marks Tey, Ashbury Drive",150014002024,51.878058,0.771568,08:18
+"Marks Tey, Station Road",150014002025,51.87897,0.77902,08:19
+"Marks Tey, Railway Station",1500JMD8,51.879961,0.78238,08:20
+"Marks Tey, Motel",150014005003,51.880024,0.788458,08:21
+"Copford, Copford Lane",150014005006,51.880409,0.798,08:23
+"Copford, Westbury Close",150014005008,51.880887,0.80361,08:24
+"Stanway, The Swan Stanway",150014005009,51.882277,0.809393,08:25
+"Stanway, St Albright's Church",150014005Y11,51.884147,0.819203,08:27
+"Stanway, Wyvern Farm",150033085003,51.885526,0.826571,08:28
+"Stanway, Sainsburys Store",150033085002,51.88615,0.829415,08:29
+"Stanway, Barn Fields",150033086002,51.88751,0.836811,08:31
+"Stanway, Chapel Road",150033084005,51.88632,0.839163,08:32
+"Stanway, Secondary School",1500IM1876,51.884556,0.840723,08:34
+
+Stanway > Marks Tey > Chappel > Mount Bures
+Route,NaPTAN,Latitude,Longitude,901
+Codes,,,,
+"Stanway, Secondary School",1500IM1876B,51.884848,0.840538,15:20
+"Stanway, Chapel Road",150033084006,51.886801,0.838249,15:21
+"Stanway, Tollgate Rbt",150033086001,51.887049,0.834674,15:22
+"Stanway, Sainsburys Store",150033085001,51.886231,0.830524,15:23
+"Stanway, Wyvern Farm",150033085004,51.88533,0.826108,15:24
+"Stanway, St Albright's Church",150014005011,51.883801,0.817496,15:25
+"Stanway, The Swan Stanway",150014005010,51.882237,0.80958,15:27
+"Copford, Westbury Close",150014005007,51.880757,0.803006,15:28
+"Copford, Copford Lane",150014005005,51.88027,0.797425,15:29
+"Marks Tey, Motel",150014005004,51.880075,0.790089,15:30
+"Marks Tey, Railway Station",1500JMD2,51.879872,0.782709,15:31
+"Marks Tey, Station Road",150014002026,51.878897,0.77906,15:33
+"Marks Tey, Norbury Close",1500MTNEW4,51.876836,0.769996,15:33
+"Marks Tey, Wellside",1500MTNEW2,51.876094,0.766347,15:34
+"Marks Tey, Domsey Bank",1500IM1236B,51.876411,0.763984,15:34
+"Marks Tey, Poplars Nurseries",1500MRKSTY3,51.877055,0.756438,15:40
+"Great Tey, Village Hall",1500IM1708,51.899813,0.748949,15:45
+"Chappel, School",1500IM13767A,51.921543,0.753841,15:50
+"Wakes Colne, Railway Station",150027010001,51.925493,0.756832,15:55
+"Wakes Colne, Wakes Colne Green",1500IM2611,51.937222,0.752924,16:00
+"Mount Bures, The Thatchers Arms",150027010004,51.951136,0.7705,16:01
+"Mount Bures, Hall Road",1500270110Y1,51.96371,0.779603,16:02
+
+

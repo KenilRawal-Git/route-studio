@@ -1,0 +1,84 @@
+MF
+Clacton > Weeley Heath > Thorpe-le-Soken > Frinton-on-Sea
+Route,NaPTAN,Latitude,Longitude,TU2
+Codes,,,,
+"Clacton, Bus Depot",15004401361Y,51.817456,1.171186,07:52
+"Clacton, Faraday Close",1500CRUSADER,51.81841,1.163503,07:53
+"Clacton, Little Clacton Morrisons",1500JMD1022,51.819992,1.148781,07:54
+"Little Clacton, Leys Drive",1500IM103,51.822223,1.141738,07:55
+"Little Clacton, Village Hall",150032009035,51.82428,1.141809,07:56
+"Little Clacton, The Blacksmiths Arms",1500IM87,51.827769,1.141515,07:58
+"Little Clacton, Appletree Inn",150032009031,51.828884,1.140867,07:58
+"Little Clacton, Elm Road",150032009029,51.830956,1.139704,07:59
+"Little Clacton, Plough Corner",1500LTCNPLGH,51.834723,1.138762,08:00
+"Little Clacton, Springfield Meadows",150032008002,51.836907,1.133745,08:02
+"Weeley Heath, Victoria Road",150032008004,51.83932,1.130617,08:02
+"Weeley Heath, Mill Lane",150032008006,51.842336,1.127806,08:02
+"Weeley Heath, The White Hart",1500IM247,51.844093,1.124327,08:04
+"Weeley Heath, Memorial",150032008009,51.845705,1.121549,08:05
+"Weeley, Railway Station",150032008Y11,51.850125,1.117992,08:07
+"Weeley, The Street",1500WEELY1B,51.855826,1.116018,08:08
+"Weeley, Post Office",1500IM1183,51.85755,1.116123,08:08
+"Weeley, Crow Lane",1500IM2490,51.859736,1.121169,08:09
+"Thorpe-le-Soken, Whitehall Ln",150014713014,51.860759,1.140197,08:12
+"Thorpe-le-Soken, Tendring Road",1500THORPGRN,51.863257,1.153387,08:15
+"Thorpe-le-Soken, The Crescent",150029014003,51.859656,1.158859,08:16
+"Thorpe-le-Soken, Mill Lane",1500IM1760B,51.857707,1.162092,08:16
+"Thorpe-le-Soken, Thorpe Memorial",1500IM104B,51.856201,1.165574,08:17
+"Thorpe-le-Soken, Byng Crescent",150032009010,51.854371,1.174073,08:18
+"Thorpe-le-Soken, Council Houses",150032009009,51.854465,1.178262,08:19
+"Thorpe-le-Soken, Damant's Farm Lane",150032009007,51.85196,1.186088,08:20
+"Kirby Cross, Farm Close",150032009006,51.845319,1.201752,08:22
+"Kirby Cross, Chapel Lane",150032009004,51.844237,1.208762,08:23
+"Kirby Cross, Kirby Cross Railway Station",150032009002,51.842287,1.215288,08:23
+"Kirby Cross, Kirby Cross",150032010026,51.84214,1.220984,08:24
+"Kirby Cross, Chestnut Ave",150032010028,51.841855,1.226467,08:25
+"Frinton-on-Sea, Village Way",150032010030,51.841552,1.232253,08:26
+"Frinton-on-Sea, Frinton Road Nurseries",150032010032,51.841148,1.236798,08:27
+"Frinton-on-Sea, Laburnum Crescent",150032010034,51.839669,1.238565,08:27
+"Frinton-on-Sea, Charlotte Drive",1500FRINTFRD,51.839831,1.240537,08:28
+"Frinton-on-Sea, Triangle Shopping Centre",150032010007,51.843543,1.249749,08:29
+"Frinton-on-Sea, Upper School",1500IM1336US,51.843052,1.25057,08:30
+
+Frinton-on-Sea > Thorpe-le-Soken > Weeley Heath > Clacton
+Route,NaPTAN,Latitude,Longitude,TU2
+Codes,,,,
+"Frinton-on-Sea, Upper School",1500IM1336US,51.843052,1.25057,15:20
+"Frinton-on-Sea, Triangle Shopping Centre",1500IM1336,51.843472,1.249061,15:21
+"Frinton-on-Sea, Frietuna Road",150032010005,51.842012,1.246865,15:22
+"Frinton-on-Sea, Charlotte Drive",1500FRINTFAA,51.839827,1.240682,15:23
+"Frinton-on-Sea, Laburnum Crescent",150032010033,51.84002,1.237893,15:24
+"Frinton-on-Sea, Frinton Road Nurseries",150032010031,51.841381,1.235508,15:24
+"Frinton-on-Sea, Village Way",1500320100Y0,51.841387,1.23169,15:24
+"Kirby Cross, Elm Grove",150032010029,51.841406,1.227756,15:25
+"Kirby Cross, Coronation Garage",150032010027,51.841896,1.222999,15:25
+"Kirby Cross, Claire Road",150032009001,51.841847,1.217217,15:26
+"Kirby Cross, Kirby Cross Railway Station",150032009003,51.842713,1.214171,15:26
+"Kirby Cross, Chapel Lane",150032009005,51.844295,1.207953,15:27
+"Kirby Cross, Farm Close",150032009Y06,51.845257,1.201704,15:27
+"Thorpe-le-Soken, Damant's Farm Lane",150032009008,51.851966,1.185842,15:29
+"Thorpe-le-Soken, Council Houses",150032009Y09,51.854376,1.178227,15:30
+"Thorpe-le-Soken, Byng Crescent",150032009011,51.854298,1.173806,15:31
+"Thorpe-le-Soken, Thorpe Memorial",1500IM104,51.855602,1.167449,15:32
+"Thorpe-le-Soken, Mill Lane",1500IM1760,51.857671,1.161784,15:33
+"Thorpe-le-Soken, The Crescent",150029014004,51.859906,1.157903,15:34
+"Thorpe-le-Soken, Tendring Road",1500THORPGRB,51.863197,1.153267,15:35
+"Thorpe-le-Soken, Whitehall Ln",150014713015,51.860612,1.139954,15:36
+"Weeley, Crow Lane",1500IM2490B,51.859634,1.120291,15:39
+"Weeley, The Black Boy",1500IM248,51.858575,1.11647,15:40
+"Weeley, The Street",1500WEELY1,51.856309,1.116095,15:40
+"Weeley, Railway Station",150032008011,51.850166,1.118125,15:41
+"Weeley Heath, Memorial",150032008010,51.845925,1.121375,15:43
+"Weeley Heath, The White Hart",1500IM247B,51.84404,1.124628,15:44
+"Weeley Heath, Mill Lane",150032008005,51.842389,1.127853,15:45
+"Weeley Heath, Victoria Road",150032008003,51.839261,1.13083,15:46
+"Little Clacton, Springfield Meadows",150032008001,51.836481,1.134572,15:47
+"Little Clacton, Plough Corner",150032009028,51.834519,1.138994,15:48
+"Little Clacton, Elm Road",150032009030,51.83066,1.140018,15:48
+"Little Clacton, Appletree Inn",150032009032,51.828395,1.141297,15:49
+"Little Clacton, The Blacksmiths Arms",1500IM87B,51.827208,1.141969,15:49
+"Little Clacton, Village Hall",150032009036,51.823891,1.141912,15:50
+"Little Clacton, Leys Drive",1500IM103B,51.821511,1.14179,15:50
+"Clacton, Faraday Close",150014713018,51.818419,1.164505,15:55
+
+

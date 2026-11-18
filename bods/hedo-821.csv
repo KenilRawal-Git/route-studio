@@ -1,0 +1,44 @@
+MF
+Tollesbury > Tolleshunt DArcy > Tiptree Heath > Tiptree
+Route,NaPTAN,Latitude,Longitude,821,821
+Codes,,,,MOTUWETH,FO SCH
+"Tollesbury, The Square",150014009005,51.758438,0.832927,07:45,07:45
+"Tollesbury, Fire Station",1500140090Y7,51.758564,0.829964,07:45,07:45
+"Tollesbury, Cemetery",150014009Y21,51.75866,0.824854,07:45,07:45
+"Tollesbury, Gorwell Lodge",1500140090Y4,51.7598,0.812925,07:46,07:46
+"Tolleshunt DArcy, Spring Farm",150014009Y03,51.769271,0.802005,07:48,07:48
+"Tolleshunt DArcy, D'Arcy Way",150014009Y02,51.771001,0.79772,07:48,07:48
+"Tolleshunt DArcy, The Red Lion",1500IM1463,51.771361,0.795785,07:49,07:49
+"Tolleshunt DArcy, Tolleshunt D'Arcy Cemetery",150014008012,51.76953,0.791859,07:49,07:49
+"Tolleshunt DArcy, Mill Lane",150014713044,51.768353,0.753722,07:51,07:51
+"Tolleshunt DArcy, Beckingham Business Pk",150014703073,51.766826,0.748628,07:52,07:52
+"Great Totham, The Swan",150014703074,51.772308,0.737625,08:00,08:00
+"Great Totham, Plains Rd",150014703063,51.779264,0.735552,08:02,08:05
+"Tiptree Heath, Tiptree Heath",150014007Y07,51.796324,0.721211,08:07,08:07
+"Tiptree Heath, Simpsons Lane",150014007005,51.80188,0.730626,08:09,08:09
+"Tiptree, The Ship",1500IM1287,51.80389,0.734273,08:10,08:10
+"Tiptree, School",1500IM1861,51.806378,0.739037,08:11,08:11
+"Tiptree, Thurstable School",1500IM1859,51.819284,0.74635,08:20,08:20
+
+Tiptree > Tiptree Heath > Tolleshunt DArcy > Tollesbury
+Route,NaPTAN,Latitude,Longitude,821,821
+Codes,,,,FO SCH,MOTUWETH
+"Tiptree, Thurstable School",150014006012,51.819157,0.746386,14:15,15:35
+"Tiptree, School",150014007001,51.806296,0.739104,14:17,15:37
+"Tiptree, The Ship",150014007004,51.803695,0.734174,14:17,15:37
+"Tiptree Heath, Simpsons Lane",150014007006,51.802661,0.732226,14:18,15:38
+"Tiptree Heath, Tiptree Heath",150014007007,51.796277,0.721309,14:19,15:39
+"Great Totham, Plains Rd",150014703064,51.77918,0.735678,14:22,15:42
+"Great Totham, The Swan",150014703075,51.772342,0.737743,14:24,15:44
+"Tolleshunt DArcy, Beckingham Business Pk",150014703072,51.76689,0.748603,14:32,15:52
+"Tolleshunt DArcy, Mill Lane",150014713045,51.768481,0.75399,14:33,15:53
+"Tolleshunt DArcy, Tolleshunt D'Arcy Cemetery",150014008Y12,51.769544,0.791672,14:35,15:55
+"Tolleshunt DArcy, The Red Lion",1500IM1463Y,51.77164,0.794671,14:35,15:55
+"Tolleshunt DArcy, D'Arcy Way",150014009002,51.771079,0.79784,14:36,15:56
+"Tolleshunt DArcy, Spring Farm",150014009003,51.769324,0.802023,14:36,15:56
+"Tollesbury, Gorwell Lodge",150014009004,51.759852,0.813001,14:37,15:57
+"Tollesbury, Cemetery",150014009021,51.758768,0.824832,14:38,15:58
+"Tollesbury, Fire Station",150014009017,51.758672,0.829942,14:39,15:59
+"Tollesbury, The Square",150014009005,51.758438,0.832927,14:40,16:00
+
+

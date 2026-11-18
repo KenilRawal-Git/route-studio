@@ -1,0 +1,39 @@
+MF
+White Colne > Earls Colne > Buntings Green > Halstead
+Route,NaPTAN,Latitude,Longitude,818
+Codes,,,,
+"White Colne, Parkhurst Green Rd",1500IM745B,51.944969,0.735019,08:00
+"White Colne, Bures Road",150027009004,51.928639,0.718272,08:06
+"Earls Colne, Riverside Inn",1500270060Y6,51.927515,0.713214,08:06
+"Earls Colne, Colne Priory",150009COLNE,51.925414,0.708738,08:07
+"Earls Colne, Church Hill",1500ECOLNECH,51.925763,0.705705,08:07
+"Earls Colne, Temperance Yard",150027007003,51.92723,0.70252,08:08
+"Earls Colne, The Lion",1500IM746B,51.92794,0.699028,08:09
+"Earls Colne, Atlas Road",150027008Y15,51.931665,0.69109,08:10
+"Earls Colne, De Vere Road",1500270080Y4,51.933317,0.688847,08:11
+"Colne Engaine, Oddcroft",150027008013,51.939319,0.687518,08:12
+"Colne Engaine, Brook Street",150027008016,51.941033,0.688637,08:15
+"Buntings Green, Knights Cottage",150014703085,51.943259,0.671267,08:17
+"Buntings Green, Halstead Garden Centre",150014703092,51.945958,0.666057,08:18
+"Halstead, Ramsey School",1500IM100,51.946081,0.647481,08:25
+
+Halstead > Buntings Green > Earls Colne > White Colne
+Route,NaPTAN,Latitude,Longitude,818
+Codes,,,,
+"Halstead, Ramsey School",1500IM100,51.946081,0.647481,15:10
+"Halstead, Coggeshall Way",150027007022,51.945446,0.649728,15:10
+"Buntings Green, Halstead Garden Centre",150014703091,51.946078,0.665948,15:15
+"Buntings Green, Knights Cottage",150014703084,51.943349,0.671272,15:16
+"Colne Engaine, Brook Street",1500270080Y6,51.941124,0.688474,15:18
+"Colne Engaine, Oddcroft",1500270080Y3,51.939319,0.687518,15:19
+"Earls Colne, De Vere Road",150027008014,51.933379,0.688894,15:20
+"Earls Colne, Atlas Road",150027008015,51.931689,0.691208,15:21
+"Earls Colne, The Lion",1500IM746,51.928074,0.698643,15:22
+"Earls Colne, Temperance Yard",1500270070Y3,51.92727,0.702726,15:23
+"Earls Colne, Church Hill",150027007001,51.925732,0.705892,15:24
+"Earls Colne, Colne Priory",15002009COLN,51.925684,0.709118,15:25
+"Earls Colne, Riverside Inn",150027006006,51.92757,0.71313,15:26
+"White Colne, Bures Road",1500270090Y4,51.928758,0.718191,15:27
+"White Colne, Parkhurst Green Rd",1500IM745,51.945021,0.735095,15:35
+
+

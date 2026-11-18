@@ -1,0 +1,39 @@
+MF
+West Bergholt > Colchester > Stanway
+Route,NaPTAN,Latitude,Longitude,907,907
+Codes,,,,,
+"West Bergholt, Hall Road",1500IM2480B,51.917304,0.847663,07:54,07:59
+"West Bergholt, Orpen Hall",150033098003,51.91459,0.846444,07:54,07:59
+"West Bergholt, Sackville Way",150033098006,51.913229,0.845471,07:55,08:00
+"West Bergholt, The Queens Head",1500IM1874,51.910228,0.84611,07:56,08:01
+"West Bergholt, Methodist Chapel",150033098011,51.912536,0.850706,07:56,08:01
+"West Bergholt, Albany Road",150033098012,51.91339,0.853683,07:57,08:02
+"West Bergholt, Armoury Road",150033097003,51.912905,0.858102,07:58,08:03
+"West Bergholt, A12 Bridge",150033097001,51.909759,0.864693,08:00,08:05
+"Colchester, Bakers Lane",1500IM2482,51.907287,0.873856,08:02,08:07
+"Colchester, Golf Club",150033096009,51.906348,0.87951,08:04,08:09
+"Colchester, Warwick Bailey Close",150033096006,51.905313,0.885056,08:05,08:10
+"Colchester, Tufnell Way",150033096004,51.904521,0.886896,08:06,08:11
+"Colchester, Enid Way",150033096002,51.903226,0.890942,08:07,08:12
+"Stanway, Secondary School",1500IM1876,51.884556,0.840723,08:24,08:29
+
+Stanway > Colchester > West Bergholt
+Route,NaPTAN,Latitude,Longitude,907,907
+Codes,,,,,
+"Stanway, Secondary School",1500IM1876B,51.884848,0.840538,15:25,15:25
+"Colchester, Enid Way",150033096003,51.903196,0.890664,15:35,15:35
+"Colchester, Tufnell Way",150033096005,51.904746,0.88614,15:36,15:36
+"Colchester, Warwick Bailey Close",150033096007,51.905395,0.884625,15:36,15:37
+"Colchester, Golf Club",150033096008,51.906192,0.880736,15:37,15:37
+"Colchester, Bakers Lane",1500IM2482B,51.907076,0.874017,15:38,15:38
+"West Bergholt, A12 Bridge",150033097002,51.909755,0.864489,15:40,15:40
+"West Bergholt, Armoury Road",150033097004,51.913051,0.857631,15:42,15:42
+"West Bergholt, Albany Road",1500WBRGCHAP,51.913326,0.853737,15:42,15:42
+"West Bergholt, Methodist Chapel",150033098010,51.912381,0.850405,15:43,15:43
+"West Bergholt, Donard Drive",150033098007,51.911281,0.847922,15:43,15:43
+"West Bergholt, The Queens Head",1500IM1874B,51.910283,0.846433,15:44,15:44
+"West Bergholt, Sackville Way",150033098005,51.913383,0.845437,15:45,15:45
+"West Bergholt, Orpen Hall",150033098004,51.914576,0.846298,15:45,15:45
+"West Bergholt, Hall Road",1500IM2480,51.91719,0.847539,15:46,15:46
+
+

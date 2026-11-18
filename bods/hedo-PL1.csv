@@ -1,0 +1,76 @@
+MF
+Tollesbury > Great Totham > Maldon
+Route,NaPTAN,Latitude,Longitude,PL1
+Codes,,,,
+"Tollesbury, The Square",150014009005,51.758438,0.832927,07:35
+"Tollesbury, Fire Station",1500140090Y7,51.758564,0.829964,07:35
+"Tollesbury, Cemetery",150014009Y21,51.75866,0.824854,07:35
+"Tollesbury, Gorwell Lodge",1500140090Y4,51.7598,0.812925,07:37
+"Tolleshunt DArcy, Spring Farm",150014009Y03,51.769271,0.802005,07:39
+"Tolleshunt DArcy, D'Arcy Way",150014009Y02,51.771001,0.79772,07:39
+"Tolleshunt DArcy, The Red Lion",1500IM1463,51.771361,0.795785,07:40
+"Tolleshunt DArcy, Tolleshunt D'Arcy Cemetery",150014008012,51.76953,0.791859,07:42
+"Tolleshunt DArcy, Mill Lane",150014713044,51.768353,0.753722,07:46
+"Tolleshunt DArcy, Beckingham Business Pk",150014703073,51.766826,0.748628,07:47
+"Great Totham, The Swan",150014703074,51.772308,0.737625,07:50
+"Great Totham, Plains Rd",150014703063,51.779264,0.735552,07:51
+"Great Totham, The Compasses",150014007012,51.786165,0.707432,07:53
+"Great Totham, Beckingham Road",150014007015,51.777632,0.698382,07:53
+"Great Totham, The Bull",1500IM1863,51.775113,0.69252,07:54
+"Great Totham, Memorial",1500IM1289,51.772909,0.690228,07:57
+"Great Totham, School Road",1500IM1289Y,51.770388,0.688745,07:59
+"Great Totham, Captains Wood Road",150014007020,51.767897,0.687959,07:59
+"Great Totham, Totham Lodge",1500140070Y1,51.761924,0.690792,08:00
+"Great Totham, Broad Street Green",150014007023,51.754615,0.693792,08:01
+"Heybridge, Scylla Close",1500IM2068,51.748649,0.694726,08:03
+"Heybridge, Oak Road",1500IM1313,51.743651,0.693458,08:04
+"Heybridge, Bentalls Shopping Centre",1500HEYBRDG4,51.740428,0.690471,08:05
+"Heybridge, Church",150040001008,51.740136,0.68673,08:06
+"Maldon, Bates Road",1500IM2067,51.739847,0.684424,08:07
+"Maldon Town Centre, The White Horse",1500IM2061,51.731494,0.676456,08:12
+"Maldon, Upper Plume School",1500IM1513Y,51.728579,0.67569,08:15
+"Maldon, Washington Road",1500IM2064,51.725752,0.676652,08:16
+"Maldon, Fambridge Close",150040008004,51.723584,0.677437,08:17
+"Maldon, Cross Road West",150040007002,51.723142,0.679076,08:18
+"Maldon, Cross Road East",150040007004,51.724833,0.682637,08:19
+"Maldon, Lower Plume School",150040007006,51.726793,0.685388,08:20
+
+Maldon > Great Totham > Tollesbury
+Route,NaPTAN,Latitude,Longitude,PL1
+Codes,,,,
+"Maldon, Upper Plume School",1500IM1513Y,51.728579,0.67569,15:20
+"Maldon, Washington Road",1500IM2064,51.725752,0.676652,15:21
+"Maldon, Fambridge Close",150040008004,51.723584,0.677437,15:22
+"Maldon, Cross Road West",150040007002,51.723142,0.679076,15:22
+"Maldon, Cross Road East",150040007004,51.724833,0.682637,15:23
+"Maldon, Lower Plume School",150040007006,51.726793,0.685388,15:25
+"Maldon, Victoria Road",150040010003,51.729646,0.684124,15:26
+"Maldon Town Centre, The Swan Hotel",1500IM692,51.731326,0.679067,15:28
+"Maldon, The Causeway",1500CAUSWZ,51.736192,0.680239,15:30
+"Maldon, Bates Road",150040003002,51.738726,0.683083,15:33
+"Heybridge, Church",150040001007,51.740347,0.68654,15:34
+"Heybridge, Bentalls Shopping Centre",150040001009,51.740485,0.690329,15:35
+"Heybridge, Oak Road",1500IM1313B,51.7439,0.69356,15:36
+"Heybridge, Scylla Close",1500IM2068B,51.748778,0.694589,15:37
+"Great Totham, Broad Street Green",150014007022,51.754907,0.693621,15:38
+"Great Totham, Totham Lodge",150014007021,51.761899,0.690675,15:39
+"Great Totham, Captains Wood Road",150014007019,51.768191,0.687701,15:40
+"Great Totham, School Road",1500IM12890,51.770755,0.688824,15:41
+"Great Totham, Memorial",150014007017,51.77292,0.690098,15:42
+"Great Totham, The Bull",1500IM1863Y,51.774857,0.691562,15:42
+"Great Totham, Beckingham Road",150014007014,51.778629,0.700007,15:43
+"Great Totham, The Compasses",1500IM1288,51.785972,0.707218,15:44
+"Great Totham, Plains Rd",150014703064,51.77918,0.735678,15:46
+"Great Totham, The Swan",150014703075,51.772342,0.737743,15:47
+"Tolleshunt DArcy, Beckingham Business Pk",150014703072,51.76689,0.748603,15:50
+"Tolleshunt DArcy, Mill Lane",150014713045,51.768481,0.75399,15:51
+"Tolleshunt DArcy, Tolleshunt D'Arcy Cemetery",150014008Y12,51.769544,0.791672,15:57
+"Tolleshunt DArcy, The Red Lion",1500IM1463Y,51.77164,0.794671,15:59
+"Tolleshunt DArcy, D'Arcy Way",150014009002,51.771079,0.79784,15:59
+"Tolleshunt DArcy, Spring Farm",150014009003,51.769324,0.802023,16:00
+"Tollesbury, Gorwell Lodge",150014009004,51.759852,0.813001,16:03
+"Tollesbury, Cemetery",150014009021,51.758768,0.824832,16:04
+"Tollesbury, Fire Station",150014009017,51.758672,0.829942,16:04
+"Tollesbury, The Square",150014009005,51.758438,0.832927,16:05
+
+

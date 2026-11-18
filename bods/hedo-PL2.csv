@@ -1,0 +1,73 @@
+MF
+Tiptree > Wickham Bishops > Maldon
+Route,NaPTAN,Latitude,Longitude,PL2
+Codes,,,,
+"Tiptree, School",150014007001,51.806296,0.739104,07:40
+"Tiptree, The Ship",150014007004,51.803695,0.734174,07:40
+"Tiptree Heath, Simpsons Lane",150014007006,51.802661,0.732226,07:43
+"Tiptree Heath, Tiptree Heath",150014007007,51.796277,0.721309,07:43
+"Great Totham, Andersons Garage",150014007009,51.79261,0.715374,07:45
+"Great Totham, Colchester Road",150014007011,51.789026,0.710895,07:46
+"Great Totham, Eaton Way",150014713038,51.784857,0.709572,07:47
+"Great Totham, Beckingham Road",150014007015,51.777632,0.698382,07:49
+"Great Totham, The Bull",1500IM1863,51.775113,0.69252,07:50
+"Great Totham, Heriot Way",150014713040,51.773523,0.689699,07:51
+"Wickham Bishops, Finch's",150009008002,51.781485,0.679762,07:56
+"Wickham Bishops, Snows Corner",1500IM14601,51.779817,0.672429,07:57
+"Wickham Bishops, One Stop",150014713042,51.777943,0.674536,07:58
+"Great Totham, Barn Church",150009008006,51.771566,0.683654,07:59
+"Great Totham, The Prince of Wales",1500IM1459,51.769538,0.687013,08:00
+"Great Totham, Captains Wood Road",150014007020,51.767897,0.687959,08:00
+"Great Totham, Totham Lodge",1500140070Y1,51.761924,0.690792,08:01
+"Great Totham, Broad Street Green",150014007023,51.754615,0.693792,08:01
+"Heybridge, Scylla Close",1500IM2068,51.748649,0.694726,08:03
+"Heybridge, Oak Road",1500IM1313,51.743651,0.693458,08:04
+"Heybridge, Bentalls Shopping Centre",1500HEYBRDG4,51.740428,0.690471,08:05
+"Heybridge, Church",150040001008,51.740136,0.68673,08:06
+"Maldon, Bates Road",1500IM2067,51.739847,0.684424,08:07
+"Maldon, The Causeway",1500MNCAUSWY,51.736888,0.681279,08:09
+"Maldon Town Centre, The White Horse",1500IM2061,51.731494,0.676456,08:12
+"Maldon, Upper Plume School",1500IM1513Y,51.728579,0.67569,08:15
+"Maldon, Washington Road",1500IM2064,51.725752,0.676652,08:16
+"Maldon, Fambridge Close",150040008004,51.723584,0.677437,08:17
+"Maldon, Cross Road West",150040007002,51.723142,0.679076,08:18
+"Maldon, Cross Road East",150040007004,51.724833,0.682637,08:19
+"Maldon, Lower Plume School",150040007006,51.726793,0.685388,08:20
+
+Maldon > Heybridge > Great Totham > Tiptree
+Route,NaPTAN,Latitude,Longitude,PL2
+Codes,,,,
+"Maldon, Upper Plume School",1500IM1513Y,51.728579,0.67569,15:20
+"Maldon, Washington Road",1500IM2064,51.725752,0.676652,15:21
+"Maldon, Fambridge Close",150040008004,51.723584,0.677437,15:22
+"Maldon, Cross Road West",150040007002,51.723142,0.679076,15:22
+"Maldon, Cross Road East",150040007004,51.724833,0.682637,15:23
+"Maldon, Lower Plume School",150040007006,51.726793,0.685388,15:25
+"Maldon, Victoria Road",150040010003,51.729646,0.684124,15:26
+"Maldon Town Centre, The Swan Hotel",1500IM692,51.731326,0.679067,15:28
+"Maldon, The Causeway",1500CAUSWZ,51.736192,0.680239,15:30
+"Maldon, Bates Road",150040003002,51.738726,0.683083,15:33
+"Heybridge, Church",150040001007,51.740347,0.68654,15:34
+"Heybridge, Bentalls Shopping Centre",150040001009,51.740485,0.690329,15:35
+"Heybridge, Oak Road",1500IM1313B,51.7439,0.69356,15:36
+"Heybridge, Scylla Close",1500IM2068B,51.748778,0.694589,15:42
+"Great Totham, Broad Street Green",150014007022,51.754907,0.693621,15:43
+"Great Totham, Totham Lodge",150014007021,51.761899,0.690675,15:44
+"Great Totham, Captains Wood Road",150014007019,51.768191,0.687701,15:44
+"Great Totham, The Prince of Wales",1500IM1459B,51.769507,0.686764,15:45
+"Great Totham, Barn Church",150009008005,51.771708,0.683358,15:45
+"Wickham Bishops, One Stop",150014713043,51.777492,0.675002,15:46
+"Wickham Bishops, Snows Corner",1500IM14Y1,51.779737,0.672366,15:47
+"Wickham Bishops, Finch's",1500090080Y2,51.781445,0.679905,15:50
+"Great Totham, Heriot Way",150014713041,51.773698,0.689521,15:53
+"Great Totham, The Bull",1500IM1863Y,51.774857,0.691562,15:55
+"Great Totham, Beckingham Road",150014007014,51.778629,0.700007,15:57
+"Great Totham, Eaton Way",150014713039,51.784732,0.709521,15:59
+"Great Totham, Colchester Road",150014007010,51.789551,0.711928,16:01
+"Great Totham, Andersons Garage",150014007008,51.793279,0.716009,16:03
+"Tiptree Heath, Tiptree Heath",150014007Y07,51.796324,0.721211,16:04
+"Tiptree Heath, Simpsons Lane",150014007005,51.80188,0.730626,16:05
+"Tiptree, The Ship",1500IM1287,51.80389,0.734273,16:06
+"Tiptree, School",1500IM1861,51.806378,0.739037,16:07
+
+

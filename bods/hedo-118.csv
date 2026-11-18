@@ -1,0 +1,73 @@
+MF
+Ramsey > Dovercourt > Parkeston > Upper Dovercourt
+Route,NaPTAN,Latitude,Longitude,118
+Codes,,,,
+"Ramsey, Church",150029020025,51.927848,1.224532,15:15
+"Ramsey, Church Hill",1500RMSYCHHL,51.927265,1.220519,15:15
+"Ramsey, School",1500RAMSYSCH,51.926826,1.208936,15:18
+"Ramsey, The Street",1500HNR612,51.928478,1.215659,15:20
+"Ramsey, Ramsey Castle",1500IM57,51.928312,1.217437,15:21
+"Ramsey, Church Hill",150029020027,51.92738,1.219945,15:21
+"Ramsey, Church",150029020024,51.928163,1.225195,15:21
+"Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,15:22
+"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,15:22
+"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,15:23
+"Upper Dovercourt, Tollgate Post Office",150029020017,51.930627,1.244155,15:24
+"Upper Dovercourt, Ainger Road",150029017001,51.930778,1.248807,15:24
+"Upper Dovercourt, Arderne Close",150029017Y02,51.929769,1.251789,15:25
+"Upper Dovercourt, Balton Way",150029017008,51.929875,1.255085,15:26
+"Upper Dovercourt, Newport Close",150029017009,51.927287,1.257953,15:27
+"Upper Dovercourt, Greenacres",1500LOW1,51.926752,1.259703,15:28
+"Upper Dovercourt, Harwich School",1500AA32,51.92956,1.262569,15:29
+"Upper Dovercourt, Deane's Close",150029018011,51.931832,1.259126,15:30
+"Upper Dovercourt, War Memorial",150029020009,51.933832,1.258383,15:30
+"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,15:31
+"Dovercourt, Ashley Road",150029020005,51.935151,1.268854,15:32
+"Dovercourt, Mayflower School",150029020003,51.935566,1.272376,15:33
+"Dovercourt, Brooklyn Road",150029020002,51.936088,1.275921,15:33
+"Dovercourt, High Street",1500IM53,51.937444,1.281477,15:35
+"Harwich, Barrack Lane",150029021004,51.939569,1.28591,15:36
+"Harwich, Mayflower Avenue",1500IM117Y,51.941859,1.286994,15:38
+"Harwich, Lighthouse",1500IM116Y,51.944034,1.288027,15:39
+"Harwich, Railway Station",1500IM52,51.944176,1.286786,15:40
+"Parkeston, Morrisons Store",1500IM1933B,51.940691,1.259143,15:45
+"Parkeston, Una Road",1500IM115,51.942755,1.252161,15:47
+"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,15:49
+"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,15:51
+"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,15:53
+
+Parkeston > Harwich > Upper Dovercourt > Ramsey
+Route,NaPTAN,Latitude,Longitude,118
+Codes,,,,
+"Parkeston, Una Road",150029019003,51.942703,1.252085,07:51
+"Parkeston, Morrisons Store",1500IM1933,51.940691,1.259463,07:54
+"Harwich, Lighthouse",1500IM116,51.944591,1.288373,07:59
+"Harwich, Railway Station",1500IM52,51.944176,1.286786,08:00
+"Harwich, Mayflower Avenue",1500IM117,51.941821,1.287079,08:01
+"Harwich, Barrack Lane",150029021005,51.939406,1.285942,08:03
+"Dovercourt, High Street",1500IM82,51.937229,1.281112,08:05
+"Dovercourt, Brooklyn Road",150029020001,51.936056,1.276079,08:06
+"Dovercourt, Mayflower School",1500IM118,51.935483,1.272428,08:06
+"Dovercourt, Highfield Avenue",150029020006,51.934943,1.266947,08:07
+"Upper Dovercourt, Dovercourt Hospital",1500IM54,51.934647,1.261745,08:09
+"Upper Dovercourt, War Memorial",150029018012,51.933199,1.258177,08:09
+"Upper Dovercourt, Harwich School",150029017015,51.930743,1.261739,08:10
+"Upper Dovercourt, Gordon Road",150029017017,51.928704,1.263293,08:10
+"Upper Dovercourt, Greenacres",150029017010,51.926594,1.26087,08:11
+"Upper Dovercourt, Newport Close",150029017Y09,51.927309,1.25778,08:12
+"Upper Dovercourt, Balton Way",150029017Y08,51.929833,1.254994,08:13
+"Upper Dovercourt, Arderne Close",150029017002,51.929751,1.252093,08:14
+"Upper Dovercourt, Ainger Road",150029020015,51.930957,1.247525,08:15
+"Upper Dovercourt, Tollgate Post Office",1500IM56,51.930632,1.24465,08:16
+"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,08:16
+"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,08:17
+"Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,08:18
+"Ramsey, Church",150029020025,51.927848,1.224532,08:19
+"Ramsey, Church Hill",1500RMSYCHHL,51.927265,1.220519,08:19
+"Ramsey, School",1500RAMSYSCH,51.926826,1.208936,08:23
+"Ramsey, The Street",1500HNR612,51.928478,1.215659,08:27
+"Ramsey, Ramsey Castle",1500IM57,51.928312,1.217437,08:28
+"Ramsey, Church Hill",150029020027,51.92738,1.219945,08:29
+"Ramsey, Church",150029020024,51.928163,1.225195,08:32
+
+

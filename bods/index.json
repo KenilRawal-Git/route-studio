@@ -18,7 +18,8 @@
   "MOFR": "Mondays and Fridays only",
   "TUWETH": "Tuesdays, Wednesdays and Thursdays only",
   "MOTUWE": "Mondays, Tuesdays and Wednesdays only",
-  "TUFR": "Tuesdays and Fridays only"
+  "TUFR": "Tuesdays and Fridays only",
+  "MOWE": "Mondays and Wednesdays only"
  },
  "groups": [
   {
@@ -1977,6 +1978,1418 @@
     "MF"
    ],
    "operator": "Konectbus"
+  },
+  {
+   "id": "hedo-1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "1",
+    "1A",
+    "1B"
+   ],
+   "name": "Clacton > Great Clacton",
+   "file": "hedo-1.csv",
+   "journeys": 88,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "2",
+    "2A"
+   ],
+   "name": "Clacton > Weeley Heath > Little Bromley > Mistley",
+   "file": "hedo-2.csv",
+   "journeys": 30,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-3",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "3"
+   ],
+   "name": "Clacton > Thorpe-le-Soken > Little Oakley > Harwich",
+   "file": "hedo-3.csv",
+   "journeys": 60,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-4",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "4",
+    "4A"
+   ],
+   "name": "Clacton > Jaywick",
+   "file": "hedo-4.csv",
+   "journeys": 121,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-5",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "5"
+   ],
+   "name": "Clacton > Bockings Elm",
+   "file": "hedo-5.csv",
+   "journeys": 53,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-6",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "6",
+    "6A"
+   ],
+   "name": "Clacton > Great Clacton > St Osyth > Point Clear",
+   "file": "hedo-6.csv",
+   "journeys": 86,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-7",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "7"
+   ],
+   "name": "Clacton > Great Holland > Frinton-on-Sea > Walton-on-the-Naze",
+   "file": "hedo-7.csv",
+   "journeys": 125,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-9",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "9",
+    "9A"
+   ],
+   "name": "Clacton > Great Holland > Walton-on-the-Naze",
+   "file": "hedo-9.csv",
+   "journeys": 91,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-11",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "11"
+   ],
+   "name": "Colchester > Severalls Park > Highwoods",
+   "file": "hedo-11.csv",
+   "journeys": 14,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-40",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "40"
+   ],
+   "name": "Witham > Witham Town Centre",
+   "file": "hedo-40.csv",
+   "journeys": 34,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-41",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "41",
+    "41B"
+   ],
+   "name": "Sudbury > Cavendish > Baythorne End > Haverhill",
+   "file": "hedo-41.csv",
+   "journeys": 27,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-42",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "42"
+   ],
+   "name": "Sudbury > Newton Green > Nayland > Colchester City Centre",
+   "file": "hedo-42.csv",
+   "journeys": 21,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-43",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "43"
+   ],
+   "name": "Sudbury > Newton Green > Nayland > Colchester City Centre",
+   "file": "hedo-43.csv",
+   "journeys": 31,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-44",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "44",
+    "44A"
+   ],
+   "name": "Long Melford > Little Cornard > Wormingford > Colchester City Centre",
+   "file": "hedo-44.csv",
+   "journeys": 55,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-45",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "45",
+    "45A"
+   ],
+   "name": "Sudbury > Shimpling Street > Newhall > Bury St Edmunds",
+   "file": "hedo-45.csv",
+   "journeys": 16,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-46",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "46",
+    "46A",
+    "46B"
+   ],
+   "name": "Bury St Edmunds > Cockfield > Great Waldingfield > Sudbury",
+   "file": "hedo-46.csv",
+   "journeys": 62,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-47",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "47",
+    "47A"
+   ],
+   "name": "Sudbury > Hartest > Whepstead > Bury St Edmunds",
+   "file": "hedo-47.csv",
+   "journeys": 21,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-48",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "48"
+   ],
+   "name": "Bury St Edmunds > Hoggards Green > Long Melford > Great Cornard",
+   "file": "hedo-48.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-49",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "49"
+   ],
+   "name": "Sudbury",
+   "file": "hedo-49.csv",
+   "journeys": 45,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-50",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "50"
+   ],
+   "name": "Sudbury > Newton Green > Bower House Tye > Hadleigh",
+   "file": "hedo-50.csv",
+   "journeys": 53,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-51",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "51"
+   ],
+   "name": "Hadleigh > Hitcham > Stowmarket",
+   "file": "hedo-51.csv",
+   "journeys": 12,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-52",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "52"
+   ],
+   "name": "Hadleigh > Aldham > Whatfield",
+   "file": "hedo-52.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-53",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "53",
+    "53A"
+   ],
+   "name": "Hadleigh > Cross Green > Lower Green > Bury St Edmunds",
+   "file": "hedo-53.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-63",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "63",
+    "63A"
+   ],
+   "name": "Monkwick > St Michaels > Colchester City Centre > Colchester",
+   "file": "hedo-63.csv",
+   "journeys": 50,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-74",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "74",
+    "74B"
+   ],
+   "name": "Clacton > Thorrington > Colchester > Colchester City Centre",
+   "file": "hedo-74.csv",
+   "journeys": 74,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-76",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "76"
+   ],
+   "name": "Clacton > Weeley > Colchester > Colchester City Centre",
+   "file": "hedo-76.csv",
+   "journeys": 83,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-77",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "77",
+    "77A"
+   ],
+   "name": "Aingers Green > Frating Hill > The Hythe > Colchester",
+   "file": "hedo-77.csv",
+   "journeys": 29,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-78",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "78"
+   ],
+   "name": "Clacton > Bockings Elm > Great Bentley > Brightlingsea",
+   "file": "hedo-78.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-80",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "80",
+    "80A"
+   ],
+   "name": "Boxted > Mile End > Colchester > Colchester City Centre",
+   "file": "hedo-80.csv",
+   "journeys": 17,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-81",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "81",
+    "81A"
+   ],
+   "name": "Dedham > Mile End > Colchester City Centre",
+   "file": "hedo-81.csv",
+   "journeys": 29,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-82",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "82",
+    "82A",
+    "82B"
+   ],
+   "name": "Colchester City Centre > Copford > Wakes Colne > Colne Engaine",
+   "file": "hedo-82.csv",
+   "journeys": 15,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-83",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "83",
+    "83A",
+    "83B"
+   ],
+   "name": "Colchester City Centre > Eight Ash Green",
+   "file": "hedo-83.csv",
+   "journeys": 29,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-84",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "84"
+   ],
+   "name": "The Hythe > Colchester > Lexden > Stanway",
+   "file": "hedo-84.csv",
+   "journeys": 14,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-85",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "85"
+   ],
+   "name": "Sudbury > Sible Hedingham > High Garrett > Braintree Town Centre",
+   "file": "hedo-85.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-86",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "86"
+   ],
+   "name": "Sudbury > Castle Hedingham > High Garrett > Braintree Town Centre",
+   "file": "hedo-86.csv",
+   "journeys": 24,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-87",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "87"
+   ],
+   "name": "Great Yeldham > Halstead > Bocking > Braintree Town Centre",
+   "file": "hedo-87.csv",
+   "journeys": 10,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-88",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "88",
+    "88A",
+    "88C"
+   ],
+   "name": "Halstead > Wakes Colne > Eight Ash Green > Colchester City Centre",
+   "file": "hedo-88.csv",
+   "journeys": 68,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-89",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "89",
+    "89A"
+   ],
+   "name": "Great Yeldham > Earls Colne > Fordham Heath > Colchester City Centre",
+   "file": "hedo-89.csv",
+   "journeys": 30,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-91",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "91"
+   ],
+   "name": "Tollesbury > Tiptree > Kelvedon > Witham",
+   "file": "hedo-91.csv",
+   "journeys": 32,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-92",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "92"
+   ],
+   "name": "Colchester City Centre > Stanway > Great Wigborough > Tollesbury",
+   "file": "hedo-92.csv",
+   "journeys": 18,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-95",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "95",
+    "95A"
+   ],
+   "name": "Tollesbury > Goldhanger > Maldon",
+   "file": "hedo-95.csv",
+   "journeys": 20,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-98",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "98A"
+   ],
+   "name": "Clacton > Great Holland > Walton-on-the-Naze",
+   "file": "hedo-98.csv",
+   "journeys": 6,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-102",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "102"
+   ],
+   "name": "Colchester City Centre > Lawford > Little Oakley > Harwich",
+   "file": "hedo-102.csv",
+   "journeys": 6,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-105",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "105"
+   ],
+   "name": "Walton-on-the-Naze > Weeley > Hare Green > Colchester City Centre",
+   "file": "hedo-105.csv",
+   "journeys": 52,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-107",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "107"
+   ],
+   "name": "Walton-on-the-Naze > Thorpe-le-Soken > Hare Green > Colchester City Centre",
+   "file": "hedo-107.csv",
+   "journeys": 6,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-109",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "109"
+   ],
+   "name": "Monkwick > Colchester > Old Heath > Rowhedge",
+   "file": "hedo-109.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-110",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "110"
+   ],
+   "name": "West Mersea > Langenhoe > Blackheath > Monkwick",
+   "file": "hedo-110.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-111",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "111"
+   ],
+   "name": "West Mersea > Langenhoe > Blackheath > Monkwick",
+   "file": "hedo-111.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-112",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "112"
+   ],
+   "name": "East Mersea > Peldon > Blackheath > Monkwick",
+   "file": "hedo-112.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-115",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "115"
+   ],
+   "name": "Great Holland > Great Clacton > Weeley Heath > Thorpe-le-Soken",
+   "file": "hedo-115.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-118",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "118"
+   ],
+   "name": "Ramsey > Dovercourt > Parkeston > Upper Dovercourt",
+   "file": "hedo-118.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-122",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "122"
+   ],
+   "name": "Harwich > Upper Dovercourt",
+   "file": "hedo-122.csv",
+   "journeys": 34,
+   "days": [
+    "MF",
+    "SA",
+    "SU"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-330",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "330"
+   ],
+   "name": "Braintree > Rayne > Black Notley",
+   "file": "hedo-330.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-716",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "716"
+   ],
+   "name": "Bildeston > Brent Eleigh > Acton Place > Great Cornard",
+   "file": "hedo-716.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-812",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "812"
+   ],
+   "name": "Witham > Marks Tey > Coggeshall",
+   "file": "hedo-812.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-813",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "813"
+   ],
+   "name": "Wakes Colne > Great Tey > Little Tey > Coggeshall",
+   "file": "hedo-813.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-814",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "814"
+   ],
+   "name": "Halstead > Earls Colne > Chappel > Coggeshall",
+   "file": "hedo-814.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-815",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "815"
+   ],
+   "name": "Braintree > Bradwell > Coggeshall",
+   "file": "hedo-815.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-816",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "816"
+   ],
+   "name": "Colchester > Old Heath",
+   "file": "hedo-816.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-818",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "818"
+   ],
+   "name": "White Colne > Earls Colne > Buntings Green > Halstead",
+   "file": "hedo-818.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-819",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "819"
+   ],
+   "name": "Cressing > Silver End > Witham",
+   "file": "hedo-819.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-820",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "820"
+   ],
+   "name": "West Mersea > Great Wigborough > Smyths Green > Tiptree",
+   "file": "hedo-820.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-821",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "821"
+   ],
+   "name": "Tollesbury > Tolleshunt DArcy > Tiptree Heath > Tiptree",
+   "file": "hedo-821.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-822",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "822"
+   ],
+   "name": "Tollesbury > Tolleshunt DArcy > Tolleshunt Knights > Tiptree",
+   "file": "hedo-822.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-823",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "823"
+   ],
+   "name": "Kelvedon > Feering > Inworth > Tiptree",
+   "file": "hedo-823.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-824",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "824"
+   ],
+   "name": "Heybridge > Great Totham > Feering > Tiptree",
+   "file": "hedo-824.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-901",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "901"
+   ],
+   "name": "Mount Bures > Chappel > Marks Tey > Stanway",
+   "file": "hedo-901.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-902",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "902"
+   ],
+   "name": "Wormingford > Fordham Heath > Stanway",
+   "file": "hedo-902.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-903",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "903"
+   ],
+   "name": "Kelvedon > Great Wigborough > Easthorpe > Stanway",
+   "file": "hedo-903.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-907",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "907"
+   ],
+   "name": "West Bergholt > Colchester > Stanway",
+   "file": "hedo-907.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-B1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "B1",
+    "B1A"
+   ],
+   "name": "Haverhill > Sowley Green > Chevington > Bury St Edmunds",
+   "file": "hedo-B1.csv",
+   "journeys": 4,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-B5",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "B5"
+   ],
+   "name": "Bottisham > Stetchworth > Kentford > Bury St Edmunds",
+   "file": "hedo-B5.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-D1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "D1"
+   ],
+   "name": "Maldon > Purleigh > Mayland > Bradwell-on-Sea",
+   "file": "hedo-D1.csv",
+   "journeys": 20,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-D2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "D2"
+   ],
+   "name": "Maldon > Hazeleigh > Mayland > Southminster",
+   "file": "hedo-D2.csv",
+   "journeys": 16,
+   "days": [
+    "MF",
+    "SA"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-HD2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "HD2"
+   ],
+   "name": "Finchingfield > Blackmore End > Whiteash Green > Sible Hedingham",
+   "file": "hedo-HD2.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-HD3",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "HD3"
+   ],
+   "name": "Ridgewell > Belchamp Walter > Toppesfield > Sible Hedingham",
+   "file": "hedo-HD3.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-HD4",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "HD4"
+   ],
+   "name": "Sudbury > Bulmer Tye > Great Maplestead > Sible Hedingham",
+   "file": "hedo-HD4.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-HD5",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "HD5"
+   ],
+   "name": "Clare > Foxearth > Gestingthorpe > Sible Hedingham",
+   "file": "hedo-HD5.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-HD6",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "HD6"
+   ],
+   "name": "Great Yeldham > Sturmer > Stambourne > Sible Hedingham",
+   "file": "hedo-HD6.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-M1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "M1"
+   ],
+   "name": "Parkeston > Dovercourt > Bradfield Heath > Manningtree",
+   "file": "hedo-M1.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-M2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "M2"
+   ],
+   "name": "Langham > Dedham Heath > Ardleigh > Manningtree",
+   "file": "hedo-M2.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-M3",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "M3"
+   ],
+   "name": "Wix > Hare Green > Little Bromley > Manningtree",
+   "file": "hedo-M3.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-O4",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "O4"
+   ],
+   "name": "Stanway > Colchester > Capel St Mary > Chantry",
+   "file": "hedo-O4.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-O6",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "O6"
+   ],
+   "name": "Upper Dovercourt > Bradfield > Cattawade > Chantry",
+   "file": "hedo-O6.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-O8",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "O8"
+   ],
+   "name": "Sudbury > Newton Green > Hadleigh > Chantry",
+   "file": "hedo-O8.csv",
+   "journeys": 3,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-PL1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "PL1"
+   ],
+   "name": "Tollesbury > Great Totham > Maldon",
+   "file": "hedo-PL1.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-PL2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "PL2"
+   ],
+   "name": "Tiptree > Wickham Bishops > Maldon",
+   "file": "hedo-PL2.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL1"
+   ],
+   "name": "Thorpe-le-Soken > Frinton-on-Sea",
+   "file": "hedo-TL1.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL2"
+   ],
+   "name": "Thorpe-le-Soken > Frinton-on-Sea",
+   "file": "hedo-TL2.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL3",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL3"
+   ],
+   "name": "Thorpe-le-Soken > Frinton-on-Sea",
+   "file": "hedo-TL3.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL4",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL4"
+   ],
+   "name": "Thorpe-le-Soken > Frinton-on-Sea",
+   "file": "hedo-TL4.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL5",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL5"
+   ],
+   "name": "Thorpe-le-Soken > Frinton-on-Sea > Walton-on-the-Naze",
+   "file": "hedo-TL5.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TL7",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TL7"
+   ],
+   "name": "Beaumont > Tendring Heath > Weeley > Thorpe-le-Soken",
+   "file": "hedo-TL7.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TU1",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TU1"
+   ],
+   "name": "Tendring > Upper Dovercourt > Beaumont > Frinton-on-Sea",
+   "file": "hedo-TU1.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
+  },
+  {
+   "id": "hedo-TU2",
+   "region": "Suffolk & Essex (TXC)",
+   "routes": [
+    "TU2"
+   ],
+   "name": "Clacton > Weeley Heath > Thorpe-le-Soken > Frinton-on-Sea",
+   "file": "hedo-TU2.csv",
+   "journeys": 2,
+   "days": [
+    "MF"
+   ],
+   "operator": "Central Connect (KonectBuses)"
   }
  ],
  "feed_version": "20261116_042649",

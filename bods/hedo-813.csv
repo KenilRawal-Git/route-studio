@@ -1,0 +1,54 @@
+MF
+Wakes Colne > Great Tey > Little Tey > Coggeshall
+Route,NaPTAN,Latitude,Longitude,813
+Codes,,,,
+"Wakes Colne, Wakes Colne Green",1500IM2611B,51.937243,0.751631,07:45
+"Wakes Colne, Railway Station",1500270100Y1,51.925511,0.756833,07:49
+"Chappel, School",1500IM13767,51.921497,0.753896,07:50
+"Great Tey, Swan St",150014703061,51.910216,0.746735,07:51
+"Great Tey, Pattock Lane",15003804901,51.908165,0.745592,07:53
+"Great Tey, Village Hall",1500IM1708B,51.899864,0.749069,07:55
+"Great Tey, Church",1500IM1375B,51.898377,0.749196,07:56
+"Marks Tey, Poplars Nurseries",150014002020,51.877241,0.756944,08:03
+"Marks Tey, Domsey Bank",1500IM1236,51.876728,0.763872,08:05
+"Marks Tey, Wellside",1500MTNEW1,51.87615,0.766263,08:06
+"Marks Tey, Norbury Close",1500MTNEW3,51.876823,0.769792,08:07
+"Marks Tey, Godmans Lane",1500MRKSTY4,51.877451,0.76181,08:08
+"Marks Tey, Poplars Nurseries",1500MRKSTY3,51.877055,0.756438,08:09
+"Little Tey, Godbolt's Farm",1500IM1374,51.876772,0.750507,08:10
+"Little Tey, Church Lane",150014002017,51.876507,0.745682,08:11
+"Little Tey, Salmons Lane",1500IM1231B,51.876032,0.736353,08:12
+"Coggeshall, The Kings Arms",1500BROADGRN,51.875336,0.727593,08:13
+"Coggeshall, The Surrex Inn",150014002010,51.87338,0.711842,08:14
+"Coggeshall, Lee's Farm",150014002008,51.872702,0.705728,08:15
+"Coggeshall, Colne Road",150014003Y09,51.879921,0.692153,08:19
+"Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,08:20
+
+Coggeshall > Marks Tey > Chappel > Wakes Colne
+Route,NaPTAN,Latitude,Longitude,813
+Codes,,,,
+"Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,15:40
+"Coggeshall, Gurton Road",1500AA207,51.878242,0.69201,15:41
+"Coggeshall, Colne Road",150014003009,51.879924,0.691994,15:41
+"Coggeshall, Lee's Farm",150014002009,51.873074,0.708336,15:45
+"Coggeshall, The Surrex Inn",150014002011,51.873812,0.714163,15:46
+"Coggeshall, The Kings Arms",150014002013,51.875497,0.728795,15:47
+"Little Tey, Salmons Lane",1500IM1231,51.876209,0.73648,15:48
+"Little Tey, Church Lane",150014002016,51.876568,0.744581,15:49
+"Little Tey, Godbolt's Farm",1500IM1374B,51.876832,0.749843,15:50
+"Marks Tey, Poplars Nurseries",150014002020,51.877241,0.756944,15:51
+"Marks Tey, Domsey Bank",1500IM1236,51.876728,0.763872,15:52
+"Marks Tey, Wellside",1500MTNEW1,51.87615,0.766263,15:53
+"Marks Tey, Norbury Close",1500MTNEW3,51.876823,0.769792,15:54
+"Marks Tey, Godmans Lane",1500MRKSTY4,51.877451,0.76181,15:55
+"Marks Tey, Poplars Nurseries",1500MRKSTY3,51.877055,0.756438,15:56
+"Great Tey, Church",1500IM1375,51.898425,0.749083,15:59
+"Great Tey, Village Hall",1500IM1708,51.899813,0.748949,16:00
+"Great Tey, Pattock Lane",150038049Y1,51.908221,0.745508,16:01
+"Great Tey, Swan St",150014703062,51.910141,0.746483,16:04
+"Chappel, School",1500IM13767A,51.921543,0.753841,16:05
+"Wakes Colne, The Street",1500IM13762,51.92271,0.755076,16:06
+"Wakes Colne, Railway Station",150027010001,51.925493,0.756832,16:07
+"Wakes Colne, Wakes Colne Green",1500IM2611,51.937222,0.752924,16:10
+
+

@@ -816,6 +816,12 @@ span.gbt{cursor:default}
         <label>Notes box <span class="opt">Wrap words in **double stars** for bold. Leave blank for none.</span>
           <textarea id="mapNotes" rows="5" placeholder="e.g. **44A extends towards Norman Way Schools**, with drop off at 08:20 Monday-Friday."></textarea></label>
         <label class="check"><input type="checkbox" id="mapKey" checked> Show the key</label>
+        <details class="fund" style="margin:6px 0 10px"><summary>Funding notice above the key</summary>
+          <label class="field">Text <input type="text" id="fundText" placeholder="e.g. Service 46A is funded by Suffolk County Council" maxlength="140" style="width:100%"></label>
+          <label class="field">Logo (optional) <input type="file" id="fundLogo" accept="image/png,image/jpeg,image/svg+xml"></label>
+          <div class="row" style="gap:14px;flex-wrap:wrap"><label class="check">Band colour <input type="color" id="fundBg" value="#C6E0FB"></label><label class="check">Logo panel colour <input type="color" id="fundLogoBg" value="#2A5288"></label><label class="check">Text colour <input type="color" id="fundTextCol" value="#1E3A73"></label></div>
+          <div class="btnrow"><button type="button" class="linkbtn" id="fundClear">Remove the notice</button></div>
+        </details>
         <label class="check" id="mapSchDashRow" hidden><input type="checkbox" id="mapSchDash" checked> Dash the school-day-only journeys <span class="opt">Shows only when the map has a school stop</span></label>
         <label class="field" id="mapSchLabelRow" hidden>Key label for the dashed line <input type="text" id="mapSchLabel" placeholder="School days only" maxlength="60" style="width:100%;min-width:320px;margin-top:4px"></label>
         <label class="check" id="mapMergeRow"><input type="checkbox" id="mapMerge"> Merge shared stretches into one main route <span class="opt">One solid line where the routes run together; the arrows show which way</span></label>
@@ -2496,7 +2502,14 @@ function mapLayout(cfg){
   const KS=Math.max(0.5,Math.min(1.6,+cfg.keyScale||1));   // the key's size (slider)
   const colW=[...Array(kCols)].map((_,c)=>40*KS+Math.max(...keyRows.slice(c*kPer,(c+1)*kPer).map(r=>width(rowTxt(r),7.5*KS,"light"))));
   const colX=colW.map((w,c)=>colW.slice(0,c).reduce((a,v)=>a+v+18*KS,0));
-  const KEYW=Math.max(110*KS,colX[kCols-1]+colW[kCols-1]+14*KS), keyH=INS||cfg.showKey===false?0:(35+kPer*15.2+6)*KS;
+  // funding notice above the key: its text wraps beside the logo, and the key widens to fit it
+  const FON=!INS&&cfg.showKey!==false&&cfg.funding&&(cfg.funding.text||cfg.funding.logo);
+  const FLW=71*KS, FSZ=8.5*KS, FWMAX=180*KS, FLINES=[]; let FNEED=0;
+  if(FON&&cfg.funding.text){ String(cfg.funding.text).split(/\s+/).forEach(w=>{const l=FLINES.length?FLINES[FLINES.length-1]+" "+w:w; if(FLINES.length&&width(l,FSZ,"light")<=FWMAX)FLINES[FLINES.length-1]=l; else FLINES.push(w)});
+    FLINES.forEach(l=>FNEED=Math.max(FNEED,width(l,FSZ,"light"))) }
+  const FUNDH=FON?Math.max(34*KS,FLINES.length*11*KS+12*KS):0;
+  const FNEEDW=FON?FLW+22*KS+FNEED:0;
+  const KEYW=Math.max(110*KS,colX[kCols-1]+colW[kCols-1]+14*KS,FNEEDW), keyH=INS||cfg.showKey===false?0:(35+kPer*15.2+6)*KS+(FUNDH?FUNDH+6*KS:0);
   const noteLines=INS?[]:mapWrapNotes(cfg.notes||"",158,7.6);
   const NOTEW=178, noteH=noteLines.length?noteLines.length*9.6+22:0;
   let PBOT=INS?16:Math.max(keyH,noteH,60)-4, PTOP=INS?16:62, PADX=INS?34:120, keyAt=null;
@@ -2966,9 +2979,16 @@ function mapLayout(cfg){
 
   /* ----- key ----- */
   if(KEY){const [kx,ky,kx1,ky1]=KEY;
-    ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:ky1-ky,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
-    const q=KS, tf=7.5*q; T("Key",kx+11*q,ky+18*q,9*q,"semibold","#000000");
-    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+colX[col], yy=ky+(35+i*15.2)*q, cy=yy-2.5*q, tx=kx+40*q;
+    const q=KS, tf=7.5*q, fy=FUNDH?FUNDH+6*q:0;
+    if(FUNDH){const f=cfg.funding, lw=FLW;   // a band with the logo on its own coloured panel, then the text
+      ops.push({k:"r",x:kx,y:ky,w:kx1-kx,h:FUNDH,c:f.bg||"#C6E0FB",rx:6});
+      ops.push({k:"r",x:kx,y:ky,w:lw,h:FUNDH,c:f.logoBg||"#2A5288",rx:6});
+      if(f.logo)ops.push({k:"img",url:f.logo.url,fmt:f.logo.fmt,x:kx+8*q,y:ky+5*q,w:lw-16*q,h:FUNDH-10*q});
+      const top=ky+FUNDH/2-(FLINES.length-1)*11*q/2+3.2*q;
+      FLINES.forEach((l,i)=>T(l,kx+lw+11*q,top+i*11*q,FSZ,"light",f.textCol||"#1E3A73"))}
+    ops.push({k:"r",x:kx,y:ky+fy,w:kx1-kx,h:ky1-ky-fy,c:"#FFFFFF",rx:6,stroke:"#DDDDDD",sw:0.8});
+    T("Key",kx+11*q,ky+fy+18*q,9*q,"semibold","#000000");
+    keyRows.forEach((row,i0)=>{const col=Math.floor(i0/kPer), i=i0%kPer, kx=KEY[0]+colX[col], yy=ky+fy+(35+i*15.2)*q, cy=yy-2.5*q, tx=kx+40*q;
       if(row.type==="line"){ops.push({k:"pl",p:[kx+11*q,cy,kx+30*q,cy],c:row.r.color,w:4*q,cap:"round"});T(row.label||`Route ${row.r.id}`,tx,yy,tf,"light","#000000")}
       else if(row.type==="dash"){ops.push({k:"pl",p:[kx+11*q,cy,kx+30*q,cy],c:row.r.color,w:3.2*q,cap:"butt",dash:[5*q,3*q]});T(row.label,tx,yy,tf,"light","#000000")}
       else if(row.type==="stop"){ops.push({k:"circ",x:kx+20*q,y:cy,r:4.5*q,fill:"#FFFFFF",stroke:"#000000",sw:2*q});T(SUM||SCH?"Town or village served":"Timing Point Stop",tx,yy,tf,"light","#000000")}
@@ -3793,7 +3813,7 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,merge:!!mapState.merge,schLabel:mapState.schLabel||"",headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,merge:!!mapState.merge,funding:mapState.funding||null,schLabel:mapState.schLabel||"",headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
@@ -3840,6 +3860,15 @@ $("mapNotes").addEventListener("input",()=>{mapState.notes=$("mapNotes").value;r
 $("mapKey").addEventListener("change",()=>{mapState.showKey=$("mapKey").checked;render()});
 $("mapSchDash").addEventListener("change",()=>{mapState.schoolDash=$("mapSchDash").checked;render()});
 $("mapMerge").addEventListener("change",()=>{mapState.merge=$("mapMerge").checked;render()});
+/* the funding notice: text, a logo, and the colours behind it */
+const fundSet=(k,v)=>{mapState.funding=Object.assign({},mapState.funding||{},{[k]:v}); render()};
+$("fundText").addEventListener("input",()=>fundSet("text",$("fundText").value));
+$("fundBg").addEventListener("input",()=>fundSet("bg",$("fundBg").value));
+$("fundLogoBg").addEventListener("input",()=>fundSet("logoBg",$("fundLogoBg").value));
+$("fundTextCol").addEventListener("input",()=>fundSet("textCol",$("fundTextCol").value));
+$("fundLogo").addEventListener("change",()=>{const f=$("fundLogo").files[0]; if(!f)return; const r=new FileReader();
+  r.onload=()=>fundSet("logo",{url:r.result,fmt:(f.type.split("/")[1]||"png").replace("svg+xml","svg").replace("jpeg","jpg")}); r.readAsDataURL(f)});
+$("fundClear").addEventListener("click",()=>{mapState.funding=null; $("fundText").value=""; $("fundLogo").value=""; render()});
 $("mapSchLabel").addEventListener("input",()=>{mapState.schLabel=$("mapSchLabel").value;render()});
 /* ---------- route editor: any route's stops can be made a terminus or a school-days-only stretch ---------- */
 function mapKeyOf(s){return dnorm(s.town)+"|"+dnorm(s.stop)}
@@ -4828,7 +4857,7 @@ function gMapPages(b){
   const cfg=gMapCfg(b);
   if(!cfg){const st=gMapStatus(b);
     return [{ops:[{k:"ph",text:"Route map",sub:!gShown().length?"Add a route timetable first":st.total?"Finding where the stops are…":"Finding the stops…"}],label:"Route map",kind:"map"}]}
-  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],!!r.dashAll,r.keyLab,r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.schLabel,cfg.merge,cfg.notes,cfg.showKey,cfg.valid,cfg.headBlocks,cfg.title,cfg.validText,cfg.headMode,cfg.headText,cfg.W,
+  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],!!r.dashAll,r.keyLab,r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.schLabel,cfg.merge,JSON.stringify(cfg.funding||null),cfg.notes,cfg.showKey,cfg.valid,cfg.headBlocks,cfg.title,cfg.validText,cfg.headMode,cfg.headText,cfg.W,
     (mapState.osm?"o":"")+(mapState.tileKey||"")+(mapState.builtin?"b":"")+(BODS.paths?"p":"")]);
   if(!b._memo||b._memo.key!==key)b._memo={key,res:mapLayout(cfg)};
   return [{ops:[{k:"emb",kind:"map",ops:b._memo.res.ops,W:cfg.W,H:cfg.H,s:GMAP_S}],rot:cfg.land,label:"Route map",kind:"map"}];
@@ -5943,14 +5972,14 @@ const mapSaveFile=async()=>{const msg=$("status");
   const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
   const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{},headBlocks:mapState.headBlocks||null,schLabel:mapState.schLabel||"",merge:!!mapState.merge}},W:{routes:[],nets:[]},guide:{}};
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{},headBlocks:mapState.headBlocks||null,schLabel:mapState.schLabel||"",merge:!!mapState.merge,funding:mapState.funding||null}},W:{routes:[],nets:[]},guide:{}};
   const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
 document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
 function mapOpenFile(m){
   mapSetKind("route");
   Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
-  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; mapState.headBlocks=m.headBlocks||null; mapState.schLabel=m.schLabel||""; mapState.merge=!!m.merge; $("mapMerge").checked=!!mapState.merge; state.routeText=m.routeText||{};
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; mapState.headBlocks=m.headBlocks||null; mapState.schLabel=m.schLabel||""; mapState.merge=!!m.merge; $("mapMerge").checked=!!mapState.merge; mapState.funding=m.funding||null; state.routeText=m.routeText||{};
   mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
   const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
   mapSetRoutes(routes,m.source||"Map file",false);
