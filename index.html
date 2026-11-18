@@ -762,6 +762,7 @@ span.gbt{cursor:default}
           </details>
         </div>
         <div class="warn" id="mapWarn" hidden></div>
+        <div id="mapFix" hidden style="margin:8px 0;display:grid;gap:6px"></div>
         <div class="drop" id="mapNaptan" hidden>
           <b>Drop the NaPTAN Stops.csv here</b>
           <span>For stops outside the areas the builder knows</span>
@@ -3656,8 +3657,26 @@ function mapRenderStops(){
   const sch=mapState.kind==="school"; $("schoolBox").hidden=!sch;
   if(sch){["mapUpload","mapFromTT","mapOwnBtn","mapComboRow"].forEach(id=>$(id).hidden=true); ex.hidden=true; $("mapInfo").textContent=`${mapState.routes.length} route${mapState.routes.length===1?"":"s"} · ${Math.max(0,n-mapState.routes.length)} places`}
 }
+/* stops that couldn't be found: type each one's latitude and longitude; it is remembered in this browser (as stops placed from earlier maps are) */
+function mapFixRender(){
+  const box=$("mapFix"); if(!box)return;
+  const m=mapState.missing||[];
+  if(mapState.kind==="school"||!m.length){box.hidden=true; box.innerHTML=""; return}
+  const uniq=[...new Map(m.map(s=>[s.town+"|"+s.stop,s])).entries()].map(([key,s])=>({key,s}));
+  box.hidden=false;
+  box.innerHTML=`<p class="hint" style="margin:0">Type the latitude and longitude of each stop that wasn't found, e.g. 52.0449, 0.7511. In Google Maps, right-click the stop and click the numbers at the top to copy them. Each one is remembered in this browser.</p>`+
+    uniq.map((q,i)=>`<label>${esc(q.s.stop?q.s.town+", "+q.s.stop:q.s.town)} <span class="opt">Latitude, longitude</span><input data-mfix="${i}" placeholder="e.g. 52.0449, 0.7511" inputmode="decimal"></label>`).join("");
+  box.querySelectorAll("[data-mfix]").forEach(inp=>inp.addEventListener("change",()=>{
+    const q=uniq[+inp.dataset.mfix], v=inp.value.trim();
+    const mm=v.match(/@?(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+    if(!mm||Math.abs(+mm[1])>90||Math.abs(+mm[2])>180){inp.setCustomValidity("Type it as latitude, longitude, e.g. 52.0449, 0.7511"); inp.reportValidity(); return}
+    inp.setCustomValidity("");
+    mapState.routes.forEach(r=>r.stops.forEach(st=>{if((st.town+"|"+st.stop)===q.key&&(!isFinite(st.lat)||!isFinite(st.lon))){st.lat=+mm[1]; st.lon=+mm[2]; st._manual=true}}));
+    mapMemSave(); mapCountMissing(); mapShowMissing(); mapState.cache=new Map(); mapRenderRoutes(); render();
+  }));
+}
 function mapShowMissing(){
-  const m=mapState.missing, w=$("mapWarn");
+  const m=mapState.missing, w=$("mapWarn"); mapFixRender();
   if(mapState.kind==="school"){w.hidden=true; $("mapNaptan").hidden=true; return}   // the school panel says what it couldn't find
   $("mapNaptan").hidden=!m.length;
   if(!m.length){w.hidden=true;return}
@@ -3666,8 +3685,8 @@ function mapShowMissing(){
   const noTown=m.some(s=>!s.stop);
   w.textContent=`${names.length} stop${names.length>1?"s":""} couldn't be found (${names.slice(0,3).join("; ")}${names.length>3?"…":""}). `+
     (noTown?"Some have no town: put the town before the stop, e.g. “Wakes Colne, The Street”. ":"")+
-    (LIVE_MAP.on?"Bus Times and NaPTAN were searched too. Check the town and stop names and the route number, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below."
-      :`Check the town and stop names, add NaPTAN codes or Latitude and Longitude columns to your file, or drop the national NaPTAN Stops.csv below. Route Studio's website (${SITE_URL}) also looks your route's stops up on Bus Times.`);
+    (LIVE_MAP.on?"Bus Times and NaPTAN were searched too. Check the town and stop names and the route number, add NaPTAN codes or Latitude and Longitude columns to your file, drop the national NaPTAN Stops.csv below, or type each stop's latitude and longitude under this message."
+      :`Check the town and stop names, add NaPTAN codes or Latitude and Longitude columns to your file, drop the national NaPTAN Stops.csv below, or type each stop's latitude and longitude under this message. Route Studio's website (${SITE_URL}) also looks your route's stops up on Bus Times.`);
 }
 function mapShowMatch(){
   const box=$("mapMatched"); let r=mapState.lastMatch;
