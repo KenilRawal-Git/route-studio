@@ -1326,7 +1326,7 @@ function layout(){
   const R=(x,yy,w,h,c,rx)=>ops.push({k:"r",x,y:yy,w,h,c,rx});
   const Lc=(x1,y1,x2,y2,c,lw)=>ops.push({k:"l",x1,y1,x2,y2,c,w:lw});
   // only show key entries whose code is actually used in the timetable (e.g. SCH, NS); no codes → no key bar
-  const usedCodes=new Set(); state.sections.forEach(s=>s.cols.forEach(c=>{if(c.code)String(c.code).split(/[\s,/]+/).forEach(k=>k&&usedCodes.add(k.toUpperCase()))}));
+  const usedCodes=new Set(codesUsed());
   const keyItems=state.key.filter(k=>usedCodes.has(String(k.code).trim().toUpperCase())), hasKey=keyItems.length>0, bottom=hasKey?G.bottom:G.bottomNoKey;
   let tight=0; // space to drop above a first table that has no codes row
   let colMaxW=0; // direction width when two tables share the page side by side
@@ -1457,7 +1457,7 @@ function layout(){
       L.forEach((ln,k)=>{ let x=24.44; const sp=width(" ",fs,"normal");
         ln.forEach(([w,wt],q)=>{ const rest=maxW-(x-24.44); const txt=k===L.length-1&&q===ln.length-1?fit(w,fs,wt,rest):w; T(txt,x,y0+k*lh,fs,wt,C.ink); x+=width(w,fs,wt)+sp }) });
       const tb=ry+RH/2+1+.35*FC;
-      for(let j=0;j<n;j++){const v=sec.times[i][c0+j]; if(v){const z=shrink(v,FC,FS.min,FS.timeW,CW-4); T(fit(v,z,FS.timeW,CW-4),CX+j*CW+CW/2,tb,z,FS.timeW,C.ink,"center")}}
+      for(let j=0;j<n;j++){const v0=sec.times[i][c0+j]; if(v0){const v=tmStr(v0)+(schCell(sec,i,c0+j)?"†":""); const z=shrink(v,FC,FS.min,FS.timeW,CW-4); T(fit(v,z,FS.timeW,CW-4),CX+j*CW+CW/2,tb,z,FS.timeW,C.ink,"center")}}
     }
     y+= (r1-r0)*RH;
   };
@@ -1595,6 +1595,8 @@ function renderRouteUI(){
 }
 const DAYS=["Monday to Friday","Saturday","Sunday","Monday to Saturday","Schooldays","School holidays"];
 const DETAILS=["Except Bank Holidays","Including Bank Holidays","Schooldays only","School holidays only"];
+function tmStr(v){return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
+function schCell(sec,i,j){return !!(sec.schCells&&sec.schCells[i+"|"+j])}   // a single time that runs on school days only (marked †)
 function jrnTime(s,j){const v=s.times.map(r=>r[j]).find(x=>x!==undefined&&x!==null&&x!==""&&x!=="-"); return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
 function renderSectionsUI(){
   const box=$("sections");
@@ -1610,8 +1612,10 @@ function renderSectionsUI(){
     ${custom?`<label>Days wording <input data-k="day" value="${esc(day)}" placeholder="e.g. Tuesdays and Thursdays"></label>`:""}
     <label>Direction <input data-k="direction" value="${esc(s.direction||"")}" placeholder="e.g. Loughborough > Shepshed > Coalville"></label>
     <details class="jrn"><summary>Journeys (${s.cols.length}) · tick any that only run on school days</summary>${s.cols.map((c,j)=>`<label class="check"><input type="checkbox" data-colsch="${j}"${c.sch?" checked":""}> ${esc(c.route||state.route)} · ${esc(jrnTime(s,j))}</label>`).join("")}</details>
+    <details class="jrn"><summary>Single times on school days only · click a time to mark it</summary><div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:13px"><tr><th></th>${s.cols.map((c,j)=>`<th style="padding:2px 6px;font-weight:600">${esc(c.route||state.route)}</th>`).join("")}</tr>${s.stops.map((x,i)=>`<tr><th style="text-align:left;padding:2px 8px 2px 0;font-weight:400;white-space:nowrap">${esc(x.stop||x.town)}</th>${s.cols.map((c,j)=>{const v=s.times[i]&&s.times[i][j]; if(!v||v==="-")return `<td style="padding:2px 6px;color:#aab">–</td>`; const on=schCell(s,i,j); return `<td style="padding:0"><button type="button" data-schcell="${i}|${j}" style="border:0;border-radius:4px;padding:2px 6px;cursor:pointer;background:${on?"#CFE8F5":"transparent"};font:inherit">${esc(tmStr(v))}${on?" †":""}</button></td>`}).join("")}</tr>`).join("")}</table></div></details>
     ${i>0?`<label class="check"><input type="checkbox" data-k="newPage" ${s.newPage!==false?"checked":""}> Start on a new page</label>`:""}
   </div>`}).join("")+`<datalist id="detailList">${DETAILS.map(d=>`<option value="${d}">`).join("")}</datalist>`;
+  box.querySelectorAll("[data-schcell]").forEach(b=>b.addEventListener("click",()=>{const el=b.closest(".sec"), s=state.sections[+el.dataset.i], k=b.dataset.schcell; s.schCells=s.schCells||{}; if(s.schCells[k])delete s.schCells[k]; else s.schCells[k]=true; renderKeyUI(); render(); renderSectionsUI()}));
   box.querySelectorAll("[data-colsch]").forEach(inp=>inp.addEventListener("change",()=>{const el=inp.closest(".sec"), s=state.sections[+el.dataset.i], c=s.cols[+inp.dataset.colsch]; c.sch=inp.checked;
     /* ticked: the journey gets the SCH code, so the timetable shows it above the column and the key lists it */
     const toks=String(c.code||"").split(/[\s,/]+/).filter(t=>t&&t.toUpperCase()!=="SCH"); if(inp.checked)toks.push("SCH"); c.code=toks.join(" "); renderKeyUI(); render()}));
@@ -1624,9 +1628,9 @@ function renderSectionsUI(){
       inp.addEventListener("input",()=>{s[inp.dataset.k]=inp.type==="checkbox"?inp.checked:inp.value;render()})})});
 }
 /* key: one meaning per code that is actually used in the Codes row */
-const KNOWN={SCH:"Schooldays only",NS:"Not Saturdays",NSCH:"Not schooldays",SH:"School holidays only",SO:"Saturdays only",MF:"Monday to Friday",FO:"Fridays only",X:"Does not run on Bank Holidays"};
+const KNOWN={"†":"Schooldays only (this time)",SCH:"Schooldays only",NS:"Not Saturdays",NSCH:"Not schooldays",SH:"School holidays only",SO:"Saturdays only",MF:"Monday to Friday",FO:"Fridays only",X:"Does not run on Bank Holidays"};
 state.keyMeanings={};
-function codesUsed(){const out=[];state.sections.forEach(s=>s.cols.forEach(c=>{if(c.code)String(c.code).split(/[\s,/]+/).forEach(k=>{k=k.toUpperCase();if(k&&!out.includes(k))out.push(k)})}));return out}
+function codesUsed(){const out=[];state.sections.forEach(s=>s.cols.forEach(c=>{if(c.code)String(c.code).split(/[\s,/]+/).forEach(k=>{k=k.toUpperCase();if(k&&!out.includes(k))out.push(k)})}));if(state.sections.some(s=>s.schCells&&Object.keys(s.schCells).length))out.push("†");return out}
 function syncKey(){state.key=codesUsed().map(c=>({code:c,meaning:state.keyMeanings[c]??KNOWN[c]??""})).filter(k=>k.meaning)}
 function renderKeyUI(){
   const codes=codesUsed(), box=$("keyRows");
@@ -4643,7 +4647,7 @@ function gTT(e){
       O.L(X0,ry+RH,tableR,ry+RH,GC.line,.3,.8);
       const {z,L}=stopLines(sec.stops[i],f.SW-7,fs), lh=z*1.12, y0=ry+RH/2+.36*z-(L.length-1)*lh/2;
       L.forEach((runs,k)=>O.TR(runs,X0+3.5,y0+k*lh,z));
-      for(let j=0;j<n;j++){const v=sec.times[i][c0+j]; if(v){const zz=gFitSize(v,fs,"normal",CW-3,3.8);O.T(fit(v,zz,"normal",CW-3),CX+j*CW+CW/2,ry+RH/2+.36*fs,zz,"normal",GC.ink,"center")}}
+      for(let j=0;j<n;j++){const v0=sec.times[i][c0+j]; if(v0){const v=tmStr(v0)+(schCell(sec,i,c0+j)?"†":""); const zz=gFitSize(v,fs,"normal",CW-3,3.8);O.T(fit(v,zz,"normal",CW-3),CX+j*CW+CW/2,ry+RH/2+.36*fs,zz,"normal",GC.ink,"center")}}
     }
     O.L(X0,y,tableR,y,GC.line,.3,.8);
     y+=(r1-r0)*RH;
