@@ -817,6 +817,7 @@ span.gbt{cursor:default}
           <textarea id="mapNotes" rows="5" placeholder="e.g. **44A extends towards Norman Way Schools**, with drop off at 08:20 Monday-Friday."></textarea></label>
         <label class="check"><input type="checkbox" id="mapKey" checked> Show the key</label>
         <label class="check" id="mapSchDashRow" hidden><input type="checkbox" id="mapSchDash" checked> Dash the school-day-only journeys <span class="opt">Shows only when the map has a school stop</span></label>
+        <label class="field" id="mapSchLabelRow" hidden>Key label for the dashed line <input type="text" id="mapSchLabel" placeholder="School days only" maxlength="60"></label>
         <div id="mapAmend" class="stack" hidden></div>
         <label>Key size <span class="scsize"><input type="range" id="mapKeySize" min="60" max="150" step="5" value="100" aria-label="Key size"><output id="mapKeySizeV">100%</output></span></label>
       </fieldset>
@@ -2467,9 +2468,9 @@ function mapLayout(cfg){
   const varOwn=FAM?routes.map((r,ri)=>r!==famBase[fi[ri]]&&[...RK[ri]].reduce((a,[k,m])=>a+(routes.some((o,oi)=>oi!==ri&&fi[oi]===fi[ri]&&RK[oi].has(k))?0:m),0)>900):[];   // over ~1 km of its own
   const keyRows=FAM?famIds.flatMap((f,k)=>{const m=routes.filter((r,ri)=>fi[ri]===k);
       return [{type:"line",r:famBase[k],label:"Route "+m.map(r=>r.id).join(" / ")},...m.filter(r=>varOwn[routes.indexOf(r)]).map(r=>({type:"dash",r,label:`Route ${r.id} only`}))]})
-    :routes.map(r=>({type:"line",r,label:SCH?(((SCH.routes||[]).find(x=>x.id===r.id)||{}).key||"").trim()||`Route ${r.id}`:null}));
+    :routes.map(r=>({type:r.dashAll&&!FAM?"dash":"line",r,label:SCH?(((SCH.routes||[]).find(x=>x.id===r.id)||{}).key||"").trim()||`Route ${r.id}`:(r.dashAll?(r.keyLab||`Route ${r.id}`):null)}));
   /* the school line appears in the key only when a school-day-only stop is on the map */
-  const schR=!FAM&&!SCH&&cfg.schoolDash!==false?routes.find((r,i)=>routed[i].legs.some(l=>l.sch)):null; if(schR)keyRows.push({type:"dash",r:schR,label:"School days only"});
+  const schR=!FAM&&!SCH&&cfg.schoolDash!==false?routes.find((r,i)=>routed[i].legs.some(l=>l.sch)):null; if(schR)keyRows.push({type:"dash",r:schR,label:cfg.schLabel||"School days only"});
   keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
   { const tr=!SCH&&routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
@@ -2592,7 +2593,7 @@ function mapLayout(cfg){
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
       const last=poly&&poly[poly.length-1]; poly=last?[last,...xy]:xy.slice(); lines[ri].segs.push(poly); (lines[ri].ws||(lines[ri].ws=[])).push(bw);
       const plen=C.reduce((a,p,i)=>i?a+Math.hypot(p[0]-C[i-1][0],p[1]-C[i-1][1]):0,0);   // a few metres apart (the other side of a junction) isn't a branch
-      (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):(R.sch&&!SCH&&cfg.schoolDash!==false?{c:routes[ri].color,dash:true}:{c:routes[ri].color}))});
+      (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):(routes[ri].dashAll||R.sch&&!SCH&&cfg.schoolDash!==false?{c:routes[ri].color,dash:true}:{c:routes[ri].color}))});
   });
   // school maps: every route runs right into the school (under its box), however near the roads end
   if(SCH)lines.forEach(L=>{const st=L.r.stops[L.r.stops.length-1]; if(!st||!st.dest||!isFinite(st.lat)||!L.segs.length)return;
@@ -3769,19 +3770,19 @@ function mapCfg(){
   const routes=mapState.routes.map((r,i)=>{const o=am[r.id]||{}, term=new Set(), stops=r.stops.map((s,j)=>{const k=mapKeyOf(s);
       const sch=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, auto=(r.termini||new Set()).has(j), t=o.term&&k in o.term?!!o.term[k]:auto, lab=o.lab&&o.lab[k]||"";
       if(t)term.add(j); return sch===!!s.schOnly&&!lab?s:{...s,schOnly:sch,badgeId:lab||undefined}});
-    return {id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:term,stops}}).map(r=>{
+    return {id:r.id,color:mapColour(r.id,i),tcol:(state.routeText||{})[r.id]||null,termini:term,stops,dashAll:!!o.dashAll,keyLab:o.keyLab||""}}).map(r=>{
     // stops that still have no position are left out; terminus indices follow the stops that remain
     const keep=[],term=new Set(); r.stops.forEach((s,i)=>{if(isFinite(s.lat)&&isFinite(s.lon)){if(r.termini.has(i))term.add(keep.length);keep.push(s)}});
     if(keep.length){term.add(0);term.add(keep.length-1)} return {...r,stops:keep,termini:term}});
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,schLabel:mapState.schLabel||"",headBlocks:mapState.headBlocks&&mapState.headBlocks.length?mapState.headBlocks:null,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
   if(mapFromTT()&&mapState.ttSections!==state.sections){mapSyncFromTT();return}
-  const cfg=mapCfg(); $("mapSchDashRow").hidden=!cfg.routes.some(r=>r.stops.some(s=>s.schOnly)); mapAmendUi();
+  const cfg=mapCfg(); $("mapSchDashRow").hidden=!cfg.routes.some(r=>r.stops.some(s=>s.schOnly)); $("mapSchLabelRow").hidden=$("mapSchDashRow").hidden&&!cfg.routes.some(r=>r.dashAll); if(document.activeElement!==$("mapSchLabel"))$("mapSchLabel").value=mapState.schLabel||""; mapAmendUi();
   if(!cfg.routes.some(r=>r.stops.length)){mapState.last=null;
     $("sheets").innerHTML=`<p class="empty">${mapState.missing.length?"Finding your stops…":"Add your stops to see the map."}</p>`;return}
   const res=mapLayout(cfg); mapState.last=res;
@@ -3822,6 +3823,7 @@ $("mapValid").addEventListener("input",()=>{state.valid=$("mapValid").value;$("v
 $("mapNotes").addEventListener("input",()=>{mapState.notes=$("mapNotes").value;render()});
 $("mapKey").addEventListener("change",()=>{mapState.showKey=$("mapKey").checked;render()});
 $("mapSchDash").addEventListener("change",()=>{mapState.schoolDash=$("mapSchDash").checked;render()});
+$("mapSchLabel").addEventListener("input",()=>{mapState.schLabel=$("mapSchLabel").value;render()});
 /* ---------- route editor: any route's stops can be made a terminus or a school-days-only stretch ---------- */
 function mapKeyOf(s){return dnorm(s.town)+"|"+dnorm(s.stop)}
 const amOpen=new Map();   // which route and stop rows are open, kept when the panel redraws
@@ -3836,6 +3838,8 @@ function mapAmendUi(){const box=$("mapAmend"); if(!box)return; amCss();
   box.innerHTML=`<p class="hint" style="margin:0">Edit any route. Open a stop to make it a terminus (its badge), or a school-days-only stretch (dashed, with a key line). Your choices override the timetable.</p>`+
     rs.map(r=>{const o=am[r.id]||{}, rk="R:"+r.id, ro=amOpen.has(rk)?amOpen.get(rk):true;
       return `<details class="scr" data-amkey="${esc(rk)}"${ro?" open":""} style="margin-top:10px"><summary><b>Route ${esc(r.id)}</b></summary>`+
+      `<div class="amopts"><label class="check"><input type="checkbox" data-am="dashall" data-r="${esc(r.id)}"${o.dashAll?" checked":""}> Whole route dashed</label>`+
+      (o.dashAll?`<label class="check">Key label <input type="text" data-am="keylab" data-r="${esc(r.id)}" value="${esc(o.keyLab||"")}" placeholder="Route ${esc(r.id)}" size="22"></label>`:"")+`</div>`+
       r.stops.map((s,j)=>{const k=mapKeyOf(s), t=o.term&&k in o.term?!!o.term[k]:(r.termini||new Set()).has(j), d=o.sch&&k in o.sch?!!o.sch[k]:!!s.schOnly, lab=(o.lab&&o.lab[k])||"", sk="S:"+r.id+"|"+k, so=amOpen.has(sk)?amOpen.get(sk):false;
         const pills=(t?`<span class="ampill">${lab?esc(lab):"Terminus"}</span>`:"")+(d?`<span class="ampill">School days only</span>`:"");
         return `<details class="amstop" data-amkey="${esc(sk)}"${so?" open":""}><summary><span class="amchev">▸</span><span class="amname">${esc(s.town)}${s.stop?", "+esc(s.stop):""}</span>${pills}</summary><div class="amopts">`+
@@ -3846,6 +3850,8 @@ function mapAmendUi(){const box=$("mapAmend"); if(!box)return; amCss();
       `<button type="button" class="linkbtn" data-amreset="${esc(r.id)}" style="margin-top:6px">Reset route ${esc(r.id)}</button></details>`}).join("")}
 $("mapAmend").addEventListener("change",e=>{const el=e.target.closest("[data-am]"); if(!el)return;
   mapState.amend=mapState.amend||{}; const o=mapState.amend[el.dataset.r]||(mapState.amend[el.dataset.r]={}), k=el.dataset.k;
+  if(el.dataset.am==="dashall"){o.dashAll=el.checked; render(); return}
+  if(el.dataset.am==="keylab"){const v=el.value.trim(); if(v)o.keyLab=v; else delete o.keyLab; render(); return}
   if(el.dataset.am==="term"){o.term=o.term||{}; o.term[k]=el.checked}
   else if(el.dataset.am==="lab"){o.lab=o.lab||{}; const v=el.value.trim(); if(v)o.lab[k]=v; else delete o.lab[k]}
   else {o.sch=o.sch||{}; o.sch[k]=el.checked}
@@ -4805,7 +4811,7 @@ function gMapPages(b){
   const cfg=gMapCfg(b);
   if(!cfg){const st=gMapStatus(b);
     return [{ops:[{k:"ph",text:"Route map",sub:!gShown().length?"Add a route timetable first":st.total?"Finding where the stops are…":"Finding the stops…"}],label:"Route map",kind:"map"}]}
-  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.notes,cfg.showKey,cfg.valid,cfg.headBlocks,cfg.title,cfg.validText,cfg.headMode,cfg.headText,cfg.W,
+  const key=JSON.stringify([cfg.routes.map(r=>[r.id,r.color,[...r.termini],!!r.dashAll,r.keyLab,r.stops.map(s=>[s.lat,s.lon,s.town,s.stop])]),cfg.schLabel,cfg.notes,cfg.showKey,cfg.valid,cfg.headBlocks,cfg.title,cfg.validText,cfg.headMode,cfg.headText,cfg.W,
     (mapState.osm?"o":"")+(mapState.tileKey||"")+(mapState.builtin?"b":"")+(BODS.paths?"p":"")]);
   if(!b._memo||b._memo.key!==key)b._memo={key,res:mapLayout(cfg)};
   return [{ops:[{k:"emb",kind:"map",ops:b._memo.res.ops,W:cfg.W,H:cfg.H,s:GMAP_S}],rot:cfg.land,label:"Route map",kind:"map"}];
@@ -5919,14 +5925,14 @@ const mapSaveFile=async()=>{const msg=$("status");
   const routes=R.map(r=>({id:r.id,termini:[...r.termini],stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:null,lon:isFinite(s.lon)?s.lon:null}))}));
   const colors={}; R.forEach((r,i)=>{colors[r.id]=mapColour(r.id,i)});
   const d={kind:RS_KIND,v:1,app:"Central Connect Route Studio",saved:new Date().toISOString(),valid:state.valid,
-    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{},headBlocks:mapState.headBlocks||null}},W:{routes:[],nets:[]},guide:{}};
+    tools:{map:{routes,source:mapState.source||"",title:mapState.title||"",colors,routeText:state.routeText||{},snap:mapSnapW(),amend:mapState.amend||{},headBlocks:mapState.headBlocks||null,schLabel:mapState.schLabel||""}},W:{routes:[],nets:[]},guide:{}};
   const nm=`Map - ${R.map(r=>r.id).join(" & ").slice(0,60)}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
   await offer(new Blob([JSON.stringify(d,rsOut)],{type:"application/json"}),nm+".json","Map file")};
 document.querySelectorAll("[data-mapsave]").forEach(b=>b.addEventListener("click",mapSaveFile));
 function mapOpenFile(m){
   mapSetKind("route");
   Object.entries(m.colors||{}).forEach(([k,v])=>{state.routeColors[k]=v});
-  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; mapState.headBlocks=m.headBlocks||null; state.routeText=m.routeText||{};
+  mapRestoreW(m.snap); mapState.title=m.title||mapState.title; mapState.amend=m.amend||{}; mapState.headBlocks=m.headBlocks||null; mapState.schLabel=m.schLabel||""; state.routeText=m.routeText||{};
   mapState.example=false; mapState.own=true; mapState.fileSecs=null; mapState.ttSections=null;
   const routes=(m.routes||[]).map(r=>({id:r.id,termini:new Set(r.termini||[]),stops:r.stops.map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:s.lat==null?NaN:s.lat,lon:s.lon==null?NaN:s.lon}))}));
   mapSetRoutes(routes,m.source||"Map file",false);
