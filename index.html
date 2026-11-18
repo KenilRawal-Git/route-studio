@@ -2337,10 +2337,12 @@ function mapRingArea(r){const k=Math.cos(r[0][1]*Math.PI/180);let s=0;for(let i=
 function mapFromOverpass(j){
   const CLS={motorway:0,trunk:0,primary:1,secondary:2,tertiary:3,unclassified:4,residential:5};
   const BUILT=new Set(["residential","commercial","retail","industrial"]);
+  const GREEN_TAG=/^(park|garden|recreation_ground|pitch|golf_course|nature_reserve|grass|meadow|forest|farmland|orchard|village_green|cemetery|wood|scrub|heath|grassland)$/;
   const kindOf=t=>{
     if(t.boundary==="protected_area"||t.boundary==="national_park")
       return (t.boundary==="national_park"||t.designation==="area_of_outstanding_natural_beauty"||t.designation==="national_park"||t.protect_class==="5")?"landscape":null;
-    if(BUILT.has(t.landuse))return "built"; if(t.natural==="water")return "water"; return null};
+    if(BUILT.has(t.landuse))return "built"; if(t.natural==="water")return "water";
+    if([t.leisure,t.landuse,t.natural].some(v=>GREEN_TAG.test(v||"")))return "green"; return null};
   const d={name:"Your map data",roads:[],rivers:[],rails:[],areas:[],places:[],stations:[]};
   let s=90,w=180,n=-90,e=-180;
   (j.elements||[]).forEach(el=>{const t=el.tags||{};
@@ -2608,6 +2610,7 @@ function mapLayout(cfg){
   if(D){
     poly(D.areas.filter(a=>a.kind==="sea").flatMap(a=>a.rings),C.water,{soften:0.8});   // the sea, cut along the coastline (one piece per map square)
     poly(D.areas.filter(a=>a.kind==="built").flatMap(a=>a.rings),C.built,{soften:4,minArea:45});
+    poly(D.areas.filter(a=>a.kind==="green").flatMap(a=>a.rings),C.green,{soften:2,minArea:25});
     D.areas.filter(a=>a.kind==="landscape").forEach(a=>poly(a.rings,C.green));
     poly(D.areas.filter(a=>a.kind==="water").flatMap(a=>a.rings),C.water,{minArea:25});
     D.rivers.forEach(r=>{const xy=proj(r.pts);if(visible(xy))pline(xy,C.water,0.9)});
@@ -3824,6 +3827,9 @@ function mapQuery(ext){
   way[railway=rail];
   node[railway=station];
   nwr[landuse~"^(residential|commercial|retail|industrial)$"];
+  nwr[leisure~"^(park|garden|recreation_ground|pitch|golf_course|nature_reserve)$"];
+  nwr[landuse~"^(grass|meadow|forest|farmland|orchard|village_green|cemetery)$"];
+  nwr[natural~"^(wood|scrub|heath|grassland)$"];
   nwr[boundary~"^(protected_area|national_park)$"];
   node[place~"^(city|town|village|suburb|hamlet)$"];
 );
