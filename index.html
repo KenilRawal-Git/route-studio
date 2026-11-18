@@ -667,6 +667,7 @@ span.gbt{cursor:default}
       </fieldset>
       <fieldset>
         <legend><span class="num">3</span>Days and direction</legend>
+        <div class="row" style="gap:12px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="linkbtn" id="ttSaveProj">Save timetable project</button><label class="linkbtn" style="cursor:pointer">Open timetable project<input type="file" id="ttOpenProj" accept=".json" hidden></label></div>
         <div id="sections"></div>
         <div class="field notefield"><label class="check"><input type="checkbox" id="endNoteOn" checked> Note after the last table</label>
           <input id="endNote" value="No service on a Sunday" aria-label="Note after the last table" placeholder="e.g. No service on a Sunday"></div>
@@ -1595,6 +1596,17 @@ function renderRouteUI(){
 }
 const DAYS=["Monday to Friday","Saturday","Sunday","Monday to Saturday","Schooldays","School holidays"];
 const DETAILS=["Except Bank Holidays","Including Bank Holidays","Schooldays only","School holidays only"];
+/* shortened words in stop names are spelled out: "arr" is arrive, "dep" is depart */
+const STOP_WORDS={arr:"arrive",dep:"depart"};
+function expandStopWords(sec){sec.stops.forEach(x=>{if(!x.stop)return; x.stop=String(x.stop).replace(/\b(arr|dep)\b/gi,m=>{const w=STOP_WORDS[m.toLowerCase()]; return m[0]===m[0].toUpperCase()?w[0].toUpperCase()+w.slice(1):w})})}
+async function ttSaveProject(){if(!state.sections.length){alert("There's no timetable to save yet.");return}
+  const d={kind:"central-connect-timetable",v:1,saved:new Date().toISOString(),snap:ttSnap()};
+  const nm=`Timetable project - ${state.route||""}${state.valid?" - "+state.valid:""}`.replace(/[\\/:*?"<>|]/g,"");
+  await offer(new Blob([JSON.stringify(d)],{type:"application/json"}),nm+".json","Timetable project")}
+$("ttSaveProj").addEventListener("click",ttSaveProject);
+$("ttOpenProj").addEventListener("change",async e=>{const f=e.target.files[0]; e.target.value=""; if(!f)return;
+  try{const d=JSON.parse(await f.text()); if(d.kind!=="central-connect-timetable"||!d.snap)throw new Error("That isn't a timetable project file.");
+    ttRestore(d.snap); renderSectionsUI(); renderKeyUI(); render()}catch(err){alert(err.message)}});
 function tmStr(v){return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
 function schCell(sec,i,j){return !!(sec.schCells&&sec.schCells[i+"|"+j])}   // a single time that runs on school days only (marked †)
 function jrnTime(s,j){const v=s.times.map(r=>r[j]).find(x=>x!==undefined&&x!==null&&x!==""&&x!=="-"); return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
@@ -1656,7 +1668,7 @@ function draw(){
 function loadSections(list,meta){
   state.sections=list.map(s=>{const sec=buildSection(s.name,s.rows); const old=s.fromPdf?null:state.sections.find(o=>o.name===s.name); if(old){sec.direction=s.direction||old.direction;sec.day=old.day;sec.sub=old.sub;sec.newPage=old.newPage} else {sec.direction=s.direction||guessDirection(sec); if(s.newPage===false)sec.newPage=false}
     if(s.fromPdf){sec.fromPdf=true; if(s.day)sec.day=s.day; if(s.sub!=null)sec.sub=s.sub; if(s.newPage===false)sec.newPage=false}
-    return sec}).filter((s,i,all)=>s.stops.length||(s.warnings.length&&!all.some(o=>o.stops.length)));
+    expandStopWords(sec); return sec}).filter((s,i,all)=>s.stops.length||(s.warnings.length&&!all.some(o=>o.stops.length)));
   const warns=state.sections.flatMap(s=>s.warnings.map(w=>(state.sections.length>1?s.name+": ":"")+w));
   $("warn").hidden=!warns.length; $("warn").textContent=warns.join(" ");
   fileMeta=meta; $("fileCard").hidden=!meta; $("ttComboRow").hidden=!meta||meta.name==="Example timetable";
