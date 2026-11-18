@@ -1612,7 +1612,9 @@ function renderSectionsUI(){
     <details class="jrn"><summary>Journeys (${s.cols.length}) · tick any that only run on school days</summary>${s.cols.map((c,j)=>`<label class="check"><input type="checkbox" data-colsch="${j}"${c.sch?" checked":""}> ${esc(c.route||state.route)} · ${esc(jrnTime(s,j))}</label>`).join("")}</details>
     ${i>0?`<label class="check"><input type="checkbox" data-k="newPage" ${s.newPage!==false?"checked":""}> Start on a new page</label>`:""}
   </div>`}).join("")+`<datalist id="detailList">${DETAILS.map(d=>`<option value="${d}">`).join("")}</datalist>`;
-  box.querySelectorAll("[data-colsch]").forEach(inp=>inp.addEventListener("change",()=>{const el=inp.closest(".sec"), s=state.sections[+el.dataset.i]; s.cols[+inp.dataset.colsch].sch=inp.checked; render()}));
+  box.querySelectorAll("[data-colsch]").forEach(inp=>inp.addEventListener("change",()=>{const el=inp.closest(".sec"), s=state.sections[+el.dataset.i], c=s.cols[+inp.dataset.colsch]; c.sch=inp.checked;
+    /* ticked: the journey gets the SCH code, so the timetable shows it above the column and the key lists it */
+    const toks=String(c.code||"").split(/[\s,/]+/).filter(t=>t&&t.toUpperCase()!=="SCH"); if(inp.checked)toks.push("SCH"); c.code=toks.join(" "); renderKeyUI(); render()}));
   box.querySelectorAll(".sec").forEach(el=>{const s=state.sections[+el.dataset.i];
     el.querySelectorAll("[data-k]").forEach(inp=>{
       if(inp.dataset.k==="daySel"){inp.addEventListener("change",()=>{
