@@ -3,87 +3,40 @@ Upper Dovercourt > Bradfield > Cattawade > Chantry
 Route,NaPTAN,Latitude,Longitude,O6
 Codes,,,,
 "Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,07:52
-"Upper Dovercourt, Dovercourt Church",1500IM1119,51.933191,1.255194,07:52
-"Upper Dovercourt, Bird in Hand",150029020013,51.931679,1.251331,07:53
-"Upper Dovercourt, Ainger Road",150029020015,51.930957,1.247525,07:53
 "Upper Dovercourt, Tollgate Post Office",1500IM56,51.930632,1.24465,07:54
-"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,07:54
-"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,07:55
 "Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,07:56
-"Ramsey, Church",150029020025,51.927848,1.224532,07:57
-"Ramsey, Church Hill",1500RMSYCHHL,51.927265,1.220519,07:57
 "Tendring Heath, Horsley Cross Water Tower",150014703087,51.905412,1.08454,08:07
 "Bradfield Heath, Sparkes Stores",150029007005,51.925401,1.105578,08:12
-"Bradfield Heath, Cansey Lane",150029104004,51.926033,1.109564,08:13
-"Bradfield, The Village Maid",1500IM62AA,51.928882,1.114417,08:14
 "Bradfield, Strangers Home Inn",150029007001,51.934374,1.117256,08:15
-"Mistley, Heath Road",150010120Y4,51.940254,1.093144,08:18
-"Mistley, Rigby Avenue",1500IM63,51.940583,1.090519,08:18
-"Mistley, Shrubland Road",1500HNR605,51.940852,1.087816,08:19
-"Mistley, Chapel Cut",150029007010,51.942523,1.086199,08:19
 "Mistley, Post Office",150029007011,51.944834,1.079008,08:20
-"Mistley, Church Hall",1500MANN4,51.945523,1.076712,08:20
-"Mistley, Mistley Place Park",1500IM4362B,51.944495,1.074066,08:21
 "Mistley, Erskine Rd",1500IM43621A,51.943791,1.068983,08:21
-"Mistley, Oxford Rd",1500MANN3,51.942036,1.065588,08:22
 "Mistley, Trinity Rd",1500290079Y0,51.939515,1.061546,08:23
 "Lawford, Milton Road",150029102002,51.937521,1.049682,08:25
 "Lawford, Summers Park",150029006900,51.941238,1.045758,08:27
-"Manningtree, Railway Station",150029750001,51.948683,1.048256,08:27
 "Cattawade, Bus Shelter",390010061,51.95763,1.05716,08:29
-"Brantham, Main Road",390010063,51.96019,1.05959,08:31
-"Brantham, Palfrey Heights",390010069,51.96285,1.06263,08:32
 "Brantham, Catholic Church",390010059,51.96477,1.06305,08:33
-"Brantham, Birch Drive",390010862,51.96626,1.06372,08:34
 "Brantham, Gravel Pit Lane",390010055,51.96906,1.06959,08:35
-"Brantham, Church",390010054,51.96841,1.07749,08:36
-"Brantham, The Bull",390010052,51.96844,1.08798,08:36
 "Tattingstone, Wheatsheaf Crossroads",390010835,51.98923,1.09725,08:40
-"Wherstead, The Street",390010537,52.02261,1.13822,08:45
 "Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
 
-Chantry > Brantham > Bradfield > Upper Dovercourt
+Chantry > Cattawade > Bradfield > Upper Dovercourt
 Route,NaPTAN,Latitude,Longitude,O6,O6
 Codes,,,,WEFR,MOTUTH
 "Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
-"Pinebrook, Broad Meadow",390033864,52.04274,1.10413,16:01,16:31
-"Wherstead, The Street",390010536,52.02264,1.13838,16:16,16:46
 "Tattingstone, Wheatsheaf Crossroads",390010832,51.98924,1.09747,16:20,16:50
-"Brantham, The Bull",390010051,51.96847,1.08854,16:24,16:54
-"Brantham, Church",390010053,51.96861,1.07573,16:25,16:55
 "Brantham, Gravel Pit Lane",390010056,51.96897,1.07041,16:25,16:55
-"Brantham, Birch Drive",390010863,51.96621,1.06395,16:26,16:56
 "Brantham, Catholic Church",390010060,51.96466,1.06323,16:27,16:57
-"Brantham, Palfrey Heights",390010070,51.96213,1.06261,16:28,16:58
-"Brantham, Main Road",390010064,51.96009,1.05956,16:28,16:59
 "Cattawade, Bus Shelter",390010062,51.95747,1.05728,16:31,17:01
 "Lawford, Summers Park",1500290069Y0,51.9412,1.045828,16:33,17:03
 "Lawford, Milton Road",150029007013,51.937979,1.048331,16:35,17:05
 "Mistley, Trinity Rd",150029007900,51.939596,1.061537,16:37,17:07
-"Mistley, Oxford Rd",1500MANN3AA,51.942066,1.065489,16:38,17:08
 "Mistley, Erskine Rd",1500IM43621,51.943866,1.068886,16:39,17:09
-"Mistley, Mistley Place Park",1500IM4362,51.944685,1.074356,16:39,17:09
-"Mistley, Church Hall",1500MANN4AA,51.94552,1.076508,16:40,17:10
 "Mistley, Post Office",150029007Y11,51.944737,1.079263,16:40,17:10
-"Mistley, Chapel Cut",150029007009,51.942204,1.086337,16:41,17:11
-"Mistley, Shrubland Road",1500HNR605A,51.940905,1.087863,16:41,17:11
-"Mistley, Rigby Avenue",1500IM63B,51.940592,1.090883,16:42,17:12
-"Mistley, Heath Road",15001012004,51.940269,1.093582,16:42,17:12
 "Bradfield, Strangers Home Inn",150029007002,51.933947,1.117387,16:45,17:15
-"Bradfield, The Village Maid",1500IM62,51.928594,1.114397,16:46,17:16
-"Bradfield Heath, Cansey Lane",150029104001,51.925746,1.109181,16:47,17:17
 "Bradfield Heath, Sparkes Stores",150029007006,51.925345,1.104949,16:48,17:18
 "Tendring Heath, Horsley Cross Water Tower",150014703086,51.905528,1.084591,16:53,17:23
-"Ramsey, Church Hill",150029020027,51.92738,1.219945,17:03,17:33
-"Ramsey, Church",150029020024,51.928163,1.225195,17:03,17:33
 "Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,17:04,17:34
-"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,17:05,17:35
-"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,17:05,17:35
 "Upper Dovercourt, Tollgate Post Office",150029020017,51.930627,1.244155,17:06,17:36
-"Upper Dovercourt, Ainger Road",150029020014,51.931332,1.24924,17:06,17:36
-"Upper Dovercourt, Bird in Hand",150029020012,51.932376,1.253127,17:07,17:37
-"Upper Dovercourt, Dovercourt Church",150029020010,51.93338,1.255542,17:07,17:37
-"Upper Dovercourt, War Memorial",150029020009,51.933832,1.258383,17:08,17:38
 "Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,17:08,17:38
 
 

@@ -1,62 +1,20 @@
 MF
-Langham > Dedham Heath > Ardleigh > Manningtree
+Langham > Dedham > Ardleigh > Manningtree
 Route,NaPTAN,Latitude,Longitude,M2
 Codes,,,,
 "Langham, The Shepherd & Dog",1500IM2005,51.948004,0.937061,07:45
-"Langham, School",1500IM20100,51.947885,0.941492,07:46
-"Langham, St Margaret's Cross",1500IM2006,51.94773,0.950186,07:47
-"Langham, Birchwood Road",1500LANGWIYK,51.945229,0.950589,07:49
-"Langham, Birchwood Corner",1500JMD020,51.944001,0.958279,07:51
 "Dedham, Monks Lane",150029750002,51.945232,0.975096,07:55
 "Dedham, The Marlborough Head",1500IM2008,51.958981,0.993986,08:00
-"Dedham, Forge Street",150029005003,51.954727,0.995725,08:02
-"Dedham, Kiln Cottages",150029005005,51.951884,0.996118,08:03
-"Dedham, Coopers Lane",150029750004,51.950516,0.995823,08:03
-"Dedham Heath, The Anchor",150029005007,51.946266,0.995642,08:05
-"Dedham Heath, The Heath",1500DED1,51.943781,0.99648,08:06
-"Dedham Heath, Duck Lane",150009DED1,51.943283,0.992707,08:06
-"Dedham, Rye Farm",1500IM2007,51.943478,0.977221,08:07
-"Ardleigh, Ardleigh Cross",150014703096,51.926172,0.9862,08:10
-"Ardleigh, Glebe Corner",150029006902,51.926357,0.989543,08:11
 "Ardleigh, Home Farm Lane",150029006005,51.93206,0.995495,08:12
-"Lawford, Bargate Lane",1500BARGATE1,51.936775,1.012309,08:13
-"Lawford, Garden City",1500LAW1Y1,51.938253,1.025504,08:14
-"Lawford, Hungerdown Lane",150029006004,51.940002,1.032679,08:15
-"Lawford, Church Hill",1500AA132,51.93881,1.038783,08:15
-"Lawford, Lawford Place",150029006001,51.938496,1.044699,08:16
-"Lawford, Milton Road",150029007013,51.937979,1.048331,08:16
-"Lawford, Waldegrave Way",1500IM1186,51.93862,1.050644,08:17
-"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,08:17
 "Manningtree, School",1500IM2497,51.941437,1.051956,08:20
 
-Manningtree > Ardleigh > Dedham Heath > Langham
+Manningtree > Ardleigh > Dedham > Langham
 Route,NaPTAN,Latitude,Longitude,M2
 Codes,,,,
 "Manningtree, School",1500IM2497,51.941437,1.051956,15:10
-"Lawford, Edgefield Avenue",150029007016,51.939768,1.050766,15:11
-"Lawford, Waldegrave Way",150029007014,51.938393,1.050731,15:11
-"Lawford, Milton Road",150029102002,51.937521,1.049682,15:12
-"Lawford, Lawford Place",1500LAWFRD1,51.938255,1.043926,15:12
-"Lawford, Hungerdown Lane",1500LAW1,51.939929,1.032733,15:13
-"Lawford, Church Hill",1500AA132AA,51.938899,1.038847,15:14
-"Lawford, Garden City",1500LAW101,51.938173,1.02547,15:15
-"Lawford, Bargate Lane",1500BARGATE2,51.936647,1.013101,15:16
 "Ardleigh, Home Farm Lane",1500290060Y5,51.931781,0.995171,15:18
-"Ardleigh, Glebe Corner",1500290069Y2,51.92747,0.992803,15:19
-"Ardleigh, Ardleigh Cross",150014703097,51.926157,0.986446,15:20
-"Dedham, Rye Farm",1500IM2007B,51.943559,0.976863,15:23
-"Dedham Heath, Duck Lane",150009DED02,51.943342,0.993584,15:24
-"Dedham Heath, The Heath",150029005008,51.943993,0.996261,15:24
-"Dedham Heath, The Anchor",150029005006,51.946441,0.995493,15:25
-"Dedham, Coopers Lane",1500297500Y4,51.950492,0.995705,15:27
-"Dedham, Kiln Cottages",150029005004,51.952447,0.995908,15:27
-"Dedham, Forge Street",1500290050Y3,51.954161,0.995367,15:28
 "Dedham, The Marlborough Head",150029005001,51.958823,0.993815,15:30
 "Dedham, Monks Lane",1500297500Y2,51.945177,0.975136,15:35
-"Langham, Birchwood Corner",1500JMD020B,51.94395,0.95816,15:39
-"Langham, Birchwood Road",1500LANGWICK,51.945949,0.9502,15:41
-"Langham, St Margaret's Cross",1500IM20Y6,51.947658,0.950195,15:43
-"Langham, School",1500IM201Y0,51.947812,0.941517,15:44
 "Langham, The Shepherd & Dog",1500IM20Y5,51.947777,0.936799,15:45
 
 

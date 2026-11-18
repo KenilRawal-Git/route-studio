@@ -1,34 +1,18 @@
 MF
-Braintree > Rayne > Black Notley
+Braintree > Rayne > Great Notley
 Route,NaPTAN,Latitude,Longitude,330
 Codes,,,,
 "Braintree, Nayling Road",15003802302,51.877701,0.531318,07:37
-"Braintree, Gilda Terrace",15003802304,51.877078,0.525151,07:38
-"Rayne, The Swan",15005002,51.875715,0.512391,07:39
 "Rayne, The Welsh Princess",1500RAY5,51.875359,0.509247,07:40
-"Rayne, The Cock",15005008,51.874882,0.504615,07:41
-"Rayne, The Street",1500RAYNE200,51.874427,0.500216,07:42
-"Rayne, Pods Lane",15005004,51.874059,0.496796,07:43
 "Great Notley, Cuckoo Way",150014703088,51.859415,0.521852,07:53
-"Great Notley, The Chase",15003805006,51.852341,0.527541,07:55
-"Black Notley, Buck Hill",150038051Y0,51.862771,0.553414,08:04
 "Braintree, Notley High School",15003804900,51.866101,0.550814,08:06
 
 Braintree > Great Notley > Rayne
 Route,NaPTAN,Latitude,Longitude,330
 Codes,,,,
 "Braintree, Notley High School",15003804900,51.866101,0.550814,15:25
-"Black Notley, Buck Hill",15003805100,51.862687,0.553598,15:26
-"Great Notley, The Chase",15003805Y06,51.852125,0.527544,15:33
 "Great Notley, Cuckoo Way",150014703088,51.859415,0.521852,15:35
-"Blake End, Blake End",1500BLAKE1,51.876371,0.475058,15:42
-"Blake End, Graunt Courts",150002006001,51.875479,0.47899,15:42
-"Rayne, Pods Lane",15005005,51.874137,0.49696,15:43
-"Rayne, The Street",1500RAY1,51.874499,0.500235,15:44
-"Rayne, The Cock",15005009,51.87508,0.505875,15:45
 "Rayne, The Welsh Princess",1500IM2330,51.875327,0.508214,15:45
-"Rayne, The Swan",15005003,51.875708,0.511853,15:46
-"Braintree, Gilda Terrace",15003802303,51.877189,0.525448,15:49
 "Braintree, Nayling Road",1500BE1,51.877702,0.530867,15:50
 
 

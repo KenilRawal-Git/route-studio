@@ -1,100 +1,30 @@
 MF
-Tendring > Upper Dovercourt > Beaumont > Frinton-on-Sea
+Tendring > Great Oakley > Thorpe-le-Soken > Frinton-on-Sea
 Route,NaPTAN,Latitude,Longitude,TU1
 Codes,,,,
 "Tendring, Church",1500IM1184,51.875143,1.112007,07:31
-"Tendring, Post Office",1500IM1819Y,51.889721,1.109018,07:34
 "Tendring Heath, Tendring Rd",1500IM1759,51.894563,1.10172,07:35
-"Tendring Heath, Stones Green Rd",1500290130Y1,51.895349,1.098881,07:36
-"Tendring Heath, Centurion Park",1500IM1185,51.903514,1.086271,07:37
-"Ramsey, Church Hill",150029020027,51.92738,1.219945,07:46
-"Ramsey, Church",150029020024,51.928163,1.225195,07:46
-"Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,07:46
-"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,07:47
-"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,07:47
-"Upper Dovercourt, Abdy Avenue",150029129002,51.92922,1.243646,07:47
-"Upper Dovercourt, Ramsey Lodge",150029016008,51.927651,1.24151,07:48
-"Upper Dovercourt, Beryl Road",150029016006,51.926915,1.238504,07:48
-"Little Oakley, Mayes Lane",150029016005,51.923231,1.230878,07:49
-"Little Oakley, Foulton Hall",150029016003,51.921047,1.230794,07:49
-"Little Oakley, Seaview Avenue",150029011004,51.918184,1.228304,07:50
 "Little Oakley, The Cherry Tree",150029011003,51.916247,1.223802,07:50
-"Little Oakley, Little Oakley Hall",15001012007,51.910198,1.218758,07:51
-"Great Oakley, The Soils",1500GTOAKLY2,51.907274,1.198686,07:55
-"Great Oakley, Partridge Close",1500PART2,51.906403,1.194305,07:55
 "Great Oakley, The Memorial",1500IM120AA,51.903691,1.188529,07:56
-"Great Oakley, Hamford Drive",1500291040Y3,51.902562,1.186035,07:56
-"Wix, Oakley Road",1500291040Y2,51.912537,1.151315,08:00
 "Wix, Wix Cross",1500IM61AA,51.912319,1.145351,08:02
 "Beaumont, The Oak",1500IM84AA,51.885727,1.162315,08:08
-"Beaumont, Village Hall",1500IM122,51.883557,1.164067,08:09
-"Beaumont, Chapel Road",150029012001,51.881701,1.164881,08:10
-"Thorpe-le-Soken, Palmerston Rd",1500IM2105,51.859672,1.17064,08:14
-"Thorpe-le-Soken, Tendring College",1500IM105AA,51.857239,1.165443,08:15
 "Thorpe-le-Soken, Thorpe Memorial",1500IM104B,51.856201,1.165574,08:16
 "Thorpe-le-Soken, Byng Crescent",150032009010,51.854371,1.174073,08:19
-"Thorpe-le-Soken, Council Houses",150032009009,51.854465,1.178262,08:20
-"Thorpe-le-Soken, Damant's Farm Lane",150032009007,51.85196,1.186088,08:21
-"Kirby Cross, Farm Close",150032009006,51.845319,1.201752,08:23
 "Kirby Cross, Chapel Lane",150032009004,51.844237,1.208762,08:24
-"Kirby Cross, Kirby Cross Railway Station",150032009002,51.842287,1.215288,08:24
-"Kirby Cross, Kirby Cross",150032010026,51.84214,1.220984,08:25
-"Kirby Cross, Chestnut Ave",150032010028,51.841855,1.226467,08:25
-"Frinton-on-Sea, Village Way",150032010030,51.841552,1.232253,08:26
-"Frinton-on-Sea, Frinton Road Nurseries",150032010032,51.841148,1.236798,08:26
-"Frinton-on-Sea, Laburnum Crescent",150032010034,51.839669,1.238565,08:27
-"Frinton-on-Sea, Charlotte Drive",1500FRINTFRD,51.839831,1.240537,08:28
-"Frinton-on-Sea, Triangle Shopping Centre",150032010007,51.843543,1.249749,08:30
 "Frinton-on-Sea, Upper School",1500IM1336US,51.843052,1.25057,08:30
 
-Frinton-on-Sea > Beaumont > Upper Dovercourt > Tendring
+Frinton-on-Sea > Beaumont > Little Oakley > Tendring
 Route,NaPTAN,Latitude,Longitude,TU1
 Codes,,,,
 "Frinton-on-Sea, Upper School",1500IM1336US,51.843052,1.25057,15:20
-"Frinton-on-Sea, Triangle Shopping Centre",1500IM1336,51.843472,1.249061,15:20
-"Frinton-on-Sea, Frietuna Road",150032010005,51.842012,1.246865,15:20
-"Frinton-on-Sea, Charlotte Drive",1500FRINTFAA,51.839827,1.240682,15:21
-"Frinton-on-Sea, Laburnum Crescent",150032010033,51.84002,1.237893,15:21
-"Frinton-on-Sea, Frinton Road Nurseries",150032010031,51.841381,1.235508,15:22
-"Frinton-on-Sea, Village Way",1500320100Y0,51.841387,1.23169,15:22
-"Kirby Cross, Elm Grove",150032010029,51.841406,1.227756,15:23
-"Kirby Cross, Coronation Garage",150032010027,51.841896,1.222999,15:23
-"Kirby Cross, Claire Road",150032009001,51.841847,1.217217,15:24
-"Kirby Cross, Kirby Cross Railway Station",150032009003,51.842713,1.214171,15:25
 "Kirby Cross, Chapel Lane",150032009005,51.844295,1.207953,15:25
-"Kirby Cross, Farm Close",150032009Y06,51.845257,1.201704,15:27
-"Thorpe-le-Soken, Damant's Farm Lane",150032009008,51.851966,1.185842,15:28
-"Thorpe-le-Soken, Council Houses",150032009Y09,51.854376,1.178227,15:29
 "Thorpe-le-Soken, Byng Crescent",150032009011,51.854298,1.173806,15:30
 "Thorpe-le-Soken, Thorpe Memorial",1500IM104,51.855602,1.167449,15:33
-"Thorpe-le-Soken, Tendring College",1500IM105,51.857601,1.165701,15:34
-"Thorpe-le-Soken, Palmerston Rd",1500IM2105B,51.8598,1.170882,15:36
-"Beaumont, Chapel Road",150029012002,51.882131,1.164911,15:39
-"Beaumont, Village Hall",1500IM122AA,51.883608,1.163838,15:40
 "Beaumont, The Oak",1500IM84,51.88544,1.162281,15:41
 "Wix, Wix Cross",1500IM61,51.912351,1.143798,15:47
-"Wix, Oakley Road",150029104002,51.912587,1.151784,15:49
-"Great Oakley, Hamford Drive",150029104003,51.902537,1.185641,15:53
 "Great Oakley, The Memorial",1500IM120,51.903738,1.188445,15:53
-"Great Oakley, Partridge Close",1500PART1,51.9069,1.195896,15:54
-"Great Oakley, The Soils",1500GTOAKLY1,51.907407,1.19839,15:54
-"Little Oakley, Little Oakley Hall",150010120Y7,51.910269,1.218778,15:58
 "Little Oakley, The Cherry Tree",1500IM59,51.91627,1.223644,15:59
-"Little Oakley, Seaview Avenue",1500IM119,51.918499,1.228923,15:59
-"Little Oakley, Foulton Hall",150029016002,51.920978,1.230716,16:00
-"Little Oakley, Mayes Lane",1500IM1120,51.923048,1.230632,16:00
-"Upper Dovercourt, Beryl Road",1500DT4,51.927215,1.239369,16:01
-"Upper Dovercourt, Ramsey Lodge",150029016009,51.92791,1.242227,16:01
-"Upper Dovercourt, Abdy Avenue",150029129Y02,51.929142,1.243553,16:02
-"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,16:02
-"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,16:02
-"Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,16:03
-"Ramsey, Church",150029020025,51.927848,1.224532,16:03
-"Ramsey, Church Hill",1500RMSYCHHL,51.927265,1.220519,16:03
-"Tendring Heath, Centurion Park",1500IM1185Y,51.903254,1.086573,16:12
-"Tendring Heath, Stones Green Rd",150029013001,51.895415,1.098755,16:13
 "Tendring Heath, Tendring Rd",1500IM1759AA,51.894672,1.101699,16:14
-"Tendring, Post Office",1500IM1819,51.889607,1.109228,16:15
 "Tendring, Church",1500IM1184Y,51.875224,1.112027,16:18
 
 

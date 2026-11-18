@@ -1,89 +1,30 @@
 MF
-Clare > Foxearth > Gestingthorpe > Sible Hedingham
+Clare > Borley > Gestingthorpe > Sible Hedingham
 Route,NaPTAN,Latitude,Longitude,HD5
 Codes,,,,
 "Clare, Memorial",390050196,52.0784,0.58141,07:10
-"Clare, Hill Terrace",390050195,52.07908,0.58903,07:12
-"Cavendish, The Bull",390050191,52.0874,0.63589,07:15
 "Pentlow, Pentlow Forge",1500IM1841B,52.072327,0.644176,07:20
-"Stambourne, Pinkuah Ln",1500HNR856,52.073417,0.648079,07:21
 "Foxearth, School",1500IM2685B,52.069708,0.676125,07:25
 "Borley, Church",1500IM2686,52.054467,0.692602,07:31
-"Borley, Borleylodge Farm",1500BORLEYYN,52.052482,0.682637,07:33
-"Bulmer, The Street",1500IM706B,52.030844,0.687392,07:38
 "Bulmer, Vicars Orchard",150014703068,52.029731,0.687296,07:39
-"Bulmer, Sandy Lane",150024015010,52.027113,0.686949,07:40
-"Bulmer Tye, Church Road West",150024015011,52.02319,0.689017,07:42
-"Bulmer Tye, Old Church Lane",150024015012,52.02273,0.690272,07:43
-"Bulmer Tye, Church Road East",150024015013,52.023137,0.692119,07:43
-"Bulmer Tye, Church Road South",150024015Y14,52.022212,0.692851,07:44
-"Bulmer Tye, Park Lane",1500IM705B,52.019209,0.694026,07:45
-"Wickham St Paul, Catley Cross",1500IM2449,51.988005,0.682509,07:48
-"Wickham St Paul, Stonehouse Farm",150024014007,51.988767,0.675111,07:49
 "Wickham St Paul, The Victory",1500IM708,51.996051,0.666018,07:50
-"Wickham St Paul, Church Road",150024014009,51.998182,0.664819,07:51
-"Wickham St Paul, Rectory Lane",150024014010,51.999613,0.663971,07:52
-"Wickham St Paul, Bullocks Hall Farm",150024014011,52.000651,0.662605,07:53
-"Wickham St Paul, Wickham St Paul Church",150024014012,52.002389,0.660916,07:53
-"Gestingthorpe, Honewood Yard",150014703069,51.994637,0.649778,07:55
-"Gestingthorpe, Crouch House",150024014013,52.001509,0.6437,07:57
-"Gestingthorpe, Rectory Farm",150024014014,52.006498,0.639783,07:58
-"Gestingthorpe, The Pheasant",150024014015,52.007749,0.639332,07:58
-"Gestingthorpe, Clicketts Farm",150024014016,52.013154,0.639329,07:59
-"Gestingthorpe, Hall Farm",150024014Y07,52.015135,0.638411,07:59
 "Gestingthorpe, Foundry Corner",1500IM707,52.017896,0.638792,08:00
-"Little Yeldham, The Crazy Boar",150024015016,52.020481,0.603874,08:01
 "Little Yeldham, Village Hall",150014703070,52.025584,0.591093,08:04
-"Little Yeldham, Hydewood Rd",150014713027,52.021919,0.580241,08:05
 "Great Yeldham, The Green",1500IM2680,52.016238,0.564056,08:10
-"Great Yeldham, Toppesfield Road",150024012019,52.012003,0.565679,08:12
-"Great Yeldham, Poole Farm",150024012020,52.003815,0.569189,08:13
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012021,51.998715,0.574171,08:15
-"Castle Hedingham, Yeldham Road",150024012022,51.99123,0.584156,08:16
-"Sible Hedingham, Station Road",150024014006,51.983299,0.59069,08:19
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:20
 
-Sible Hedingham > Gestingthorpe > Foxearth > Clare
+Sible Hedingham > Gestingthorpe > Borley > Clare
 Route,NaPTAN,Latitude,Longitude,HD5
 Codes,,,,
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:30
-"Sible Hedingham, Station Road",150024014005,51.983287,0.590806,15:31
-"Castle Hedingham, Yeldham Road",150024012Y22,51.991214,0.584068,15:33
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012Y21,51.998737,0.573997,15:34
-"Great Yeldham, Poole Farm",1500240120Y0,52.003817,0.569101,15:35
-"Great Yeldham, Toppesfield Road",1500240120Y9,52.011996,0.565591,15:36
 "Great Yeldham, The Green",1500IM2680B,52.01605,0.563623,15:37
-"Little Yeldham, Hydewood Rd",150014713026,52.02194,0.580111,15:40
 "Little Yeldham, Village Hall",150014703071,52.025614,0.590935,15:42
-"Little Yeldham, The Crazy Boar",1500240150Y6,52.020553,0.603892,15:44
 "Gestingthorpe, Foundry Corner",1500IM707B,52.018048,0.638845,15:45
-"Gestingthorpe, Hall Farm",150024014017,52.015142,0.638528,15:46
-"Gestingthorpe, Clicketts Farm",1500240140Y6,52.013143,0.639445,15:46
-"Gestingthorpe, The Pheasant",1500240140Y5,52.007765,0.639449,15:47
-"Gestingthorpe, Rectory Farm",1500240140Y4,52.006478,0.639898,15:47
-"Gestingthorpe, Crouch House",1500240140Y3,52.00157,0.643776,15:48
-"Gestingthorpe, Honewood Yard",150014703069,51.994637,0.649778,15:50
-"Wickham St Paul, Wickham St Paul Church",1500240140Y2,52.002423,0.66102,15:52
-"Wickham St Paul, Bullocks Hall Farm",1500240140Y1,52.000639,0.66275,15:52
-"Wickham St Paul, Rectory Lane",1500240140Y0,51.999674,0.664048,15:53
-"Wickham St Paul, Church Road",1500240140Y9,51.998215,0.664937,15:54
 "Wickham St Paul, The Victory",1500IM708B,51.996048,0.666134,15:55
-"Wickham St Paul, Stonehouse Farm",1500240140Y7,51.98881,0.675201,15:56
-"Bulmer Tye, Park Lane",1500IM705,52.018877,0.693991,15:59
-"Bulmer Tye, Church Road South",150024015014,52.022188,0.692747,16:00
-"Bulmer Tye, Church Road East",150024015Y13,52.023095,0.691985,16:01
-"Bulmer Tye, Old Church Lane",150024015Y12,52.022657,0.690312,16:02
-"Bulmer Tye, Church Road West",150024015Y11,52.023157,0.688913,16:03
-"Bulmer, Sandy Lane",1500240150Y0,52.027116,0.686833,16:05
 "Bulmer, Vicars Orchard",150014703067,52.029689,0.687176,16:06
-"Bulmer, The Street",1500IM706,52.030767,0.687227,16:07
-"Borley, Borleylodge Farm",1500BORLEYGN,52.052529,0.682552,16:13
 "Borley, Church",1500IM2686Y,52.054541,0.692505,16:15
 "Foxearth, School",1500IM2685,52.069628,0.676091,16:20
-"Stambourne, Pinkuah Ln",1500HNR856B,52.072092,0.643418,16:24
 "Pentlow, Pentlow Forge",1500IM1841,52.072263,0.644231,16:25
-"Cavendish, The Bull",390050192,52.08729,0.63594,16:30
-"Clare, Hill Terrace",390050194,52.07905,0.58892,16:33
 "Clare, Memorial",390050197,52.07807,0.58152,16:35
 
 

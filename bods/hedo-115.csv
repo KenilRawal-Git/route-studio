@@ -1,135 +1,30 @@
 MF
-Great Holland > Great Clacton > Weeley Heath > Thorpe-le-Soken
+Great Holland > Clacton > Little Clacton > Thorpe-le-Soken
 Route,NaPTAN,Latitude,Longitude,115
 Codes,,,,
 "Great Holland, The Ship",150032010043,51.828882,1.212779,07:25
-"Great Holland, Manor Rd",1500IM40,51.827463,1.208759,07:25
-"Holland-on-Sea, Haven Avenue",150032010037,51.805809,1.203651,07:26
-"Holland-on-Sea, Viking Way",1500HOLHAVEN,51.804755,1.200732,07:27
 "Holland-on-Sea, Brighton Road",1500IM1178,51.805816,1.197804,07:27
-"Holland-on-Sea, The Oakwood",150044010010,51.806098,1.193051,07:28
-"Holland-on-Sea, York Road",150044010007,51.805099,1.188105,07:29
-"Holland-on-Sea, Queensway",150044010005,51.803974,1.184819,07:29
 "Holland-on-Sea, Roaring Donkey",1500IM1330,51.802727,1.181047,07:30
-"Holland-on-Sea, Sladbury's Lane",150044010001,51.802531,1.17565,07:30
-"Clacton, Holland Road School",150044011013,51.800892,1.171734,07:32
-"Clacton, Shorefields School",1500CNWINSCH,51.797756,1.169614,07:33
-"Clacton, Victoria Road",150044011008,51.795725,1.164206,07:34
-"Clacton, Avondale Road",150044011006,51.793968,1.161008,07:36
-"Clacton, Thoroughgood Road",150044011005,51.793873,1.158825,07:37
-"Clacton, Railway Station",1500IM91,51.793265,1.154344,07:39
 "Clacton, Pier Avenue",1500PIER1,51.789432,1.151713,07:42
-"Clacton, Station Road",150044018002,51.79031,1.153514,07:45
-"Clacton, Railway Station",1500CNSTN3,51.793397,1.153454,07:46
-"Clacton, Cambridge Rd",150044016010,51.796602,1.152677,07:47
-"Clacton, Knox Road",1500TEMP0031,51.800317,1.151645,07:49
 "Clacton, Bowens International",150044016006,51.802405,1.153938,07:50
-"Great Clacton, The Plough",1500IM244,51.805177,1.154872,07:52
-"Great Clacton, North Road",150044015008,51.806939,1.154908,07:52
-"Great Clacton, Ravensdale",1500HAWTHCL1,51.809168,1.155659,07:53
-"Clacton, Highlands",1500IM2451Y,51.811913,1.157272,07:54
-"Clacton, Freshwater Ln",150044016210,51.813569,1.158201,07:55
-"Clacton, Farmleigh Avenue",1500THORPEGC,51.816333,1.161108,07:56
-"Clacton, Faraday Close",150014713018,51.818419,1.164505,07:58
 "Clacton, Faraday Close",1500CRUSADER,51.81841,1.163503,07:59
-"Clacton, Little Clacton Morrisons",1500JMD1022,51.819992,1.148781,08:01
-"Weeley, Colchester Interchange",150032008101,51.859809,1.104484,08:08
-"Weeley, The Birches",150032008013,51.859089,1.112671,08:09
 "Weeley, The Black Boy",1500IM248,51.858575,1.11647,08:10
-"Weeley, The Street",1500WEELY1,51.856309,1.116095,08:10
-"Weeley, Railway Station",150032008011,51.850166,1.118125,08:11
-"Weeley Heath, Memorial",150032008010,51.845925,1.121375,08:11
-"Weeley Heath, The White Hart",1500IM247B,51.84404,1.124628,08:12
-"Weeley Heath, Mill Lane",150032008005,51.842389,1.127853,08:12
-"Weeley Heath, Victoria Road",150032008003,51.839261,1.13083,08:13
-"Little Clacton, Springfield Meadows",150032008001,51.836481,1.134572,08:13
-"Little Clacton, Plough Corner",150032009028,51.834519,1.138994,08:14
-"Little Clacton, Elm Road",150032009030,51.83066,1.140018,08:15
-"Little Clacton, Appletree Inn",150032009032,51.828395,1.141297,08:15
-"Little Clacton, The Blacksmiths Arms",1500IM87B,51.827208,1.141969,08:16
-"Little Clacton, Village Hall",150032009036,51.823891,1.141912,08:16
-"Little Clacton, Leys Drive",1500IM103B,51.821511,1.14179,08:17
 "Little Clacton, Leys Drive",1500IM103,51.822223,1.141738,08:18
-"Little Clacton, Village Hall",150032009035,51.82428,1.141809,08:18
-"Little Clacton, The Blacksmiths Arms",1500IM87,51.827769,1.141515,08:19
-"Little Clacton, Appletree Inn",150032009031,51.828884,1.140867,08:20
-"Little Clacton, Elm Road",150032009029,51.830956,1.139704,08:21
-"Little Clacton, Plough Corner",1500LTCNPLGH,51.834723,1.138762,08:22
-"Little Clacton, Weeley Road",150032009025,51.836703,1.141077,08:23
-"Little Clacton, Grove Road",150032009023,51.838336,1.144254,08:23
-"Little Clacton, Edward Terrace",1500IM246,51.840766,1.15058,08:24
-"Little Clacton, Tan Lane",1500320090Y0,51.842604,1.154803,08:25
-"Little Clacton, Lodge Road",150032009018,51.843402,1.158591,08:26
-"Thorpe-le-Soken, Railway Station",1500IM86,51.848744,1.16293,08:27
 "Thorpe-le-Soken, Playing Field",150032009014,51.855125,1.164482,08:28
-"Thorpe-le-Soken, Tendring College",1500IM105,51.857601,1.165701,08:30
 "Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,08:30
 
 Thorpe-le-Soken > Weeley > Clacton > Great Holland
 Route,NaPTAN,Latitude,Longitude,115
 Codes,,,,
 "Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,15:20
-"Thorpe-le-Soken, Tendring College",1500IM105AA,51.857239,1.165443,15:20
-"Thorpe-le-Soken, Thorpe Memorial",1500IM104B,51.856201,1.165574,15:21
 "Thorpe-le-Soken, Playing Field",150032009015,51.854938,1.164381,15:23
-"Thorpe-le-Soken, Railway Station",1500IM86B,51.848478,1.163129,15:23
-"Little Clacton, Lodge Road",150032009019,51.843326,1.157744,15:24
-"Little Clacton, Tan Lane",150032009020,51.842531,1.154827,15:25
-"Little Clacton, Edward Terrace",150032009022,51.840451,1.149919,15:26
-"Little Clacton, Grove Road",150032009024,51.837706,1.143252,15:27
-"Little Clacton, Weeley Road",150032009026,51.836342,1.140442,15:28
-"Little Clacton, Plough Corner",150032009028,51.834519,1.138994,15:28
-"Little Clacton, Elm Road",150032009030,51.83066,1.140018,15:29
-"Little Clacton, Appletree Inn",150032009032,51.828395,1.141297,15:30
-"Little Clacton, The Blacksmiths Arms",1500IM87B,51.827208,1.141969,15:31
-"Little Clacton, Village Hall",150032009036,51.823891,1.141912,15:32
 "Little Clacton, Leys Drive",1500IM103B,51.821511,1.14179,15:33
-"Little Clacton, Leys Drive",1500IM103,51.822223,1.141738,15:33
-"Little Clacton, Village Hall",150032009035,51.82428,1.141809,15:33
-"Little Clacton, The Blacksmiths Arms",1500IM87,51.827769,1.141515,15:34
-"Little Clacton, Appletree Inn",150032009031,51.828884,1.140867,15:34
-"Little Clacton, Elm Road",150032009029,51.830956,1.139704,15:35
-"Little Clacton, Plough Corner",1500LTCNPLGH,51.834723,1.138762,15:35
-"Little Clacton, Springfield Meadows",150032008002,51.836907,1.133745,15:36
-"Weeley Heath, Victoria Road",150032008004,51.83932,1.130617,15:36
-"Weeley Heath, Mill Lane",150032008006,51.842336,1.127806,15:37
-"Weeley Heath, The White Hart",1500IM247,51.844093,1.124327,15:37
-"Weeley Heath, Memorial",150032008009,51.845705,1.121549,15:38
-"Weeley, Railway Station",150032008Y11,51.850125,1.117992,15:38
-"Weeley, The Street",1500WEELY1B,51.855826,1.116018,15:39
-"Weeley, Post Office",1500IM1183,51.85755,1.116123,15:39
 "Weeley, The Black Boy",1500IM248B,51.859004,1.114539,15:40
-"Weeley, The Birches",1500IM102,51.859053,1.111666,15:40
-"Weeley, Colchester Interchange",1500320081Y1,51.859791,1.103815,15:41
-"Clacton, Faraday Close",150014713018,51.818419,1.164505,15:49
 "Clacton, Faraday Close",1500CRUSADER,51.81841,1.163503,15:50
-"Clacton, Lymington Avenue",1500THORPEGD,51.815755,1.160545,15:52
-"Clacton, Highlands",1500IM2451,51.811812,1.157323,15:52
-"Great Clacton, Ravensdale",150032007002,51.809349,1.155947,15:53
-"Great Clacton, The Plough",1500GTCNSOM,51.805767,1.155029,15:54
 "Great Clacton, Church",1500IM242,51.804461,1.155765,15:56
-"Clacton, Severn Road",150044016007,51.801837,1.153318,15:57
-"Clacton, Burcart Corner",1500BURCART,51.799284,1.151951,15:58
-"Clacton, Cambridge Rd",150044016009,51.797027,1.152924,15:59
-"Clacton, Railway Station",1500IM91,51.793265,1.154344,16:01
 "Clacton, Pier Avenue",1500PIER1,51.789432,1.151713,16:04
-"Clacton, Station Road",150044018002,51.79031,1.153514,16:05
-"Clacton, Railway Station",1500IM843,51.793756,1.154814,16:08
-"Clacton, Thoroughgood Road",150044011004,51.793882,1.157854,16:09
-"Clacton, Avondale Road",150044011007,51.794053,1.161173,16:10
-"Clacton, Lancaster Gardens",150044011009,51.796152,1.165411,16:11
-"Clacton, Shorefields School",150044011010,51.797628,1.169358,16:12
-"Clacton, Holland Road School",150044011012,51.800617,1.171584,16:13
-"Holland-on-Sea, Sladbury's Lane",150044010002,51.802678,1.176212,16:15
 "Holland-on-Sea, Roaring Donkey",1500IM1330B,51.802806,1.180776,16:16
-"Holland-on-Sea, Queensway",150044010006,51.804179,1.185197,16:16
-"Holland-on-Sea, York Road",150044010008,51.805512,1.189788,16:17
-"Holland-on-Sea, The Oakwood",1500GTHOLOAK,51.806258,1.193454,16:17
-"Holland-on-Sea, Aylesbury Drive",1500PKBOVD,51.806258,1.196762,16:18
 "Holland-on-Sea, Brighton Road",1500IM1178B,51.80566,1.198562,16:19
-"Holland-on-Sea, Viking Way",1500FRINROUN,51.804665,1.202409,16:20
-"Holland-on-Sea, Haven Avenue",150032010038,51.806071,1.203626,16:20
-"Great Holland, Manor Rd",1500IM15,51.827501,1.208675,16:22
 "Great Holland, The Ship",1500IM1333,51.82911,1.212331,16:22
 
 

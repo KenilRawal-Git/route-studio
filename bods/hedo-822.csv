@@ -3,43 +3,18 @@ Tollesbury > Tolleshunt DArcy > Tolleshunt Knights > Tiptree
 Route,NaPTAN,Latitude,Longitude,822
 Codes,,,,
 "Tollesbury, The Square",150014009005,51.758438,0.832927,07:40
-"Tollesbury, Fire Station",1500140090Y7,51.758564,0.829964,07:41
-"Tollesbury, Cemetery",150014009Y21,51.75866,0.824854,07:42
-"Tollesbury, Gorwell Lodge",1500140090Y4,51.7598,0.812925,07:43
-"Tolleshunt DArcy, Spring Farm",150014009Y03,51.769271,0.802005,07:46
-"Tolleshunt DArcy, D'Arcy Way",150014009Y02,51.771001,0.79772,07:47
 "Tolleshunt DArcy, The Red Lion",1500IM1463,51.771361,0.795785,07:49
-"Tolleshunt DArcy, South Street",150014009020,51.77335,0.796125,07:50
-"Tolleshunt DArcy, Chapel Road",150014009018,51.774478,0.797833,07:51
 "Salcott, Barnhall Road",1500IM1550,51.789069,0.815791,07:53
-"Salcott, Mill Ln",150014703076,51.788057,0.823486,07:55
 "Tolleshunt Knights, Top Rd",1500IM1464,51.845685,0.814122,08:00
-"Tolleshunt Knights, Brook Road",1500140090Y5,51.803394,0.762415,08:02
-"Tiptree, Station Road",1500IM1271,51.80869,0.752496,08:04
-"Tiptree, The Centre",150014006004,51.811263,0.749765,08:06
-"Tiptree, Duck Pond",150014006006,51.814131,0.747517,08:08
-"Tiptree, Barbrook Lane",1500IM1468,51.81769,0.745281,08:10
 "Tiptree, Thurstable School",1500IM1859,51.819284,0.74635,08:20
 
 Tiptree > Tolleshunt Knights > Tolleshunt DArcy > Tollesbury
 Route,NaPTAN,Latitude,Longitude,822,822
 Codes,,,,FO SCH,MOTUWETH
 "Tiptree, Thurstable School",150014006012,51.819157,0.746386,14:15,15:35
-"Tiptree, Underwoods Garage",1500IM1860,51.81653,0.745297,14:16,15:36
-"Tiptree, Duck Pond",150014006005,51.813678,0.74804,14:17,15:37
-"Tiptree, The Centre",1500IM1467,51.810356,0.750856,14:19,15:39
-"Tiptree, Station Road",150014006001,51.808307,0.753111,14:21,15:41
-"Tolleshunt Knights, Brook Road",150014009015,51.803446,0.762505,14:23,15:43
 "Tolleshunt Knights, Top Rd",150020380,51.788058,0.823502,14:25,15:45
-"Salcott, Mill Ln",150014703076,51.788057,0.823486,14:27,15:47
 "Salcott, Barnhall Road",1500IM1550AA,51.789102,0.815909,14:28,15:48
-"Tolleshunt DArcy, Chapel Road",150014009022,51.773974,0.797469,14:30,15:50
 "Tolleshunt DArcy, The Red Lion",150014009007,51.772018,0.795405,14:32,15:52
-"Tolleshunt DArcy, D'Arcy Way",150014009002,51.771079,0.79784,14:33,15:53
-"Tolleshunt DArcy, Spring Farm",150014009003,51.769324,0.802023,14:34,15:54
-"Tollesbury, Gorwell Lodge",150014009004,51.759852,0.813001,14:37,15:57
-"Tollesbury, Cemetery",150014009021,51.758768,0.824832,14:38,15:58
-"Tollesbury, Fire Station",150014009017,51.758672,0.829942,14:40,16:00
 "Tollesbury, The Square",150014009005,51.758438,0.832927,14:41,16:01
 
 

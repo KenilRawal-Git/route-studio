@@ -1,124 +1,48 @@
 MF
-Stanway > Colchester > Capel St Mary > Chantry
+Stanway > Ardleigh > Capel St Mary > Chantry
 Route,NaPTAN,Latitude,Longitude,O4
 Codes,,,,
 "Stanway, Sainsburys Store",150033085002,51.88615,0.829415,07:32
-"Stanway, Barn Fields",150033086002,51.88751,0.836811,07:34
-"Stanway, Lucy Lane South",150033086004,51.888066,0.839491,07:36
-"Stanway, Garage",150033086006,51.888722,0.842861,07:38
-"Stanway, King Coel Road South",150033086008,51.88938,0.847612,07:39
 "Lexden, Halstead Road Corner",1500IM268,51.889799,0.852609,07:40
-"Lexden, The Crown",150033087001,51.889977,0.85935,07:41
-"Lexden, Church",150033087003,51.890138,0.863081,07:41
 "Colchester, Glen Avenue",150033087004,51.890069,0.869239,07:42
-"Colchester, Fitzwalter Road",150033087007,51.889092,0.873508,07:42
-"Colchester, Park Road",1500CRSTMARY,51.88792,0.878797,07:43
-"Colchester, The Avenue",150033087011,51.887578,0.882815,07:43
-"Colchester, Beverley Road",150033087013,51.887593,0.884778,07:44
 "Colchester, Essex County Hospital",150033087015,51.887596,0.890534,07:45
-"Colchester City Centre, Head Street",1500ADD0006,51.888365,0.896194,07:49
-"Colchester City Centre, The George",150033037006,51.889807,0.900821,07:50
-"Colchester City Centre, Greyfriars",150033034001,51.889964,0.90573,07:51
 "Colchester, The Surgery",150033034003,51.889973,0.909393,07:52
-"Colchester, Brook Street",150033034005,51.889999,0.91377,07:54
-"Colchester, Old Coach Road",150033034007,51.890811,0.91766,07:55
 "Colchester, Orchard Gardens",150033016013,51.893756,0.917851,07:56
-"Colchester, Valentines Drive",150033016011,51.896803,0.919037,07:57
-"Colchester, Goring Road West",150033016009,51.898675,0.920408,07:57
-"Colchester, Upland Drive",150033016007,51.900863,0.92212,07:58
-"Colchester, St Johns Post Office",150033016006,51.90318,0.923725,07:58
-"Colchester, Myland Hall Chase",150033016003,51.905912,0.924135,07:59
 "Colchester, Eastwood Service Station",150033016001,51.907871,0.924946,07:59
 "Colchester, Bilsdale Close",150033017002,51.911557,0.92789,08:01
 "Colchester, Avellana Place",1500330170Y3,51.915417,0.929988,08:03
 "Ardleigh, Balkerne Gate",1500BALKERNE,51.920652,0.933573,08:05
-"Stratford St Mary, Black Horse",390010675,51.96616,0.97185,08:13
-"Stratford St Mary, Old Kings Arms",390010115,51.96994,0.97341,08:14
 "Stratford St Mary, Anchor",390010118,51.97026,0.97923,08:15
-"East Bergholt, Four Sisters",390010711,51.98712,1.00733,08:20
-"East Bergholt, Foxhall Fields",390010127,51.97866,1.01598,08:21
-"East Bergholt, Carriers Arms",390010838,51.97802,1.01774,08:22
 "East Bergholt, Lambe School Hall",390010088,51.9734,1.01349,08:23
-"East Bergholt, Red Lion",390010091,51.97155,1.01147,08:24
-"East Bergholt, War Memorial",390010842,51.96983,1.01249,08:25
 "East Bergholt, Kings Head",390010080,51.9689,1.02351,08:26
 "East Bergholt, Mill Road",390010084,51.96756,1.03272,08:28
-"East Bergholt, East End Corner",390010706,51.97242,1.03356,08:29
 "East Bergholt, Cooks Garage",390010087,51.97806,1.0238,08:30
 "East Bergholt, Foxhall Fields",390010126,51.97881,1.01574,08:32
-"East Bergholt, Four Sisters",390010710,51.98706,1.007,08:33
-"Capel St Mary, Friars",390010673,52.00052,1.05332,08:39
 "Capel St Mary, White Horse",390010551,52.00254,1.05587,08:40
-"Capel St Mary, London Road",390010572,52.00624,1.05966,08:41
-"Copdock, Folly Lane",390010573,52.017,1.06996,08:42
-"Copdock, Maycroft",390010575,52.01981,1.0727,08:43
-"Copdock, Hotel",390010578,52.028,1.07985,08:44
-"Copdock, Elm Lane",390010579,52.03115,1.08264,08:44
 "Copdock, Garage",390010581,52.0359,1.08863,08:45
-"Washbrook, London Road",390010583,52.03842,1.09044,08:50
-"Sproughton, Washbrook Turn",390010586,52.05024,1.09686,08:53
-"Sproughton, Holiday Inn",390030381,52.04789,1.10452,08:56
-"Chantry, Suffolk One",390031019,52.04429,1.10726,08:59
 "Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
 
-Chantry > Capel St Mary > Colchester > Stanway
+Chantry > East Bergholt > Colchester > Stanway
 Route,NaPTAN,Latitude,Longitude,O4,O4
 Codes,,,,WEFR,MOTUTH
 "Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
-"Chantry, Suffolk One",390031023,52.04413,1.10669,16:01,16:31
-"Sproughton, Holiday Inn",390030380,52.04763,1.10489,16:04,16:34
-"Sproughton, Washbrook Turn",390010585,52.05025,1.09628,16:07,16:37
-"Washbrook, London Road",390010584,52.03833,1.09118,16:08,16:38
 "Copdock, Garage",390010582,52.03564,1.08849,16:10,16:40
-"Copdock, Elm Lane",390010580,52.03074,1.08272,16:11,16:41
-"Copdock, Hotel",390010577,52.02631,1.07873,16:12,16:42
-"Copdock, Maycroft",390010576,52.02012,1.07335,16:13,16:43
-"Copdock, Folly Lane",390010574,52.01637,1.06972,16:14,16:44
 "Capel St Mary, White Horse",390010552,52.00238,1.05596,16:17,16:47
-"East Bergholt, Four Sisters",390010124,51.9868,1.00859,16:26,16:56
 "East Bergholt, Foxhall Fields",390010127,51.97866,1.01598,16:28,16:58
 "East Bergholt, Cooks Garage",390010086,51.97815,1.02394,16:30,17:00
-"East Bergholt, East End Corner",390010707,51.97244,1.03368,16:32,17:02
 "East Bergholt, Mill Road",390010083,51.96764,1.03248,16:33,17:03
 "East Bergholt, Kings Head",390010079,51.96891,1.023,16:34,17:04
-"East Bergholt, War Memorial",390010843,51.96985,1.01205,16:35,17:05
-"East Bergholt, Red Lion",390010090,51.97161,1.0114,16:36,17:06
 "East Bergholt, Lambe School Hall",390010089,51.97346,1.01324,16:37,17:07
-"East Bergholt, Carriers Arms",390010839,51.97785,1.01764,16:38,17:08
-"East Bergholt, Foxhall Fields",390010126,51.97881,1.01574,16:39,17:09
-"East Bergholt, Four Sisters",390010124,51.9868,1.00859,16:40,17:10
-"Stratford St Mary, St Marys",390010119,51.97221,0.98676,16:48,17:18
-"Stratford St Mary, Stratford Hall",390010848,51.97213,0.98489,16:49,17:19
 "Stratford St Mary, Anchor",390010117,51.97016,0.97922,16:49,17:19
-"Stratford St Mary, Old Kings Arms",390010116,51.96985,0.97326,16:50,17:20
-"Stratford St Mary, Black Horse",390010674,51.96608,0.97208,16:51,17:21
 "Ardleigh, Balkerne Gate",150033017004,51.920276,0.93349,16:59,17:29
 "Colchester, Avellana Place",150033017003,51.915888,0.930557,17:02,17:32
 "Colchester, Bilsdale Close",150033017001,51.910626,0.927364,17:04,17:34
 "Colchester, Eastwood Service Station",150033016002,51.907519,0.924981,17:06,17:36
-"Colchester, Myland Hall Chase",150033016004,51.905359,0.924317,17:06,17:36
-"Colchester, St Johns Post Office",150033016005,51.903174,0.923957,17:07,17:37
-"Colchester, Upland Drive",150033016008,51.900498,0.921966,17:08,17:38
-"Colchester, Goring Road West",150033016010,51.897984,0.920015,17:09,17:39
-"Colchester, Valentines Drive",150033016012,51.896479,0.919045,17:10,17:40
 "Colchester, Orchard Gardens",150033016014,51.893582,0.91797,17:11,17:41
-"Colchester, Old Coach Road",150033034006,51.890659,0.917621,17:13,17:43
 "Colchester, The Surgery",150033034004,51.889874,0.910826,17:17,17:47
-"Colchester City Centre, Greyfriars",1500IM2079,51.88985,0.904894,17:18,17:48
-"Colchester City Centre, Queen Street",1500TMPQS1,51.889003,0.904214,17:19,17:49
 "Colchester, Essex County Hospital",1500CRCTYHSP,51.887584,0.888455,17:24,17:54
-"Colchester, Beverley Road",150033087012,51.887511,0.88409,17:24,17:54
-"Colchester, The Avenue",150033087010,51.887484,0.88153,17:25,17:55
-"Colchester, Park Road",1500CRLEXNWY,51.887993,0.878017,17:26,17:56
-"Colchester, Fitzwalter Road",150033087006,51.889256,0.87269,17:26,17:56
 "Colchester, Glen Avenue",150033087005,51.889843,0.87001,17:27,17:57
-"Lexden, Church",150033087002,51.890025,0.862899,17:28,17:58
 "Lexden, Halstead Road Corner",150033086011,51.889773,0.854802,17:29,17:59
-"Lexden, Nelson Road",150033086009,51.889559,0.850283,17:29,17:59
-"Stanway, King Coel Road South",150033086007,51.889143,0.846288,17:30,18:00
-"Stanway, Garage",150033086005,51.888456,0.841957,17:31,18:00
-"Stanway, Lucy Lane South",1500IM1196,51.887806,0.838719,17:31,18:01
-"Stanway, Tollgate Rbt",150033086001,51.887049,0.834674,17:32,18:02
 "Stanway, Sainsburys Store",150033085001,51.886231,0.830524,17:34,18:04
 
 

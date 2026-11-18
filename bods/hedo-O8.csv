@@ -1,106 +1,40 @@
 MF
-Sudbury > Newton Green > Hadleigh > Chantry
+Sudbury > Hadleigh > Chantry
 Route,NaPTAN,Latitude,Longitude,O8
 Codes,,,,
 "Sudbury, Homebase",390010308,52.04751,0.74522,07:45
-"Sudbury, The Firs",390010311,52.04469,0.74044,07:47
-"Sudbury, Banham Drive",390010854,52.04301,0.73807,07:48
-"Sudbury, Cavendish Way",390010238,52.04033,0.73342,07:49
 "Sudbury, Bus Station",390011861,52.03774,0.73212,07:51
-"Sudbury, Lucas Road",390010239,52.03656,0.73758,07:53
-"Sudbury, Sainsbury's",390010897,52.03597,0.73964,07:53
-"Sudbury, Cats Lane",390010690,52.03524,0.74152,07:54
-"Great Cornard, Stannards Way",390010241,52.03247,0.74352,07:55
-"Great Cornard, Glenside",390010703,52.03122,0.74555,07:55
-"Great Cornard, Highbury Way",390010271,52.03167,0.74954,07:56
 "Great Cornard, Beech Road",390010700,52.03113,0.75123,07:57
-"Great Cornard, Queensway",390010257,52.02881,0.7538,07:58
-"Great Cornard, The Drift",390010696,52.02932,0.7555,07:59
 "Great Cornard, Minsmere Way",390010262,52.03145,0.75854,08:00
-"Great Cornard, Rede Way",390010264,52.03307,0.75732,08:01
-"Great Cornard, Raydon Way",390010866,52.03398,0.75616,08:02
 "Great Cornard, Chelsworth Avenue",390010266,52.03594,0.75283,08:02
 "Sudbury, Northern Road",390010279,52.04053,0.75345,08:04
-"Cornard Tye, Joes Road",390010788,52.03771,0.77839,08:05
 "Newton Green, Saracens Head",390010206,52.03261,0.79099,08:06
-"Newton Green, Links View",390010203,52.03085,0.79464,08:07
-"Newton, Airey Close",390010785,52.02883,0.80031,08:08
-"Boxford, Hockley Hole Lane",390010886,52.02561,0.85482,08:12
-"Boxford, Fleece",390010326,52.02882,0.86007,08:13
 "Boxford, Cox Hill",390010328,52.02816,0.86405,08:14
-"Bower House Tye, Brewers Arms",390010357,52.0285,0.89597,08:16
-"Hadleigh Heath, Stackwood Road",390010432,52.03668,0.91278,08:19
 "Hadleigh, Allen Road",390010402,52.05193,0.95312,08:21
-"Hadleigh, Morrisons",390010401,52.04863,0.95356,08:21
-"Hadleigh, Meadows Way",390010398,52.04735,0.95274,08:22
-"Hadleigh, High Street Mews",390010417,52.04634,0.952,08:22
-"Hadleigh, Sydney Brown Court",390010410,52.0422,0.95645,08:23
 "Hadleigh, Bus Station",390010388,52.04472,0.9544,08:25
 "Hadleigh, Eight Bells",390010396,52.04718,0.95866,08:33
-"Hadleigh, Aldham Road",390010392,52.04845,0.96265,08:33
 "Hadleigh, Brett Avenue",390010858,52.04946,0.96516,08:34
-"Hadleigh, Lady Lane Industrial Estate",390010390,52.05139,0.96771,08:35
 "Hadleigh, Wolves Farm Lane",390011856,52.05235,0.97581,08:36
-"Hintlesham, Hall",390010606,52.04976,1.03674,08:43
 "Hintlesham, The George",390010604,52.04972,1.04424,08:44
-"Hintlesham, The Firs",390010620,52.04883,1.04884,08:45
-"Hintlesham, Hill House",390010619,52.05033,1.05344,08:46
-"Burstall, Burstall Road",390010602,52.05297,1.07215,08:51
-"Sproughton, Washbrook Turn",390010586,52.05024,1.09686,08:53
-"Sproughton, Holiday Inn",390030381,52.04789,1.10452,08:56
-"Chantry, Suffolk One",390031019,52.04429,1.10726,08:59
 "Chantry, Suffolk One",390031055,52.04453,1.10675,09:00
 
-Chantry > Hadleigh > Newton > Great Cornard
+Chantry > Hadleigh > Newton Green > Great Cornard
 Route,NaPTAN,Latitude,Longitude,O8,O8
 Codes,,,,WEFR,MOTUTH
 "Chantry, Suffolk One",390031055,52.04453,1.10675,16:00,16:30
-"Chantry, Suffolk One",390031023,52.04413,1.10669,16:00,16:30
-"Sproughton, Holiday Inn",390030380,52.04763,1.10489,16:03,16:33
-"Sproughton, Washbrook Turn",390010585,52.05025,1.09628,16:05,16:35
-"Burstall, Burstall Road",390010603,52.05294,1.07226,16:07,16:37
-"Hintlesham, Hill House",390010618,52.05023,1.05399,16:09,16:39
-"Hintlesham, The Firs",390010621,52.04872,1.0486,16:09,16:39
 "Hintlesham, The George",390010605,52.0498,1.04354,16:10,16:40
-"Hintlesham, Hall",390010607,52.04978,1.03712,16:11,16:41
 "Hadleigh, Wolves Farm Lane",390010855,52.05213,0.97565,16:12,16:42
-"Hadleigh, Lady Lane Industrial Estate",390010391,52.05153,0.96834,16:13,16:43
 "Hadleigh, Brett Avenue",390010857,52.04929,0.9652,16:14,16:44
-"Hadleigh, Aldham Road",390010393,52.04837,0.96275,16:15,16:45
 "Hadleigh, Eight Bells",390010397,52.04682,0.95772,16:15,16:45
-"Hadleigh, Sydney Brown Court",390010410,52.0422,0.95645,16:17,16:47
 "Hadleigh, Bus Station",390010388,52.04472,0.9544,16:23,16:53
-"Hadleigh, High Street Mews",390010416,52.04628,0.95183,16:24,16:54
-"Hadleigh, Meadows Way",390010399,52.04743,0.95265,16:25,16:55
-"Hadleigh, Morrisons",390010400,52.04859,0.95346,16:26,16:56
 "Hadleigh, Allen Road",390010403,52.05196,0.95295,16:27,16:57
-"Hadleigh Heath, Stackwood Road",390010431,52.03657,0.91271,16:29,16:59
-"Bower House Tye, Brewers Arms",390010358,52.02849,0.89612,16:32,17:02
 "Boxford, Cox Hill",390010327,52.02806,0.86406,16:34,17:04
-"Boxford, Fleece",390010325,52.02865,0.86016,16:35,17:05
-"Boxford, Hockley Hole Lane",390010885,52.02544,0.85485,16:36,17:06
-"Newton, Airey Close",390010786,52.02867,0.80022,16:39,17:09
 "Newton Green, Rectory Road",390010205,52.03145,0.79317,16:40,17:10
-"Cornard Tye, Joes Road",390010787,52.03828,0.77583,16:41,17:11
 "Sudbury, Northern Road",390010280,52.04048,0.75403,16:44,17:14
-"Sudbury, Chilton Industrial Estate",390010324,52.04486,0.75083,16:47,17:17
 "Sudbury, Homebase",390010308,52.04751,0.74522,16:50,17:20
-"Sudbury, The Firs",390010311,52.04469,0.74044,16:52,17:22
-"Sudbury, Banham Drive",390010854,52.04301,0.73807,16:53,17:23
-"Sudbury, Cavendish Way",390010238,52.04033,0.73342,16:54,17:24
 "Sudbury, Bus Station",390011861,52.03774,0.73212,16:56,17:26
-"Sudbury, Lucas Road",390010239,52.03656,0.73758,16:58,17:28
-"Sudbury, Sainsbury's",390010897,52.03597,0.73964,16:59,17:29
-"Sudbury, Cats Lane",390010690,52.03524,0.74152,16:59,17:29
-"Great Cornard, Stannards Way",390010241,52.03247,0.74352,17:00,17:30
-"Great Cornard, Glenside",390010703,52.03122,0.74555,17:01,17:31
-"Great Cornard, Highbury Way",390010271,52.03167,0.74954,17:02,17:31
 "Great Cornard, Beech Road",390010700,52.03113,0.75123,17:03,17:32
-"Great Cornard, Queensway",390010257,52.02881,0.7538,17:03,17:33
-"Great Cornard, The Drift",390010696,52.02932,0.7555,17:04,17:34
 "Great Cornard, Minsmere Way",390010262,52.03145,0.75854,17:05,17:35
-"Great Cornard, Rede Way",390010264,52.03307,0.75732,17:06,17:36
-"Great Cornard, Raydon Way",390010866,52.03398,0.75616,17:06,17:36
 "Great Cornard, Chelsworth Avenue",390010266,52.03594,0.75283,17:07,17:37
 
 

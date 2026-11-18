@@ -1,56 +1,32 @@
 MF
-Ridgewell > Belchamp Walter > Toppesfield > Sible Hedingham
+Ridgewell > Belchamp Otten > Tilbury Juxta Clare > Sible Hedingham
 Route,NaPTAN,Latitude,Longitude,HD3
 Codes,,,,
 "Ridgewell, Church Lane",1500240110Y9,52.039311,0.531779,07:10
-"Ridgewell, Meeting Lane",1500240110Y0,52.041199,0.530952,07:11
-"Ashen, The Street",1500HNR853,52.050226,0.548134,07:13
 "Ashen, Village Hall",1500IM1835B,52.050776,0.546838,07:14
 "Belchamp St Paul, Stardawn",150014713020,52.050675,0.574225,07:19
-"Belchamp St Paul, Duckfield Barn",1500IM2682,52.051047,0.610829,07:25
 "Belchamp St Paul, The Green",1500IM2682B,52.05049,0.612036,07:26
-"Belchamp St Paul, Mulberry House",1500240170Y3,52.051145,0.615327,07:27
 "Belchamp Otten, Red Lion",1500IM2683,52.043653,0.622663,07:31
 "Belchamp Walter, Bells Road",1500IM2446B,52.033103,0.650434,07:35
-"Belchamp Walter, Clarks Farm Road",150024017008,52.031644,0.650522,07:37
-"Little Yeldham, The Crazy Boar",150024015016,52.020481,0.603874,07:44
 "Little Yeldham, Church",1500IM1838B,52.025876,0.591679,07:47
 "Tilbury Juxta Clare, Clare Rd",1500IM2687B,52.030453,0.568339,07:53
 "Great Yeldham, The Green",1500IM2680,52.016238,0.564056,07:58
 "Toppesfield, Toppesfield Pump",1500IM1769,52.008006,0.531832,08:09
-"Toppesfield, Camoise Close",1500240070Y6,52.006935,0.531859,08:10
-"Toppesfield, Toppesfield House",1500240070Y5,52.00433,0.530882,08:11
-"Great Yeldham, Poole Farm",150024012020,52.003815,0.569189,08:14
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012021,51.998715,0.574171,08:16
-"Castle Hedingham, Yeldham Road",150024012022,51.99123,0.584156,08:18
-"Sible Hedingham, Station Road",150024014006,51.983299,0.59069,08:19
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:20
 
-Sible Hedingham > Great Yeldham > Belchamp Otten > Ridgewell
+Sible Hedingham > Tilbury Juxta Clare > Belchamp Otten > Ridgewell
 Route,NaPTAN,Latitude,Longitude,HD3
 Codes,,,,
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:30
-"Sible Hedingham, Station Road",150024014005,51.983287,0.590806,15:32
-"Castle Hedingham, Yeldham Road",150024012Y22,51.991214,0.584068,15:33
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012Y21,51.998737,0.573997,15:35
-"Great Yeldham, Poole Farm",1500240120Y0,52.003817,0.569101,15:37
-"Toppesfield, Toppesfield House",150024007005,52.004351,0.530766,15:39
-"Toppesfield, Camoise Close",150024007006,52.006964,0.531759,15:40
 "Toppesfield, Toppesfield Pump",1500IM1769B,52.008044,0.531747,15:41
 "Great Yeldham, The Green",1500IM2680B,52.01605,0.563623,15:52
 "Tilbury Juxta Clare, Clare Rd",1500IM2687,52.030491,0.568225,15:57
 "Little Yeldham, Church",1500IM1838,52.025824,0.591589,16:03
-"Little Yeldham, The Crazy Boar",1500240150Y6,52.020553,0.603892,16:06
-"Belchamp Walter, Clarks Farm Road",1500240170Y8,52.031628,0.650419,16:13
 "Belchamp Walter, Bells Road",1500IM2446,52.03282,0.650242,16:15
 "Belchamp Otten, Red Lion",1500IM2683B,52.043597,0.622733,16:19
-"Belchamp St Paul, Mulberry House",150024017003,52.051081,0.615397,16:23
 "Belchamp St Paul, The Green",1500240170Y2,52.050558,0.611792,16:24
-"Belchamp St Paul, Duckfield Barn",1500240170Y1,52.050986,0.610767,16:25
 "Belchamp St Paul, Stardawn",150014713021,52.050586,0.574162,16:31
 "Ashen, Village Hall",1500IM1835,52.05076,0.546735,16:36
-"Ashen, The Street",1500HNR853B,52.052744,0.543989,16:37
-"Ridgewell, Meeting Lane",150024011010,52.04117,0.531053,16:39
 "Ridgewell, Church Lane",150024011009,52.039158,0.531785,16:40
 
 

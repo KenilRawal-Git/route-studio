@@ -1,66 +1,26 @@
 MF
-Sudbury > Bulmer Tye > Great Maplestead > Sible Hedingham
+Sudbury > Bulmer > Little Maplestead > Sible Hedingham
 Route,NaPTAN,Latitude,Longitude,HD4
 Codes,,,,
 "Sudbury, Chaucer Road",390010290,52.05018,0.71962,07:25
-"Sudbury, Priory Road",390010298,52.04802,0.72464,07:26
-"Sudbury, Woodhall Road",390010296,52.04551,0.7272,07:27
-"Sudbury, Suffolk Road",390010236,52.04136,0.73048,07:29
-"Ballingdon, Old Railway Bridge",390010684,52.03471,0.71998,07:34
 "Ballingdon, Strawberry Stores",390010314,52.03359,0.7164,07:39
-"Bulmer, Kitchen Hill",150014703065,52.035338,0.708717,07:41
-"Bulmer, The Street",1500IM706B,52.030844,0.687392,07:43
 "Bulmer, Vicars Orchard",150014703068,52.029731,0.687296,07:43
-"Bulmer, Sandy Lane",150024015010,52.027113,0.686949,07:44
-"Bulmer Tye, Church Road West",150024015011,52.02319,0.689017,07:44
-"Bulmer Tye, Old Church Lane",150024015012,52.02273,0.690272,07:44
-"Bulmer Tye, Church Road East",150024015013,52.023137,0.692119,07:45
-"Bulmer Tye, Church Road South",150024015Y14,52.022212,0.692851,07:45
 "Bulmer Tye, Park Lane",1500IM705B,52.019209,0.694026,07:46
-"Pebmarsh, Le Mote",1500IM721,51.972163,0.706287,07:57
-"Pebmarsh, War Memorial",1500PEBMRSHY,51.969737,0.701496,07:59
 "Pebmarsh, The Kings Head",1500IM720B,51.968899,0.694122,08:00
-"Pebmarsh, Oak Road",150027008005,51.970392,0.689392,08:01
-"Little Maplestead, The Cock",1500IM714D,51.97831,0.66827,08:05
-"Little Maplestead, Water Tower",150024013Y15,51.97695,0.661636,08:06
 "Little Maplestead, Church Rd",150024013Y14,51.97517,0.654803,08:07
 "Great Maplestead, Church St",150014713023,51.981656,0.63152,08:12
-"Castle Hedingham, The Bell",1500IM1443,51.989748,0.599613,08:17
-"Castle Hedingham, Sheepcot Rd",150024014004,51.987598,0.596372,08:18
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:20
 
 Sible Hedingham > Little Maplestead > Bulmer > Sudbury
 Route,NaPTAN,Latitude,Longitude,HD4
 Codes,,,,
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:30
-"Castle Hedingham, Sheepcot Rd",150024014Y04,51.987644,0.596316,15:32
-"Castle Hedingham, The Bell",1500IM1443B,51.989785,0.599149,15:33
 "Great Maplestead, Church St",150014713022,51.98179,0.631528,15:40
-"Great Maplestead, Lucking Street",150024013013,51.977528,0.636331,15:42
 "Little Maplestead, Church Rd",150024013014,51.975191,0.654687,15:45
-"Little Maplestead, Water Tower",150024013015,51.977005,0.661581,15:46
-"Little Maplestead, The Cock",1500IM714,51.978383,0.668245,15:47
-"Pebmarsh, Oak Road",150027008Y05,51.970444,0.689482,15:51
 "Pebmarsh, The Kings Head",1500IM720,51.968836,0.694526,15:52
-"Pebmarsh, War Memorial",1500PEBMRSH2,51.969685,0.701041,15:55
-"Pebmarsh, Le Mote",1500IM721B,51.972219,0.706217,15:57
 "Bulmer Tye, Park Lane",1500IM705,52.018877,0.693991,16:06
-"Bulmer Tye, Church Road South",150024015014,52.022188,0.692747,16:07
-"Bulmer Tye, Church Road East",150024015Y13,52.023095,0.691985,16:08
-"Bulmer Tye, Old Church Lane",150024015Y12,52.022657,0.690312,16:08
-"Bulmer Tye, Church Road West",150024015Y11,52.023157,0.688913,16:08
-"Bulmer, Sandy Lane",1500240150Y0,52.027116,0.686833,16:09
 "Bulmer, Vicars Orchard",150014703067,52.029689,0.687176,16:09
-"Bulmer, The Street",1500IM706,52.030767,0.687227,16:09
-"Bulmer, Kitchen Hill",150014703066,52.035338,0.709111,16:11
 "Ballingdon, Strawberry Stores",390010315,52.03361,0.71627,16:13
-"Ballingdon, Old Railway Bridge",390010685,52.03479,0.71991,16:13
-"Sudbury, Mill Lane",390010232,52.03784,0.72364,16:13
-"Sudbury, Gregory Mills",390010686,52.03831,0.72641,16:14
-"Sudbury, Walnut Tree Lane",390010233,52.03949,0.72657,16:14
-"Sudbury, York Road",390010234,52.04234,0.72827,16:14
-"Sudbury, Woodhall Road",390010295,52.04552,0.72694,16:15
-"Sudbury, Priory Road",390010297,52.04781,0.72452,16:15
 "Sudbury, Chaucer Road",390010289,52.0499,0.71982,16:15
 
 

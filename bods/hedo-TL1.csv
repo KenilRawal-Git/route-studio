@@ -1,31 +1,9 @@
 MF
-Thorpe-le-Soken > Frinton-on-Sea
+Thorpe-le-Soken > Walton-on-the-Naze > Kirby Cross
 Route,NaPTAN,Latitude,Longitude,TL1
 Codes,,,,
 "Thorpe-le-Soken, Railway Station",1500IM86,51.848744,1.16293,07:53
-"Thorpe-le-Soken, Playing Field",150032009014,51.855125,1.164482,07:54
-"Thorpe-le-Soken, Byng Crescent",150032009010,51.854371,1.174073,07:55
-"Thorpe-le-Soken, Council Houses",150032009009,51.854465,1.178262,07:56
-"Thorpe-le-Soken, Damant's Farm Lane",150032009007,51.85196,1.186088,07:57
-"Kirby Cross, Farm Close",150032009006,51.845319,1.201752,07:59
-"Kirby Cross, Chapel Lane",150032009004,51.844237,1.208762,08:00
-"Kirby Cross, Kirby Cross Railway Station",150032009002,51.842287,1.215288,08:00
-"Kirby Cross, Kirby Cross",150032010026,51.84214,1.220984,08:01
-"Kirby Cross, Chestnut Ave",150032010028,51.841855,1.226467,08:01
-"Frinton-on-Sea, Village Way",150032010030,51.841552,1.232253,08:02
-"Frinton-on-Sea, Frinton Road Nurseries",150032010032,51.841148,1.236798,08:02
-"Frinton-on-Sea, Laburnum Crescent",150032010034,51.839669,1.238565,08:03
 "Frinton-on-Sea, Frinton Rail Gates",150032010036,51.83793,1.243885,08:03
-"Frinton-on-Sea, Walden Way",150032011021,51.838773,1.248534,08:03
-"Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,08:04
-"Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,08:04
-"Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,08:05
-"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,08:05
-"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,08:05
-"Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,08:06
-"Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,08:07
-"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,08:08
-"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,08:08
 "Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,08:10
 "Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,08:12
 "Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,08:14
@@ -36,29 +14,12 @@ Codes,,,,
 "Frinton-on-Sea, Village Way",1500320100Y0,51.841387,1.23169,08:21
 "Kirby Cross, Elm Grove",150032010029,51.841406,1.227756,08:22
 "Kirby Cross, Coronation Garage",150032010027,51.841896,1.222999,08:23
-"Kirby Cross, Claire Road",150032009001,51.841847,1.217217,08:24
-"Kirby Cross, Kirby Cross Railway Station",150032009003,51.842713,1.214171,08:24
-"Kirby Cross, Chapel Lane",150032009005,51.844295,1.207953,08:25
-"Kirby Cross, Farm Close",150032009Y06,51.845257,1.201704,08:25
-"Thorpe-le-Soken, Damant's Farm Lane",150032009008,51.851966,1.185842,08:27
-"Thorpe-le-Soken, Council Houses",150032009Y09,51.854376,1.178227,08:28
-"Thorpe-le-Soken, Byng Crescent",150032009011,51.854298,1.173806,08:29
-"Thorpe-le-Soken, Thorpe Memorial",1500IM104,51.855602,1.167449,08:29
-"Thorpe-le-Soken, Tendring College",1500IM105,51.857601,1.165701,08:30
 "Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,08:30
 
 Thorpe-le-Soken > Frinton-on-Sea
 Route,NaPTAN,Latitude,Longitude,TL1
 Codes,,,,
 "Thorpe-le-Soken, Lower School",1500IM105LS,51.858238,1.165761,15:20
-"Thorpe-le-Soken, Tendring College",1500IM105AA,51.857239,1.165443,15:20
-"Thorpe-le-Soken, Thorpe Memorial",1500IM104B,51.856201,1.165574,15:21
-"Thorpe-le-Soken, Byng Crescent",150032009010,51.854371,1.174073,15:22
-"Thorpe-le-Soken, Council Houses",150032009009,51.854465,1.178262,15:22
-"Thorpe-le-Soken, Damant's Farm Lane",150032009007,51.85196,1.186088,15:23
-"Kirby Cross, Farm Close",150032009006,51.845319,1.201752,15:25
-"Kirby Cross, Chapel Lane",150032009004,51.844237,1.208762,15:25
-"Kirby Cross, Kirby Cross Railway Station",150032009002,51.842287,1.215288,15:26
 "Kirby Cross, Kirby Cross",150032010026,51.84214,1.220984,15:27
 "Kirby Cross, Chestnut Ave",150032010028,51.841855,1.226467,15:28
 "Frinton-on-Sea, Village Way",150032010030,51.841552,1.232253,15:30
@@ -69,31 +30,7 @@ Codes,,,,
 "Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,15:37
 "Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,15:38
 "Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,15:40
-"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,15:41
-"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,15:41
-"Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,15:42
-"Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,15:43
-"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,15:43
-"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,15:44
-"Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,15:44
-"Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,15:45
-"Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,15:45
-"Frinton-on-Sea, Walden Way",150032011020,51.838163,1.247503,15:46
 "Frinton-on-Sea, Frinton Rail Gates",1500IM1176,51.837857,1.24327,15:47
-"Frinton-on-Sea, Laburnum Crescent",150032010033,51.84002,1.237893,15:47
-"Frinton-on-Sea, Frinton Road Nurseries",150032010031,51.841381,1.235508,15:48
-"Frinton-on-Sea, Village Way",1500320100Y0,51.841387,1.23169,15:48
-"Kirby Cross, Elm Grove",150032010029,51.841406,1.227756,15:49
-"Kirby Cross, Coronation Garage",150032010027,51.841896,1.222999,15:49
-"Kirby Cross, Claire Road",150032009001,51.841847,1.217217,15:50
-"Kirby Cross, Kirby Cross Railway Station",150032009003,51.842713,1.214171,15:50
-"Kirby Cross, Chapel Lane",150032009005,51.844295,1.207953,15:51
-"Kirby Cross, Farm Close",150032009Y06,51.845257,1.201704,15:51
-"Thorpe-le-Soken, Damant's Farm Lane",150032009008,51.851966,1.185842,15:52
-"Thorpe-le-Soken, Council Houses",150032009Y09,51.854376,1.178227,15:54
-"Thorpe-le-Soken, Byng Crescent",150032009011,51.854298,1.173806,15:55
-"Thorpe-le-Soken, Thorpe Memorial",1500IM104,51.855602,1.167449,15:56
-"Thorpe-le-Soken, Playing Field",150032009015,51.854938,1.164381,15:57
 "Thorpe-le-Soken, Railway Station",1500IM86B,51.848478,1.163129,15:58
 
 

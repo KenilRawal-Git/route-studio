@@ -1,63 +1,22 @@
 MF
-East Mersea > Peldon > Blackheath > Monkwick
+East Mersea > West Mersea > Abberton > Monkwick
 Route,NaPTAN,Latitude,Longitude,112
 Codes,,,,
 "East Mersea, Ivy Lane",1500IM251AA,51.798228,0.995315,07:40
 "East Mersea, Fen Lane",1500140130Y2,51.793501,0.983862,07:42
 "East Mersea, The Dog & Pheasant",150014013003,51.792386,0.980308,07:43
-"East Mersea, Church Lane",1500140130Y5,51.790665,0.970462,07:43
-"East Mersea, Meeting Lane",150014013006,51.790118,0.963654,07:44
-"West Mersea, Waldegraves Caravan Park",150014013034,51.784879,0.939862,07:46
-"West Mersea, The Fox",1500IM253B,51.783291,0.933204,07:47
-"West Mersea, Seaview Avenue",1500IM254,51.781971,0.92916,07:47
-"West Mersea, Empress Avenue",1500IM255,51.781417,0.925397,07:48
 "West Mersea, The Fountain",150014013033,51.780818,0.920907,07:50
-"West Mersea, Mill Road Corner",150014013Y27,51.781541,0.920069,07:50
-"West Mersea, Lawns Close",1500IM2487,51.782978,0.919771,07:50
-"West Mersea, Playing Fields",150014013Y30,51.784156,0.920862,07:51
-"West Mersea, Pyefleet House",1500140120Y7,51.801689,0.914902,07:54
 "Peldon, The Rose",1500DGK234,51.805254,0.909692,08:00
-"Peldon, Lower Road",1500IM2489Y,51.811484,0.8883,08:00
-"Peldon, St Ives Road",1500TEMP0018,51.815244,0.886436,08:01
 "Abberton, Layer Road",1500IM1894,51.834537,0.910433,08:07
-"Abberton, Haye Lane",150014012012,51.845493,0.917994,08:09
-"Blackheath, Roman Hill House",1500140120Y1,51.852843,0.914621,08:10
-"Blackheath, Weir Lane",150014012005,51.854849,0.913531,08:10
-"Blackheath, The Cherry Tree",1500IM1903,51.857221,0.910736,08:11
-"Blackheath, Baptist Church",150033052002,51.860108,0.908191,08:11
-"Blackheath, Berechurch Hall Road",150033055003,51.861124,0.90708,08:11
-"Monkwick, Bardfield Road",150033054001,51.861364,0.905745,08:12
-"Monkwick, Moy Road",150033054004,51.863627,0.902593,08:12
-"Monkwick, Prince Philip Road",150033054006,51.866106,0.901663,08:12
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,08:15
 
 Monkwick > Abberton > West Mersea > East Mersea
 Route,NaPTAN,Latitude,Longitude,112
 Codes,,,,
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,15:20
-"Monkwick, Prince Philip Road",150033054005,51.865694,0.901593,15:21
-"Monkwick, Moy Road",150033054003,51.863526,0.903081,15:22
-"Monkwick, Bardfield Road",1500IM1342,51.861628,0.905631,15:23
-"Blackheath, Baptist Church",150033052001,51.861006,0.907857,15:23
-"Blackheath, The Cherry Tree",1500IM1903B,51.857532,0.910523,15:23
-"Blackheath, Weir Lane",150014012006,51.855684,0.912844,15:24
-"Blackheath, Roman Hill House",150014012011,51.852877,0.914696,15:24
-"Abberton, Haye Lane",1500140120Y2,51.845463,0.918108,15:25
 "Abberton, Layer Road",1500IM1894Y,51.834464,0.910457,15:28
-"Peldon, St Ives Road",150014012003,51.815195,0.886607,15:31
-"Peldon, Lower Road",1500IM2489,51.811535,0.888404,15:32
 "Peldon, The Rose",1500DGK233,51.805307,0.90971,15:35
-"West Mersea, Pyefleet House",150014012017,51.801724,0.914962,15:36
-"West Mersea, Playing Fields",150014013030,51.784249,0.921839,15:39
-"West Mersea, Lawns Close",1500IM2487B,51.783238,0.919831,15:39
-"West Mersea, Mill Road Corner",150014013027,51.781538,0.9202,15:39
 "West Mersea, The Fountain",1500IM256,51.780981,0.921585,15:40
-"West Mersea, Empress Avenue",1500IM255B,51.781379,0.924032,15:40
-"West Mersea, Seaview Avenue",1500IM254B,51.781885,0.928647,15:41
-"West Mersea, The Fox",1500IM253,51.783404,0.933385,15:41
-"West Mersea, Waldegraves Caravan Park",150014013Y34,51.785099,0.939658,15:42
-"East Mersea, Meeting Lane",150014013007,51.789982,0.96189,15:42
-"East Mersea, Church Lane",150014013005,51.790667,0.969679,15:43
 "East Mersea, The Dog & Pheasant",150014013004,51.792382,0.979727,15:45
 "East Mersea, Fen Lane",150014013002,51.793573,0.983838,15:46
 "East Mersea, Ivy Lane",1500IM251,51.798282,0.995289,15:47

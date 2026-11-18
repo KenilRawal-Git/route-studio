@@ -1,54 +1,19 @@
 MF
-West Mersea > Langenhoe > Blackheath > Monkwick
+West Mersea > Abberton > Monkwick
 Route,NaPTAN,Latitude,Longitude,110
 Codes,,,,
 "West Mersea, Waldegraves Caravan Park",150014013034,51.784879,0.939862,07:50
 "West Mersea, The Fox",1500IM253B,51.783291,0.933204,07:53
 "West Mersea, Seaview Avenue",1500IM254,51.781971,0.92916,07:54
 "West Mersea, Empress Avenue",1500IM255,51.781417,0.925397,07:55
-"West Mersea, The Fountain",150014013033,51.780818,0.920907,07:55
-"West Mersea, Mill Road Corner",150014013Y27,51.781541,0.920069,07:56
-"West Mersea, Lawns Close",1500IM2487,51.782978,0.919771,07:56
-"West Mersea, Playing Fields",150014013Y30,51.784156,0.920862,07:57
-"West Mersea, Pyefleet House",1500140120Y7,51.801689,0.914902,08:00
-"Peldon, The Rose",1500IM259Y,51.805904,0.909588,08:01
-"Langenhoe, Langenhoe Hall",150014012Y15,51.820422,0.912759,08:03
-"Langenhoe, Rectory",150014012Y14,51.823192,0.913141,08:04
-"Langenhoe, Butterfly Lodge",150014012301,51.829155,0.910942,08:05
 "Abberton, Mersea Rd",1500140120Y3,51.834155,0.910612,08:07
-"Abberton, Haye Lane",150014012012,51.845493,0.917994,08:09
-"Blackheath, Roman Hill House",1500140120Y1,51.852843,0.914621,08:10
-"Blackheath, Weir Lane",150014012005,51.854849,0.913531,08:10
-"Blackheath, The Cherry Tree",1500IM1903,51.857221,0.910736,08:11
-"Blackheath, Baptist Church",150033052002,51.860108,0.908191,08:11
-"Blackheath, Berechurch Hall Road",150033055003,51.861124,0.90708,08:11
-"Monkwick, Bardfield Road",150033054001,51.861364,0.905745,08:12
-"Monkwick, Moy Road",150033054004,51.863627,0.902593,08:12
-"Monkwick, Prince Philip Road",150033054006,51.866106,0.901663,08:12
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,08:15
 
-Monkwick > Abberton > Peldon > West Mersea
+Monkwick > Abberton > West Mersea
 Route,NaPTAN,Latitude,Longitude,110
 Codes,,,,
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,15:20
-"Monkwick, Prince Philip Road",150033054005,51.865694,0.901593,15:21
-"Monkwick, Moy Road",150033054003,51.863526,0.903081,15:22
-"Monkwick, Bardfield Road",1500IM1342,51.861628,0.905631,15:23
-"Blackheath, Baptist Church",150033052001,51.861006,0.907857,15:23
-"Blackheath, The Cherry Tree",1500IM1903B,51.857532,0.910523,15:23
-"Blackheath, Weir Lane",150014012006,51.855684,0.912844,15:24
-"Blackheath, Roman Hill House",150014012011,51.852877,0.914696,15:24
-"Abberton, Haye Lane",1500140120Y2,51.845463,0.918108,15:25
 "Abberton, Mersea Rd",150014012013,51.834018,0.910704,15:28
-"Langenhoe, Butterfly Lodge",1500140123Y1,51.82927,0.911022,15:28
-"Langenhoe, Rectory",150014012014,51.823426,0.913142,15:29
-"Langenhoe, Langenhoe Hall",150014012015,51.820465,0.912863,15:30
-"Peldon, The Rose",1500IM259,51.805856,0.909716,15:32
-"West Mersea, Pyefleet House",150014012017,51.801724,0.914962,15:33
-"West Mersea, Playing Fields",150014013030,51.784249,0.921839,15:36
-"West Mersea, Lawns Close",1500IM2487B,51.783238,0.919831,15:36
-"West Mersea, Mill Road Corner",150014013027,51.781538,0.9202,15:37
-"West Mersea, The Fountain",1500IM256,51.780981,0.921585,15:38
 "West Mersea, Empress Avenue",1500IM255B,51.781379,0.924032,15:40
 "West Mersea, Seaview Avenue",1500IM254B,51.781885,0.928647,15:42
 "West Mersea, The Fox",1500IM253,51.783404,0.933385,15:44

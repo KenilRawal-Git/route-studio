@@ -3,41 +3,24 @@ Wormingford > Fordham Heath > Stanway
 Route,NaPTAN,Latitude,Longitude,902
 Codes,,,,
 "Wormingford, Church Road",150027011007,51.948854,0.808315,07:42
-"Fordham, Rams Farm Rd",150014703078,51.925433,0.806546,07:46
 "Fordham, Memorial",1500IM1364,51.922454,0.803597,07:47
-"Fordham, The Three Horseshoes",150014703080,51.918236,0.802127,07:48
-"Fordham, Primary School",150029080Y14,51.914652,0.801555,07:49
 "Fordham Heath, Fiddlers Folly",1500IM1363,51.903128,0.811509,07:51
-"Fordham Heath, Beech Grove",1500HNR2702Y,51.899974,0.813274,07:51
-"Fordham Heath, Wood Corner",150027005Y07,51.900005,0.812346,07:52
 "Aldham, Village Hall",1500IM1448,51.897811,0.78549,07:55
 "Aldham, Aldham Veterinary Centre",150014703083,51.906931,0.789645,08:00
 "Fordham Heath, Wood Corner",150027005007,51.900065,0.812466,08:05
-"Fordham Heath, Turkey Cock Lane",150027005100,51.898126,0.816837,08:06
 "Eight Ash Green, Jubilee Meadow",1500IM1361,51.896592,0.821538,08:07
-"Eight Ash Green, Holiday Inn",150033089003,51.893561,0.82568,08:08
-"Stanway, Barn Fields",150033086002,51.88751,0.836811,08:17
-"Stanway, Chapel Road",150033084005,51.88632,0.839163,08:19
 "Stanway, Secondary School",1500IM1876B,51.884848,0.840538,08:20
 
 Stanway > Fordham Heath > Wormingford
 Route,NaPTAN,Latitude,Longitude,902
 Codes,,,,
 "Stanway, Secondary School",1500IM1876B,51.884848,0.840538,15:20
-"Stanway, Chapel Road",150033084006,51.886801,0.838249,15:21
-"Eight Ash Green, Holiday Inn",150033089002,51.893466,0.825136,15:32
 "Eight Ash Green, Jubilee Meadow",1500IM1361AA,51.896599,0.821248,15:33
-"Fordham Heath, Turkey Cock Lane",1500270051Y0,51.8979,0.817259,15:34
 "Fordham Heath, Wood Corner",150027005Y07,51.900005,0.812346,15:35
 "Aldham, Village Hall",1500IM1448,51.897811,0.78549,15:40
 "Aldham, Aldham Veterinary Centre",150014703083,51.906931,0.789645,15:45
-"Fordham Heath, Wood Corner",150027005007,51.900065,0.812466,15:49
-"Fordham Heath, Beech Grove",1500HNR2702,51.902514,0.813477,15:50
 "Fordham Heath, Fiddlers Folly",150029080013,51.903017,0.811982,15:50
-"Fordham, Primary School",150029080014,51.914672,0.801469,15:53
-"Fordham, The Three Horseshoes",150014703081,51.918301,0.802044,15:54
 "Fordham, Memorial",150029080018,51.922727,0.803498,15:55
-"Fordham, Rams Farm Rd",150014703079,51.925348,0.806352,15:56
 "Wormingford, Church Road",1500IM2540,51.948966,0.808162,16:00
 
 

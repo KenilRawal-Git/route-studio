@@ -1,218 +1,56 @@
 MF
-Clacton > Great Holland > Walton-on-the-Naze
+Clacton > Great Holland > Kirby-le-Soken > Walton-on-the-Naze
 Route,NaPTAN,Latitude,Longitude,98A,98A
 Codes,,,,,
 "Clacton, Pier Avenue",1500IM123,51.788822,1.152352,20:15,21:50
-"Clacton, Station Road",150044018002,51.79031,1.153514,20:16,21:51
 "Clacton, Railway Station",1500IM843,51.793756,1.154814,20:18,21:53
-"Clacton, Thoroughgood Road",150044011004,51.793882,1.157854,20:18,21:53
-"Clacton, Avondale Road",150044011007,51.794053,1.161173,20:18,21:53
-"Clacton, Lancaster Gardens",150044011009,51.796152,1.165411,20:19,21:54
-"Clacton, Shorefields School",150044011010,51.797628,1.169358,20:20,21:55
-"Clacton, Holland Road School",150044011012,51.800617,1.171584,20:21,21:56
-"Holland-on-Sea, Sladbury's Lane",150044010002,51.802678,1.176212,20:22,21:57
 "Holland-on-Sea, Roaring Donkey",1500IM1330B,51.802806,1.180776,20:23,21:58
-"Holland-on-Sea, Queensway",150044010006,51.804179,1.185197,20:23,21:58
-"Holland-on-Sea, York Road",150044010008,51.805512,1.189788,20:24,21:59
-"Holland-on-Sea, The Oakwood",1500GTHOLOAK,51.806258,1.193454,20:24,21:59
-"Holland-on-Sea, Aylesbury Drive",1500PKBOVD,51.806258,1.196762,20:24,21:59
-"Holland-on-Sea, Brighton Road",1500IM1178B,51.80566,1.198562,20:24,21:59
-"Holland-on-Sea, Viking Way",1500FRINROUN,51.804665,1.202409,20:25,22:00
-"Holland-on-Sea, Haven Avenue",150032010038,51.806071,1.203626,20:25,22:00
-"Great Holland, Manor Rd",1500IM15,51.827501,1.208675,20:29,22:04
 "Great Holland, The Ship",1500IM1333,51.82911,1.212331,20:30,22:05
-"Great Holland, Great Holland Green",150032010044,51.83279,1.209661,20:30,22:05
-"Great Holland, Westbury Road",1500GTHOLND2,51.835175,1.21224,20:31,22:06
-"Great Holland, Prospect Park",1500TEMP0022,51.837057,1.21445,20:31,22:06
-"Kirby Cross, Holland Rd",1500IM41Y,51.840091,1.218282,20:32,22:07
 "Kirby Cross, Halstead Road",150032010025,51.842751,1.220026,20:33,22:08
-"Kirby Cross, Parkside",150032010023,51.845676,1.221266,20:33,22:08
-"Kirby-le-Soken, Horsey Road",150032010021,51.850222,1.224394,20:34,22:09
 "Kirby-le-Soken, Halstead Villas",1500IM1335,51.852015,1.225291,20:35,22:10
-"Kirby-le-Soken, Post Office",150032010018,51.851683,1.23115,20:35,22:10
-"Kirby-le-Soken, Devereux Farm",150032010015,51.85123,1.238466,20:36,22:11
-"Walton-on-the-Naze, Ashes Corner",1500IM1762,51.84909,1.24951,20:37,22:12
-"Walton-on-the-Naze, Hanover Court",150032010012,51.848326,1.254044,20:38,22:13
-"Walton-on-the-Naze, Valley Walk",150032010010,51.84548,1.256133,20:38,22:13
-"Walton-on-the-Naze, Norwood Way",150032010009,51.844718,1.25342,20:39,22:14
 "Frinton-on-Sea, Triangle Shopping Centre",1500IM1336,51.843472,1.249061,20:40,22:15
-"Frinton-on-Sea, Frietuna Road",150032010005,51.842012,1.246865,20:40,22:15
-"Frinton-on-Sea, Elm Tree Avenue",150032010003,51.840243,1.24546,20:40,22:15
-"Frinton-on-Sea, The Oaks",1500FRINTN2,51.83846,1.244896,20:41,22:16
-"Frinton-on-Sea, Walden Way",150032011021,51.838773,1.248534,20:41,22:16
-"Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,20:42,22:17
-"Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,20:42,22:17
-"Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,20:43,22:18
-"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,20:43,22:18
-"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,20:44,22:19
 "Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,20:45,22:20
-"Walton-on-the-Naze, Kino Road",1500IM1338,51.850252,1.274414,20:45,22:20
-"Walton-on-the-Naze, Bath House Meadow",150032011007,51.852603,1.277184,20:46,22:21
-"Walton-on-the-Naze, Coastguard Cotts",150032011006,51.854419,1.278507,20:46,22:21
-"Walton-on-the-Naze, Baptist Church",150032011Y04,51.857768,1.278402,20:47,22:22
-"Walton-on-the-Naze, First Avenue",150032011003,51.859265,1.280487,20:48,22:23
 "Walton-on-the-Naze, The Naze",1500IM1173,51.860881,1.285776,20:49,22:24
 
-Walton-on-the-Naze > Great Holland > Clacton
+Walton-on-the-Naze > Kirby-le-Soken > Great Holland > Clacton
 Route,NaPTAN,Latitude,Longitude,98A
 Codes,,,,
 "Walton-on-the-Naze, The Naze",1500IM1173Y,51.860638,1.285773,20:55
-"Walton-on-the-Naze, First Avenue",150032011002,51.859264,1.28117,20:55
-"Walton-on-the-Naze, Baptist Church",150032011004,51.857421,1.27858,20:56
-"Walton-on-the-Naze, Coastguard Cotts",150032011005,51.855113,1.279081,20:57
-"Walton-on-the-Naze, Bath House Meadow",150032011008,51.851964,1.276557,20:58
-"Walton-on-the-Naze, Kino Road",1500WALTNEW,51.850432,1.274732,20:58
 "Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,21:00
-"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,21:00
-"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,21:00
-"Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,21:01
-"Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,21:02
-"Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,21:02
-"Frinton-on-Sea, Walden Way",150032011020,51.838163,1.247503,21:03
-"Frinton-on-Sea, The Oaks",150032010002,51.838518,1.24474,21:03
-"Frinton-on-Sea, Elm Tree Avenue",150032010004,51.841222,1.24585,21:04
 "Frinton-on-Sea, Triangle Shopping Centre",150032010007,51.843543,1.249749,21:05
-"Walton-on-the-Naze, Norwood Way",150032010008,51.844537,1.252187,21:05
-"Walton-on-the-Naze, Ockendon Way",150032010011,51.846885,1.255392,21:06
-"Walton-on-the-Naze, Hanover Court",150032010Y12,51.848339,1.253885,21:06
-"Walton-on-the-Naze, Ashes Corner",1500IM1762AA,51.84902,1.249432,21:07
-"Kirby-le-Soken, Devereux Farm",150032010016,51.851356,1.23682,21:08
-"Kirby-le-Soken, Post Office",150032010017,51.851569,1.231999,21:09
 "Kirby-le-Soken, Halstead Villas",1500IM1335B,51.852019,1.225466,21:10
-"Kirby-le-Soken, Horsey Road",150032010Y21,51.850228,1.224525,21:10
-"Kirby Cross, Parkside",150032010022,51.846704,1.221484,21:11
-"Kirby Cross, Halstead Rd",150032010Y25,51.842651,1.220077,21:12
 "Kirby Cross, Kirby Cross",1500IM41,51.841247,1.218786,21:13
-"Kirby Cross, Holland Rd",1500IM41A,51.840176,1.218463,21:13
-"Great Holland, Prospect Park",1500TEMP0021,51.836756,1.214284,21:13
-"Great Holland, Westbury Road",1500GTHOLNDY,51.835362,1.212617,21:13
-"Great Holland, Great Holland Green",150032010041,51.831507,1.209555,21:14
 "Great Holland, The Ship",150032010043,51.828882,1.212779,21:15
-"Great Holland, Manor Rd",1500IM40,51.827463,1.208759,21:15
-"Holland-on-Sea, Haven Avenue",150032010037,51.805809,1.203651,21:19
-"Holland-on-Sea, Viking Way",1500HOLHAVEN,51.804755,1.200732,21:19
-"Holland-on-Sea, Brighton Road",1500IM1178,51.805816,1.197804,21:20
-"Holland-on-Sea, The Oakwood",150044010010,51.806098,1.193051,21:20
-"Holland-on-Sea, York Road",150044010007,51.805099,1.188105,21:21
-"Holland-on-Sea, Queensway",150044010005,51.803974,1.184819,21:21
 "Holland-on-Sea, Roaring Donkey",1500IM1330,51.802727,1.181047,21:22
-"Holland-on-Sea, Sladbury's Lane",150044010001,51.802531,1.17565,21:22
-"Clacton, Holland Road School",150044011013,51.800892,1.171734,21:23
-"Clacton, Shorefields School",1500CNWINSCH,51.797756,1.169614,21:23
-"Clacton, Victoria Road",150044011008,51.795725,1.164206,21:24
-"Clacton, Avondale Road",150044011006,51.793968,1.161008,21:25
-"Clacton, Thoroughgood Road",150044011005,51.793873,1.158825,21:26
 "Clacton, Railway Station",1500IM91,51.793265,1.154344,21:27
-"Clacton, Station Road",1500440180Y2,51.790754,1.153734,21:28
 "Clacton, Pier Avenue",1500IM123,51.788822,1.152352,21:29
 
 
 SA
-Clacton > Great Holland > Walton-on-the-Naze
+Clacton > Great Holland > Kirby-le-Soken > Walton-on-the-Naze
 Route,NaPTAN,Latitude,Longitude,98A,98A
 Codes,,,,,
 "Clacton, Pier Avenue",1500IM123,51.788822,1.152352,20:15,21:50
-"Clacton, Station Road",150044018002,51.79031,1.153514,20:16,21:51
 "Clacton, Railway Station",1500IM843,51.793756,1.154814,20:18,21:53
-"Clacton, Thoroughgood Road",150044011004,51.793882,1.157854,20:18,21:53
-"Clacton, Avondale Road",150044011007,51.794053,1.161173,20:18,21:53
-"Clacton, Lancaster Gardens",150044011009,51.796152,1.165411,20:19,21:54
-"Clacton, Shorefields School",150044011010,51.797628,1.169358,20:20,21:55
-"Clacton, Holland Road School",150044011012,51.800617,1.171584,20:21,21:56
-"Holland-on-Sea, Sladbury's Lane",150044010002,51.802678,1.176212,20:22,21:57
 "Holland-on-Sea, Roaring Donkey",1500IM1330B,51.802806,1.180776,20:23,21:58
-"Holland-on-Sea, Queensway",150044010006,51.804179,1.185197,20:23,21:58
-"Holland-on-Sea, York Road",150044010008,51.805512,1.189788,20:24,21:59
-"Holland-on-Sea, The Oakwood",1500GTHOLOAK,51.806258,1.193454,20:24,21:59
-"Holland-on-Sea, Aylesbury Drive",1500PKBOVD,51.806258,1.196762,20:24,21:59
-"Holland-on-Sea, Brighton Road",1500IM1178B,51.80566,1.198562,20:24,21:59
-"Holland-on-Sea, Viking Way",1500FRINROUN,51.804665,1.202409,20:25,22:00
-"Holland-on-Sea, Haven Avenue",150032010038,51.806071,1.203626,20:25,22:00
-"Great Holland, Manor Rd",1500IM15,51.827501,1.208675,20:29,22:04
 "Great Holland, The Ship",1500IM1333,51.82911,1.212331,20:30,22:05
-"Great Holland, Great Holland Green",150032010044,51.83279,1.209661,20:30,22:05
-"Great Holland, Westbury Road",1500GTHOLND2,51.835175,1.21224,20:31,22:06
-"Great Holland, Prospect Park",1500TEMP0022,51.837057,1.21445,20:31,22:06
-"Kirby Cross, Holland Rd",1500IM41Y,51.840091,1.218282,20:32,22:07
 "Kirby Cross, Halstead Road",150032010025,51.842751,1.220026,20:33,22:08
-"Kirby Cross, Parkside",150032010023,51.845676,1.221266,20:33,22:08
-"Kirby-le-Soken, Horsey Road",150032010021,51.850222,1.224394,20:34,22:09
 "Kirby-le-Soken, Halstead Villas",1500IM1335,51.852015,1.225291,20:35,22:10
-"Kirby-le-Soken, Post Office",150032010018,51.851683,1.23115,20:35,22:10
-"Kirby-le-Soken, Devereux Farm",150032010015,51.85123,1.238466,20:36,22:11
-"Walton-on-the-Naze, Ashes Corner",1500IM1762,51.84909,1.24951,20:37,22:12
-"Walton-on-the-Naze, Hanover Court",150032010012,51.848326,1.254044,20:38,22:13
-"Walton-on-the-Naze, Valley Walk",150032010010,51.84548,1.256133,20:38,22:13
-"Walton-on-the-Naze, Norwood Way",150032010009,51.844718,1.25342,20:39,22:14
 "Frinton-on-Sea, Triangle Shopping Centre",1500IM1336,51.843472,1.249061,20:40,22:15
-"Frinton-on-Sea, Frietuna Road",150032010005,51.842012,1.246865,20:40,22:15
-"Frinton-on-Sea, Elm Tree Avenue",150032010003,51.840243,1.24546,20:40,22:15
-"Frinton-on-Sea, The Oaks",1500FRINTN2,51.83846,1.244896,20:41,22:16
-"Frinton-on-Sea, Walden Way",150032011021,51.838773,1.248534,20:41,22:16
-"Frinton-on-Sea, Walton Road Playing Fields",150032011023,51.840686,1.252563,20:42,22:17
-"Frinton-on-Sea, Central Avenue",150032011025,51.842873,1.256395,20:42,22:17
-"Walton-on-the-Naze, Hervilly Way",150032011027,51.844419,1.260325,20:43,22:18
-"Walton-on-the-Naze, Walton Road Flats",150032011028,51.846449,1.263682,20:43,22:18
-"Walton-on-the-Naze, Walton Church",150032011030,51.848226,1.267049,20:44,22:19
 "Walton-on-the-Naze, Walton Post Office",150032011011,51.849424,1.272161,20:45,22:20
-"Walton-on-the-Naze, Kino Road",1500IM1338,51.850252,1.274414,20:45,22:20
-"Walton-on-the-Naze, Bath House Meadow",150032011007,51.852603,1.277184,20:46,22:21
-"Walton-on-the-Naze, Coastguard Cotts",150032011006,51.854419,1.278507,20:46,22:21
-"Walton-on-the-Naze, Baptist Church",150032011Y04,51.857768,1.278402,20:47,22:22
-"Walton-on-the-Naze, First Avenue",150032011003,51.859265,1.280487,20:48,22:23
 "Walton-on-the-Naze, The Naze",1500IM1173,51.860881,1.285776,20:49,22:24
 
-Walton-on-the-Naze > Great Holland > Clacton
+Walton-on-the-Naze > Kirby-le-Soken > Great Holland > Clacton
 Route,NaPTAN,Latitude,Longitude,98A
 Codes,,,,
 "Walton-on-the-Naze, The Naze",1500IM1173Y,51.860638,1.285773,20:55
-"Walton-on-the-Naze, First Avenue",150032011002,51.859264,1.28117,20:55
-"Walton-on-the-Naze, Baptist Church",150032011004,51.857421,1.27858,20:56
-"Walton-on-the-Naze, Coastguard Cotts",150032011005,51.855113,1.279081,20:57
-"Walton-on-the-Naze, Bath House Meadow",150032011008,51.851964,1.276557,20:58
-"Walton-on-the-Naze, Kino Road",1500WALTNEW,51.850432,1.274732,20:58
 "Walton-on-the-Naze, Walton Church",1500IM12,51.848315,1.268377,21:00
-"Walton-on-the-Naze, War Memorial",150032011560,51.848081,1.266428,21:00
-"Walton-on-the-Naze, Walton Road Flats",150032011029,51.846745,1.264037,21:00
-"Walton-on-the-Naze, Hervilly Way",150032011026,51.844205,1.259932,21:01
-"Frinton-on-Sea, Central Avenue",1500FRINTN1,51.841733,1.2547,21:02
-"Frinton-on-Sea, Walton Road Playing Fields",150032011022,51.840024,1.251441,21:02
-"Frinton-on-Sea, Walden Way",150032011020,51.838163,1.247503,21:03
-"Frinton-on-Sea, The Oaks",150032010002,51.838518,1.24474,21:03
-"Frinton-on-Sea, Elm Tree Avenue",150032010004,51.841222,1.24585,21:04
 "Frinton-on-Sea, Triangle Shopping Centre",150032010007,51.843543,1.249749,21:05
-"Walton-on-the-Naze, Norwood Way",150032010008,51.844537,1.252187,21:05
-"Walton-on-the-Naze, Ockendon Way",150032010011,51.846885,1.255392,21:06
-"Walton-on-the-Naze, Hanover Court",150032010Y12,51.848339,1.253885,21:06
-"Walton-on-the-Naze, Ashes Corner",1500IM1762AA,51.84902,1.249432,21:07
-"Kirby-le-Soken, Devereux Farm",150032010016,51.851356,1.23682,21:08
-"Kirby-le-Soken, Post Office",150032010017,51.851569,1.231999,21:09
 "Kirby-le-Soken, Halstead Villas",1500IM1335B,51.852019,1.225466,21:10
-"Kirby-le-Soken, Horsey Road",150032010Y21,51.850228,1.224525,21:10
-"Kirby Cross, Parkside",150032010022,51.846704,1.221484,21:11
-"Kirby Cross, Halstead Rd",150032010Y25,51.842651,1.220077,21:12
 "Kirby Cross, Kirby Cross",1500IM41,51.841247,1.218786,21:13
-"Kirby Cross, Holland Rd",1500IM41A,51.840176,1.218463,21:13
-"Great Holland, Prospect Park",1500TEMP0021,51.836756,1.214284,21:13
-"Great Holland, Westbury Road",1500GTHOLNDY,51.835362,1.212617,21:13
-"Great Holland, Great Holland Green",150032010041,51.831507,1.209555,21:14
 "Great Holland, The Ship",150032010043,51.828882,1.212779,21:15
-"Great Holland, Manor Rd",1500IM40,51.827463,1.208759,21:15
-"Holland-on-Sea, Haven Avenue",150032010037,51.805809,1.203651,21:19
-"Holland-on-Sea, Viking Way",1500HOLHAVEN,51.804755,1.200732,21:19
-"Holland-on-Sea, Brighton Road",1500IM1178,51.805816,1.197804,21:20
-"Holland-on-Sea, The Oakwood",150044010010,51.806098,1.193051,21:20
-"Holland-on-Sea, York Road",150044010007,51.805099,1.188105,21:21
-"Holland-on-Sea, Queensway",150044010005,51.803974,1.184819,21:21
 "Holland-on-Sea, Roaring Donkey",1500IM1330,51.802727,1.181047,21:22
-"Holland-on-Sea, Sladbury's Lane",150044010001,51.802531,1.17565,21:22
-"Clacton, Holland Road School",150044011013,51.800892,1.171734,21:23
-"Clacton, Shorefields School",1500CNWINSCH,51.797756,1.169614,21:23
-"Clacton, Victoria Road",150044011008,51.795725,1.164206,21:24
-"Clacton, Avondale Road",150044011006,51.793968,1.161008,21:25
-"Clacton, Thoroughgood Road",150044011005,51.793873,1.158825,21:26
 "Clacton, Railway Station",1500IM91,51.793265,1.154344,21:27
-"Clacton, Station Road",1500440180Y2,51.790754,1.153734,21:28
 "Clacton, Pier Avenue",1500IM123,51.788822,1.152352,21:29
 
 

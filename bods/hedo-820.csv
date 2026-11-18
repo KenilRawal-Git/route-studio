@@ -1,86 +1,25 @@
 MF
-West Mersea > Great Wigborough > Smyths Green > Tiptree
+West Mersea > Layer Breton > Smyths Green > Tiptree
 Route,NaPTAN,Latitude,Longitude,820
 Codes,,,,
 "West Mersea, Waldegraves Caravan Park",150014013034,51.784879,0.939862,07:32
-"West Mersea, The Fox",1500IM253B,51.783291,0.933204,07:33
-"West Mersea, Seaview Avenue",1500IM254,51.781971,0.92916,07:34
-"West Mersea, Empress Avenue",1500IM255,51.781417,0.925397,07:35
-"West Mersea, The Fountain",150014013033,51.780818,0.920907,07:36
-"West Mersea, Barfield Rd",150014013032,51.778294,0.9197,07:37
-"West Mersea, Melrose Rd",150014013025,51.778194,0.916852,07:38
-"West Mersea, High Street",1500IM257,51.776466,0.911463,07:39
-"West Mersea, High Street",1500IM257B,51.776678,0.911274,07:43
 "West Mersea, Tesco",15003804902,51.778832,0.912514,07:44
-"West Mersea, Upland Rd",150014713046,51.780611,0.91331,07:45
-"West Mersea, Chatsworth Rd",150014713048,51.783186,0.915738,07:46
-"West Mersea, Playing Fields",150014013Y30,51.784156,0.920862,07:47
-"West Mersea, Pyefleet House",1500140120Y7,51.801689,0.914902,07:48
-"West Mersea, Pyefleet House",150014012017,51.801724,0.914962,07:49
 "Peldon, The Rose",1500DGK234,51.805254,0.909692,07:50
-"Peldon, Kemps Farm",150014012Y10,51.808553,0.897006,07:51
-"Peldon, Newpots Close",1500IM260,51.810329,0.88515,07:53
-"Little Wigborough, Copt Hall Lane",1500IM261,51.804072,0.868125,07:58
-"Great Wigborough, School Lane South",1500IM262,51.798323,0.852703,08:00
-"Great Wigborough, Old Kings Head",1500IM263AA,51.797851,0.831308,08:01
-"Great Wigborough, Abbots Wick Lane",1500140110Y8,51.80012,0.831943,08:02
-"Great Wigborough, Church Lane",150014009Y23,51.803694,0.831804,08:02
-"Great Wigborough, Layer Road",1500140100Y1,51.807382,0.832166,08:03
-"Great Wigborough, Middle Field Hill",150014009Y19,51.809027,0.831805,08:03
-"Layer Breton, Layer Breton Hall",150014010Y12,51.819143,0.826664,08:04
-"Layer Breton, Lower Road",1500IM1549,51.825898,0.823255,08:04
-"Layer Breton, The Old Meeting House",150014010008,51.82818,0.821845,08:05
 "Layer Breton, Church",150014010007,51.830957,0.820422,08:05
-"Layer Breton, Hare and Hounds",1500BIRCH1AA,51.83459,0.819314,08:06
-"Birch, Mill Lane",1500IM1548,51.836869,0.819921,08:07
-"Birch, School Lane",150014010Y02,51.839616,0.820121,08:08
 "Birch, Lower Rd",1500IM1547,51.772348,0.737757,08:10
-"Birch, Caper Lane",150014005Y16,51.843997,0.810682,08:11
-"Birch, Roundbush Road",150014006Y08,51.837984,0.795833,08:12
 "Smyths Green, Smyths Green",1500IM1272,51.833749,0.787107,08:13
-"Messing, Harborough Hall Rd",150014006Y09,51.830098,0.764601,08:15
-"Tiptree, Colchester Road",150014006010,51.821063,0.747576,08:21
 "Tiptree, Thurstable School",150014006012,51.819157,0.746386,08:25
 
-Tiptree > Birch > Little Wigborough > West Mersea
+Tiptree > Birch > Great Wigborough > West Mersea
 Route,NaPTAN,Latitude,Longitude,820,820
 Codes,,,,FO SCH,MOTUWETH
 "Tiptree, Thurstable School",1500IM1859,51.819284,0.74635,14:15,15:35
-"Tiptree, Colchester Road",150014006Y10,51.821289,0.74756,14:16,15:36
-"Messing, Harborough Hall Rd",150014006009,51.830196,0.764665,14:19,15:39
 "Smyths Green, Smyths Green",1500IM1272AA,51.833769,0.786992,14:23,15:43
-"Birch, Roundbush Road",150014006008,51.838039,0.795807,14:24,15:44
-"Birch, Caper Lane",150014005016,51.844172,0.810896,14:25,15:45
 "Birch, Lower Rd",1500IM1547Y,51.84574,0.813767,14:26,15:46
-"Birch, School Lane",150014010002,51.839596,0.820207,14:28,15:48
-"Birch, Mill Lane",150014010004,51.836759,0.820001,14:29,15:49
-"Layer Breton, Hare and Hounds",1500BIRCH1,51.834614,0.819446,14:30,15:50
 "Layer Breton, Church",150014010001,51.831272,0.820442,14:31,15:51
-"Layer Breton, The Old Meeting House",1500140100Y8,51.828205,0.821919,14:31,15:51
-"Layer Breton, Lower Road",150014010013,51.825849,0.823441,14:32,15:52
-"Layer Breton, Layer Breton Hall",150014010012,51.819168,0.826753,14:32,15:52
-"Great Wigborough, Middle Field Hill",150014009019,51.809043,0.831893,14:33,15:53
-"Great Wigborough, Layer Road",150014010011,51.807389,0.832254,14:33,15:53
-"Great Wigborough, Church Lane",150014009023,51.803718,0.831922,14:34,15:54
-"Great Wigborough, Abbots Wick Lane",150014011008,51.8001,0.832043,14:35,15:55
-"Great Wigborough, Old Kings Head",1500IM263,51.797732,0.831416,14:35,15:55
 "Great Wigborough, School Lane South",1500IM262B,51.798274,0.852135,14:36,15:56
-"Little Wigborough, Copt Hall Lane",1500IM261AA,51.804128,0.868056,14:38,15:58
-"Peldon, Newpots Close",1500IM260Y,51.810391,0.885168,14:43,16:03
-"Peldon, Kemps Farm",150014012010,51.808607,0.897024,14:44,16:04
 "Peldon, The Rose",1500DGK233,51.805307,0.90971,14:45,16:05
-"West Mersea, Pyefleet House",150014012017,51.801724,0.914962,14:46,16:06
-"West Mersea, Playing Fields",150014013030,51.784249,0.921839,14:48,16:08
-"West Mersea, Chatsworth Rd",150014713049,51.783087,0.916124,14:49,16:09
 "West Mersea, Upland Rd",150014713047,51.780502,0.913361,14:50,16:10
-"West Mersea, High Street",1500IM257,51.776466,0.911463,14:53,16:13
-"West Mersea, High Street",1500IM257B,51.776678,0.911274,14:58,16:18
-"West Mersea, Melrose Rd",15001401N019,51.778283,0.917264,14:59,16:19
-"West Mersea, Elmwood Drive",150014013026,51.779903,0.919761,14:59,16:19
-"West Mersea, The Fountain",1500IM256,51.780981,0.921585,15:00,16:20
-"West Mersea, Empress Avenue",1500IM255B,51.781379,0.924032,15:01,16:21
-"West Mersea, Seaview Avenue",1500IM254B,51.781885,0.928647,15:02,16:22
-"West Mersea, The Fox",1500IM253,51.783404,0.933385,15:03,16:23
 "West Mersea, Waldegraves Caravan Park",150014013Y34,51.785099,0.939658,15:04,16:24
 
 

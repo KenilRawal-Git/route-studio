@@ -3,45 +3,18 @@ Monkwick > Colchester > Old Heath > Rowhedge
 Route,NaPTAN,Latitude,Longitude,109
 Codes,,,,
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,15:20
-"Monkwick, Monkwick Avenue",150033053003,51.867277,0.906678,15:20
-"Colchester, Talcott Road",150033053001,51.869184,0.90885,15:21
-"Colchester, Middlewick Ranges",150033051003,51.870373,0.910219,15:22
-"Colchester, Crematorium",150033051001,51.873098,0.90839,15:22
-"Colchester, Normandy Avenue",150033049009,51.873783,0.909786,15:23
 "Colchester, Stalin Road",1500IM136,51.875208,0.912551,15:24
-"Colchester, Unity Close",150033049002,51.875263,0.917946,15:24
-"Colchester, Barn Hall Avenue",150033044001,51.875925,0.92242,15:25
 "Old Heath, Old Heath Post Office",1500IM138B,51.873928,0.924267,15:26
 "Old Heath, The Bell",1500IM1898,51.869465,0.927232,15:28
-"Old Heath, Rowhedge Road",150033045001,51.867175,0.929625,15:28
-"Old Heath, Battlesbrook Road",150033045003,51.865342,0.932092,15:29
-"Rowhedge, Battleswick Farm",150033045004,51.859777,0.943147,15:29
-"Rowhedge, Shipyard Corner",150033046001,51.857825,0.947115,15:30
-"Rowhedge, Taylor's Road",150033046004,51.857096,0.943901,15:30
-"Rowhedge, Heath Road Turn",1500IM1897,51.85679,0.939945,15:31
 "Rowhedge, Rowhedge",150033046008,51.85569,0.93829,15:32
 
 Rowhedge > Old Heath > Colchester > Monkwick
 Route,NaPTAN,Latitude,Longitude,109
 Codes,,,,
 "Rowhedge, Rowhedge",150033046007,51.855692,0.938189,08:00
-"Rowhedge, Heath Road Turn",1500IM1897B,51.856914,0.940026,08:00
-"Rowhedge, Taylor's Road",150033046003,51.857244,0.944114,08:01
-"Rowhedge, Shipyard Corner",150033046002,51.857871,0.94706,08:01
-"Rowhedge, Battleswick Farm",150033045005,51.859648,0.943269,08:02
-"Old Heath, Cleavelands",1500EMP0013,51.862917,0.937004,08:02
-"Old Heath, Battlesbrook Road",150033045002,51.866093,0.930804,08:03
 "Old Heath, The Bell",1500IM1898B,51.868282,0.927794,08:04
 "Old Heath, Old Heath Post Office",1500IM138,51.874699,0.923634,08:07
-"Colchester, Canwick Grove",1500IM1870,51.875552,0.920812,08:07
-"Colchester, Unity Close",150033049003,51.875137,0.91724,08:08
-"Colchester, Churchill Way",150033049004,51.874799,0.915998,08:08
 "Colchester, Stalin Road",1500IM1871,51.874587,0.911828,08:09
-"Colchester, Normandy Avenue",150033049008,51.873809,0.910572,08:10
-"Colchester, Crematorium",150033051002,51.872787,0.908995,08:11
-"Colchester, Middlewick Ranges",150033051004,51.870139,0.910582,08:12
-"Colchester, Talcott Road",150033053002,51.869126,0.908294,08:13
-"Monkwick, Monkwick Avenue",1500IM1900,51.866708,0.90606,08:14
 "Monkwick, Thomas Lord Audley School",150033054906,51.866674,0.901976,08:15
 
 

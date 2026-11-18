@@ -1,64 +1,26 @@
 MF
-Bildeston > Brent Eleigh > Acton Place > Great Cornard
+Bildeston > Monks Eleigh > Acton > Great Cornard
 Route,NaPTAN,Latitude,Longitude,716
 Codes,,,,
 "Bildeston, Clock Tower",390010652,52.10768,0.90801,07:35
 "Bildeston, High Street",390010657,52.1027,0.90938,07:38
 "Chelsworth, The Peacock",390010467,52.0951,0.89293,07:40
-"Monks Eleigh, Lion Hill",390010747,52.09268,0.8761,07:43
 "Monks Eleigh, The Swan",390010470,52.09169,0.86911,07:44
-"Brent Eleigh, Milden Road",390010477,52.09218,0.83726,07:46
-"Brent Eleigh, The Cock",390010479,52.09492,0.83223,07:48
 "Lavenham, The Swan",390010131,52.10736,0.79541,07:57
-"Lavenham, Coach Park",390010129,52.10618,0.79347,07:57
-"Lavenham, The Glebe",390010879,52.10374,0.79095,07:58
-"Lavenham, Howlett Garage",390010137,52.10174,0.79113,07:58
 "Great Waldingfield, Bowls & Social Club",390010207,52.05869,0.77498,08:08
-"Acton, Vicarage Lane",390010889,52.06678,0.76893,08:10
 "Acton, Queensway",390010217,52.07023,0.76205,08:12
-"Acton, Crown",390010142,52.07112,0.75946,08:12
-"Acton Place, Industrial Estate",390010143,52.07922,0.74948,08:14
-"Long Melford, Mills Lane",390010288,52.06208,0.72265,08:18
 "Sudbury, Tesco",390010299,52.05243,0.73192,08:21
-"Sudbury, Acton Lane",390010302,52.04959,0.74027,08:22
-"Sudbury, Second Avenue",390010307,52.04816,0.74313,08:22
-"Sudbury, Homebase",390010308,52.04751,0.74522,08:23
-"Sudbury, Chilton Industrial Estate",390010323,52.04491,0.75107,08:23
-"Sudbury, Newton Road",390010852,52.04068,0.75262,08:24
-"Great Cornard, Rede Way",390010265,52.03306,0.7575,08:27
-"Great Cornard, The Drift",390011871,52.02913,0.75551,08:28
-"Great Cornard, Broom Street",390010255,52.0277,0.75211,08:29
 "Great Cornard, Thomas Gainsborough School",390010253,52.02578,0.74892,08:30
 
-Great Cornard > Acton Place > Brent Eleigh > Bildeston
+Great Cornard > Acton > Monks Eleigh > Bildeston
 Route,NaPTAN,Latitude,Longitude,716
 Codes,,,,
 "Great Cornard, Thomas Gainsborough School",390010253,52.02578,0.74892,15:30
-"Great Cornard, Broom Street",390010254,52.02773,0.75198,15:31
-"Great Cornard, The Drift",390010696,52.02932,0.7555,15:31
-"Great Cornard, Minsmere Way",390010262,52.03145,0.75854,15:32
-"Great Cornard, Rede Way",390010264,52.03307,0.75732,15:33
-"Great Cornard, Raydon Way",390010866,52.03398,0.75616,15:33
-"Great Cornard, Chelsworth Avenue",390010266,52.03594,0.75283,15:34
-"Sudbury, Chilton Industrial Estate",390010324,52.04486,0.75083,15:36
-"Sudbury, Homebase",390010308,52.04751,0.74522,15:38
-"Sudbury, Second Avenue",390010306,52.04808,0.74304,15:38
-"Sudbury, Acton Lane",390010303,52.04953,0.74013,15:39
 "Sudbury, Tesco",390010299,52.05243,0.73192,15:41
-"Long Melford, Mills Lane",390010287,52.06216,0.72239,15:43
-"Acton Place, Industrial Estate",390010144,52.07926,0.74968,15:47
-"Acton, Crown",390010141,52.0712,0.75956,15:49
 "Acton, Queensway",390010218,52.07004,0.76249,15:50
-"Acton, Vicarage Lane",390010890,52.06685,0.76917,15:50
 "Great Waldingfield, Bowls & Social Club",390010208,52.0587,0.77518,15:52
-"Lavenham, Howlett Garage",390010138,52.1019,0.79102,16:00
-"Lavenham, The Glebe",390010878,52.10375,0.79064,16:01
-"Lavenham, Coach Park",390010130,52.10616,0.7932,16:01
 "Lavenham, The Swan",390010132,52.10764,0.79536,16:02
-"Brent Eleigh, The Cock",390010480,52.09414,0.83341,16:07
-"Brent Eleigh, Milden Road",390010478,52.0923,0.8372,16:08
 "Monks Eleigh, The Swan",390010469,52.09174,0.86913,16:10
-"Monks Eleigh, Lion Hill",390010746,52.09276,0.87612,16:11
 "Chelsworth, The Peacock",390010468,52.09521,0.89295,16:15
 "Bildeston, High Street",390010656,52.10282,0.9093,16:20
 "Bildeston, Clock Tower",390010652,52.10768,0.90801,16:23

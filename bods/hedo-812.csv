@@ -1,79 +1,25 @@
 MF
-Witham > Marks Tey > Coggeshall
+Witham > Kelvedon > Marks Tey > Coggeshall
 Route,NaPTAN,Latitude,Longitude,812
 Codes,,,,
 "Witham, Rickstones School",1500IM9,51.81717,0.638435,07:38
-"Witham, Cypress Road",15003900101,51.810969,0.638638,07:40
-"Witham, Technology Centre",15003900602,51.807826,0.63844,07:41
 "Witham, Railway Station",1500IM887,51.805882,0.638878,07:43
-"Witham, Guithavon Valley",15003901302,51.803225,0.637852,07:44
 "Witham Town Centre, Collingwood Road",15003901303,51.801046,0.639567,07:45
-"Witham Town Centre, The George",1500AA193,51.800655,0.640966,07:45
-"Witham, Avenue Road",15003901404,51.802772,0.64402,07:46
-"Witham, Crittall Rd",15003901405,51.805562,0.647912,07:47
-"Witham, Freebournes Road",15003901406,51.807605,0.650657,07:47
-"Kelvedon, Crabb's Ln",1500KNMURCO,51.828859,0.690863,07:51
-"Kelvedon, London Road",150014004014,51.830691,0.693744,07:52
-"Kelvedon, Post Office",150014004013,51.833872,0.697374,07:53
-"Kelvedon, Surgery",150014004011,51.835062,0.698447,07:53
-"Kelvedon, The Institute",150014004009,51.83728,0.700917,07:54
-"Kelvedon, Trews Gardens",150014004Y08,51.838776,0.702749,07:54
 "Kelvedon, The Railway Tavern",150014004007,51.84005,0.70525,08:05
-"Feering, Feering Hill",150014004004,51.842307,0.711106,08:06
 "Feering, Gore Pit Corner",1500IM1470,51.844529,0.71651,08:07
-"Feering, New Lane",150014004034,51.849808,0.725875,08:08
-"Marks Tey, Station Road",150014002026,51.878897,0.77906,08:11
-"Marks Tey, Ashbury Drive",150014002023,51.877957,0.771664,08:12
-"Marks Tey, Godmans Lane",1500MRKSTY4,51.877451,0.76181,08:13
 "Marks Tey, Poplars Nurseries",1500MRKSTY3,51.877055,0.756438,08:14
-"Little Tey, Godbolt's Farm",1500IM1374,51.876772,0.750507,08:15
-"Little Tey, Church Lane",150014002017,51.876507,0.745682,08:16
-"Little Tey, Salmons Lane",1500IM1231B,51.876032,0.736353,08:17
-"Coggeshall, The Kings Arms",1500BROADGRN,51.875336,0.727593,08:18
-"Coggeshall, The Surrex Inn",150014002010,51.87338,0.711842,08:19
-"Coggeshall, Lee's Farm",150014002008,51.872702,0.705728,08:20
-"Coggeshall, Colne Road",150014003Y09,51.879921,0.692153,08:24
 "Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,08:25
 
-Coggeshall > Marks Tey > Witham
+Coggeshall > Feering > Witham Town Centre > Witham
 Route,NaPTAN,Latitude,Longitude,812
 Codes,,,,
 "Coggeshall, Honywood School",1500IM1585B,51.877835,0.690561,15:40
-"Coggeshall, Gurton Road",1500AA207,51.878242,0.69201,15:42
-"Coggeshall, Lee's Farm",150014002009,51.873074,0.708336,15:43
-"Coggeshall, Colne Road",150014003009,51.879924,0.691994,15:47
-"Coggeshall, The Surrex Inn",150014002011,51.873812,0.714163,15:48
-"Coggeshall, The Kings Arms",150014002013,51.875497,0.728795,15:49
-"Little Tey, Salmons Lane",1500IM1231,51.876209,0.73648,15:50
-"Little Tey, Church Lane",150014002016,51.876568,0.744581,15:51
-"Little Tey, Godbolt's Farm",1500IM1374B,51.876832,0.749843,15:52
 "Marks Tey, Poplars Nurseries",150014002020,51.877241,0.756944,15:53
-"Marks Tey, Godmans Lane",150014002022,51.877628,0.763463,15:54
-"Marks Tey, Ashbury Drive",150014002024,51.878058,0.771568,15:55
-"Marks Tey, Station Road",150014002025,51.87897,0.77902,15:56
 "Feering, Prested Hall",150014004001,51.847043,0.723326,16:06
 "Feering, Gore Pit Corner",150014004003,51.844448,0.716549,16:08
-"Feering, Feering Hill",150014004005,51.841825,0.710147,16:09
 "Kelvedon, The Railway Tavern",1500IM1471,51.840121,0.705661,16:10
-"Kelvedon, Trews Gardens",150014004008,51.838914,0.703033,16:10
-"Kelvedon, The Institute",150014004010,51.836568,0.700236,16:10
-"Kelvedon, Post Office",1500IM1252,51.834027,0.697689,16:11
-"Kelvedon, London Road",150014004015,51.82974,0.692454,16:12
-"Kelvedon, Crabb's Ln",150014703077,51.828023,0.689666,16:12
-"Witham, Freebournes Road",150039014Y6,51.80657,0.64948,16:16
-"Witham, Crittall Rd",150039014Y5,51.804433,0.646554,16:17
-"Witham, Avenue Road",1500WMPOLICE,51.802637,0.644012,16:18
-"Witham Town Centre, The George",1500AA193B,51.800805,0.641497,16:19
 "Witham Town Centre, Collingwood Road",1500IM7,51.800901,0.639631,16:20
-"Witham, Guithavon Valley",15003901301,51.803328,0.637699,16:21
 "Witham, Railway Station",15003900606,51.805908,0.638517,16:22
-"Witham, Technology Centre",15003900603,51.807765,0.63835,16:23
-"Witham, Braintree Road",1500IM893,51.809828,0.638195,16:23
-"Witham, Cypress Road",15003900404,51.811882,0.637604,16:24
-"Witham, Templars School",1500IM888B,51.813317,0.635003,16:24
-"Witham, Cherry Tree",1500IM892AA,51.814854,0.63222,16:25
-"Witham, Hemingway Road",15003900301,51.81652,0.631722,16:25
-"Witham, Virgil Road",15003900303,51.817615,0.635007,16:26
 "Witham, Rickstones School",1500IM9,51.81717,0.638435,16:27
 
 

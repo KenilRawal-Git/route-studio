@@ -3,36 +3,16 @@ Colchester > Old Heath
 Route,NaPTAN,Latitude,Longitude,816
 Codes,,,,
 "Colchester, St Helena School",1500IM1869,51.894888,0.888022,15:15
-"Colchester, Town Railway Station",1500DGK221,51.886101,0.904841,15:20
-"Colchester, Military Road",150033043002,51.885383,0.906219,15:20
-"Colchester, Lookers Garage",150033043004,51.883347,0.908921,15:21
-"Colchester, Garrison Church",150033043006,51.881503,0.911462,15:22
 "Colchester, Recreation Ground",1500IM1868,51.880322,0.914481,15:23
-"Colchester, Worsnop House",150033043009,51.879423,0.916297,15:23
-"Colchester, Scarletts Road",150033043011,51.877497,0.919238,15:24
-"Colchester, Barn Hall Avenue",150033044001,51.875925,0.92242,15:25
 "Old Heath, Old Heath Post Office",1500IM138B,51.873928,0.924267,15:26
-"Old Heath, Abbot's Rd",150033044004,51.871375,0.926019,15:26
-"Old Heath, The Bell",1500IM1898,51.869465,0.927232,15:27
-"Old Heath, Fingringhoe Road",150033047001,51.867272,0.928615,15:27
-"Old Heath, Wick Road",150033047003,51.866327,0.927217,15:28
 "Old Heath, Speedwell Road",1500IM1867,51.864975,0.929497,15:29
 
 Old Heath > Colchester
 Route,NaPTAN,Latitude,Longitude,816
 Codes,,,,
 "Old Heath, Speedwell Road",1500IM1867,51.864975,0.929497,07:52
-"Old Heath, The Bell",1500IM1898B,51.868282,0.927794,07:53
-"Old Heath, Abbot's Rd",150033044003,51.871801,0.925538,07:54
 "Old Heath, Old Heath Post Office",1500IM138,51.874699,0.923634,07:55
-"Colchester, Barn Hall Avenue",150033043013,51.876291,0.921471,07:57
-"Colchester, Scarletts Road",150033043012,51.876986,0.919903,07:58
-"Colchester, Worsnop House",150033043010,51.879325,0.916247,08:01
 "Colchester, Recreation Ground",1500IM1868A,51.880166,0.91463,08:03
-"Colchester, Garrison Church",150033043005,51.882679,0.909401,08:04
-"Colchester, Mill Street",150033043003,51.884396,0.907609,08:05
-"Colchester, Military Road",150033043001,51.885389,0.906001,08:06
-"Colchester, Town Railway Station",1500TEMP0011,51.885668,0.903796,08:07
 "Colchester, St Helena School",1500IM1869,51.894888,0.888022,08:16
 
 

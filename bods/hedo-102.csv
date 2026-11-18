@@ -1,359 +1,97 @@
 MF
-Colchester City Centre > Lawford > Little Oakley > Harwich
+Colchester City Centre > Lawford > Ramsey > Harwich
 Route,NaPTAN,Latitude,Longitude,102
 Codes,,,,
 "Colchester City Centre, Stanwell Street",15003303800C,51.886821,0.901167,20:35
-"Colchester City Centre, Head Street",1500ADD0006,51.888365,0.896194,20:38
 Pelhams Lane,150033037008,51.889708,0.898635,20:42
-"Colchester City Centre, Greyfriars",150033034001,51.889964,0.90573,20:42
-"Colchester, The Surgery",150033034003,51.889973,0.909393,20:43
-"Colchester, Brook Street",150033034005,51.889999,0.91377,20:44
-"Colchester, Greenstead Road",150033034011,51.890391,0.919013,20:44
-"Colchester, Fairfield Gardens",150033019001,51.892454,0.922476,20:45
-"Colchester, Dilbridge Road",150033019003,51.893756,0.924741,20:46
-"Colchester, Goring Road East",1500IM324A,51.89526,0.928647,20:46
-"Colchester, Hazelton Road",150033019007,51.896329,0.931915,20:47
 "Colchester, Bromley Road",150033019008,51.89715,0.935806,20:48
-"Colchester, St John's Road",150033020002,51.899968,0.937822,20:48
-"Colchester, Welshwood Park",150033020004,51.902242,0.939671,20:49
-"Colchester, Hyundai Garage",150010120Y2,51.911524,0.950443,20:50
-"Colchester, Springvalley Lane",15001012003B,51.913913,0.960954,20:51
-"Colchester, Clover Way",150010120Y3,51.915122,0.962953,20:52
-"Ardleigh, The Wooden Fender",1500DGK224,51.921272,0.971911,20:53
-"Ardleigh, St Mary's Primary School",1500290060Y7,51.925654,0.979663,20:54
 "Ardleigh, The Lion",1500IM66,51.925982,0.985183,20:55
 "Dedham, The Marlborough Head",1500IM2008,51.958981,0.993986,21:02
-"Dedham, Forge Street",150029005003,51.954727,0.995725,21:03
-"Dedham, Kiln Cottages",150029005005,51.951884,0.996118,21:04
-"Dedham, Coopers Lane",150029750004,51.950516,0.995823,21:05
-"Dedham Heath, The Anchor",150029005007,51.946266,0.995642,21:06
 "Dedham Heath, The Heath",1500DED1,51.943781,0.99648,21:08
-"Ardleigh, Home Farm Lane",150029006005,51.93206,0.995495,21:08
-"Lawford, Bargate Lane",1500BARGATE1,51.936775,1.012309,21:09
-"Lawford, Garden City",1500LAW1Y1,51.938253,1.025504,21:10
-"Lawford, Hungerdown Lane",150029006004,51.940002,1.032679,21:10
-"Lawford, Church Hill",1500AA132AA,51.938899,1.038847,21:11
 "Lawford, Lawford Place",150029006001,51.938496,1.044699,21:12
-"Lawford, Milton Road",150029007013,51.937979,1.048331,21:12
-"Lawford, Waldegrave Way",1500IM1186,51.93862,1.050644,21:13
-"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,21:14
-"Manningtree, Sports Centre",1500SPORT1,51.941102,1.055164,21:14
-"Manningtree, Riverview",150029007020,51.942759,1.058565,21:15
-"Manningtree, Bendalls Court",1500IM1815AA,51.945144,1.060911,21:16
 "Manningtree, The Skinners Arms",1500IM64,51.945401,1.061408,21:17
-"Manningtree, Kiln Lane",1500MANKILNA,51.945858,1.068018,21:18
-"Mistley, Post Office",150029007Y11,51.944737,1.079263,21:19
-"Mistley, Chapel Cut",150029007009,51.942204,1.086337,21:20
-"Mistley, Shrubland Road",1500HNR605A,51.940905,1.087863,21:21
 "Mistley, Rigby Avenue",1500IM63B,51.940592,1.090883,21:22
-"Mistley, Heath Road",15001012004,51.940269,1.093582,21:23
-"Mistley Heath, The Blacksmiths Arms",1500290070Y7,51.933979,1.094051,21:24
-"Bradfield Heath, Sparkes Stores",150029007005,51.925401,1.105578,21:25
-"Bradfield Heath, Cansey Lane",150029104004,51.926033,1.109564,21:26
 "Bradfield, The Village Maid",1500IM62AA,51.928882,1.114417,21:28
-"Bradfield, Carlson House Ind",150010120Y5,51.924059,1.125327,21:29
-"Wix, Wix Abbey",150010120Y6,51.916931,1.142721,21:30
 "Wix, Wix Cross",1500IM61,51.912351,1.143798,21:32
-"Wix, Oakley Road",150029104002,51.912587,1.151784,21:33
-"Great Oakley, Hamford Drive",150029104003,51.902537,1.185641,21:35
 "Great Oakley, The Memorial",1500IM120,51.903738,1.188445,21:37
-"Great Oakley, Partridge Close",1500PART1,51.9069,1.195896,21:38
-"Great Oakley, The Soils",1500GTOAKLY1,51.907407,1.19839,21:39
-"Little Oakley, Little Oakley Hall",150010120Y7,51.910269,1.218778,21:40
 "Little Oakley, The Cherry Tree",1500IM59,51.91627,1.223644,21:42
-"Little Oakley, Seaview Avenue",1500IM119,51.918499,1.228923,21:42
-"Little Oakley, Foulton Hall",150029016002,51.920978,1.230716,21:43
-"Little Oakley, Mayes Lane",1500IM1120,51.923048,1.230632,21:44
-"Little Oakley, Bay View Crescent",150029104006,51.924649,1.229351,21:45
-"Ramsey, C of E Primary School",1500MYSLN3,51.92735,1.225311,21:46
 "Ramsey, Church",150029020024,51.928163,1.225195,21:47
-"Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,21:47
-"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,21:48
-"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,21:49
 "Upper Dovercourt, Tollgate Post Office",150029020017,51.930627,1.244155,21:50
-"Upper Dovercourt, Ainger Road",150029020014,51.931332,1.24924,21:50
-"Upper Dovercourt, Bird in Hand",150029020012,51.932376,1.253127,21:51
-"Upper Dovercourt, Dovercourt Church",150029020010,51.93338,1.255542,21:51
-"Upper Dovercourt, War Memorial",150029020009,51.933832,1.258383,21:52
-"Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,21:52
-"Upper Dovercourt, Churchill Court",150029019006,51.937833,1.257451,21:53
 "Parkeston, Una Road",150029019003,51.942703,1.252085,21:54
 "Harwich International Port, Harwich International Station",1500IM1934,51.94661,1.253925,21:57
 "Parkeston, Morrisons Store",1500IM1933,51.940691,1.259463,21:59
-"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,21:59
-"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,22:00
-"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,22:01
-"Dovercourt, Ashley Road",150029020005,51.935151,1.268854,22:02
-"Dovercourt, Mayflower School",150029020003,51.935566,1.272376,22:03
-"Dovercourt, Brooklyn Road",150029020002,51.936088,1.275921,22:04
 "Dovercourt, High Street",1500IM53,51.937444,1.281477,22:05
-"Harwich, Barrack Lane",150029021004,51.939569,1.28591,22:05
-"Harwich, Mayflower Avenue",1500IM117Y,51.941859,1.286994,22:06
-"Harwich, Lighthouse",1500IM116Y,51.944034,1.288027,22:07
 "Harwich, Railway Station",1500IM52,51.944176,1.286786,22:08
 
-Harwich > Ramsey > Manningtree > Colchester City Centre
+Harwich > Little Oakley > Lawford > Colchester City Centre
 Route,NaPTAN,Latitude,Longitude,102
 Codes,,,,
 "Harwich, Railway Station",1500IM52,51.944176,1.286786,19:05
-"Harwich, Mayflower Avenue",1500IM117,51.941821,1.287079,19:06
-"Harwich, Barrack Lane",150029021005,51.939406,1.285942,19:07
 "Dovercourt, High Street",1500IM82,51.937229,1.281112,19:08
-"Dovercourt, Brooklyn Road",150029020001,51.936056,1.276079,19:08
-"Dovercourt, Mayflower School",1500IM118,51.935483,1.272428,19:09
-"Dovercourt, Highfield Avenue",150029020006,51.934943,1.266947,19:10
-"Upper Dovercourt, Dovercourt Hospital",1500IM54,51.934647,1.261745,19:11
-"Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,19:12
-"Upper Dovercourt, Churchill Court",150029019006,51.937833,1.257451,19:13
 "Parkeston, Morrisons Store",1500IM1933B,51.940691,1.259143,19:14
 "Harwich International Port, Harwich International Station",1500IM1934,51.94661,1.253925,19:17
 "Parkeston, Una Road",150029019003,51.942703,1.252085,19:20
-"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,19:20
-"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,19:21
-"Upper Dovercourt, Dovercourt Church",1500IM1119,51.933191,1.255194,19:21
-"Upper Dovercourt, Bird in Hand",150029020013,51.931679,1.251331,19:22
-"Upper Dovercourt, Ainger Road",150029020015,51.930957,1.247525,19:22
 "Upper Dovercourt, Tollgate Post Office",1500IM56,51.930632,1.24465,19:23
-"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,19:23
-"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,19:24
-"Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,19:25
-"Ramsey, C of E Primary School",1500MYSLN3AA,51.927429,1.225389,19:25
-"Little Oakley, Bay View Crescent",150029104Y06,51.924746,1.229401,19:26
-"Little Oakley, Mayes Lane",150029016005,51.923231,1.230878,19:27
-"Little Oakley, Foulton Hall",150029016003,51.921047,1.230794,19:27
-"Little Oakley, Seaview Avenue",150029011004,51.918184,1.228304,19:28
 "Little Oakley, The Cherry Tree",150029011003,51.916247,1.223802,19:29
-"Little Oakley, Little Oakley Hall",15001012007,51.910198,1.218758,19:30
-"Great Oakley, The Soils",1500GTOAKLY2,51.907274,1.198686,19:31
-"Great Oakley, Partridge Close",1500PART2,51.906403,1.194305,19:32
 "Great Oakley, The Memorial",1500IM120,51.903738,1.188445,19:34
-"Great Oakley, Hamford Drive",1500291040Y3,51.902562,1.186035,19:35
-"Wix, Oakley Road",1500291040Y2,51.912537,1.151315,19:37
 "Wix, Wix Cross",1500IM61AA,51.912319,1.145351,19:39
-"Wix, Wix Abbey",15001012006,51.916906,1.142647,19:41
 "Bradfield, The Village Maid",1500IM62,51.928594,1.114397,19:44
-"Bradfield Heath, Cansey Lane",150029104001,51.925746,1.109181,19:45
-"Bradfield Heath, Sparkes Stores",150029007006,51.925345,1.104949,19:46
-"Mistley Heath, The Blacksmiths Arms",150029007007,51.934,1.093951,19:47
-"Mistley, Heath Road",150010120Y4,51.940254,1.093144,19:48
 "Mistley, Rigby Avenue",1500IM63,51.940583,1.090519,19:50
-"Mistley, Shrubland Road",1500HNR605,51.940852,1.087816,19:51
-"Mistley, Chapel Cut",150029007010,51.942523,1.086199,19:52
-"Mistley, Post Office",150029007011,51.944834,1.079008,19:53
-"Manningtree, Kiln Lane",1500MANKILN,51.945815,1.068641,19:54
 "Manningtree, The Skinners Arms",150029007023,51.945278,1.061997,19:56
-"Manningtree, Bendalls Court",1500IM1815,51.944945,1.060955,19:56
-"Manningtree, Riverview",150029007019,51.941846,1.058052,19:57
-"Manningtree, Sports Centre",150029007018,51.940986,1.054108,19:57
-"Lawford, Edgefield Avenue",150029007016,51.939768,1.050766,19:58
-"Lawford, Waldegrave Way",150029007014,51.938393,1.050731,19:58
-"Lawford, Milton Road",150029102002,51.937521,1.049682,19:59
 "Lawford, Lawford Place",1500LAWFRD1,51.938255,1.043926,20:00
-"Lawford, Church Hill",1500AA132,51.93881,1.038783,20:01
-"Lawford, Hungerdown Lane",1500LAW1,51.939929,1.032733,20:02
-"Lawford, Garden City",1500LAW101,51.938173,1.02547,20:03
-"Lawford, Bargate Lane",1500BARGATE2,51.936647,1.013101,20:04
-"Ardleigh, Home Farm Lane",1500290060Y5,51.931781,0.995171,20:05
 "Dedham Heath, The Heath",150029005008,51.943993,0.996261,20:07
-"Dedham Heath, The Anchor",150029005006,51.946441,0.995493,20:07
-"Dedham, Coopers Lane",1500297500Y4,51.950492,0.995705,20:08
-"Dedham, Kiln Cottages",150029005004,51.952447,0.995908,20:09
-"Dedham, Forge Street",1500290050Y3,51.954161,0.995367,20:10
 "Dedham, The Marlborough Head",150029005001,51.958823,0.993815,20:11
 "Ardleigh, The Lion",150029006006,51.925826,0.98494,20:18
-"Ardleigh, St Mary's Primary School",150029006007,51.925654,0.980376,20:18
-"Ardleigh, The Wooden Fender",1500DGK225,51.921278,0.972028,20:19
-"Colchester, Clover Way",15001012093,51.915326,0.963432,20:20
-"Colchester, Springvalley Lane",15001012003,51.913934,0.961173,20:21
-"Colchester, Hyundai Garage",15001012002,51.910609,0.949263,20:21
-"Colchester, Welshwood Park",150033020003,51.901896,0.939518,20:22
-"Colchester, St John's Road",150033020001,51.899468,0.937687,20:23
 "Colchester, Bromley Road",150033019009,51.897011,0.936306,20:24
-"Colchester, Hazelton Road",150033019006,51.895984,0.93134,20:24
-"Colchester, Goring Road East",1500IM324,51.894791,0.927614,20:25
-"Colchester, Greenstead Road",150033034010,51.890578,0.920871,20:25
-"Colchester, The Surgery",150033034004,51.889874,0.910826,20:26
-"Colchester City Centre, Greyfriars",1500IM2079,51.88985,0.904894,20:26
 "Colchester City Centre, Queen Street",1500TMPQS1,51.889003,0.904214,20:27
 "Colchester City Centre, Stanwell Street",15003303800C,51.886821,0.901167,20:33
 
 
 SA
-Colchester City Centre > Lawford > Little Oakley > Harwich
+Colchester City Centre > Lawford > Ramsey > Harwich
 Route,NaPTAN,Latitude,Longitude,102,102
 Codes,,,,,
 "Colchester City Centre, Stanwell Street",15003303800C,51.886821,0.901167,20:35,23:35
-"Colchester City Centre, Head Street",1500ADD0006,51.888365,0.896194,20:38,23:38
 Pelhams Lane,150033037008,51.889708,0.898635,20:42,23:40
-"Colchester City Centre, Greyfriars",150033034001,51.889964,0.90573,20:42,23:40
-"Colchester, The Surgery",150033034003,51.889973,0.909393,20:43,23:41
-"Colchester, Brook Street",150033034005,51.889999,0.91377,20:44,23:42
-"Colchester, Greenstead Road",150033034011,51.890391,0.919013,20:44,23:42
-"Colchester, Fairfield Gardens",150033019001,51.892454,0.922476,20:45,23:43
-"Colchester, Dilbridge Road",150033019003,51.893756,0.924741,20:46,23:44
-"Colchester, Goring Road East",1500IM324A,51.89526,0.928647,20:46,23:44
-"Colchester, Hazelton Road",150033019007,51.896329,0.931915,20:47,23:45
 "Colchester, Bromley Road",150033019008,51.89715,0.935806,20:48,23:46
-"Colchester, St John's Road",150033020002,51.899968,0.937822,20:48,23:46
-"Colchester, Welshwood Park",150033020004,51.902242,0.939671,20:49,23:47
-"Colchester, Hyundai Garage",150010120Y2,51.911524,0.950443,20:50,23:48
-"Colchester, Springvalley Lane",15001012003B,51.913913,0.960954,20:51,23:49
-"Colchester, Clover Way",150010120Y3,51.915122,0.962953,20:52,23:50
-"Ardleigh, The Wooden Fender",1500DGK224,51.921272,0.971911,20:53,23:51
-"Ardleigh, St Mary's Primary School",1500290060Y7,51.925654,0.979663,20:54,23:52
 "Ardleigh, The Lion",1500IM66,51.925982,0.985183,20:55,23:53
 "Dedham, The Marlborough Head",1500IM2008,51.958981,0.993986,21:02,00:00
-"Dedham, Forge Street",150029005003,51.954727,0.995725,21:03,00:01
-"Dedham, Kiln Cottages",150029005005,51.951884,0.996118,21:04,00:02
-"Dedham, Coopers Lane",150029750004,51.950516,0.995823,21:05,00:03
-"Dedham Heath, The Anchor",150029005007,51.946266,0.995642,21:05,00:03
 "Dedham Heath, The Heath",1500DED1,51.943781,0.99648,21:06,00:04
-"Ardleigh, Home Farm Lane",150029006005,51.93206,0.995495,21:08,00:04
-"Lawford, Bargate Lane",1500BARGATE1,51.936775,1.012309,21:09,00:05
-"Lawford, Garden City",1500LAW1Y1,51.938253,1.025504,21:10,00:06
-"Lawford, Hungerdown Lane",150029006004,51.940002,1.032679,21:10,00:06
-"Lawford, Church Hill",1500AA132AA,51.938899,1.038847,21:11,00:07
 "Lawford, Lawford Place",150029006001,51.938496,1.044699,21:12,00:10
-"Lawford, Milton Road",150029007013,51.937979,1.048331,21:12,00:10
-"Lawford, Waldegrave Way",1500IM1186,51.93862,1.050644,21:13,00:11
-"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,21:14,00:12
-"Manningtree, Sports Centre",1500SPORT1,51.941102,1.055164,21:14,00:12
-"Manningtree, Riverview",150029007020,51.942759,1.058565,21:15,00:13
-"Manningtree, Bendalls Court",1500IM1815AA,51.945144,1.060911,21:16,00:14
 "Manningtree, The Skinners Arms",1500IM64,51.945401,1.061408,21:17,00:15
-"Manningtree, Kiln Lane",1500MANKILNA,51.945858,1.068018,21:18,00:16
-"Mistley, Post Office",150029007Y11,51.944737,1.079263,21:19,00:17
-"Mistley, Chapel Cut",150029007009,51.942204,1.086337,21:20,00:18
-"Mistley, Shrubland Road",1500HNR605A,51.940905,1.087863,21:21,00:19
 "Mistley, Rigby Avenue",1500IM63B,51.940592,1.090883,21:22,00:20
-"Mistley, Heath Road",15001012004,51.940269,1.093582,21:23,00:21
-"Mistley Heath, The Blacksmiths Arms",1500290070Y7,51.933979,1.094051,21:24,00:22
-"Bradfield Heath, Sparkes Stores",150029007005,51.925401,1.105578,21:25,00:23
-"Bradfield Heath, Cansey Lane",150029104004,51.926033,1.109564,21:26,00:24
 "Bradfield, The Village Maid",1500IM62AA,51.928882,1.114417,21:28,00:26
-"Bradfield, Carlson House Ind",150010120Y5,51.924059,1.125327,21:29,00:27
-"Wix, Wix Abbey",150010120Y6,51.916931,1.142721,21:30,00:28
 "Wix, Wix Cross",1500IM61,51.912351,1.143798,21:32,00:30
-"Wix, Oakley Road",150029104002,51.912587,1.151784,21:33,00:31
-"Great Oakley, Hamford Drive",150029104003,51.902537,1.185641,21:35,00:33
 "Great Oakley, The Memorial",1500IM120,51.903738,1.188445,21:37,00:35
-"Great Oakley, Partridge Close",1500PART1,51.9069,1.195896,21:38,00:36
-"Great Oakley, The Soils",1500GTOAKLY1,51.907407,1.19839,21:39,00:37
-"Little Oakley, Little Oakley Hall",150010120Y7,51.910269,1.218778,21:40,00:38
 "Little Oakley, The Cherry Tree",1500IM59,51.91627,1.223644,21:42,00:41
-"Little Oakley, Seaview Avenue",1500IM119,51.918499,1.228923,21:42,00:41
-"Little Oakley, Foulton Hall",150029016002,51.920978,1.230716,21:43,00:42
-"Little Oakley, Mayes Lane",1500IM1120,51.923048,1.230632,21:44,00:43
-"Little Oakley, Bay View Crescent",150029104006,51.924649,1.229351,21:45,00:43
-"Ramsey, C of E Primary School",1500MYSLN3,51.92735,1.225311,21:45,00:43
 "Ramsey, Church",150029020024,51.928163,1.225195,21:46,00:44
-"Upper Dovercourt, Michaelstowe Drive",150029020022,51.928929,1.229382,21:47,00:44
-"Upper Dovercourt, Clayton Road",150029020020,51.929193,1.234827,21:48,00:45
-"Upper Dovercourt, Valley Road",150029020018,51.929845,1.239253,21:48,00:46
 "Upper Dovercourt, Tollgate Post Office",150029020017,51.930627,1.244155,21:49,00:47
-"Upper Dovercourt, Ainger Road",150029020014,51.931332,1.24924,21:50,00:47
-"Upper Dovercourt, Bird in Hand",150029020012,51.932376,1.253127,21:51,00:48
-"Upper Dovercourt, Dovercourt Church",150029020010,51.93338,1.255542,21:51,00:48
-"Upper Dovercourt, War Memorial",150029020009,51.933832,1.258383,21:52,00:49
-"Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,21:52,–
-"Upper Dovercourt, Churchill Court",150029019006,51.937833,1.257451,21:52,–
 "Parkeston, Una Road",150029019003,51.942703,1.252085,21:53,–
 "Harwich International Port, Harwich International Station",1500IM1934,51.94661,1.253925,21:56,–
 "Parkeston, Morrisons Store",1500IM1933,51.940691,1.259463,21:58,–
-"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,21:59,–
-"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,22:00,–
-"Upper Dovercourt, Dovercourt Hospital",150029020007,51.934747,1.261694,22:01,00:51
-"Dovercourt, Ashley Road",150029020005,51.935151,1.268854,22:02,00:51
-"Dovercourt, Mayflower School",150029020003,51.935566,1.272376,22:03,00:51
-"Dovercourt, Brooklyn Road",150029020002,51.936088,1.275921,22:03,00:51
 "Dovercourt, High Street",1500IM53,51.937444,1.281477,22:04,00:52
-"Harwich, Barrack Lane",150029021004,51.939569,1.28591,22:05,00:52
-"Harwich, Mayflower Avenue",1500IM117Y,51.941859,1.286994,22:06,00:53
-"Harwich, Lighthouse",1500IM116Y,51.944034,1.288027,22:06,00:53
 "Harwich, Railway Station",1500IM52,51.944176,1.286786,22:07,00:54
 
-Harwich > Ramsey > Manningtree > Colchester City Centre
+Harwich > Little Oakley > Lawford > Colchester City Centre
 Route,NaPTAN,Latitude,Longitude,102,102
 Codes,,,,,
 "Harwich, Railway Station",1500IM52,51.944176,1.286786,19:05,22:15
-"Harwich, Mayflower Avenue",1500IM117,51.941821,1.287079,19:06,22:16
-"Harwich, Barrack Lane",150029021005,51.939406,1.285942,19:07,22:17
 "Dovercourt, High Street",1500IM82,51.937229,1.281112,19:08,22:18
-"Dovercourt, Brooklyn Road",150029020001,51.936056,1.276079,19:08,22:18
-"Dovercourt, Mayflower School",1500IM118,51.935483,1.272428,19:09,22:19
-"Dovercourt, Highfield Avenue",150029020006,51.934943,1.266947,19:10,22:20
-"Upper Dovercourt, Dovercourt Hospital",1500IM54,51.934647,1.261745,19:11,22:21
-"Upper Dovercourt, Scout Hut",150029019007,51.935652,1.259548,19:12,22:22
-"Upper Dovercourt, Churchill Court",150029019006,51.937833,1.257451,19:13,22:23
 "Parkeston, Morrisons Store",1500IM1933B,51.940691,1.259143,19:14,22:24
 "Harwich International Port, Harwich International Station",1500IM1934,51.94661,1.253925,19:17,22:26
 "Parkeston, Una Road",150029019003,51.942703,1.252085,19:20,22:29
-"Upper Dovercourt, Churchill Court",150029019005,51.938088,1.257339,19:20,22:29
-"Upper Dovercourt, Scout Hut",150029019008,51.935115,1.260106,19:21,22:30
-"Upper Dovercourt, Dovercourt Church",1500IM1119,51.933191,1.255194,19:21,22:30
-"Upper Dovercourt, Bird in Hand",150029020013,51.931679,1.251331,19:22,22:31
-"Upper Dovercourt, Ainger Road",150029020015,51.930957,1.247525,19:22,22:31
 "Upper Dovercourt, Tollgate Post Office",1500IM56,51.930632,1.24465,19:23,22:32
-"Upper Dovercourt, Valley Road",150029020019,51.929734,1.239042,19:23,22:32
-"Upper Dovercourt, Clayton Road",150029020021,51.929082,1.234295,19:24,22:33
-"Upper Dovercourt, Michaelstowe Drive",1500IM1653,51.928786,1.228688,19:25,22:34
-"Ramsey, C of E Primary School",1500MYSLN3AA,51.927429,1.225389,19:25,22:34
-"Little Oakley, Bay View Crescent",150029104Y06,51.924746,1.229401,19:26,22:35
-"Little Oakley, Mayes Lane",150029016005,51.923231,1.230878,19:27,22:36
-"Little Oakley, Foulton Hall",150029016003,51.921047,1.230794,19:27,22:36
-"Little Oakley, Seaview Avenue",150029011004,51.918184,1.228304,19:28,22:37
 "Little Oakley, The Cherry Tree",150029011003,51.916247,1.223802,19:29,22:38
-"Little Oakley, Little Oakley Hall",15001012007,51.910198,1.218758,19:30,22:39
-"Great Oakley, The Soils",1500GTOAKLY2,51.907274,1.198686,19:31,22:40
-"Great Oakley, Partridge Close",1500PART2,51.906403,1.194305,19:32,22:41
 "Great Oakley, The Memorial",1500IM120,51.903738,1.188445,19:34,22:43
-"Great Oakley, Hamford Drive",1500291040Y3,51.902562,1.186035,19:35,22:44
-"Wix, Oakley Road",1500291040Y2,51.912537,1.151315,19:37,22:46
 "Wix, Wix Cross",1500IM61AA,51.912319,1.145351,19:39,22:48
-"Wix, Wix Abbey",15001012006,51.916906,1.142647,19:41,22:50
 "Bradfield, The Village Maid",1500IM62,51.928594,1.114397,19:44,22:53
-"Bradfield Heath, Cansey Lane",150029104001,51.925746,1.109181,19:45,22:54
-"Bradfield Heath, Sparkes Stores",150029007006,51.925345,1.104949,19:46,22:55
-"Mistley Heath, The Blacksmiths Arms",150029007007,51.934,1.093951,19:47,22:56
-"Mistley, Heath Road",150010120Y4,51.940254,1.093144,19:48,22:57
 "Mistley, Rigby Avenue",1500IM63,51.940583,1.090519,19:50,22:59
-"Mistley, Shrubland Road",1500HNR605,51.940852,1.087816,19:51,23:00
-"Mistley, Chapel Cut",150029007010,51.942523,1.086199,19:52,23:01
-"Mistley, Post Office",150029007011,51.944834,1.079008,19:53,23:02
-"Manningtree, Kiln Lane",1500MANKILN,51.945815,1.068641,19:54,23:03
 "Manningtree, The Skinners Arms",150029007023,51.945278,1.061997,19:56,23:04
-"Manningtree, Bendalls Court",1500IM1815,51.944945,1.060955,19:56,23:04
-"Manningtree, Riverview",150029007019,51.941846,1.058052,19:57,23:05
-"Manningtree, Sports Centre",150029007018,51.940986,1.054108,19:57,23:05
-"Lawford, Edgefield Avenue",150029007016,51.939768,1.050766,19:58,23:06
-"Lawford, Waldegrave Way",150029007014,51.938393,1.050731,19:58,23:06
-"Lawford, Milton Road",150029102002,51.937521,1.049682,19:59,23:07
 "Lawford, Lawford Place",1500LAWFRD1,51.938255,1.043926,20:00,23:08
-"Lawford, Church Hill",1500AA132,51.93881,1.038783,20:01,23:09
-"Lawford, Hungerdown Lane",1500LAW1,51.939929,1.032733,20:02,23:10
-"Lawford, Garden City",1500LAW101,51.938173,1.02547,20:03,23:11
-"Lawford, Bargate Lane",1500BARGATE2,51.936647,1.013101,20:04,23:12
-"Ardleigh, Home Farm Lane",1500290060Y5,51.931781,0.995171,20:05,23:12
 "Dedham Heath, The Heath",150029005008,51.943993,0.996261,20:07,–
-"Dedham Heath, The Anchor",150029005006,51.946441,0.995493,20:07,–
-"Dedham, Coopers Lane",1500297500Y4,51.950492,0.995705,20:08,–
-"Dedham, Kiln Cottages",150029005004,51.952447,0.995908,20:09,–
-"Dedham, Forge Street",1500290050Y3,51.954161,0.995367,20:10,–
 "Dedham, The Marlborough Head",150029005001,51.958823,0.993815,20:11,–
 "Ardleigh, The Lion",150029006006,51.925826,0.98494,20:18,23:13
-"Ardleigh, St Mary's Primary School",150029006007,51.925654,0.980376,20:18,23:13
-"Ardleigh, The Wooden Fender",1500DGK225,51.921278,0.972028,20:19,23:14
-"Colchester, Clover Way",15001012093,51.915326,0.963432,20:20,23:15
-"Colchester, Springvalley Lane",15001012003,51.913934,0.961173,20:21,23:16
-"Colchester, Hyundai Garage",15001012002,51.910609,0.949263,20:21,23:16
-"Colchester, Welshwood Park",150033020003,51.901896,0.939518,20:22,23:17
-"Colchester, St John's Road",150033020001,51.899468,0.937687,20:23,23:18
 "Colchester, Bromley Road",150033019009,51.897011,0.936306,20:24,23:19
-"Colchester, Hazelton Road",150033019006,51.895984,0.93134,20:24,23:19
-"Colchester, Goring Road East",1500IM324,51.894791,0.927614,20:25,23:20
-"Colchester, Greenstead Road",150033034010,51.890578,0.920871,20:25,23:20
-"Colchester, The Surgery",150033034004,51.889874,0.910826,20:26,23:21
-"Colchester City Centre, Greyfriars",1500IM2079,51.88985,0.904894,20:26,23:21
 "Colchester City Centre, Queen Street",1500TMPQS1,51.889003,0.904214,20:27,23:22
 "Colchester City Centre, Stanwell Street",15003303800C,51.886821,0.901167,20:33,23:28
 

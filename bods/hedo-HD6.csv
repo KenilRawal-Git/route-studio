@@ -4,78 +4,20 @@ Route,NaPTAN,Latitude,Longitude,HD6
 Codes,,,,
 "Great Yeldham, Toppesfield Road",1500240120Y9,52.011996,0.565591,07:25
 "Ridgewell, Church Lane",1500240110Y9,52.039311,0.531779,07:29
-"Baythorne End, Old Post Office",1500IM1791,52.056508,0.513583,07:30
-"Baythorne End, Mill Road",1500240110Y7,52.057513,0.512822,07:31
-"New England, Birdbrook Tavern",1500IM2631AA,52.056161,0.492251,07:33
-"Sturmer, Linnetts Lane",1500240110Y4,52.065579,0.48103,07:33
-"Sturmer, Water Lane",150024011Y03,52.067292,0.47612,07:34
-"Sturmer, The Memorial",150024011Y02,52.068214,0.473749,07:34
 "Sturmer, Crunch Croft",1500IM1166AA,52.069148,0.469948,07:35
-"Steeple Bumpstead, Claywall Bridge",1500IM1796,52.045477,0.44767,07:43
-"Steeple Bumpstead, Post Office",1500IM1981AA,52.044935,0.446474,07:44
 "Steeple Bumpstead, Queen Edith Drive",1500240090Y9,52.04168,0.44214,07:45
-"Steeple Bumpstead, John Tibauld Court",150014713028,52.040674,0.442537,07:46
-"Steeple Bumpstead, Primary School",150014713030,52.04049,0.447077,07:46
-"Steeple Bumpstead, Edith Cavell Way",1500IM1906,52.040973,0.448911,07:47
-"Steeple Bumpstead, Chapel Street",150024009011,52.04199,0.448865,07:47
-"Steeple Bumpstead, Lion Meadow",1500240090Y2,52.044562,0.44886,07:48
-"Steeple Bumpstead, Blois Meadows",1500240100Y1,52.045546,0.451276,07:48
-"Steeple Bumpstead, Broad Green",1500240100Y2,52.048519,0.465222,07:49
-"New England, Chadwells Stud",150014713033,52.053808,0.488269,07:52
-"Birdbrook, Moat Rd",150014713034,52.042796,0.48894,07:54
-"Birdbrook, Pond",150014713036,52.040986,0.486492,07:55
-"Stambourne, Birdbrook Road",150024008004,52.022004,0.483427,07:57
-"Stambourne, Butchers Arms",1500IM1765B,52.022532,0.485278,07:57
-"Stambourne, Chapel End Way",1500HNR851B,52.022523,0.48952,07:58
-"Stambourne, Church",150024008003,52.022784,0.488222,07:58
-"Stambourne, Grange Lane",150024008002,52.021314,0.505836,07:59
-"Stambourne, Dyers End",1500HNR852,52.019658,0.509694,07:59
 "Stambourne, Village Hall",1500IM1766B,52.019629,0.509751,08:00
-"Stambourne, Toppesfield Road",1500240070Y7,52.020341,0.516874,08:03
 "Great Yeldham, Toppesfield Road",150024012019,52.012003,0.565679,08:13
-"Great Yeldham, Poole Farm",150024012020,52.003815,0.569189,08:15
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012021,51.998715,0.574171,08:16
-"Castle Hedingham, Yeldham Road",150024012022,51.99123,0.584156,08:17
-"Sible Hedingham, Station Road",150024014006,51.983299,0.59069,08:19
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:20
 
-Sible Hedingham > Birdbrook > New England > Great Yeldham
+Sible Hedingham > Stambourne > Sturmer > Great Yeldham
 Route,NaPTAN,Latitude,Longitude,HD6
 Codes,,,,
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:30
-"Sible Hedingham, Station Road",150024014005,51.983287,0.590806,15:32
-"Castle Hedingham, Yeldham Road",150024012Y22,51.991214,0.584068,15:35
-"Castle Hedingham, Dickett's Hill Industrial Estate",150024012Y21,51.998737,0.573997,15:37
-"Great Yeldham, Poole Farm",1500240120Y0,52.003817,0.569101,15:38
 "Great Yeldham, Toppesfield Road",1500240120Y9,52.011996,0.565591,15:40
-"Stambourne, Toppesfield Road",150024007007,52.020269,0.51687,15:52
 "Stambourne, Village Hall",1500IM1766,52.019724,0.509537,15:55
-"Stambourne, Dyers End",1500HNR852B,52.021153,0.506177,15:56
-"Stambourne, Grange Lane",1500240080Y2,52.021251,0.505804,15:56
-"Stambourne, Church",1500240080Y3,52.022703,0.488247,15:57
-"Stambourne, Chapel End Way",1500HNR851,52.021881,0.483275,15:57
-"Stambourne, Butchers Arms",1500IM1765,52.022476,0.485348,15:59
-"Stambourne, Birdbrook Road",1500240080Y4,52.02194,0.483482,16:00
-"Birdbrook, Pond",150014713037,52.040909,0.486283,16:01
-"Birdbrook, Moat Rd",150014713035,52.042834,0.48884,16:02
-"New England, Chadwells Stud",150014713032,52.053774,0.48815,16:04
-"Steeple Bumpstead, Broad Green",150024010002,52.048447,0.465233,16:06
-"Steeple Bumpstead, Blois Meadows",150024010001,52.045482,0.451316,16:06
-"Steeple Bumpstead, Lion Meadow",150024009012,52.044542,0.448975,16:07
-"Steeple Bumpstead, Chapel Street",1500240090Y1,52.042042,0.448941,16:07
-"Steeple Bumpstead, Edith Cavell Way",1500IM1906AA,52.040921,0.448836,16:08
-"Steeple Bumpstead, Primary School",150014713031,52.04031,0.447052,16:09
-"Steeple Bumpstead, John Tibauld Court",150014713029,52.040796,0.442267,16:09
 "Steeple Bumpstead, Queen Edith Drive",150024009009,52.041745,0.442041,16:10
-"Steeple Bumpstead, Post Office",1500IM1981,52.044964,0.446373,16:10
-"Steeple Bumpstead, Claywall Bridge",150018020003,52.04574,0.448005,16:11
 "Sturmer, Crunch Croft",1500IM1166,52.069255,0.469998,16:20
-"Sturmer, The Memorial",150024011002,52.068266,0.473854,16:20
-"Sturmer, Water Lane",150024011003,52.067354,0.476182,16:21
-"Sturmer, Linnetts Lane",150024011004,52.065651,0.481048,16:22
-"New England, Birdbrook Tavern",1500IM2631,52.056203,0.49237,16:23
-"Baythorne End, Mill Road",150024011007,52.057584,0.51287,16:24
-"Baythorne End, Old Post Office",1500IM1791B,52.056159,0.51352,16:25
 "Ridgewell, Church Lane",150024011009,52.039158,0.531785,16:26
 "Great Yeldham, Toppesfield Road",150024012019,52.012003,0.565679,16:30
 

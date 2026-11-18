@@ -3,125 +3,32 @@ Sudbury > Sible Hedingham > High Garrett > Braintree Town Centre
 Route,NaPTAN,Latitude,Longitude,85,85
 Codes,,,,,
 "Sudbury, Bus Station",390011863,52.03768,0.73209,15:05,–
-"Ballingdon, Old Railway Bridge",390010684,52.03471,0.71998,15:06,–
-"Ballingdon, Strawberry Stores",390010314,52.03359,0.7164,15:07,–
 "Bulmer Tye, Ryes Lane",1500IM1929,52.018328,0.694774,15:12,–
 "Castle Hedingham, The Bell",1500IM1443,51.989748,0.599613,15:20,–
-"Castle Hedingham, Sheepcot Rd",150024014004,51.987598,0.596372,15:21,–
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,15:26,15:30
-"Sible Hedingham, Station Road",150024014005,51.983287,0.590806,15:28,15:32
-"Sible Hedingham, Rectory Rd",1500IM2632B,51.980306,0.591027,15:29,15:33
 "Sible Hedingham, Post Office",150024012025,51.976871,0.593043,15:30,15:34
-"Sible Hedingham, The Swan",1500IM1453B,51.9735,0.594188,15:31,15:35
-"Sible Hedingham, Lamb Lane",150024012028,51.96853,0.597715,15:32,15:36
-"Sible Hedingham, Wash Farm",150024012029,51.966634,0.598901,15:33,15:37
-"Sible Hedingham, Foxborough",150024013018,51.962281,0.611096,15:34,15:38
 "Halstead, Hospital",150024013019,51.948962,0.637333,15:40,15:44
 "Halstead, High Street",1500IM101B,51.943889,0.635769,15:42,15:46
-"Halstead, Halstead Park",150027001004,51.943443,0.631566,15:43,15:47
-"Halstead, Ramsey Road",150027001007,51.94002,0.628194,15:44,15:48
-"Halstead, Mount Hill",150027001010,51.937968,0.626648,15:46,15:50
 "Halstead, Conies Road",1500IM1445,51.935817,0.629578,15:47,15:51
-"Halstead, Tweed Close",150027001014,51.934666,0.629947,15:47,–
-"Halstead, White Horse Avenue",1500220710Y3,51.934073,0.633942,15:48,–
-"Halstead, Ronald Road",150027001012,51.93546,0.63187,15:48,–
-"Halstead, Conies Road",150027001011,51.936098,0.628634,15:49,–
-"Halstead, Mount Hill",150027001009,51.938129,0.626294,15:49,–
-"Halstead, Blamsters Crescent",150027001008,51.938987,0.626562,15:50,–
-"Halstead, Monklands Court",150027001006,51.942321,0.629449,15:51,–
-"Halstead, Bird in Hand",150024012006,51.944395,0.626806,15:52,–
-"Halstead, Fosters Ley",150024012007,51.947354,0.622758,15:53,–
-"Whiteash Green, Tumblewoods",150024012009,51.947563,0.616193,15:54,–
-"Whiteash Green, Whiteash Green",150024012Y11,51.947559,0.60992,15:54,–
-"Gosfield, Russell's Road",150024012012,51.945304,0.605351,15:55,–
-"Gosfield, School",150024012013,51.944042,0.600985,15:55,–
-"Gosfield, Halstead Road",150024012016,51.941455,0.595175,15:56,–
-"Gosfield, Gosfield Corner",1500IM854,51.939731,0.59218,15:56,–
-"Gosfield, Church Road",150024012031,51.937142,0.591725,15:57,–
 "Gosfield, The Post Office",150024012032,51.935405,0.593007,15:57,–
-"Gosfield, Park Lane",150024012035,51.932318,0.595186,15:58,–
-"Gosfield, Tennis Courts",150024012037,51.927895,0.592661,15:58,–
-"Gosfield, Peterfield's Lane",150024012039,51.926166,0.591136,15:59,–
-"High Garrett, Gosfield Eaves",150024012040,51.921247,0.587028,15:59,–
-"High Garrett, Iron Pear Tree Farm",150024012043,51.919029,0.585228,16:00,–
-"High Garrett, Gosfield Road",150024012045,51.916055,0.582672,16:01,–
-"High Garrett, Foley Corner",1500IM855,51.913857,0.580801,16:02,–
-"High Garrett, Hare and Hounds",150027001026,51.910952,0.578337,16:03,–
-"High Garrett, Grove Field",150027001028,51.908736,0.576465,16:03,–
 "High Garrett, Four Releet",150027001031,51.905874,0.574106,16:04,–
-"Bocking, Broad Road Nursery",150027001036,51.902309,0.57098,16:05,–
-"Bocking, Broad Road",15003801402,51.897189,0.567009,16:06,–
-"Bocking, Larchwood Care Home",1500HIGH2009,51.89498,0.564761,16:07,–
-"Bocking, Convent Hill",1500AA205,51.893047,0.563081,16:08,–
 "Bocking, Six Bells",15003801302,51.88887,0.558324,16:09,–
-"Bocking, Old Court Hotel",15003801304,51.884568,0.55603,16:10,–
-"Braintree, Julien Court Road",15003801502,51.882248,0.557236,16:11,–
-"Braintree Town Centre, Courtauld Road",15003801501,51.880806,0.558229,16:12,–
-"Braintree Town Centre, Railway Street",15003803304,51.879646,0.558643,16:13,–
 "Braintree Town Centre, Bus Interchange",1500IM183B,51.877505,0.554947,16:19,–
 
 Braintree Town Centre > Gosfield > Castle Hedingham > Sudbury
 Route,NaPTAN,Latitude,Longitude,85,85
 Codes,,,,,
 "Braintree Town Centre, Bus Interchange",1500IM183H,51.877712,0.554929,07:25,–
-"Braintree Town Centre, Railway Street",15003803303,51.879513,0.558548,07:26,–
-"Braintree, Julien Court Road",15005001,51.882807,0.556744,07:27,–
-"Bocking, Old Court Hotel",15003801303,51.885094,0.556235,07:29,–
 "Bocking, Six Bells",1500AA206,51.888951,0.558328,07:31,–
-"Bocking, Convent Hill",1500AA205B,51.892927,0.562857,07:32,–
-"Bocking, Larchwood Care Home",1500LAR2009,51.895185,0.564846,07:33,–
-"Bocking, Broad Road",15003801401,51.897297,0.566987,07:34,–
-"Bocking, Broad Road Nursery",150027001035,51.902789,0.571225,07:35,–
 "High Garrett, Four Releet",1500IM2629,51.906161,0.574122,07:36,–
-"High Garrett, Grove Field",150027001029,51.908289,0.575901,07:36,–
-"High Garrett, Hare and Hounds",150027001027,51.910858,0.578128,07:37,–
-"High Garrett, Foley Corner",150027001024,51.914439,0.581314,07:37,–
-"High Garrett, Gosfield Road",150024012044,51.916333,0.582717,07:38,–
-"High Garrett, Iron Pear Tree Farm",150024012042,51.919182,0.585222,07:38,–
-"High Garrett, Gosfield Eaves",150024012041,51.920535,0.586289,07:39,–
-"Gosfield, Peterfield's Lane",150024012038,51.926398,0.591222,07:39,–
-"Gosfield, Tennis Courts",150024012036,51.928728,0.593219,07:40,–
-"Gosfield, Park Lane",150024012034,51.932568,0.594822,07:40,–
 "Gosfield, The Post Office",150024012033,51.9353,0.59287,07:41,–
-"Gosfield, Church Road",150024012030,51.937154,0.59158,07:41,–
-"Gosfield, Gosfield Corner",1500IM854B,51.939925,0.592366,07:42,–
-"Gosfield, Halstead Road",150024012015,51.942481,0.596369,07:42,–
-"Gosfield, School",150024012014,51.943987,0.599818,07:43,–
-"Gosfield, Russell's Road",150024012Y12,51.945358,0.605325,07:44,–
-"Whiteash Green, Whiteash Green",150024012011,51.947605,0.609865,07:45,–
-"Whiteash Green, Tumblewoods",150024012010,51.947726,0.615751,07:46,–
-"Halstead, Fosters Ley",150024012008,51.947425,0.622792,07:47,–
-"Halstead, Bird in Hand",150024012005,51.944059,0.627339,07:48,–
-"Halstead, Ramsey Road",150027001007,51.94002,0.628194,07:49,–
-"Halstead, Mount Hill",150027001010,51.937968,0.626648,07:50,–
 "Halstead, Conies Road",1500IM1445,51.935817,0.629578,07:52,07:52
-"Halstead, Tweed Close",150027001014,51.934666,0.629947,07:52,07:52
-"Halstead, White Horse Avenue",1500220710Y3,51.934073,0.633942,07:53,07:53
-"Halstead, Ronald Road",150027001012,51.93546,0.63187,07:54,07:54
-"Halstead, Conies Road",150027001011,51.936098,0.628634,07:54,07:54
-"Halstead, Mount Hill",150027001009,51.938129,0.626294,07:55,07:55
-"Halstead, Blamsters Crescent",150027001008,51.938987,0.626562,07:56,07:56
-"Halstead, Monklands Court",150027001006,51.942321,0.629449,07:57,07:57
-"Halstead, Halstead Park",150027001005,51.943444,0.63113,07:58,07:58
 "Halstead, High Street",1500IM101,51.943989,0.635731,08:01,08:01
 "Halstead, Hospital",150024013020,51.948919,0.637228,08:04,08:04
-"Sible Hedingham, Foxborough",150024013Y18,51.962294,0.610893,08:09,08:09
-"Sible Hedingham, Wash Farm",150024012Y29,51.966563,0.598824,08:10,08:10
-"Sible Hedingham, Lamb Lane",150024012027,51.970287,0.595967,08:11,08:11
-"Sible Hedingham, The Swan",1500IM1453,51.973188,0.594068,08:12,08:12
 "Sible Hedingham, Post Office",1500240120Y5,51.976846,0.592939,08:13,08:13
-"Sible Hedingham, Rectory Rd",1500IM2632,51.980737,0.589814,08:13,08:13
-"Sible Hedingham, Station Road",150024014006,51.983299,0.59069,08:14,08:14
 "Sible Hedingham, Hedingham School",150024014024,51.984817,0.590356,08:21,08:21
-"Castle Hedingham, Sheepcot Rd",150024014Y04,51.987644,0.596316,08:26,–
 "Castle Hedingham, The Bell",1500IM1443B,51.989785,0.599149,08:27,–
 "Bulmer Tye, Ryes Lane",1500IM1929B,52.01845,0.694957,08:36,–
-"Ballingdon, Strawberry Stores",390010315,52.03361,0.71627,08:40,–
-"Ballingdon, Old Railway Bridge",390010685,52.03479,0.71991,08:41,–
-"Sudbury, Mill Lane",390010232,52.03784,0.72364,08:42,–
-"Sudbury, Gregory Mills",390010686,52.03831,0.72641,08:43,–
-"Sudbury, Walnut Tree Lane",390010233,52.03949,0.72657,08:44,–
-"Sudbury, Suffolk Road",390010236,52.04136,0.73048,08:45,–
 "Sudbury, Bus Station",390011863,52.03768,0.73209,08:49,–
 
 

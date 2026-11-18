@@ -1,44 +1,22 @@
 MF
-Kelvedon > Feering > Inworth > Tiptree
+Kelvedon > Feering > Tiptree
 Route,NaPTAN,Latitude,Longitude,823
 Codes,,,,
 "Kelvedon, Crabb's Ln",1500KNMURCO,51.828859,0.690863,08:00
-"Kelvedon, London Road",150014004014,51.830691,0.693744,08:01
 "Kelvedon, Post Office",150014004013,51.833872,0.697374,08:03
-"Kelvedon, Surgery",150014004011,51.835062,0.698447,08:04
-"Kelvedon, The Institute",150014004009,51.83728,0.700917,08:05
-"Kelvedon, Trews Gardens",150014004Y08,51.838776,0.702749,08:05
 "Kelvedon, The Railway Tavern",150014004007,51.84005,0.70525,08:06
 "Feering, Feering Hill",150014004004,51.842307,0.711106,08:08
 "Feering, Gore Pit Corner",150014004021,51.843782,0.715797,08:10
-"Inworth, Yewtree Farm Road",150014004020,51.835725,0.724661,08:11
-"Inworth, The Prince of Wales",1500IM1469,51.828882,0.726947,08:12
-"Inworth, Windmill Hill",15002009INWO,51.826298,0.728243,08:13
-"Tiptree, Perrywood Nursery",15002009INWY,51.823537,0.730978,08:14
-"Tiptree, Oak Road",150014004019,51.821271,0.73637,08:15
-"Tiptree, Baynards School",150014004018,51.819226,0.741137,08:16
-"Tiptree, Windmill Green",150014004017,51.817451,0.744367,08:17
-"Tiptree, Barbrook Lane",1500IM1468,51.81769,0.745281,08:18
 "Tiptree, Thurstable School",1500IM1859,51.819284,0.74635,08:20
 
-Tiptree > Inworth > Feering > Kelvedon
+Tiptree > Feering > Kelvedon
 Route,NaPTAN,Latitude,Longitude,823,823
 Codes,,,,FO SCH,MOTUWETH
 "Tiptree, Thurstable School",150014006012,51.819157,0.746386,14:15,15:35
-"Tiptree, Baynards School",1500140040Y8,51.819109,0.74113,14:16,15:36
-"Tiptree, Windmill Green",1500140040Y7,51.817399,0.744291,14:17,15:37
-"Tiptree, Oak Road",1500140040Y9,51.821173,0.736321,14:18,15:38
-"Tiptree, Perrywood Nursery",15002009INW2,51.823603,0.730808,14:19,15:39
-"Inworth, Windmill Hill",150020091NW1,51.8266,0.727651,14:20,15:40
-"Inworth, The Prince of Wales",1500IM1469Y,51.828716,0.726749,14:21,15:41
-"Inworth, Yewtree Farm Road",1500140040Y0,51.835691,0.724572,14:22,15:42
 "Feering, Gore Pit Corner",1500140040Y1,51.843794,0.715653,14:23,15:43
 "Feering, Feering Hill",150014004005,51.841825,0.710147,14:25,15:45
 "Kelvedon, The Railway Tavern",1500IM1471,51.840121,0.705661,14:27,15:47
-"Kelvedon, Trews Gardens",150014004008,51.838914,0.703033,14:27,15:47
-"Kelvedon, The Institute",150014004010,51.836568,0.700236,14:28,15:48
 "Kelvedon, Post Office",1500IM1252,51.834027,0.697689,14:28,15:48
-"Kelvedon, London Road",150014004015,51.82974,0.692454,14:30,15:50
 "Kelvedon, Crabb's Ln",150014703077,51.828023,0.689666,14:31,15:51
 
 

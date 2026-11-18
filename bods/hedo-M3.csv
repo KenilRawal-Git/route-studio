@@ -3,43 +3,20 @@ Wix > Hare Green > Little Bromley > Manningtree
 Route,NaPTAN,Latitude,Longitude,M3
 Codes,,,,
 "Wix, Oakley Road",1500291040Y2,51.912537,1.151315,07:36
-"Wix, Wix Cross",1500IM61AA,51.912319,1.145351,07:38
-"Wix, Swedish Estate",150014713051,51.911031,1.13767,07:40
 "Little Bentley, The Bricklayers Arms",1500IM11251Y,51.890145,1.074743,07:48
-"Hare Green, Mary Lane",1500IM1758,51.882726,1.043949,07:51
 "Hare Green, Stables",1500IM126BB,51.881513,1.033448,07:52
-"Hare Green, The Old Courthouse",1500IM1126AA,51.88207,1.032439,07:52
 "Great Bromley, Great Bromley School",1500JMD025B,51.894876,1.02692,07:55
-"Great Bromley, Morebarn Rd",150014703057,51.898611,1.030645,07:58
-"Great Bromley, Hilliards Rd",150014703059,51.904336,1.046124,08:00
 "Little Bromley, Little Bromley",1500IM1417,51.91782,1.045699,08:05
-"Lawford, Claude Oliver Cl",150029007901,51.937489,1.043961,08:10
-"Lawford, Lawford Place",150029006001,51.938496,1.044699,08:11
-"Lawford, Milton Road",150029007013,51.937979,1.048331,08:11
-"Lawford, Waldegrave Way",1500IM1186,51.93862,1.050644,08:12
-"Lawford, Edgefield Avenue",150029007017,51.940014,1.050651,08:13
 "Manningtree, School",1500IM2497,51.941437,1.051956,08:20
 
-Manningtree > Little Bromley > Little Bentley > Wix
+Manningtree > Great Bromley > Little Bentley > Wix
 Route,NaPTAN,Latitude,Longitude,M3
 Codes,,,,
 "Manningtree, School",1500IM2497,51.941437,1.051956,15:10
-"Lawford, Edgefield Avenue",150029007016,51.939768,1.050766,15:11
-"Lawford, Waldegrave Way",150029007014,51.938393,1.050731,15:12
-"Lawford, Milton Road",150029102002,51.937521,1.049682,15:13
-"Lawford, Lawford Place",1500LAWFRD1,51.938255,1.043926,15:13
-"Lawford, Claude Oliver Cl",1500290079Y1,51.937376,1.044186,15:14
 "Little Bromley, Little Bromley",1500IM1417AA,51.917637,1.045817,15:20
-"Great Bromley, Hilliards Rd",150014703060,51.903051,1.043638,15:25
-"Great Bromley, Morebarn Rd",150014703058,51.898564,1.03073,15:27
 "Great Bromley, Great Bromley School",1500JMD025,51.894756,1.027042,15:30
-"Hare Green, The Old Courthouse",1500IM1126,51.882076,1.032541,15:34
 "Hare Green, Stables",1500IM126B,51.881561,1.033349,15:34
-"Hare Green, Mary Lane",1500IM1758AA,51.882807,1.043955,15:35
 "Little Bentley, The Bricklayers Arms",1500IM11251,51.890192,1.074659,15:38
-"Tendring Heath, Centurion Park",1500IM1185,51.903514,1.086271,15:41
-"Wix, Swedish Estate",150014713050,51.911006,1.137276,15:46
-"Wix, Wix Cross",1500IM61,51.912351,1.143798,15:48
 "Wix, Oakley Road",150029104002,51.912587,1.151784,15:50
 
 
