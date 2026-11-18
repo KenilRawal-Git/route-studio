@@ -673,6 +673,12 @@ span.gbt{cursor:default}
       </fieldset>
       <fieldset id="keySet">
         <legend><span class="num">4</span>Key</legend>
+        <details class="jrn" style="margin-bottom:8px"><summary>Funding notice above the key (optional)</summary>
+          <label class="field">Text <input type="text" id="ttFundText" maxlength="140" placeholder="e.g. Service 46A is funded by Suffolk County Council" style="width:100%"></label>
+          <label class="field">Logo (optional) <input type="file" id="ttFundLogo" accept="image/png,image/jpeg,image/svg+xml"></label>
+          <div class="row" style="gap:14px;flex-wrap:wrap"><label class="check">Band colour <input type="color" id="ttFundBg" value="#C6E0FB"></label><label class="check">Logo panel colour <input type="color" id="ttFundLogoBg" value="#2A5288"></label><label class="check">Text colour <input type="color" id="ttFundTextCol" value="#1E3A73"></label></div>
+          <div class="btnrow"><button type="button" class="linkbtn" id="ttFundClear">Remove the notice</button></div>
+        </details>
         <div id="keyRows"></div>
       </fieldset>
       <details class="more">
@@ -1337,7 +1343,11 @@ function layout(){
   const Lc=(x1,y1,x2,y2,c,lw)=>ops.push({k:"l",x1,y1,x2,y2,c,w:lw});
   // only show key entries whose code is actually used in the timetable (e.g. SCH, NS); no codes → no key bar
   const usedCodes=new Set(codesUsed());
-  const keyItems=state.key.filter(k=>usedCodes.has(String(k.code).trim().toUpperCase())), hasKey=keyItems.length>0, bottom=hasKey?G.bottom:G.bottomNoKey;
+  const keyItems=state.key.filter(k=>usedCodes.has(String(k.code).trim().toUpperCase())), hasKey=keyItems.length>0;
+  // funding notice (text and/or logo) sits directly above the key bar, and the tables stop above it
+  const TF=state.funding&&(state.funding.text||state.funding.logo)?state.funding:null, TFLW=71, TFSZ=8.5, TFL=[];
+  if(TF&&TF.text)String(TF.text).trim().split(/\s+/).forEach(w=>{const l=TFL.length?TFL[TFL.length-1]+" "+w:w; if(TFL.length&&width(l,TFSZ,"light")<=440)TFL[TFL.length-1]=l; else TFL.push(w)});
+  const TFH=TF?Math.max(34,TFL.length*11+12):0, TFY=(hasKey?G.keyTop:G.bottomNoKey)-TFH-(TF?6:0), bottom=TF?TFY-6:(hasKey?G.bottom:G.bottomNoKey);
   let tight=0; // space to drop above a first table that has no codes row
   let colMaxW=0; // direction width when two tables share the page side by side
 
@@ -1376,6 +1386,10 @@ function layout(){
       T("|",x,by,size,"light",C.pipe); x+=size*.594;
       runs.forEach(([t,w,c])=>{T(t,x,by,size,w,c);x+=width(t,size,w)});
     }
+    if(TF){ R(19.84,TFY,557.8,TFH,TF.bg||"#C6E0FB",5); R(19.84,TFY,TFLW,TFH,TF.logoBg||"#2A5288",5);
+      if(TF.logo)ops.push({k:"img",url:TF.logo.url,fmt:TF.logo.fmt,x:19.84+6,y:TFY+5,w:TFLW-12,h:TFH-10});
+      const top=TFY+TFH/2-(TFL.length-1)*11/2+3.2;
+      TFL.forEach((l,i)=>T(l,19.84+TFLW+11,top+i*11,TFSZ,"light",TF.textCol||"#1E3A73")); }
   };
   const banner=(sec,cont,noDay)=>{
     const lab=dayLabels(sec.name), day=expandDay(sec.day??lab.day).toUpperCase(), sub=sec.sub??lab.sub;
@@ -1554,7 +1568,7 @@ function svgPage(ops){
   ops.forEach(o=>{
     if(o.k==="r")s+=`<rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}"${o.rx?` rx="${o.rx}"`:""} fill="${o.c}"/>`;
     else if(o.k==="l")s+=`<line x1="${o.x1}" y1="${o.y1}" x2="${o.x2}" y2="${o.y2}" stroke="${o.c}" stroke-width="${Math.max(o.w,.25)}" stroke-opacity="${o.c==="#ffffff"?1:.55}"/>`;
-    else if(o.k==="img")s+=`<image href="data:image/png;base64,${o.src==="app"?APP_ICON:CC_LOGO}" x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" preserveAspectRatio="none"/>`;
+    else if(o.k==="img")s+=`<image href="${o.url||"data:image/png;base64,"+(o.src==="app"?APP_ICON:CC_LOGO)}" x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" preserveAspectRatio="none"/>`;
     else if(o.k==="t")s+=`<text x="${o.x}" y="${o.y}" font-family="Lexend, Arial, sans-serif" font-size="${o.size}" font-weight="${FW[o.w]||400}" fill="${o.color}"${o.align==="right"?' text-anchor="end"':o.align==="center"?' text-anchor="middle"':''} xml:space="preserve">${esc(o.text)}</text>`;
   });
   return s+"</svg>";
@@ -1568,7 +1582,7 @@ function buildPdf(pages){
     ops.forEach(o=>{
       if(o.k==="r"){doc.setFillColor(...hexRgb(o.c)); if(o.rx)doc.roundedRect(o.x,o.y,o.w,o.h,o.rx,o.rx,"F"); else doc.rect(o.x,o.y,o.w,o.h,"F")}
       else if(o.k==="l"){doc.setDrawColor(...hexRgb(o.c));doc.setLineWidth(o.w);doc.line(o.x1,o.y1,o.x2,o.y2)}
-      else if(o.k==="img")doc.addImage("data:image/png;base64,"+(o.src==="app"?APP_ICON:CC_LOGO),"PNG",o.x,o.y,o.w,o.h,o.src==="app"?"appicon":"cc");
+      else if(o.k==="img"){if(o.url)doc.addImage(o.url,o.fmt||"PNG",o.x,o.y,o.w,o.h,"tt_"+o.url.length); else doc.addImage("data:image/png;base64,"+(o.src==="app"?APP_ICON:CC_LOGO),"PNG",o.x,o.y,o.w,o.h,o.src==="app"?"appicon":"cc")}
       else if(o.k==="link"){ if(doc.link)doc.link(o.x,o.y,o.w,o.h,{url:o.url}) }
       else if(o.k==="t"){doc.setFont("Lexend",o.w||"normal");doc.setFontSize(o.size);doc.setTextColor(...hexRgb(o.color));doc.text(String(o.text),o.x,o.y,o.align?{align:o.align}:undefined)}
     });
@@ -1623,6 +1637,14 @@ $("ttSaveProj").addEventListener("click",ttSaveProject);
 $("ttOpenProj").addEventListener("change",async e=>{const f=e.target.files[0]; e.target.value=""; if(!f)return;
   try{const d=JSON.parse(await f.text()); if(d.kind!=="central-connect-timetable"||!d.snap)throw new Error("That isn't a timetable project file.");
     ttRestore(d.snap); renderSectionsUI(); renderKeyUI(); render()}catch(err){alert(err.message)}});
+const ttFundSet=(k,v)=>{state.funding=Object.assign({},state.funding||{},{[k]:v}); render()};
+$("ttFundText").addEventListener("input",()=>ttFundSet("text",$("ttFundText").value.trim()));
+$("ttFundBg").addEventListener("input",()=>ttFundSet("bg",$("ttFundBg").value));
+$("ttFundLogoBg").addEventListener("input",()=>ttFundSet("logoBg",$("ttFundLogoBg").value));
+$("ttFundTextCol").addEventListener("input",()=>ttFundSet("textCol",$("ttFundTextCol").value));
+$("ttFundLogo").addEventListener("change",()=>{const f=$("ttFundLogo").files[0]; if(!f)return; const r=new FileReader();
+  r.onload=()=>ttFundSet("logo",{url:r.result,fmt:(f.type.split("/")[1]||"png").replace("svg+xml","svg").replace("jpeg","jpg")}); r.readAsDataURL(f)});
+$("ttFundClear").addEventListener("click",()=>{state.funding=null; $("ttFundText").value=""; $("ttFundLogo").value=""; render()});
 function tmStr(v){return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
 function schCell(sec,i,j){return !!(sec.schCells&&sec.schCells[i+"|"+j])}   // a single time that runs on school days only (marked †)
 function jrnTime(s,j){const v=s.times.map(r=>r[j]).find(x=>x!==undefined&&x!==null&&x!==""&&x!=="-"); return typeof v==="number"?`${String(Math.floor(v/60)%24).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`:String(v??"")}
@@ -5681,7 +5703,7 @@ document.querySelectorAll(".srcpick").forEach(box=>box.querySelectorAll(".srct")
    on is loaded into it, and saved back when you move on, so routes and colours carry through every step. */
 const W={on:false,step:"tt",routes:[],cur:0,nextUid:1,colors:{},guideBuilt:false,nets:[],curNet:null,sel:new Set(),selMode:false};
 const WSTEPS=[["tt","Timetables"],["map","Route maps"],["fare","Fares"],["guide","Bus guide"]];
-const TT_KEYS=["route","color","label","routeColors","routeText","sections","endNote","key","keyMeanings"];
+const TT_KEYS=["route","color","label","routeColors","routeText","sections","endNote","key","keyMeanings","funding"];
 const FARE_KEYS=["route","color","routes","headMode","headText","zones","title","valid","sections","foot","panels","expiry","app","small","file","example"];
 function wIds(r){const live=W.on&&W.step==="tt"&&r&&r===W.routes[W.cur], st=live?state:r&&r.tt&&r.tt.state; if(!st||!st.sections.some(s=>s.stops.length))return [];
   const ids=[]; st.sections.forEach(s=>s.cols.forEach(c=>{const x=String(c.route||st.route||"").trim(); if(x&&!ids.includes(x))ids.push(x)})); if(!ids.length&&st.route)ids.push(st.route); return ids.sort(routeOrder)}
@@ -5695,6 +5717,7 @@ function ttSnap(){const o={}; TT_KEYS.forEach(k=>{if(state[k]!==undefined)o[k]=s
 function ttRestore(snap,quiet){
   const o=snap?structuredClone(snap.state):{route:"",color:"#E30F13",label:"Summary Timetable",routeColors:{...W.colors},sections:[],endNote:"",key:[],keyMeanings:{}};
   Object.assign(state,o); state.template=null; fileMeta=snap?snap.fileMeta:null;
+  if($("ttFundText"))$("ttFundText").value=state.funding?.text||"";
   $("route").value=state.route||""; $("label").value=state.label||""; if(state.valid)$("valid").value=state.valid;
   $("endNoteOn").checked=!!state.endNote; $("endNote").value=state.endNote||"No service on a Sunday"; $("endNote").disabled=!state.endNote;
   $("fileCard").hidden=!fileMeta; $("warn").hidden=true;
