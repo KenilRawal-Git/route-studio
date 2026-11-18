@@ -1392,7 +1392,14 @@ function layout(){
         dirExtra=fs*1.25;
         T(fit(best.a,fs,"semibold",MAXW),22.68,G.dirBase-3,fs,"semibold",C.dir);
         T(fit(best.b,fs,"semibold",MAXW),22.68,G.dirBase-3+dirExtra,fs,"semibold",C.dir) } }
-    y=(dir?G.firstBar:G.bannerY+G.bannerH+18)+dirExtra; tight=dir?14:6;
+    const base0=(dir?G.firstBar:G.bannerY+G.bannerH+18)+dirExtra; let yNext=base0; tight=dir?14:6;
+    // the note: any text, wrapped under the title (first page of the section only)
+    const noteTxt=!cont&&!noDay&&sec.note?String(sec.note).trim():"";
+    if(noteTxt){ const lines=[]; noteTxt.split(/\s+/).forEach(w=>{const l=lines.length?lines[lines.length-1]+" "+w:w; if(lines.length&&width(l,9,"light")<=552)lines[lines.length-1]=l; else lines.push(w)});
+      const nb=(dir?G.dirBase-3+dirExtra:G.bannerY+G.bannerH+6)+15;
+      lines.forEach((l,k)=>T(l,22.68,nb+k*11,9,"light",C.dir));
+      yNext=Math.max(base0,nb+(lines.length-1)*11+12); tight=6 }
+    y=yNext;
   };
   // size a table to the page: shrink rows/columns down to a readable minimum, then split evenly
   const fitSection=sec=>{
@@ -1626,6 +1633,7 @@ function renderSectionsUI(){
     </div>
     ${custom?`<label>Days wording <input data-k="day" value="${esc(day)}" placeholder="e.g. Tuesdays and Thursdays"></label>`:""}
     <label>Direction <input data-k="direction" value="${esc(s.direction||"")}" placeholder="e.g. Loughborough > Shepshed > Coalville"></label>
+    <label>Note under the title <input data-k="note" value="${esc(s.note||"")}" placeholder="Anything you like, e.g. Services do not run on bank holidays" style="width:100%"></label>
     <details class="jrn"><summary>Journeys (${s.cols.length}) · tick school days only, or not school days</summary>${s.cols.map((c,j)=>`<div class="jrnrow" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><label class="check"><input type="checkbox" data-colsch="${j}"${c.sch?" checked":""}> ${esc(c.route||state.route)} · ${esc(jrnTime(s,j))}</label><label class="check"><input type="checkbox" data-colnsch="${j}"${c.nsch?" checked":""}> Not school days</label></div>`).join("")}</details>
     <details class="jrn"><summary>Single times on school days only · click a time to mark it</summary><div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:13px"><tr><th></th>${s.cols.map((c,j)=>`<th style="padding:2px 6px;font-weight:600">${esc(c.route||state.route)}</th>`).join("")}</tr>${s.stops.map((x,i)=>`<tr><th style="text-align:left;padding:2px 8px 2px 0;font-weight:400;white-space:nowrap">${esc(x.stop||x.town)}</th>${s.cols.map((c,j)=>{const v=s.times[i]&&s.times[i][j]; if(!v||v==="-")return `<td style="padding:2px 6px;color:#aab">–</td>`; const on=schCell(s,i,j); return `<td style="padding:0"><button type="button" data-schcell="${i}|${j}" style="border:0;border-radius:4px;padding:2px 6px;cursor:pointer;background:${on?"#CFE8F5":"transparent"};font:inherit">${esc(tmStr(v))}${on?" †":""}</button></td>`}).join("")}</tr>`).join("")}</table></div></details>
     ${i>0?`<label class="check"><input type="checkbox" data-k="newPage" ${s.newPage!==false?"checked":""}> Start on a new page</label>`:""}
