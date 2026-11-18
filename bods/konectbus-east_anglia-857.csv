@@ -1,0 +1,22 @@
+MF
+Norwich City Centre > Norwich > Cringleford > Hethersett (village)
+Route,NaPTAN,Latitude,Longitude,857
+Codes,,,,SCH
+"Norwich City Centre, Bus Station",2900N12902,52.624153,1.292362,07:50
+"Norwich, Albemarle Road",2900N12349,52.618312,1.27957,07:55
+"Eaton, The Cellarhouse",2900N12141,52.608958,1.252204,08:08
+"Cringleford, Green",2900C3527,52.604272,1.239093,08:15
+"Hethersett (village), Churchfields",2900H2217,52.599744,1.188939,08:25
+"Hethersett (village), Academy",2900H2250,52.60019,1.181704,08:30
+
+Hethersett (village) > Cringleford > Norwich > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,857,857
+Codes,,,,MOFR SCH,TUWETH SCH
+"Hethersett (village), Academy",2900H2250,52.60019,1.181704,14:55,15:55
+"Hethersett (village), Churchfields",2900H2216,52.600532,1.190385,15:00,16:00
+"Cringleford, Interchange",2900C3532,52.604857,1.231869,15:10,16:10
+"Eaton, Slip Road",2900N12258,52.609623,1.251559,15:16,16:16
+"Norwich, Town Close Road",2900N12350,52.619195,1.281778,15:21,16:21
+"Norwich City Centre, Bus Station",2900N12902,52.624153,1.292362,15:26,16:26
+
+

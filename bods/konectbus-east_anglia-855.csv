@@ -1,0 +1,27 @@
+MF
+Salhouse > Sprowston > Hoveton
+Route,NaPTAN,Latitude,Longitude,855
+Codes,,,,SCH
+"Salhouse, Atlantic Avenue",2900S38573,52.65319,1.353375,07:49
+"Sprowston, Woodland Heath",2900S38574,52.65513,1.36077,07:51
+"New Rackheath, Stores",2900R0117,52.66421,1.381748,07:54
+"Salhouse, No. 82",2900S0219,52.670039,1.394567,07:56
+"Salhouse, Norwich Road",2900S02111,52.672421,1.402164,07:57
+"Salhouse, Mill Road",2900S029,52.67505,1.412667,07:58
+"Salhouse, Ward Road",2900S026,52.678595,1.416066,08:01
+"Salhouse, The Stag PH",2900S025,52.677201,1.410453,08:03
+"Hoveton, Broadland High School Grounds",2900H507,52.717274,1.414306,08:15
+
+Hoveton > Salhouse > New Rackheath > Sprowston
+Route,NaPTAN,Latitude,Longitude,855
+Codes,,,,SCH
+"Hoveton, Broadland High School",2900H5018,52.717117,1.413198,15:10
+"Salhouse, The Stag PH",2900S021,52.677325,1.410507,15:20
+"Salhouse, Ward Road",2900S0216,52.678541,1.416373,15:22
+"Salhouse, Mill Road",2900S028,52.674976,1.41275,15:25
+"Salhouse, Norwich Road",2900S02112,52.672383,1.402235,15:26
+"Salhouse, No. 85",2900S027,52.670379,1.395585,15:27
+"New Rackheath, Stores",2900R0118,52.664085,1.381694,15:29
+"Sprowston, Red Admiral Way",2900S38571,52.653732,1.355841,15:34
+
+

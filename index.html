@@ -5378,7 +5378,7 @@ function bodsInfo(I){if(!I.groups.length)return "The BODS timetables aren't avai
   const v=String(I.feed_version||"").slice(0,8), d=v?`${+v.slice(6)} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+v.slice(4,6)-1]} ${v.slice(0,4)}`:"";
   return `${I.groups.length} timetables from the Bus Open Data Service${d?`, data of ${d}`:""}. Times are for a normal school-term week; timing points only.`}
 function bodsItem(g,multi){const chips=g.routes.map(r=>`<span class="chip" style="background:${colourFor(r)};color:${txtOn(r,colourFor(r),readableOn)}">${esc(r)}</span>`).join("");
-  return `<${multi?"label":"button type=\"button\""} class="bodsr" data-g="${esc(g.id)}" data-q="${esc((g.routes.join(" ")+" "+g.name).toLowerCase())}">${multi?`<input type="checkbox" value="${esc(g.id)}">`:""}<span class="chips">${chips}</span><span class="bn">${esc(g.name)}<small>${g.journeys} journeys · ${g.days.join(", ")}</small></span></${multi?"label":"button"}>`}
+  return `<${multi?"label":"button type=\"button\""} class="bodsr" data-g="${esc(g.id)}" data-q="${esc((g.routes.join(" ")+" "+g.name).toLowerCase())}">${multi?`<input type="checkbox" value="${esc(g.id)}">`:""}<span class="chips">${chips}</span><span class="bn">${esc(g.name)}<small>${g.operator&&g.operator!=="Central Connect"?esc(g.operator)+" · ":""}${g.journeys} journeys · ${g.days.join(", ")}</small></span></${multi?"label":"button"}>`}
 /* the list of routes, grouped by region, with a search box */
 function bodsRender(box,I,multi){
   const regs=[...new Set(I.groups.map(g=>g.region||""))];

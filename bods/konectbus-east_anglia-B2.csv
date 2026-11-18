@@ -1,0 +1,36 @@
+MF
+Soham > Fordham > Exning > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B2
+Codes,,,,SCH
+"Soham, Holmes Lane",0500ESOHA003,52.343792,0.333507,07:27
+"Soham, White Hart Lane",0500ESOHA004,52.333915,0.337332,07:29
+"Soham, Brook Dam Lane",0500ESOHA011,52.332008,0.338685,07:31
+"Soham, Staples Lane",0500ESOHA009,52.328172,0.344397,07:37
+"Down Field, Centre Road",0500ESOHA021,52.321883,0.356347,07:40
+"Fordham, Murfitts Lane",0500EFORD002,52.313453,0.375427,07:42
+"Fordham, War Memorial",0500EFORD001,52.311535,0.389351,07:46
+"Fordham, River Lane",0500EFORD018,52.306402,0.384849,07:49
+"Burwell, Bewicks Mead",0500EBURW005,52.27658,0.327848,07:53
+"Burwell, Greenlanes",0500EBURW018,52.272567,0.333868,07:55
+"Exning, Dennis Terrace",390020242,52.26767,0.36059,07:58
+"Exning, School",390020240,52.26646,0.36887,08:00
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,08:40
+
+Bury St Edmunds > Burwell > Down Field > Soham
+Route,NaPTAN,Latitude,Longitude,B2
+Codes,,,,SCH
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,16:30
+"Exning, School",390020241,52.26608,0.36895,16:54
+"Exning, Dennis Terrace",390020243,52.2676,0.36044,16:55
+"Burwell, Greenlanes",0500EBURW010,52.272478,0.333834,16:56
+"Burwell, Bewicks Mead",0500EBURW008,52.276724,0.327797,16:57
+"Fordham, River Lane",0500EFORD015,52.306416,0.385041,17:03
+"Fordham, War Memorial",0500EFORD004,52.311418,0.389374,17:05
+"Fordham, Murfitts Lane",0500EFORD005,52.313459,0.375105,17:07
+"Down Field, Centre Road",0500ESOHA002,52.322211,0.35478,17:09
+"Soham, Staples Lane",0500ESOHA010,52.327444,0.345298,17:12
+"Soham, Brook Dam Lane",0500ESOHA017,52.331749,0.338612,17:14
+"Soham, White Hart Lane",0500ESOHA013,52.333992,0.337072,17:15
+"Soham, Holmes Lane",0500ESOHA020,52.343336,0.333821,17:19
+
+

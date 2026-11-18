@@ -1,0 +1,28 @@
+MF
+Watton > Caston > East Wretham > Thetford
+Route,NaPTAN,Latitude,Longitude,61,61,61,61
+Codes,,,,,,,
+"Watton, Crown Hotel",2900W1219,52.57142,0.82383,10:00,11:35,13:05,15:10
+"Griston, Longmeadow Close",2900G132,52.551406,0.86335,10:08,11:43,13:13,–
+"Caston, Green",2900C115,52.540533,0.886698,10:12,11:47,13:17,–
+"Great Hockham, post office",2900H337,52.496863,0.87526,10:19,11:54,13:24,15:22
+"East Wretham, Dog & Partridge",2900W5211,52.480796,0.836063,10:22,11:57,13:27,15:25
+"East Wretham, Camp",2900W526,52.475564,0.820955,10:23,–,–,–
+"Croxton, Church Avenue",2900C404,52.446533,0.755078,10:33,–,–,–
+"Thetford, Leisure Centre",2900T3963,52.420527,0.750794,10:36,12:06,13:36,15:34
+"Thetford, Bus Interchange",2900T391432,52.415595,0.74556,10:40,12:10,13:40,15:38
+
+Thetford > Great Hockham > Griston > Watton
+Route,NaPTAN,Latitude,Longitude,61,61,61,61,61
+Codes,,,,,,,,SH
+"Thetford, Bus Interchange",2900T391432,52.415595,0.74556,09:25,10:45,12:15,14:05,15:45
+"Thetford, Leisure Centre",2900T3987,52.421246,0.751221,09:28,10:48,12:18,14:08,15:48
+"Croxton, Church Avenue",2900C405,52.446744,0.754885,–,–,12:23,–,–
+"East Wretham, Camp",2900W5210,52.475681,0.820933,–,–,12:30,–,–
+"East Wretham, Dog & Partridge",2900W528,52.480764,0.835884,09:38,10:58,12:32,14:18,15:58
+"Great Hockham, green",2900H334,52.49582,0.875648,09:43,11:03,12:37,14:23,16:03
+"Caston, Green",2900C116,52.540605,0.886703,–,11:09,12:44,14:29,–
+"Griston, Church",2900G134,52.557014,0.864247,–,11:13,12:48,14:33,–
+"Watton, Crown Hotel",2900W1219,52.57142,0.82383,09:55,11:22,12:57,14:42,16:15
+
+

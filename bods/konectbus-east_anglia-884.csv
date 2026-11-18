@@ -1,0 +1,21 @@
+MF
+Honingham > East Tuddenham > Yaxham > Dereham
+Route,NaPTAN,Latitude,Longitude,884
+Codes,,,,SCH
+"Honingham, Colton Road",2900H424,52.658091,1.108516,07:48
+"East Tuddenham, Pump",2900T342,52.659082,1.072647,07:52
+"Mattishall, Church",2900M091,52.658861,1.033069,07:59
+"Yaxham, Bus Shelter",2900Y011,52.655671,0.964777,08:11
+"Dereham, Cinema",2900D151,52.681171,0.940773,08:20
+"Dereham, Northgate High School",2900D1528,52.687645,0.944064,08:25
+
+Dereham > Yaxham > East Tuddenham > Honingham
+Route,NaPTAN,Latitude,Longitude,884
+Codes,,,,SCH
+"Dereham, Northgate High School",2900D1528,52.687645,0.944064,15:25
+"Yaxham, Bus Shelter",2900Y014,52.655842,0.964803,15:40
+"Mattishall, Church",2900M095,52.658839,1.03357,15:51
+"East Tuddenham, Pump",2900T341,52.659232,1.073101,15:55
+"Honingham, Colton Road",2900H423,52.658172,1.108521,15:58
+
+

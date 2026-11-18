@@ -1,0 +1,28 @@
+MF
+Watton > Ashill > Little Dunham > Litcham
+Route,NaPTAN,Latitude,Longitude,851
+Codes,,,,SCH
+"Watton, Crown Hotel",2900W121,52.571341,0.824519,07:47
+"Saham Toney, The Oval",2900S0112,52.584888,0.802403,07:53
+"Ashill, Goose Green",2900A148,52.607805,0.785092,08:00
+"Holme Hale, St Andrews Close",2900H378,52.633536,0.790673,08:05
+"Necton, Mini-Market",2900N048,52.648577,0.776313,08:10
+"Necton, Costa",2900N039,52.656262,0.774508,08:15
+"Little Dunham, Bus Shelter",2900D133,52.681019,0.762169,08:21
+"Great Dunham, Village Sign",2900D121,52.695932,0.768973,08:24
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,08:30
+
+Litcham > Little Dunham > Ashill > Watton
+Route,NaPTAN,Latitude,Longitude,851
+Codes,,,,SCH
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,15:40
+"Great Dunham, Village Sign",2900D122,52.695814,0.769024,15:47
+"Little Dunham, Bus Shelter",2900D134,52.681039,0.762467,15:50
+"Necton, Village Hall",2900N040,52.654901,0.775058,15:56
+"Necton, Mini-Market",2900N045,52.64884,0.776182,16:00
+"Holme Hale, St Andrews Close",2900H379,52.633369,0.790145,16:05
+"Ashill, Goose Green",2900A141,52.607171,0.785303,16:11
+"Saham Toney, The Oval",2900S0115,52.585187,0.802702,16:17
+"Watton, Crown Hotel",2900W1219,52.57142,0.82383,16:23
+
+

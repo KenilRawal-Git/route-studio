@@ -1,0 +1,42 @@
+MF
+Aylsham > Reepham > Lyng > Dereham
+Route,NaPTAN,Latitude,Longitude,19,19
+Codes,,,,FO SCH,FO SCH
+"Hoveton, Roys Department Store",2900H508,52.712641,1.410597,09:15,–
+"Coltishall, Kings Head",2900C2422,52.72827,1.370767,09:20,–
+"Horstead, Recruiting Sergeant",2900H482,52.726791,1.352224,09:22,–
+"Buxton, Bus Shelter",2900B671,52.754904,1.304889,09:29,–
+"Buxton, Black Lion",2900B6710,52.752845,1.300672,09:30,–
+"Aylsham, Tesco",2900A219,52.791787,1.253818,09:37,–
+"Aylsham, Bus Shelter",2900A211,52.795225,1.251419,09:38,09:40
+"Aylsham, St Michaels Avenue",2900A1013,52.790823,1.240098,–,09:44
+"Cawston, Perrys Lane",2900B1010,52.770593,1.183152,–,09:49
+"Cawston, Market Place",2900C145,52.770434,1.163908,–,09:50
+"Reepham, King's Arms",2900R053,52.762516,1.11106,–,10:00
+"Sparham, Well Close",2900S357,52.734888,1.061385,–,10:12
+"Lyng, The Stores",2900L142,52.719273,1.059743,–,10:20
+"North Tuddenham, The Lodge",2900T355,52.684528,1.024933,–,10:27
+"Dereham, Tesco",2900D1538,52.672095,0.954602,–,10:33
+"Dereham, Cinema",2900D151,52.681171,0.940773,–,10:40
+
+Dereham > Lyng > Reepham > Aylsham
+Route,NaPTAN,Latitude,Longitude,19,19
+Codes,,,,FO SCH,FO SCH
+"Dereham, Tesco",2900D1538,52.672095,0.954602,12:55,–
+"Dereham, Cinema",2900D151,52.681171,0.940773,13:05,–
+"North Tuddenham, The Lodge",2900T352,52.684616,1.025013,13:15,–
+"Lyng, Port Row",2900L141,52.719463,1.059712,13:22,–
+"Sparham, Well Close",2900S357,52.734888,1.061385,13:29,–
+"Reepham, King's Arms",2900R0513,52.762553,1.110663,13:40,–
+"Cawston, Market Place",2900C141,52.770433,1.164279,13:50,–
+"Cawston, Perrys Lane",2900B1011,52.770745,1.183192,13:51,–
+"Aylsham, St Michaels Avenue",2900A1012,52.790952,1.239989,13:58,–
+"Aylsham, Bus Shelter",2900A211,52.795225,1.251419,13:59,14:00
+"Aylsham, Tesco",2900A2110,52.791811,1.253939,–,14:02
+"Buxton, Black Lion",2900B675,52.752843,1.300109,–,14:09
+"Buxton, Bus Shelter",2900B679,52.754866,1.304294,–,14:10
+"Horstead, Recruiting Sergeant",2900H481,52.727013,1.352315,–,14:17
+"Coltishall, Kings Head",2900C2421,52.728484,1.370206,–,14:20
+"Hoveton, Roys Department Store",2900H502,52.712281,1.410006,–,14:25
+
+

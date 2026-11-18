@@ -1,0 +1,28 @@
+MF
+Lakenheath > Eriswell > Red Lodge > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B6
+Codes,,,,SCH
+"Lakenheath, Quayside Court",390020086,52.42094,0.51616,07:25
+"Lakenheath, Primary School",390020414,52.4167,0.52551,07:28
+"Lakenheath, The Cedars",390020089,52.41303,0.53015,07:32
+"Lakenheath, North Road",390020422,52.40693,0.52667,07:35
+"Eriswell, Lords Walk",390020097,52.3898,0.52963,07:40
+"Mildenhall, Junction Road",390020330,52.35,0.51175,07:52
+"Mildenhall, Bus Station",390020434,52.34306,0.51254,07:55
+"Red Lodge, Spearmint Way",390020383,52.30506,0.48768,08:05
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,08:40
+
+Bury St Edmunds > Red Lodge > Eriswell > Lakenheath
+Route,NaPTAN,Latitude,Longitude,B6
+Codes,,,,SCH
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,16:25
+"Red Lodge, Spearmint Way",390020382,52.3051,0.48754,16:55
+"Mildenhall, Bus Station",390020434,52.34306,0.51254,17:05
+"Mildenhall, Junction Road",390020331,52.35006,0.5116,17:08
+"Eriswell, Lords Walk",390020098,52.38984,0.5295,17:15
+"Lakenheath, North Road",390020423,52.4069,0.52635,17:20
+"Lakenheath, The Cedars",390020090,52.41302,0.53,17:23
+"Lakenheath, Primary School",390020415,52.41658,0.52547,17:27
+"Lakenheath, Quayside Court",390020085,52.42096,0.51602,17:30
+
+

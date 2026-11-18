@@ -1,0 +1,40 @@
+MF
+Dereham > Scarning > Necton > Swaffham
+Route,NaPTAN,Latitude,Longitude,68,68
+Codes,,,,,
+"Dereham, Boots",2900D1540,52.681884,0.940658,05:05,06:05
+"Scarning, Church",2900S071,52.671952,0.888568,05:10,06:10
+"Little Fransham, Station Road",2900F192,52.67156,0.811055,05:16,06:16
+"Necton, Dunham Turn",2900N041,52.657362,0.776338,05:20,06:20
+"Swaffham, Kings Arms",2900S711,52.648291,0.687334,05:28,06:28
+
+Swaffham > Necton > Scarning > Dereham
+Route,NaPTAN,Latitude,Longitude,68,68
+Codes,,,,,
+"Swaffham, Market Place",2900S7122,52.648613,0.686614,19:25,20:25
+"Necton, Dunham Turn",2900N046,52.657659,0.776312,19:34,20:34
+"Little Fransham, Station Road",2900F191,52.671688,0.810989,19:37,20:37
+"Scarning, Church",2900S075,52.672096,0.891152,19:43,20:43
+"Dereham, Boots",2900D1540,52.681884,0.940658,19:48,20:48
+
+
+SA
+Dereham > Scarning > Necton > Swaffham
+Route,NaPTAN,Latitude,Longitude,68
+Codes,,,,
+"Dereham, Boots",2900D1540,52.681884,0.940658,06:05
+"Scarning, Church",2900S071,52.671952,0.888568,06:10
+"Little Fransham, Station Road",2900F192,52.67156,0.811055,06:16
+"Necton, Dunham Turn",2900N041,52.657362,0.776338,06:20
+"Swaffham, Kings Arms",2900S711,52.648291,0.687334,06:28
+
+Swaffham > Necton > Scarning > Dereham
+Route,NaPTAN,Latitude,Longitude,68
+Codes,,,,
+"Swaffham, Market Place",2900S7122,52.648613,0.686614,19:25
+"Necton, Dunham Turn",2900N046,52.657659,0.776312,19:34
+"Little Fransham, Station Road",2900F191,52.671688,0.810989,19:37
+"Scarning, Church",2900S075,52.672096,0.891152,19:43
+"Dereham, Boots",2900D1540,52.681884,0.940658,19:48
+
+

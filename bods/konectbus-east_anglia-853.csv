@@ -1,0 +1,21 @@
+MF
+Old Catton > Frettenham > Spixworth > Hoveton
+Route,NaPTAN,Latitude,Longitude,853
+Codes,,,,SCH
+"Old Catton, Parkland Road",2900C1316,52.654798,1.302874,07:27
+"Old Catton, Longe Road",2900C1323,52.666471,1.309347,07:32
+"Frettenham, school",2900F218,52.709021,1.325362,07:41
+"Spixworth, James Green Close",2900S3616,52.687517,1.326642,07:51
+"Hoveton, Broadland High School",2900H5017,52.717756,1.4135,08:10
+
+Hoveton > Spixworth > Old Catton > Sprowston
+Route,NaPTAN,Latitude,Longitude,853
+Codes,,,,SCH
+"Hoveton, Broadland High School",2900H5018,52.717117,1.413198,15:10
+"Spixworth, James Green Close",2900S3614,52.687464,1.32726,15:28
+"Spixworth, Buxton Road",2900S3621,52.687829,1.317475,15:30
+"Frettenham, school",2900F218,52.709021,1.325362,15:38
+"Old Catton, Longe Road",2900C1324,52.666564,1.309561,15:48
+"Sprowston, Parkland Road",2900C139,52.655655,1.304077,15:53
+
+

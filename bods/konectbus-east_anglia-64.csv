@@ -1,0 +1,123 @@
+MF
+Norwich City Centre > Stoke Holy Cross > Hempnall > Wacton
+Route,NaPTAN,Latitude,Longitude,64,64,64,64,64,64,64
+Codes,,,,,,,SCH,SH,,
+"Norwich City Centre, Bus Station",2900N12911,52.624067,1.292887,08:15,10:30,12:35,14:50,14:50,16:20,17:45
+"Norwich City Centre, St Stephens Street",2900N12104,52.625417,1.292841,08:16,10:31,12:36,14:51,14:51,16:21,17:46
+"Norwich City College, Campus",2900N1218,52.616816,1.284526,–,–,–,–,–,16:25,–
+"Lakenham, Cavell Road",2900N12212,52.610775,1.300931,08:20,10:36,12:41,14:56,14:56,–,17:51
+"Arminghall, Church Close",2900B311,52.589257,1.324225,–,–,12:46,15:01,–,–,–
+"Framingham Earl, High School",2900F173,52.580179,1.33743,–,–,12:50,15:08,–,–,–
+"Stoke Holy Cross, Bancroft Close",2900S491,52.56652,1.29728,–,–,–,15:13,–,–,–
+"Poringland, Oak Avenue",2900P0817,52.572583,1.343983,–,–,12:52,–,–,–,–
+"Stoke Holy Cross, The Wildebeest",2900S493,52.569313,1.296456,08:30,10:46,–,–,15:06,16:35,18:01
+"Shotesham, Hollow Lane",2900S199,52.547005,1.308503,08:34,10:50,–,15:18,15:10,16:39,18:05
+"Shotesham, All Saints Church",2900S193,52.543246,1.31266,08:35,10:52,13:01,15:19,15:11,16:43,18:09
+"Saxlingham Nethergate, Village Hall",2900S067,52.527779,1.285173,08:41,10:57,13:06,15:24,15:16,16:46,18:12
+"Hempnall, Bus Shelter",2900H187,52.501296,1.300528,08:47,11:03,13:12,15:30,15:21,16:52,18:18
+"Hempnall Green, Spring Lane",2900H181,52.485938,1.311988,–,–,–,15:34,15:25,16:56,18:22
+"Topcroft, Rectory Road",2900T285,52.489291,1.335077,–,–,13:15,–,–,–,18:27
+"Topcroft, The Street",2900T281,52.47633,1.333522,–,–,13:18,–,–,–,18:30
+"Hempnall Green, Horseshoes",2900H185,52.485857,1.311658,–,–,13:26,–,–,–,–
+"Long Stratton, The Plain",2900L155,52.488749,1.235189,08:57,11:13,13:36,–,–,–,–
+"Wacton, Bus Shelter",2900W013,52.478451,1.208464,09:02,11:18,13:41,–,–,–,–
+"Wacton, Wash Lane",2900W011,52.477409,1.204456,09:03,11:19,13:42,–,–,–,–
+"Darrow Green, Wash Lane",2900A046,52.450523,1.318308,–,–,–,–,–,–,18:35
+"Alburgh, Church Road",2900A041,52.435911,1.333543,–,–,–,–,–,–,18:37
+"Alburgh, Piccadilly Corner",2900A049,52.42651,1.341264,–,–,–,–,–,–,18:39
+"Wortwell, Bell Public House",2900W493,52.413871,1.344529,–,–,–,–,–,–,18:45
+"Harleston, Broad Street",2900R241,52.402756,1.300661,–,–,–,–,–,–,18:50
+
+Hempnall Green > Saxlingham Nethergate > Lakenham > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,64,64,64,64,64,64,64
+Codes,,,,SH,SCH,,,,,
+"Wacton, Wash Lane",2900W011,52.477409,1.204456,–,–,09:06,11:20,13:42,–,–
+"Wacton, Bus Shelter",2900W014,52.478546,1.208604,–,–,09:07,11:21,13:43,–,–
+"Long Stratton, The Plain",2900L151,52.488718,1.23501,–,–,09:13,11:27,13:49,–,–
+"Topcroft, Rectory Road",2900T285,52.489291,1.335077,–,–,09:25,–,–,–,–
+"Topcroft, The Street",2900T281,52.47633,1.333522,–,–,09:28,–,–,–,–
+"Harleston, Broad Street",2900R241,52.402756,1.300661,06:50,06:50,–,–,–,–,–
+"Wortwell, The Bell",2900W491,52.413983,1.344361,06:55,06:55,–,–,–,–,–
+"Alburgh, Piccadilly Corner",2900A044,52.42635,1.341178,06:59,06:59,–,–,–,–,–
+"Alburgh, Church Road",2900A048,52.435439,1.333684,07:03,07:03,–,–,–,–,–
+"Darrow Green, Wash Lane",2900A042,52.450302,1.318173,07:06,07:06,–,–,–,–,–
+"Topcroft, The Street",2900T284,52.476399,1.333321,07:12,07:12,–,–,–,–,–
+"Topcroft, Old Forge",2900T283,52.489025,1.334939,07:15,07:15,–,–,–,–,–
+"Hempnall Green, Horseshoes",2900H185,52.485857,1.311658,07:21,07:21,09:32,11:41,14:01,15:35,16:57
+"Hempnall, Bus Shelter",2900H183,52.501302,1.300307,07:26,07:26,09:37,11:45,14:05,15:39,17:01
+"Saxlingham Nethergate, Village Hall",2900S063,52.527722,1.284962,07:34,07:34,09:45,11:53,14:13,15:47,17:09
+"Shotesham, All Saints Church",2900S195,52.54342,1.311272,07:41,07:41,09:52,12:00,14:20,–,–
+"Shotesham, Chapel Lane",2900S196,52.542414,1.316669,–,–,09:53,12:01,–,–,–
+"Poringland, Oak Avenue",2900P0810,52.572782,1.343644,–,–,10:01,12:09,–,–,–
+"Shotesham, Hollow Lane",2900S198,52.546981,1.308398,07:42,07:42,–,–,14:21,–,–
+"Stoke Holy Cross, The Wildebeest",2900S495,52.56928,1.296321,07:47,–,–,–,14:25,15:57,17:19
+"Lakenham, Cavell Road",2900N12213,52.610634,1.300832,08:00,–,–,–,14:35,16:07,17:29
+"Stoke Holy Cross, Bancroft Close",2900S492,52.566595,1.297167,–,07:48,–,–,–,–,–
+"Framingham Earl, High School",2900F174,52.580019,1.337374,–,07:57,10:03,12:11,–,–,–
+"Arminghall, Church Close",2900B312,52.5891,1.324685,–,08:00,10:05,12:13,–,–,–
+"Lakenham, Cavell Road",2900N12213,52.610634,1.300832,–,–,10:12,12:20,–,–,–
+"Trowse, White Hourse",2900T322,52.612465,1.31703,–,08:05,–,–,–,–,–
+"Norwich, Outside County Hall",2900N12635,52.617141,1.308695,08:02,08:07,–,–,–,–,–
+"Norwich City Centre, Bus Station",2900N12911,52.624067,1.292887,08:07,08:13,10:17,12:25,14:40,16:12,17:34
+"Norwich, Ipswich Grove",2900N12491,52.620558,1.286772,–,08:17,–,–,–,–,–
+
+
+SA
+Norwich City Centre > Stoke Holy Cross > Hempnall > Wacton
+Route,NaPTAN,Latitude,Longitude,64,64,64,64,64,64
+Codes,,,,,,,,,
+"Norwich City Centre, Bus Station",2900N12911,52.624067,1.292887,08:15,10:30,12:35,14:50,16:20,17:45
+"Norwich City Centre, St Stephens Street",2900N12104,52.625417,1.292841,08:16,10:31,12:36,14:51,16:21,17:46
+"Norwich City College, Campus",2900N1218,52.616816,1.284526,–,–,–,–,16:25,–
+"Lakenham, Cavell Road",2900N12212,52.610775,1.300931,08:20,10:36,12:41,14:56,–,17:51
+"Arminghall, Church Close",2900B311,52.589257,1.324225,–,–,12:46,–,–,–
+"Framingham Earl, High School",2900F173,52.580179,1.33743,–,–,12:50,–,–,–
+"Poringland, Oak Avenue",2900P0817,52.572583,1.343983,–,–,12:52,–,–,–
+"Stoke Holy Cross, The Wildebeest",2900S493,52.569313,1.296456,08:30,10:46,–,15:06,16:35,18:01
+"Shotesham, Hollow Lane",2900S199,52.547005,1.308503,08:34,10:50,–,15:10,16:39,18:05
+"Shotesham, All Saints Church",2900S193,52.543246,1.31266,08:35,10:52,13:01,15:14,16:43,18:09
+"Saxlingham Nethergate, Village Hall",2900S067,52.527779,1.285173,08:41,10:57,13:06,15:17,16:46,18:12
+"Hempnall, Bus Shelter",2900H187,52.501296,1.300528,08:47,11:03,13:12,15:23,16:52,18:18
+"Hempnall Green, Spring Lane",2900H181,52.485938,1.311988,–,–,–,15:27,16:56,18:22
+"Topcroft, Rectory Road",2900T285,52.489291,1.335077,–,–,13:15,–,–,18:27
+"Topcroft, The Street",2900T281,52.47633,1.333522,–,–,13:18,–,–,18:30
+"Hempnall Green, Horseshoes",2900H185,52.485857,1.311658,–,–,13:26,–,–,–
+"Long Stratton, The Plain",2900L155,52.488749,1.235189,08:57,11:13,13:36,–,–,–
+"Wacton, Bus Shelter",2900W013,52.478451,1.208464,09:02,11:18,13:41,–,–,–
+"Wacton, Wash Lane",2900W011,52.477409,1.204456,09:03,11:19,13:42,–,–,–
+"Darrow Green, Wash Lane",2900A046,52.450523,1.318308,–,–,–,–,–,18:35
+"Alburgh, Church Road",2900A041,52.435911,1.333543,–,–,–,–,–,18:37
+"Alburgh, Piccadilly Corner",2900A049,52.42651,1.341264,–,–,–,–,–,18:39
+"Wortwell, Bell Public House",2900W493,52.413871,1.344529,–,–,–,–,–,18:45
+"Harleston, Broad Street",2900R241,52.402756,1.300661,–,–,–,–,–,18:50
+
+Hempnall Green > Saxlingham Nethergate > Lakenham > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,64,64,64,64,64,64
+Codes,,,,,,,,,
+"Wacton, Wash Lane",2900W011,52.477409,1.204456,–,09:06,11:20,13:42,–,–
+"Wacton, Bus Shelter",2900W014,52.478546,1.208604,–,09:07,11:21,13:43,–,–
+"Long Stratton, The Plain",2900L151,52.488718,1.23501,–,09:13,11:27,13:49,–,–
+"Topcroft, Rectory Road",2900T285,52.489291,1.335077,–,09:25,–,–,–,–
+"Topcroft, The Street",2900T281,52.47633,1.333522,–,09:28,–,–,–,–
+"Harleston, Broad Street",2900R241,52.402756,1.300661,06:50,–,–,–,–,–
+"Wortwell, The Bell",2900W491,52.413983,1.344361,06:55,–,–,–,–,–
+"Alburgh, Piccadilly Corner",2900A044,52.42635,1.341178,06:59,–,–,–,–,–
+"Alburgh, Church Road",2900A048,52.435439,1.333684,07:03,–,–,–,–,–
+"Darrow Green, Wash Lane",2900A042,52.450302,1.318173,07:06,–,–,–,–,–
+"Topcroft, The Street",2900T284,52.476399,1.333321,07:12,–,–,–,–,–
+"Topcroft, Old Forge",2900T283,52.489025,1.334939,07:15,–,–,–,–,–
+"Hempnall Green, Horseshoes",2900H185,52.485857,1.311658,07:21,09:32,11:41,14:01,15:35,16:57
+"Hempnall, Bus Shelter",2900H183,52.501302,1.300307,07:26,09:37,11:45,14:05,15:39,17:01
+"Saxlingham Nethergate, Village Hall",2900S063,52.527722,1.284962,07:34,09:45,11:53,14:13,15:47,17:09
+"Shotesham, All Saints Church",2900S195,52.54342,1.311272,07:41,09:52,12:00,14:20,–,–
+"Shotesham, Chapel Lane",2900S196,52.542414,1.316669,–,09:53,12:01,–,–,–
+"Poringland, Oak Avenue",2900P0810,52.572782,1.343644,–,10:01,12:09,–,–,–
+"Framingham Earl, High School",2900F174,52.580019,1.337374,–,10:03,12:11,–,–,–
+"Arminghall, Church Close",2900B312,52.5891,1.324685,–,10:05,12:13,–,–,–
+"Shotesham, Hollow Lane",2900S198,52.546981,1.308398,07:42,–,–,14:21,–,–
+"Stoke Holy Cross, The Wildebeest",2900S495,52.56928,1.296321,07:47,–,–,14:25,15:57,17:19
+"Lakenham, Cavell Road",2900N12213,52.610634,1.300832,08:00,10:12,12:20,14:35,16:07,17:29
+"Norwich, Outside County Hall",2900N12635,52.617141,1.308695,08:02,–,–,–,–,–
+"Norwich City Centre, Bus Station",2900N12911,52.624067,1.292887,08:07,10:17,12:25,14:40,16:12,17:34
+
+

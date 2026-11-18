@@ -1,0 +1,18 @@
+MF
+Cringleford > Little Melton > Hethersett (village)
+Route,NaPTAN,Latitude,Longitude,856
+Codes,,,,SCH
+"Cringleford, Cringleford Heights",2900C3510,52.614931,1.232463,08:02
+"Cringleford, Cavell Court",2900C111,52.610804,1.230771,08:03
+"Cringleford, Interchange",2900C110,52.604968,1.231744,08:10
+"Little Melton, Mill Road",2900M131,52.615117,1.189806,08:20
+"Hethersett (village), Academy",2900H2250,52.60019,1.181704,08:30
+
+Hethersett (village) > Little Melton > Cringleford
+Route,NaPTAN,Latitude,Longitude,856,856
+Codes,,,,MOFR SCH,TUWETH SCH
+"Hethersett (village), Academy",2900H2250,52.60019,1.181704,14:55,15:55
+"Little Melton, Mill Road",2900M132,52.615159,1.189587,15:03,16:03
+"Cringleford, Interchange",2900C3532,52.604857,1.231869,15:15,16:15
+
+

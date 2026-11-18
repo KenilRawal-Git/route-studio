@@ -1,0 +1,22 @@
+MF
+Rougham > West Lexham > Mileham > Litcham
+Route,NaPTAN,Latitude,Longitude,852
+Codes,,,,SCH
+"Rougham, Church",2900R142,52.750656,0.711549,07:45
+"Castle Acre, Budgens",2900C095,52.705255,0.688628,08:00
+"West Lexham, Telephone Box",2900L055,52.717823,0.723787,08:08
+"East Lexham, Dunham Road",2900L056,52.717958,0.751842,08:13
+"Mileham, Bus Shelter",2900M174,52.736181,0.829554,08:20
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,08:25
+
+Litcham > East Lexham > Castle Acre > Rougham
+Route,NaPTAN,Latitude,Longitude,852
+Codes,,,,SCH
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,15:40
+"Mileham, Bus Shelter",2900M174,52.736181,0.829554,15:45
+"East Lexham, Dunham Road",2900L053,52.717936,0.751974,15:52
+"West Lexham, Telephone Box",2900L054,52.717807,0.724097,15:57
+"Castle Acre, Budgens",2900C093,52.704947,0.688728,16:05
+"Rougham, Church",2900R142,52.750656,0.711549,16:17
+
+

@@ -1,0 +1,35 @@
+MF
+Mundford > Euston > Ixworth > Bury St Edmunds
+Route,NaPTAN,Latitude,Longitude,B4
+Codes,,,,SCH
+"Mundford, War Memorial",2900M254,52.508631,0.65587,07:10
+"Brandon, Riverside Way",390020039,52.45197,0.62298,07:17
+"Thetford, Canterbury Way",2900T3999,52.414684,0.731708,07:32
+"Thetford, Grove Lane",2900T39145,52.416114,0.750298,07:36
+"Thetford, Rosecroft Way",2900T39140,52.416212,0.761144,07:39
+"Euston, Grange Farm",390020369,52.37933,0.78592,07:47
+"Fakenham Magna, St Peters Church",390050622,52.35448,0.80335,07:51
+"Honington, The Old Chapel",390050500,52.33445,0.80549,07:54
+"Ixworth, Greyhound",390050564,52.29947,0.83376,08:00
+"Ixworth, Mulleys Garage",390050568,52.29489,0.8377,08:02
+"Great Barton, A143 Bus Shelter",390050717,52.26782,0.76938,08:08
+"Bury St Edmunds, West Suffolk College",390050873,52.24775,0.70054,08:40
+
+Bury St Edmunds > Honington > Thetford > Mundford
+Route,NaPTAN,Latitude,Longitude,B4
+Codes,,,,SCH
+"Bury St Edmunds, West Suffolk College",390050875,52.24775,0.69939,16:25
+"Great Barton, A143 Bus Shelter",390050716,52.26795,0.7694,16:45
+"Ixworth, Mulleys Garage",390050567,52.29479,0.8377,16:52
+"Ixworth, Greyhound",390050563,52.29953,0.83364,16:55
+"Honington, The Old Chapel",390050501,52.33445,0.80537,17:02
+"Fakenham Magna, St Peters Church",390050623,52.35446,0.80317,17:07
+"Euston, Grange Farm",390020368,52.37929,0.78577,17:16
+"Thetford, Rosecroft Way",2900T39141,52.415756,0.761409,17:22
+"Thetford, Aldi",2900T3998,52.416179,0.75217,17:26
+"Thetford, Canterbury Way",2900T39100,52.414612,0.731704,17:30
+"Brandon, Chestnut Close",390020549,52.44197,0.63622,17:42
+"Brandon, Riverside Way",390020038,52.45193,0.62278,17:47
+"Mundford, War Memorial",2900M255,52.508813,0.655778,17:55
+
+

@@ -1,0 +1,36 @@
+MF
+Norwich City Centre > Norwich > Drayton > Thorpe Marriott
+Route,NaPTAN,Latitude,Longitude,30A,30A,30A,30A,30A
+Codes,,,,,,,,
+"Norwich City Centre, Castle Meadow",2900N12743,52.629248,1.296395,08:45,10:35,11:35,12:35,13:35
+"Norwich City Centre, Rampant Horse Street",2900N12146,52.626687,1.292449,08:48,10:38,11:38,12:38,13:38
+"Norwich, Goodman Square",2900N12504,52.637897,1.2787,08:55,10:45,11:45,12:45,13:45
+"Norwich, Lidl Superstore",2900N12221,52.644179,1.275622,08:59,10:49,11:49,12:49,13:49
+"Hellesdon, Asda",2900H1527,52.65344,1.259736,09:02,10:52,11:52,12:52,13:52
+"Hellesdon, Hospital",2900H151,52.659906,1.252556,09:04,10:54,11:54,12:54,13:54
+"Drayton, The Cock",2900D116,52.675254,1.226058,09:08,10:58,11:58,12:58,13:58
+"Thorpe Marriott, Hazel Close",2900T0447,52.683128,1.210686,–,11:01,12:01,13:01,–
+"Drayton, Cator Road",2900D115,52.681328,1.220661,09:10,–,–,–,14:00
+"Thorpe Marriott, Cricket Close",2900T0410,52.688664,1.217102,09:12,–,–,–,14:02
+"Thorpe Marriott, Hazel Close",2900T0446,52.683304,1.209826,09:15,–,–,–,14:05
+"Lenwade, Bus Shelter",2900W372,52.721751,1.107949,09:24,–,–,–,14:14
+"Elsing, Elsing Road",2900E087,52.718483,1.035918,09:32,–,–,–,14:22
+"Lyng, The Stores",2900L142,52.719273,1.059743,–,–,–,–,14:25
+
+Thorpe Marriott > Drayton > Norwich > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,30A,30A,30A,30A
+Codes,,,,,,,
+"Elsing, Elsing Road",2900E087,52.718483,1.035918,09:36,–,–,–
+"Lyng, Port Row",2900L141,52.719463,1.059712,09:40,–,–,–
+"Lenwade, Bus Shelter",2900W371,52.721828,1.108102,09:45,–,–,–
+"Thorpe Marriott, Hazel Close",2900T0447,52.683128,1.210686,10:01,11:01,12:01,13:01
+"Thorpe Marriott, Cricket Close",2900T0410,52.688664,1.217102,10:04,11:04,12:04,13:04
+"Drayton, Cator Road",2900D112,52.681513,1.220793,10:08,11:08,12:08,13:08
+"Drayton, The Cock",2900D111,52.67545,1.225821,10:11,11:11,12:11,13:11
+"Hellesdon, Hospital",2900H1518,52.659652,1.252966,10:15,11:15,12:15,13:15
+"Hellesdon, Asda",2900H1526,52.652804,1.260961,10:18,11:18,12:18,13:18
+"Norwich, Lidl Superstore",2900N1251,52.644456,1.275997,10:21,11:21,12:21,13:21
+"Norwich, Goodman Square",2900N12683,52.638157,1.279045,10:23,11:23,12:23,13:23
+"Norwich City Centre, Castle Meadow",2900N12743,52.629248,1.296395,10:32,11:32,12:32,13:32
+
+

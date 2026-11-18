@@ -1,0 +1,24 @@
+MF
+Norwich City Centre > Norwich > Easton > Easton College
+Route,NaPTAN,Latitude,Longitude,34,34,34,34,34,34
+Codes,,,,,,,,,
+"Norwich City Centre, Rampant Horse Street",2900N12146,52.626687,1.292449,09:30,10:30,11:30,12:30,13:30,14:30
+"Norwich, Bowthorpe Road",2900N1259,52.634849,1.270874,09:37,10:37,11:37,12:37,13:37,14:37
+"Norwich, Aldi",2900N1291,52.638881,1.243293,09:42,10:42,11:42,12:42,13:42,14:42
+"Costessey, Normandy Grove",2900C27881,52.646933,1.192255,09:49,10:49,11:49,12:49,13:49,14:49
+"Easton, Bawburgh Road",2900E024,52.65264,1.167931,09:53,10:53,11:53,12:53,13:53,14:53
+"Easton, Marlingford Road",2900E023,52.65404,1.154604,–,–,–,–,–,14:55
+"Easton College, Agricultural College",2900E022,52.645048,1.161956,09:55,10:55,11:55,12:55,13:55,–
+
+Easton College > Easton > Norwich > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,34,34,34,34,34,34
+Codes,,,,,,,,,
+"Easton College, Agricultural College",2900E022,52.645048,1.161956,09:00,10:00,11:00,12:00,13:00,14:00
+"Easton, Marlingford Road",2900E021,52.65399,1.156109,09:04,10:04,11:04,12:04,13:04,14:04
+"Easton, Bawburgh Road",2900E025,52.653137,1.163811,09:05,10:05,11:05,12:05,13:05,14:05
+"Costessey, Normandy Grove",2900C27882,52.646968,1.192273,09:09,10:09,11:09,12:09,13:09,14:09
+"Norwich, Aldi",2900N12242,52.639058,1.243069,09:17,10:17,11:17,12:17,13:17,14:17
+"Norwich, Bowthorpe Road",2900N12231,52.635015,1.270383,09:21,10:21,11:21,12:21,13:21,14:21
+"Norwich City Centre, St Stephens Street",2900N12106,52.624857,1.291321,09:29,10:29,11:29,12:29,13:29,14:29
+
+

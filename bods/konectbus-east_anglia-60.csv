@@ -1,0 +1,45 @@
+MF
+Norwich City Centre > Norfolk & Norwich University Hospital > Rockland St Peter > Watton
+Route,NaPTAN,Latitude,Longitude,60,60
+Codes,,,,,
+"Norwich City Centre, Bus Station",2900N12902,52.624153,1.292362,14:20,17:20
+"Norwich City Centre, St Stephens Street",2900N12100,52.624658,1.291365,14:22,17:22
+"Norwich, Albemarle Road",2900N12349,52.618312,1.27957,14:25,17:26
+"Norwich, Elveden Close",2900N12360,52.611215,1.256493,14:28,17:29
+"Cringleford, Interchange",2900C3531,52.604725,1.231091,14:30,17:31
+"Norfolk & Norwich University Hospital, Forecourt",2900C238,52.617048,1.219483,14:37,17:38
+"Little Melton, Braymeadow Lane",2900M135,52.616622,1.195382,14:45,–
+"Hethersett (village), Frederick Grove",2900H22230,52.60812,1.189489,14:49,–
+"Hethersett (village), Lynch Green",2900H2224,52.601879,1.178119,14:50,–
+"Hethersett (village), Canns Lane",2900H2226,52.599451,1.180779,14:51,–
+"Hethersett (village), Churchfields",2900H2217,52.599744,1.188939,–,17:44
+"Hethersett (village), Kings Head",2900H2239,52.595981,1.17973,–,17:46
+"Wymondham, Waitrose",2900W5852,52.5794,1.134092,–,17:52
+"Wymondham, The Chestnuts",2900W583,52.569046,1.116173,–,17:55
+"Great Ellingham, Green",2900E054,52.53584,0.976956,–,18:10
+"Rockland St Peter, Chapel Street",2900R108,52.537395,0.936002,–,18:16
+"Caston, Attleborough Road",2900C112,52.540812,0.886658,–,18:22
+"Griston, Church",2900G134,52.557014,0.864247,–,18:26
+"Watton, Crown Hotel",2900W121,52.571341,0.824519,–,18:35
+
+Watton > Rockland St Peter > Hethersett (village) > Norwich City Centre
+Route,NaPTAN,Latitude,Longitude,60,60
+Codes,,,,,
+"Watton, Crown Hotel",2900W1219,52.57142,0.82383,06:45,–
+"Griston, Church",2900G135,52.55676,0.86395,06:54,–
+"Caston, Red Lion",2900C113,52.54098,0.88717,06:58,–
+"Rockland St Peter, Chapel Street",2900R105,52.537395,0.936002,07:04,–
+"Great Ellingham, Green",2900E053,52.535633,0.97768,07:10,–
+"Wymondham, Cross",2900W581,52.570213,1.113156,07:25,10:10
+"Wymondham, Waitrose",2900W5873,52.579694,1.134541,07:29,10:14
+"Hethersett (village), Kings Head",2900H2238,52.59603,1.179586,07:35,10:20
+"Hethersett (village), Jaguar Road",2900H2223,52.60358,1.181079,–,10:24
+"Little Melton, Mill Road",2900M132,52.615159,1.189587,–,10:28
+"Norfolk & Norwich University Hospital, Forecourt",2900C237,52.617584,1.219951,–,10:36
+"Hethersett (village), Churchfields",2900H2216,52.600532,1.190385,07:38,–
+"Cringleford, Interchange",2900C3532,52.604857,1.231869,07:43,10:41
+"Norwich, Elveden Close",2900N12361,52.611356,1.256578,07:48,10:45
+"Norwich, Town Close Road",2900N12350,52.619195,1.281778,07:52,10:49
+"Norwich City Centre, Bus Station",2900N12902,52.624153,1.292362,07:57,10:54
+
+

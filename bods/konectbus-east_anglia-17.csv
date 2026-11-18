@@ -1,0 +1,34 @@
+MF
+West Bradenham > Woodrising > Garvestone > Dereham
+Route,NaPTAN,Latitude,Longitude,17
+Codes,,,,TUFR
+"West Bradenham, Hale Road",2900B407,52.63951,0.832577,09:10
+"Shipdham, Post Office",2900S182,52.62934,0.893903,09:20
+"Cranworth, Playing Field",2900C296,52.606533,0.923979,09:27
+"Woodrising, Wood Rising Road",2900C298,52.590846,0.933581,09:30
+"Hingham, Bus Shelter",2900H313,52.579621,0.984721,09:38
+"Hardingham, Beeches Lane",2900H072,52.594868,1.016121,09:45
+"Reymerston, Tinkers Lane",2900G029,52.618345,0.986825,09:53
+"Garvestone, Thuxton cottages",2900G0214,52.622217,0.995526,09:59
+"Whinburgh, Dereham Road",2900W241,52.643529,0.96774,10:03
+"Yaxham, Bus Shelter",2900Y011,52.655671,0.964777,10:05
+"Dereham, Tesco",2900D1538,52.672095,0.954602,10:15
+"Dereham, Cinema",2900D151,52.681171,0.940773,10:25
+
+Dereham > Garvestone > Woodrising > West Bradenham
+Route,NaPTAN,Latitude,Longitude,17
+Codes,,,,TUFR
+"Dereham, Cinema",2900D151,52.681171,0.940773,12:30
+"Dereham, Tesco",2900D1538,52.672095,0.954602,12:38
+"Yaxham, Bus Shelter",2900Y014,52.655842,0.964803,12:42
+"Whinburgh, Dereham Road",2900W243,52.643993,0.967875,12:44
+"Garvestone, Thuxton cottages",2900G028,52.622298,0.995546,12:48
+"Reymerston, Tinkers Lane",2900G0213,52.618235,0.986935,12:53
+"Hardingham, Beeches Lane",2900H074,52.594898,1.016345,13:00
+"Hingham, Bus Shelter",2900H314,52.579491,0.984875,13:07
+"Woodrising, Wood Rising Road",2900C295,52.590896,0.933377,13:15
+"Cranworth, Playing Field",2900C299,52.606223,0.923796,13:18
+"Shipdham, Post Office",2900S187,52.629339,0.894331,13:25
+"West Bradenham, Hale Road",2900B402,52.639464,0.832633,13:33
+
+

@@ -1,0 +1,34 @@
+MF
+Swaffham > Little Dunham > Beeston > Dereham
+Route,NaPTAN,Latitude,Longitude,20
+Codes,,,,SCH
+"Swaffham, Market Place",2900S7122,52.648613,0.686614,07:20
+"Sporle, Bunkers Hill",2900S371,52.666079,0.732103,07:30
+"Necton, Costa",2900N039,52.656262,0.774508,07:37
+"Little Dunham, Bus Shelter",2900D133,52.681019,0.762169,07:43
+"Great Dunham, Village Sign",2900D121,52.695932,0.768973,07:46
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,07:52
+"Beeston, Craft and Model Store",2900B195,52.706474,0.824463,07:59
+"Gressenhall, post office",2900G114,52.71121,0.907864,08:08
+"Beetley, Beech Road",2900B2210,52.714931,0.924001,08:11
+"Dereham, Northgate High School",2900D1528,52.687645,0.944064,08:20
+"Dereham, Sixth Form Centre",2900D1529,52.681295,0.951331,08:24
+"Dereham, Neatherd High School",2900D1533,52.679585,0.956779,08:30
+
+Dereham > Beeston > Little Dunham > Swaffham
+Route,NaPTAN,Latitude,Longitude,20
+Codes,,,,SCH
+"Dereham, Neatherd High School",2900D1533,52.679585,0.956779,15:25
+"Dereham, Northgate High School",2900D1528,52.687645,0.944064,15:35
+"Dereham, Boots",2900D1540,52.681884,0.940658,15:40
+"Beetley, Beech Road",2900B2220,52.715323,0.923079,15:47
+"Gressenhall, post office",2900G111,52.711025,0.907319,15:52
+"Beeston, Craft and Model Store",2900B193,52.706453,0.824565,16:00
+"Litcham, Druids Lane",2900L075,52.723101,0.79525,16:07
+"Great Dunham, Village Sign",2900D122,52.695814,0.769024,16:13
+"Little Dunham, Bus Shelter",2900D134,52.681039,0.762467,16:16
+"Necton, Costa",2900N039,52.656262,0.774508,16:23
+"Sporle, Bunkers Hill",2900S378,52.665909,0.732048,16:30
+"Swaffham, Market Place",2900S7122,52.648613,0.686614,16:37
+
+

@@ -1,0 +1,32 @@
+MF
+Little Fransham > Holme Hale > South Pickenham > Swaffham
+Route,NaPTAN,Latitude,Longitude,850
+Codes,,,,SCH
+"Little Fransham, Lime Tree Crescent",2900F195,52.673207,0.809859,07:50
+"Necton, Dunham Turn",2900N041,52.657362,0.776338,07:54
+"Necton, Mini-Market",2900N045,52.64884,0.776182,07:55
+"Holme Hale, St Andrews Close",2900H379,52.633369,0.790145,07:57
+"Holme Hale, Bus Shelter",2900H372,52.63137,0.789086,07:58
+"Holme Hale, Council Houses",2900H374,52.628531,0.776743,08:00
+"North Pickenham, Browns Lane",2900P0452,52.628852,0.772655,08:01
+"North Pickenham, Bus Shelter",2900P044,52.627521,0.753005,08:05
+"North Pickenham, Primary School",2900P0461,52.625166,0.747921,08:06
+"South Pickenham, Bus Shelter",2900P053,52.60473,0.741147,08:15
+"Swaffham, The Nicholas Hamond Academy",2900S7116,52.639542,0.690079,08:30
+
+Swaffham > North Pickenham > Necton > Little Fransham
+Route,NaPTAN,Latitude,Longitude,850
+Codes,,,,SCH
+"Swaffham, The Nicholas Hamond Academy",2900S7116,52.639542,0.690079,15:15
+"South Pickenham, Bus Shelter",2900P053,52.60473,0.741147,15:30
+"North Pickenham, Primary School",2900P0462,52.625225,0.747718,15:39
+"North Pickenham, Bus Shelter",2900P045,52.627714,0.753194,15:40
+"North Pickenham, Browns Lane",2900P0451,52.628986,0.772678,15:44
+"Holme Hale, Council Houses",2900H371,52.628637,0.776839,15:45
+"Holme Hale, Bus Shelter",2900H373,52.631382,0.788999,15:47
+"Holme Hale, St Andrews Close",2900H378,52.633536,0.790673,15:48
+"Necton, Mini-Market",2900N048,52.648577,0.776313,15:50
+"Necton, Dunham Turn",2900N046,52.657659,0.776312,15:51
+"Little Fransham, Lime Tree Crescent",2900F195,52.673207,0.809859,15:55
+
+
