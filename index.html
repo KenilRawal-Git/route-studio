@@ -667,7 +667,6 @@ span.gbt{cursor:default}
       </fieldset>
       <fieldset>
         <legend><span class="num">3</span>Days and direction</legend>
-        <div class="row" style="gap:12px;flex-wrap:wrap;margin-bottom:8px"><button type="button" class="linkbtn" id="ttSaveProj">Save timetable project</button><label class="linkbtn" style="cursor:pointer">Open timetable project<input type="file" id="ttOpenProj" accept=".json" hidden></label></div>
         <div id="sections"></div>
         <div class="field notefield"><label class="check"><input type="checkbox" id="endNoteOn" checked> Note after the last table</label>
           <input id="endNote" value="No service on a Sunday" aria-label="Note after the last table" placeholder="e.g. No service on a Sunday"></div>
@@ -988,6 +987,8 @@ span.gbt{cursor:default}
       </div>
       <div class="actions">
         <button type="submit" class="primary" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span id="goLabel">Download timetable PDF</span></button>
+        <button type="button" class="btn ghost" id="ttSaveProj" title="Save this timetable to a file you can open again to make changes">Save timetable</button>
+        <label class="btn ghost" title="Open a saved timetable file" style="cursor:pointer">Open timetable<input type="file" id="ttOpenProj" accept=".json" hidden></label>
         <button type="button" class="btn ghost" id="goPrint" hidden title="For the printer: 3 mm bleed, crop marks, registration marks and colour bars">Print-ready PDF (3 mm bleed + crop marks)</button>
         <button type="button" class="btn ghost nextstep" id="nextMap">Next: make the route map</button>
         <div class="wnav"><button type="button" class="btn ghost sm" id="wSkip" hidden></button><button type="button" class="btn wnext" id="wNext" hidden></button></div>
