@@ -815,6 +815,7 @@ span.gbt{cursor:default}
         <label>Notes box <span class="opt">Wrap words in **double stars** for bold. Leave blank for none.</span>
           <textarea id="mapNotes" rows="5" placeholder="e.g. **44A extends towards Norman Way Schools**, with drop off at 08:20 Monday-Friday."></textarea></label>
         <label class="check"><input type="checkbox" id="mapKey" checked> Show the key</label>
+        <label class="check" id="mapSchDashRow" hidden><input type="checkbox" id="mapSchDash" checked> Dash the school-day-only journeys <span class="opt">Shows only when the map has a school stop</span></label>
         <label>Key size <span class="scsize"><input type="range" id="mapKeySize" min="60" max="150" step="5" value="100" aria-label="Key size"><output id="mapKeySizeV">100%</output></span></label>
       </fieldset>
       <fieldset id="mapDataSet" hidden>
@@ -2417,7 +2418,12 @@ function mapLayout(cfg){
       const c=Math.abs(ex)>Math.abs(ey)?[A.lon+(ex-Math.sign(ex)*m)/kk,A.lat]:[A.lon,A.lat+(ey-Math.sign(ey)*m)];
       const pts=[[A.lon,A.lat],c,[B.lon,B.lat]]; return {nodes:null,pts:fwd?pts:pts.reverse()}})}};
   // tube style still follows the roads, to know which routes share them
-  const routed=routes.map(r=>{const res=TUBE&&!cfg.graph?tubeOf(r):routeOf(r); res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)}); return res});
+  const routed=routes.map(r=>{const res=TUBE&&!cfg.graph?tubeOf(r):routeOf(r); res.warn.forEach(w=>{if(!warn.includes(w))warn.push(w)});
+    /* a leg into or out of a school-day-only stop is a school journey: drawn dashed (the option can turn that off) */
+    const sk=s=>isFinite(s.lon)&&isFinite(s.lat)?s.lon.toFixed(5)+","+s.lat.toFixed(5):"", so=new Set(r.stops.filter(s=>s.schOnly).map(sk));
+    if(!so.size)return res;
+    const via=TUBE&&!cfg.graph?r.stops.filter(s=>isFinite(s.lat)&&isFinite(s.lon)):((typeof bodsVia==="function"&&bodsVia(r))||r.stops);
+    return {...res,legs:res.legs.map((l,i)=>({...l,sch:!!(via[i]&&via[i+1]&&(so.has(sk(via[i]))||so.has(sk(via[i+1]))))}))}});
   // the other direction (where known): roads it shares with the drawn direction are two-way, the rest one-way
   const backKeys=routes.map(r=>{if(!r.back)return null; if(r.back.length<2)return new Set();
     const res=routeOf({id:r.id,stops:r.back}), K=new Set(); res.legs.forEach(l=>{if(l.nodes)for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; K.add(a<b?a+"-"+b:b+"-"+a)}}); return K});
@@ -2438,6 +2444,8 @@ function mapLayout(cfg){
   const keyRows=FAM?famIds.flatMap((f,k)=>{const m=routes.filter((r,ri)=>fi[ri]===k);
       return [{type:"line",r:famBase[k],label:"Route "+m.map(r=>r.id).join(" / ")},...m.filter(r=>varOwn[routes.indexOf(r)]).map(r=>({type:"dash",r,label:`Route ${r.id} only`}))]})
     :routes.map(r=>({type:"line",r,label:SCH?(((SCH.routes||[]).find(x=>x.id===r.id)||{}).key||"").trim()||`Route ${r.id}`:null}));
+  /* the school line appears in the key only when a school-day-only stop is on the map */
+  const schR=!FAM&&!SCH&&cfg.schoolDash!==false?routes.find((r,i)=>routed[i].legs.some(l=>l.sch)):null; if(schR)keyRows.push({type:"dash",r:schR,label:"School days only"});
   keyRows.push({type:"stop"}); if(stationsOn)keyRows.push({type:"rail"});
   { const tr=!SCH&&routes.find(r=>r.termini.size); if(tr)keyRows.push({type:"term",r:tr}) }   // one terminus row: the badge shows the route's number
   // many routes: the key goes into columns instead of one long list
@@ -2529,8 +2537,8 @@ function mapLayout(cfg){
   const edgeRoutes=new Map(), canon=new Map(), f5=p=>p[0].toFixed(5)+","+p[1].toFixed(5);
   const seqs=routed.map((rr,ri)=>{const E=[];
     rr.legs.forEach(l=>{
-      if(!l.nodes){const a=f5(l.pts[0]), b=f5(l.pts[l.pts.length-1]); E.push({key:"s:"+(a<b?a+"|"+b:b+"|"+a),from:a,pts:l.pts}); return}
-      for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; if(a===b)continue; E.push({key:a<b?a+"-"+b:b+"-"+a,from:String(a),pts:[l.pts[q],l.pts[q+1]]})}});
+      if(!l.nodes){const a=f5(l.pts[0]), b=f5(l.pts[l.pts.length-1]); E.push({key:"s:"+(a<b?a+"|"+b:b+"|"+a),from:a,pts:l.pts,sch:!!l.sch}); return}
+      for(let q=0;q+1<l.nodes.length;q++){const a=l.nodes[q],b=l.nodes[q+1]; if(a===b)continue; E.push({key:a<b?a+"-"+b:b+"-"+a,from:String(a),pts:[l.pts[q],l.pts[q+1]],sch:!!l.sch})}});
     E.forEach(e=>{if(!canon.has(e.key))canon.set(e.key,e.from); e.sign=canon.get(e.key)===e.from?1:-1;
       const B=edgeRoutes.get(e.key)||[]; if(!B.includes(ri))B.push(ri); edgeRoutes.set(e.key,B)});
     return E});
@@ -2547,9 +2555,9 @@ function mapLayout(cfg){
     if(TUBE&&!stopNodes){stopNodes=new Set(); routed.forEach(rr=>rr.legs.forEach(l=>{if(l.nodes&&l.nodes.length){stopNodes.add(String(l.nodes[0])); stopNodes.add(String(l.nodes[l.nodes.length-1]))}}))}
     // a road the route takes there and back (off its way to a village, then back): both ways on the same line, so it reads as a branch
     const seen=new Map(); E.forEach(e=>seen.set(e.key,(seen.get(e.key)||0)+1));
-    E.forEach(e=>{const B0=edgeRoutes.get(e.key), B=slotsOf(B0), core=coreOf(B0,ri), rp=seen.get(e.key)>1, bk=B.join(",")+(core?"":"|v"+ri)+(rp?"|loop":"");
+    E.forEach(e=>{const B0=edgeRoutes.get(e.key), B=slotsOf(B0), core=coreOf(B0,ri), rp=seen.get(e.key)>1, bk=B.join(",")+(core?"":"|v"+ri)+(rp?"|loop":"")+(e.sch?"|sch":"");
       if(run&&run.bk===bk&&run.sign===e.sign&&!(TUBE&&stopNodes.has(e.from))){e.pts.slice(1).forEach(p=>run.pts.push(p)); run.keys.push(e.key)}
-      else{run={bk,B,B0,core,rp,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
+      else{run={bk,B,B0,core,rp,sch:!!e.sch,sign:e.sign,pts:e.pts.slice(),keys:[e.key]}; runs.push(run)}});
     let poly=null;
     runs.forEach(R=>{
       const ck=R.bk+"|"+(R.sign>0?R.keys[0]+">"+R.keys[R.keys.length-1]:R.keys[R.keys.length-1]+">"+R.keys[0])+"|"+R.keys.length;
@@ -2560,7 +2568,7 @@ function mapLayout(cfg){
       const G=runsAll.get(ck)||{C,B:R.B,members:[]}; G.members.push({ri,sign:R.sign,two}); runsAll.set(ck,G);
       const last=poly&&poly[poly.length-1]; poly=last?[last,...xy]:xy.slice(); lines[ri].segs.push(poly); (lines[ri].ws||(lines[ri].ws=[])).push(bw);
       const plen=C.reduce((a,p,i)=>i?a+Math.hypot(p[0]-C[i-1][0],p[1]-C[i-1][1]):0,0);   // a few metres apart (the other side of a junction) isn't a branch
-      (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):{c:routes[ri].color})});
+      (lines[ri].st||(lines[ri].st=[])).push(FAM?(R.core||plen<30?{c:famBase[fi[ri]].color}:{c:routes[ri].color,dash:true}):(R.sch&&!SCH&&cfg.schoolDash!==false?{c:routes[ri].color,dash:true}:{c:routes[ri].color}))});
   });
   // school maps: every route runs right into the school (under its box), however near the roads end
   if(SCH)lines.forEach(L=>{const st=L.r.stops[L.r.stops.length-1]; if(!st||!st.dest||!isFinite(st.lat)||!L.segs.length)return;
@@ -3489,6 +3497,10 @@ function mapTimetableStops(sections=state.sections){
   const ids=[]; sections.forEach(sec=>sec.cols.forEach(c=>{const r=c.route||state.route; if(!ids.includes(r))ids.push(r)}));
   ids.sort(routeOrder);
   const pick=mapPickSections(sections,ids,timed);
+  /* a stop is school-day only when every journey that calls there runs on schooldays */
+  const isSch=sec=>/school/i.test(String(sec.day||dayLabels(sec.name||"").day||"")), kOf=s=>dnorm(s.town)+"|"+dnorm(s.stop);
+  const schOnlyOf=id=>{const sch=new Set(), oth=new Set(); sections.forEach(sec=>{const cols=sec.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0); if(!cols.length)return;
+    sec.stops.forEach((s,i)=>{if(cols.some(j=>timed(sec.times[i][j])))(isSch(sec)?sch:oth).add(kOf(s))})}); return s=>sch.has(kOf(s))&&!oth.has(kOf(s))};
   return ids.map(id=>{
     let best=null;
     (pick[id]||sections).forEach(sec=>{const cols=sec.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0); if(!cols.length)return;
@@ -3508,7 +3520,7 @@ function mapTimetableStops(sections=state.sections){
     if(ob){const oc=ob.cols.map((c,j)=>(c.route||state.route)===id?j:-1).filter(j=>j>=0);
       back=ob.stops.filter((s,i)=>oc.some(j=>timed(ob.times[i][j]))).map(s=>({town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN}))}
     else if(pick.oneWay&&pick.oneWay.has(id))back=[];
-    return {id,termini,back,stops:idx.map((i,p)=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN,t:at[p]}})};
+    const so=schOnlyOf(id); return {id,termini,back,stops:idx.map((i,p)=>{const s=sec.stops[i];return {town:s.town,stop:s.stop,code:s.code||"",lat:isFinite(s.lat)?s.lat:NaN,lon:isFinite(s.lon)?s.lon:NaN,t:at[p],schOnly:so(s)}})};
   }).filter(Boolean);
 }
 const mapTTIsExample=()=>typeof fileMeta!=="undefined"&&fileMeta&&fileMeta.name==="Example timetable";
@@ -3732,12 +3744,12 @@ function mapCfg(){
   routes.forEach(r=>r.back=mapBackStops(r,routes));
   const pg=mapPageMM(), page=pg?{W:pg.w*72/25.4,H:pg.h*72/25.4}:{};
   if(page.W&&((mapState.orient==="landscape"&&page.W<page.H)||(mapState.orient==="portrait"&&page.W>page.H)))[page.W,page.H]=[page.H,page.W];
-  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
+  return {routes,...page,margin:mapState.margin==null?1:mapState.margin,shiftX:mapState.shiftX||0,textScale:(mapState.textPct||100)/100,insetPct:mapState.insetPct||100,repeatTown:!!mapState.repeatTown,data:D&&D.data,graph:D&&D.graph,cache:mapState.cache,valid:state.valid,notes:mapState.notes,showKey:mapState.showKey,orient:mapState.orient,insets:mapState.insets!==false&&mapState.kind!=="school",title:mapState.title||"",style:mapState.style||"auto",bandGap:!!mapState.bandGap,credits:mapState.credits!==false,headMode:mapState.headMode||"routes",headText:mapState.headText||"",keyScale:mapState.keyScale||1,schoolDash:mapState.schoolDash!==false,validText:mapState.validText||"",fade:mapState.fade!==false,school:mapState.kind==="school"?SCHOOL:null};
 }
 function mapDraw(){
   if(!window.jspdf){$("sheets").innerHTML='<p class="empty">The PDF tool did not load. Check your connection and reload the page.</p>';return}
   if(mapFromTT()&&mapState.ttSections!==state.sections){mapSyncFromTT();return}
-  const cfg=mapCfg();
+  const cfg=mapCfg(); $("mapSchDashRow").hidden=!cfg.routes.some(r=>r.stops.some(s=>s.schOnly));
   if(!cfg.routes.some(r=>r.stops.length)){mapState.last=null;
     $("sheets").innerHTML=`<p class="empty">${mapState.missing.length?"Finding your stops…":"Add your stops to see the map."}</p>`;return}
   const res=mapLayout(cfg); mapState.last=res;
@@ -3777,6 +3789,7 @@ $("mapTemplate").addEventListener("click",()=>{const q=v=>/[",\n]/.test(v)?`"${v
 $("mapValid").addEventListener("input",()=>{state.valid=$("mapValid").value;$("valid").value=state.valid;render()});
 $("mapNotes").addEventListener("input",()=>{mapState.notes=$("mapNotes").value;render()});
 $("mapKey").addEventListener("change",()=>{mapState.showKey=$("mapKey").checked;render()});
+$("mapSchDash").addEventListener("change",()=>{mapState.schoolDash=$("mapSchDash").checked;render()});
 /* map view: page orientation */
 /* ---------- school maps: several routes, one destination ---------- */
 const SCHOOL={name:"",town:"",stop:"",pos:"",show:"label",label:"",img:null,title:"",routes:[{id:"1",towns:"",fixed:{}}]};
